@@ -213,7 +213,6 @@ PAY (Payment), and KYA+PAY (combined Know Your Agent and Payment) Tokens.
 `btg`:
 : OPTIONAL - Buyer tag, an opaque reference ID internal to the buyer.
 
-
 ## KYA Token
 
 The following identity related claims are used within KYA and KYA+PAY tokens:
