@@ -213,6 +213,7 @@ PAY (Payment), and KYA+PAY (combined Know Your Agent and Payment) Tokens.
 `btg`:
 : OPTIONAL - Buyer tag, an opaque reference ID internal to the buyer.
 
+
 ## KYA Token
 
 The following identity related claims are used within KYA and KYA+PAY tokens:
@@ -306,6 +307,15 @@ as follows.
 `birthdate`:
 : Human principal birth date.
 
+`verifier`:
+: URL of the Identity Verifier
+
+`verification_status`:
+: Verification status.  One of "VERIFIED", "UNVERIFIED".
+
+`verification_id`:
+: Verification identifier. Identifier for the verification performed, such as a GUID.
+
 #### OPTIONAL Organizational or Business Entity Principal Sub-claims
 
 `businessName`:
@@ -378,6 +388,15 @@ sub-claims.
 
 `businessName`:
 : Business name associated with agent platform.
+
+`verifier`:
+: URL of the Identity Verifier
+
+`verification_status`:
+: Verification status.  One of "VERIFIED", "UNVERIFIED".
+
+`verification_id`:
+: Verification identifier. Identifier for the verification performed, such as a GUID.
 
 ### Agent Identity `aid` Sub-claims
 
@@ -454,7 +473,10 @@ The following informative example displays a decoded PAY type token.
     "dynamicDataValue": "<DAVV value>",
     "paymentToken": "<16 Digit Virtual Payment Card Number>",
     "tokenExpirationMonth": "<Expiration Month Number>",
-    "tokenExpirationYear": "<Expiration Year>"
+    "tokenExpirationYear": "<Expiration Year>",
+    "verifier": "<URL>", // URL of the payment method verifier
+    "verification_status": "VERIFIED", // Outcome of the verifier's payment method verification - one of "VERIFIED", "UNVERIFIED"
+    "verification_id": "<Verifier's verification ID>" // Identifier for the verification performed, such as a GUID.
   }
 }
 
