@@ -4,8 +4,8 @@
 
 Network Working Group                                         A. Agarwal
 Internet-Draft                                                   Skyfire
-Intended status: Informational                           5 February 2026
-Expires: 9 August 2026
+Intended status: Informational                          13 February 2026
+Expires: 17 August 2026
 
 
                              KYAPay Profile
@@ -45,7 +45,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 9 August 2026.
+   This Internet-Draft will expire on 17 August 2026.
 
 Copyright Notice
 
@@ -329,6 +329,14 @@ Table of Contents
 
    birthdate:  Human principal birth date.
 
+   verifier:  URL of the Identity Verifier
+
+   verification_status:  Verification status.  One of "VERIFIED",
+      "UNVERIFIED".
+
+   verification_id:  Verification identifier.  Identifier for the
+      verification performed, such as a GUID.
+
 3.2.1.2.  OPTIONAL Organizational or Business Entity Principal Sub-
           claims
 
@@ -393,6 +401,14 @@ Table of Contents
    phoneNumber:  Phone number associated with agent platform.
 
    businessName:  Business name associated with agent platform.
+
+   verifier:  URL of the Identity Verifier
+
+   verification_status:  Verification status.  One of "VERIFIED",
+      "UNVERIFIED".
+
+   verification_id:  Verification identifier.  Identifier for the
+      verification performed, such as a GUID.
 
 3.2.3.  Agent Identity aid Sub-claims
 
@@ -469,7 +485,10 @@ Table of Contents
     "dynamicDataValue": "<DAVV value>",
     "paymentToken": "<16 Digit Virtual Payment Card Number>",
     "tokenExpirationMonth": "<Expiration Month Number>",
-    "tokenExpirationYear": "<Expiration Year>"
+    "tokenExpirationYear": "<Expiration Year>",
+    "verifier": "<URL>", // URL of the payment method verifier
+    "verification_status": "VERIFIED", // Outcome of the verifier's payment method verification - one of "VERIFIED", "UNVERIFIED"
+    "verification_id": "<Verifier's verification ID>" // Identifier for the verification performed, such as a GUID.
   }
 }
 
