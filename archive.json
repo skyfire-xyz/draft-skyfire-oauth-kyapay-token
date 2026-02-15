@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-02-12T00:08:21.411857+00:00",
+  "timestamp": "2026-02-15T00:08:26.993744+00:00",
   "repo": "skyfire-xyz/kyapay-ietf-draft",
   "labels": [
     {
@@ -319,6 +319,48 @@
               "updatedAt": "2026-02-04T15:53:30Z"
             }
           ]
+        }
+      ]
+    },
+    {
+      "number": 9,
+      "id": "PR_kwDOQZxkd87DKVX2",
+      "title": "Add verifier and verification claims",
+      "url": "https://github.com/skyfire-xyz/kyapay-ietf-draft/pull/9",
+      "state": "MERGED",
+      "author": "selfissued",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Cc: @dsenecal04",
+      "createdAt": "2026-02-12T02:43:18Z",
+      "updatedAt": "2026-02-13T10:43:55Z",
+      "baseRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "baseRefName": "main",
+      "baseRefOid": "95325e4401440f3017668c8572853bd76c883cbb",
+      "headRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "headRefName": "mbj-verification",
+      "headRefOid": "d218fc7290c2b2c7f8068ee190a4a075ac6573a2",
+      "closedAt": "2026-02-13T10:43:54Z",
+      "mergedAt": "2026-02-13T10:43:54Z",
+      "mergedBy": "selfissued",
+      "mergeCommit": {
+        "oid": "e1f69991ea042fea8ad645113abd2558505a6888"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd87iBjI5",
+          "commit": {
+            "abbreviatedOid": "d218fc7"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "LGTM \ud83d\udc4d ",
+          "createdAt": "2026-02-12T16:26:38Z",
+          "updatedAt": "2026-02-12T16:26:38Z",
+          "comments": []
         }
       ]
     }
