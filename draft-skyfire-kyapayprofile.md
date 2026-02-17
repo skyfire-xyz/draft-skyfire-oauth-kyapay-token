@@ -254,10 +254,16 @@ The following informative example displays a decoded KYA type token.
     "email": "buyer@buyer.com”
   },
   "apd": {
+    // TBD This example is missing the required "id" member
   },
   "aid": {
+    // TBD This example is missing the required "id" and "name" members
+    "creation_ip": "54.86.50.139", // IP address from where the token was created
+    "source_ips": ["54.86.50.139", "54.86.50.140", "54.86.50.141"], // IP addresses from where the buyer agent will make requests to the seller (optional)
+    // TBD it would be good to have an example with an IP address range
   },
   "rid": {
+    // TBD The members for the "rid" claim value are not defined
   }
 }
 ~~~
@@ -364,8 +370,7 @@ as follows.
 
 ### Agent Platform Identity `apd` Sub-claims
 
-The `aid` claim itself is optional. If present, it may contain the following
-sub-claims.
+The `apd` claim is optional. If present, it contains the following sub-claims.
 
 `id`:
 : REQUIRED - Agent Platform identifier.
@@ -399,6 +404,8 @@ sub-claims.
 
 ### Agent Identity `aid` Sub-claims
 
+The `aid` claim is optional. If present, it contains the following sub-claims.
+
 `name`:
 : REQUIRED - Agent name. The name should reflect the business purpose of the agent.
 
@@ -422,10 +429,10 @@ The following payment related claims are used within PAY and KYA+PAY type tokens
 : OPTIONAL - Token amount in currency units.
 
 `cur`:
-: OPTIONAL - Currency unit, as defined in ...
+: OPTIONAL - Currency unit, represented as an ISO 4217 three letter code, such as "EUR"
 
 `value`:
-: OPTIONAL - Token amount in settlement network
+: OPTIONAL - Token amount in settlement network's units
 
 `mnr`:
 : OPTIONAL - Maximum number of requests when `sps` is `PAY_PER_USE`
@@ -473,9 +480,9 @@ The following informative example displays a decoded PAY type token.
     "paymentToken": "<16 Digit Virtual Payment Card Number>",
     "tokenExpirationMonth": "<Expiration Month Number>",
     "tokenExpirationYear": "<Expiration Year>",
-    "verifier": "<URL>", // URL of the payment method verifier
-    "verification_status": "VERIFIED", // Outcome of the verifier's payment method verification - one of "VERIFIED", "UNVERIFIED"
-    "verification_id": "<Verifier's verification ID>" // Identifier for the verification performed, such as a GUID.
+    "verifier": "<URL>", // URL of the payment method verifier (OPTIONAL)
+    "verification_status": "VERIFIED", // Outcome of the verifier's payment method verification - one of "VERIFIED", "UNVERIFIED" (OPTIONAL)
+    "verification_id": "<Verifier's verification ID>" // Identifier for the verification performed, such as a GUID. (OPTIONAL)
   }
 }
 
@@ -509,8 +516,10 @@ The following informative example displays a decoded KYA+PAY type token.
     ...
   },
   "apd": {
+    // TBD This example is missing the required "id" claim
   },
   "aid": {
+    // TBD This example is missing the required "id" and "name" members
   },
 
   "spr": "0.010000",
