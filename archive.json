@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-02-17T00:09:16.784719+00:00",
+  "timestamp": "2026-02-19T00:09:45.951795+00:00",
   "repo": "skyfire-xyz/kyapay-ietf-draft",
   "labels": [
     {
@@ -363,6 +363,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 10,
+      "id": "PR_kwDOQZxkd87EdhC8",
+      "title": "Updates from Website",
+      "url": "https://github.com/skyfire-xyz/kyapay-ietf-draft/pull/10",
+      "state": "OPEN",
+      "author": "selfissued",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Add information present on the Website to the specification.\r\n\r\nSome TBD items in comments were added in the process of comparing the spec to the Website.",
+      "createdAt": "2026-02-17T21:25:40Z",
+      "updatedAt": "2026-02-17T21:25:40Z",
+      "baseRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "baseRefName": "main",
+      "baseRefOid": "e1f69991ea042fea8ad645113abd2558505a6888",
+      "headRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "headRefName": "mbj-updates-from-website",
+      "headRefOid": "9d3db3e1518f1d4bc0b26b1b8afcef153059c91d",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
