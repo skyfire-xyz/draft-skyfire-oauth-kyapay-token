@@ -4,8 +4,9 @@
 
 Network Working Group                                         A. Agarwal
 Internet-Draft                                                   Skyfire
-Intended status: Informational                          13 February 2026
-Expires: 17 August 2026
+Intended status: Informational                                  M. Jones
+Expires: 23 August 2026                           Self-Issued Consulting
+                                                        19 February 2026
 
 
                              KYAPay Profile
@@ -45,7 +46,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 17 August 2026.
+   This Internet-Draft will expire on 23 August 2026.
 
 Copyright Notice
 
@@ -76,7 +77,9 @@ Table of Contents
        3.2.2.  Agent Platform Identity apd Sub-claims
        3.2.3.  Agent Identity aid Sub-claims
      3.3.  PAY Token
-     3.4.  KYA+PAY Token
+       3.3.1.  Agent Identity aid Sub-claims
+       3.3.2.  PAY Token Example
+     3.4.  KYA-PAY Token
    4.  Token Validation
      4.1.  Validating KYA and PAY Tokens
        4.1.1.  JWT Header Validation
@@ -88,7 +91,7 @@ Table of Contents
      7.1.  Normative References
      7.2.  Informative References
    Contributors
-   Author's Address
+   Authors' Addresses
 
 1.  Introduction
 
@@ -208,7 +211,7 @@ Table of Contents
 3.1.  Common Token Claims
 
    The following are claims in common, used within the KYA (Know Your
-   Agent), PAY (Payment), and KYA+PAY (combined Know Your Agent and
+   Agent), PAY (Payment), and KYA-PAY (combined Know Your Agent and
    Payment) Tokens.
 
    iss:  REQUIRED - Url of the token's issuer.  Used for discovering JWK
@@ -237,7 +240,7 @@ Table of Contents
    sdm:  REQUIRED - Seller domain, associated with the audience claim,
       the token is intended for.
 
-   slr:  OPTIONAL - Seller resource locator - the URL the agent is
+   srl:  OPTIONAL - Seller resource locator - the URL the agent is
       intended to access.
 
    ori:  OPTIONAL - URL of the token's originator.
@@ -254,7 +257,7 @@ Table of Contents
 
 3.2.  KYA Token
 
-   The following identity related claims are used within KYA and KYA+PAY
+   The following identity related claims are used within KYA and KYA-PAY
    tokens:
 
    bid:  OPTIONAL (Required for buyer identity use cases) - A map of
@@ -264,39 +267,43 @@ Table of Contents
 
    aid:  OPTIONAL - Agent identity claims.
 
-   rid:  OPTIONAL - Referrer identity claims.
+   scope  OPTIONAL - String with space-separated scope values, per
+      [RFC8693]
 
    The following informative example displays a decoded KYA type token.
 
-   {
-     "kid": "<JWK Key ID>",
-     "alg": "ES256",
-     "typ": "kya+JWT"
-   }.{
-     "iss": "<URL of the token issuer>",
-     "iat": 1742245254,
-     "exp": 1773867654,
-     "jti": "b9821893-7699-4d24-af06-803a6a16476b",
-     "sub": "<Buyer Agent Account ID>",
-     "aud": "<Seller Agent Account ID>",
+{
+  "kid": "<JWK Key ID>",
+  "alg": "ES256",
+  "typ": "kya+jwt"
+}.{
+  "iss": "<URL of the token issuer>",
+  "iat": 1742245254,
+  "exp": 1773867654,
+  "jti": "b9821893-7699-4d24-af06-803a6a16476b",
+  "sub": "<Buyer Agent Account ID>",
+  "aud": "<Seller Agent Account ID>",
 
-     "env": "<Issuer environment (sandbox, production, etc)>",
-     "ver": "1",
-     "ssi": "<Seller Service ID>",
-     "btg": "<Buyer Tag (Buyer's internal reference ID)>",
+  "env": "<Issuer environment (sandbox, production, etc.)>",
+  "ver": "1",
+  "ssi": "<Seller Service ID>",
+  "btg": "<Buyer Tag (Buyer's internal reference ID)>",
 
-     "bid": {
-       "email": "buyer@buyer.com”
-     },
-     "apd": {
-     },
-     "aid": {
-     },
-     "rid": {
-     }
-   }
+  "bid": {
+    "email": "buyer@buyer.com”
+  },
+  "apd": {
+    // TBD This example is missing the required "id" member
+  },
+  "aid": {
+    // TBD This example is missing the required "id" and "name" members
+    "creation_ip": "54.86.50.139", // IP address from where the token was created
+    "source_ips": ["54.86.50.139", "54.86.50.140", "54.86.50.141"], // IP addresses from where the buyer agent will make requests to the seller (optional)
+    // TBD it would be good to have an example with an IP address range
+  }
+}
 
-                         Figure 1: A KYA type token
+                      Figure 1: A KYA type token
 
 3.2.1.  bid - Buyer Identity Sub-claims
 
@@ -385,8 +392,8 @@ Table of Contents
 
 3.2.2.  Agent Platform Identity apd Sub-claims
 
-   The aid claim itself is optional.  If present, it may contain the
-   following sub-claims.
+   The apd claim is optional.  If present, it contains the following
+   sub-claims.
 
    id:  REQUIRED - Agent Platform identifier.
 
@@ -412,6 +419,9 @@ Table of Contents
 
 3.2.3.  Agent Identity aid Sub-claims
 
+   The aid claim is optional.  If present, it contains the following
+   sub-claims.
+
    name:  REQUIRED - Agent name.  The name should reflect the business
       purpose of the agent.
 
@@ -430,33 +440,56 @@ Table of Contents
 
 3.3.  PAY Token
 
-   The following payment related claims are used within PAY and KYA+PAY
+   The following payment related claims are used within PAY and KYA-PAY
    type tokens:
 
-   spr:  OPTIONAL - Seller service price.
+   spr:  OPTIONAL - JSON number representing seller service price in
+      currency units.
 
-   sps:  OPTIONAL - Seller service pricing model (for example,
-      PAY_PER_USE).
+   sps:  OPTIONAL - Seller pricing scheme, which represents a way for
+      the seller list how it charges for its service or content.  One of
+      PAY_PER_USE, SUBSCRIPTION, PAY_PER_MB, or CUSTOM.
 
-   amount:  OPTIONAL - Token amount in currency units.
+   amount:  OPTIONAL - JSON number representing token amount in currency
+      units.
 
-   cur:  OPTIONAL - Currency unit, as defined in ...
+   cur:  OPTIONAL - Currency unit, represented as an ISO 4217 three
+      letter code, such as "EUR".
 
-   value:  OPTIONAL - Token amount in settlement network
+   value:  OPTIONAL - JSON number representing token amount in
+      settlement network's units.
 
-   mnr:  OPTIONAL - Maximum number of requests when sps is PAY_PER_USE
+   mnr:  OPTIONAL - JSON number representing maximum number of requests
+      when sps is PAY_PER_USE.
 
    stp:  OPTIONAL - Settlement type (one of COIN, CARD, or BANK).
 
    sti:  OPTIONAL - Meta information for payment settlement, depending
       on settlement type.
 
+3.3.1.  Agent Identity aid Sub-claims
+
+   The sti claim is optional.  If present, it MAY contain the following
+   sub-claims, all of which are OPTIONAL.
+
+   paymentToken:  String containing Virtual Payment Card Number in ISO/
+      IEC 7812 format. 12-19 characters.
+
+   tokenExpirationMonth:  String containing two-digit Expiration Month
+      Number.
+
+   tokenExpirationYear:  String containing four-digit Expiration Year.
+
+   tokenSecurityCode:  String containing 3 or 4 digit CVV code.
+
+3.3.2.  PAY Token Example
+
    The following informative example displays a decoded PAY type token.
 
 {
   "kid": "<JWK Key ID>",
   "alg": "ES256",
-  "typ": "pay+JWT"
+  "typ": "pay+jwt"
 }.{
   "iss": "<URL of the token issuer>",
   "iat": 1742245254,
@@ -465,86 +498,82 @@ Table of Contents
   "sub": "<Buyer Agent Account ID>",
   "aud": "<Seller Agent Account ID>",
 
-  "env": "<Issuer environment (sandbox, production, etc)>",
+  "env": "<Issuer environment (sandbox, production, etc.)>",
   "ver": "1",
   "ssi": "<Seller Service ID>",
   "btg": "<Buyer Tag (Buyer's internal reference ID)>",
 
-  "spr": "0.010000",
+  "spr": 0.01,
   "sps": "PAY_PER_USE",
-  "amount": "15.000000",
+  "amount": 15,
   "cur": "USD",
-  "value": "15000000",
-  "mnr": "1500",
+  "value": 15000000,
+  "mnr": 1500,
   "stp": "<COIN | CARD | BANK>",
   "sti": {
     "type": "<'type' is dependant on 'sti' for COIN - USDC | x402; for CARD - VISA_VIC;>",
-    "dynamicDataExpiration": "<Timestamp when DTVV expires>",
-    "dynamicDataId": "<Visa specific identifier>",
-    "dynamicDataType": "DAVV",
-    "dynamicDataValue": "<DAVV value>",
-    "paymentToken": "<16 Digit Virtual Payment Card Number>",
-    "tokenExpirationMonth": "<Expiration Month Number>",
-    "tokenExpirationYear": "<Expiration Year>",
-    "verifier": "<URL>", // URL of the payment method verifier
-    "verification_status": "VERIFIED", // Outcome of the verifier's payment method verification - one of "VERIFIED", "UNVERIFIED"
-    "verification_id": "<Verifier's verification ID>" // Identifier for the verification performed, such as a GUID.
+    "paymentToken": "1234567890123456",
+    "tokenExpirationMonth": "03",
+    "tokenExpirationYear": "2030",
+    "tokenSecurityCode": "0123",
+    "verifier": "<URL>", // URL of the payment method verifier (OPTIONAL)
+    "verification_status": "VERIFIED", // Outcome of the verifier's payment method verification - one of "VERIFIED", "UNVERIFIED" (OPTIONAL)
+    "verification_id": "<Verifier's verification ID>" // Identifier for the verification performed, such as a GUID. (OPTIONAL)
   }
 }
 
                       Figure 2: A PAY type token
 
-3.4.  KYA+PAY Token
+3.4.  KYA-PAY Token
 
-   The following informative example displays a decoded KYA+PAY type
+   The following informative example displays a decoded KYA-PAY type
    token.
 
-   {
-     "kid": "<JWK Key ID>",
-     "alg": "ES256",
-     "typ": "kya+pay+JWT"
-   }.{
-     "iss": "<URL of the token issuer>",
-     "iat": 1742245254,
-     "exp": 1773867654,
-     "jti": "b9821893-7699-4d24-af06-803a6a16476b",
-     "sub": "<Buyer Agent Account ID>",
-     "aud": "<Seller Agent Account ID>",
+ {
+   "kid": "<JWK Key ID>",
+   "alg": "ES256",
+   "typ": "kya-pay+jwt"
+ }.{
+   "iss": "<URL of the token issuer>",
+   "iat": 1742245254,
+   "exp": 1773867654,
+   "jti": "b9821893-7699-4d24-af06-803a6a16476b",
+   "sub": "<Buyer Agent Account ID>",
+   "aud": "<Seller Agent Account ID>",
 
-     "env": "<Issuer environment (sandbox, production, etc)>",
-     "ver": "1",
-     "ssi": "<Seller Service ID>",
-     "btg": "<Buyer Tag (Buyer's internal reference ID)>",
+   "env": "<Issuer environment (sandbox, production, etc.)>",
+   "ver": "1",
+   "ssi": "<Seller Service ID>",
+   "btg": "<Buyer Tag (Buyer's internal reference ID)>",
 
-     "bid": {
-       "email": "buyer@buyer.com”,
-       ...
-     },
-     "apd": {
-     },
-     "aid": {
-     },
+   "bid": {
+     "email": "buyer@buyer.com”,
+     ...
+   },
+   "apd": {
+     // TBD This example is missing the required "id" claim
+   },
+   "aid": {
+     // TBD This example is missing the required "id" and "name" members
+   },
 
-     "spr": "0.010000",
-     "sps": "PAY_PER_USE",
-     "amount": "15.000000",
-     "cur": "USD",
-     "value": "15000000",
-     "mnr": "1500",
-     "stp": "<COIN | CARD | BANK>",
-     "sti": {
-       "type": "<'type' is dependant on 'sti'>",
-       "dynamicDataExpiration": "<Timestamp when DTVV expires>",
-       "dynamicDataId": "<Visa specific identifier>",
-       "dynamicDataType": "DAVV",
-       "dynamicDataValue": "<DAVV value>",
-       "paymentToken": "<16 Digit Virtual Payment Card Number>",
-       "tokenExpirationMonth": "<Expiration Month Number>",
-       "tokenExpirationYear": "<Expiration Year>"
-     }
+   "spr": 0.01,
+   "sps": "PAY_PER_USE",
+   "amount": 15,
+   "cur": "USD",
+   "value": 15000000,
+   "mnr": 1500,
+   "stp": "<COIN | CARD | BANK>",
+   "sti": {
+     "type": "<'type' is dependant on 'sti'>",
+     "paymentToken": "1234567890123456",
+     "tokenExpirationMonth": "03",
+     "tokenExpirationYear": "2030",
+     "tokenSecurityCode": "0123"
    }
+ }
 
-                       Figure 3: A KYA+PAY type token
+                     Figure 3: A KYA-PAY type token
 
 4.  Token Validation
 
@@ -558,8 +587,8 @@ Table of Contents
    2.  kid - The kid claim MUST be present, and set to a valid key id
        discoverable via the issuer's (payload iss claim) JWK Set.
 
-   3.  typ - The typ claim MUST be one of: kya+JWT, pay+JWT, or
-       kya+pay+JWT
+   3.  typ - The typ claim MUST be one of: kya+jwt, pay+jwt, or kya-
+       pay+jwt
 
 4.1.2.  JWT Payload Validation
 
@@ -584,11 +613,11 @@ Table of Contents
 
    7.  *Validate the env Claim* - Ensure that the Environment claim is
        set to an expected and usecase-appropriate value (such as
-       production, sandbox, etc)
+       production, sandbox, etc.)
 
 4.2.  Validating PAY Tokens
 
-   For tokens of type pay+JWT or kya+pay+JWT, perform the steps
+   For tokens of type pay+jwt or kya-pay+jwt, perform the steps
    described in the Validating KYA and PAY Tokens section.
 
    In addition, perform the following steps.
@@ -641,6 +670,11 @@ Table of Contents
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
 
+   [RFC8693]  Jones, M., Nadalin, A., Campbell, B., Ed., Bradley, J.,
+              and C. Mortimore, "OAuth 2.0 Token Exchange", RFC 8693,
+              DOI 10.17487/RFC8693, January 2020,
+              <https://www.rfc-editor.org/rfc/rfc8693>.
+
 7.2.  Informative References
 
    [RFC8725]  Sheffer, Y., Hardt, D., and M. Jones, "JSON Web Token Best
@@ -653,7 +687,14 @@ Contributors
    Dmitri Zagidulin
 
 
-Author's Address
+Authors' Addresses
 
    Ankit Agarwal
    Skyfire
+   Email: ankit@skyfire.xyz
+
+
+   Michael B. Jones
+   Self-Issued Consulting
+   Email: michael_b_jones@hotmail.com
+   URI:   https://self-issued.info/
