@@ -22,10 +22,16 @@ venue:
   latest: "https://skyfire-xyz.github.io/kyapay-ietf-draft/draft-skyfire-kyapayprofile.html"
 
 author:
- -
-    name: Ankit Agarwal
-    organization: Skyfire
-#    email: your.email@example.com
+-
+  name: Ankit Agarwal
+  organization: Skyfire
+  email: ankit@skyfire.xyz
+-
+  ins: M. Jones
+  name: Michael B. Jones
+  organization: Self-Issued Consulting
+  email: michael_b_jones@hotmail.com
+  uri: https://self-issued.info/
 
 contributor:
     name: Dmitri Zagidulin
@@ -35,6 +41,7 @@ normative:
   RFC7518:
   RFC7519:
   RFC6749:
+  RFC8693:
 
 informative:
   RFC8725:
@@ -420,7 +427,7 @@ The following payment related claims are used within PAY and KYA-PAY type tokens
 : OPTIONAL - JSON number representing seller service price in currency units.
 
 `sps`:
-: OPTIONAL - Seller pricing scheme, which represents a way for the seller list how it charges for its service or content. It can be one of `PAY_PER_USE` | `SUBSCRIPTION` | `PAY_PER_MB` | `CUSTOM`.
+: OPTIONAL - Seller pricing scheme, which represents a way for the seller list how it charges for its service or content. One of `PAY_PER_USE`, `SUBSCRIPTION`, `PAY_PER_MB`, or `CUSTOM`.
 
 `amount`:
 : OPTIONAL - JSON number repreenting token amount in currency units.
