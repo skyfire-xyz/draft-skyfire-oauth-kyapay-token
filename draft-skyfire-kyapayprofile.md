@@ -168,7 +168,7 @@ Payment Token Issuer:
 ## Common Token Claims
 
 The following are claims in common, used within the KYA (Know Your Agent),
-PAY (Payment), and KYA+PAY (combined Know Your Agent and Payment) Tokens.
+PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
 
 `iss`:
 : REQUIRED - Url of the token's issuer. Used for discovering JWK Sets for token
@@ -195,7 +195,7 @@ PAY (Payment), and KYA+PAY (combined Know Your Agent and Payment) Tokens.
 `sdm`:
 : REQUIRED - Seller domain, associated with the audience claim, the token is intended for.
 
-`slr`:
+`srl`:
 : OPTIONAL - Seller resource locator - the URL the agent is intended to access.
 
 `ori`:
@@ -215,7 +215,7 @@ PAY (Payment), and KYA+PAY (combined Know Your Agent and Payment) Tokens.
 
 ## KYA Token
 
-The following identity related claims are used within KYA and KYA+PAY tokens:
+The following identity related claims are used within KYA and KYA-PAY tokens:
 
 `bid`:
 : OPTIONAL (Required for buyer identity use cases) - A map of buyer identity
@@ -227,8 +227,8 @@ The following identity related claims are used within KYA and KYA+PAY tokens:
 `aid`:
 : OPTIONAL - Agent identity claims.
 
-`rid`:
-: OPTIONAL - Referrer identity claims.
+`scope`
+: OPTIONAL - String with space-separated scope values, per {{RFC8693}}
 
 The following informative example displays a decoded KYA type token.
 
@@ -236,7 +236,7 @@ The following informative example displays a decoded KYA type token.
 {
   "kid": "<JWK Key ID>",
   "alg": "ES256",
-  "typ": "kya+JWT"
+  "typ": "kya+jwt"
 }.{
   "iss": "<URL of the token issuer>",
   "iat": 1742245254,
@@ -245,7 +245,7 @@ The following informative example displays a decoded KYA type token.
   "sub": "<Buyer Agent Account ID>",
   "aud": "<Seller Agent Account ID>",
 
-  "env": "<Issuer environment (sandbox, production, etc)>",
+  "env": "<Issuer environment (sandbox, production, etc.)>",
   "ver": "1",
   "ssi": "<Seller Service ID>",
   "btg": "<Buyer Tag (Buyer's internal reference ID)>",
@@ -261,9 +261,6 @@ The following informative example displays a decoded KYA type token.
     "creation_ip": "54.86.50.139", // IP address from where the token was created
     "source_ips": ["54.86.50.139", "54.86.50.140", "54.86.50.141"], // IP addresses from where the buyer agent will make requests to the seller (optional)
     // TBD it would be good to have an example with an IP address range
-  },
-  "rid": {
-    // TBD The members for the "rid" claim value are not defined
   }
 }
 ~~~
@@ -417,25 +414,25 @@ The `aid` claim is optional. If present, it contains the following sub-claims.
 
 ## PAY Token
 
-The following payment related claims are used within PAY and KYA+PAY type tokens:
+The following payment related claims are used within PAY and KYA-PAY type tokens:
 
 `spr`:
-: OPTIONAL - Seller service price.
+: OPTIONAL - JSON number representing seller service price in currency units.
 
 `sps`:
-: OPTIONAL - Seller service pricing model (for example, `PAY_PER_USE`).
+: OPTIONAL - Seller pricing scheme, which represents a way for the seller list how it charges for its service or content. It can be one of `PAY_PER_USE` | `SUBSCRIPTION` | `PAY_PER_MB` | `CUSTOM`.
 
 `amount`:
-: OPTIONAL - Token amount in currency units.
+: OPTIONAL - JSON number repreenting token amount in currency units.
 
 `cur`:
-: OPTIONAL - Currency unit, represented as an ISO 4217 three letter code, such as "EUR"
+: OPTIONAL - Currency unit, represented as an ISO 4217 three letter code, such as "EUR".
 
 `value`:
-: OPTIONAL - Token amount in settlement network's units
+: OPTIONAL - JSON number representing token amount in settlement network's units.
 
 `mnr`:
-: OPTIONAL - Maximum number of requests when `sps` is `PAY_PER_USE`
+: OPTIONAL - JSON number representing maximum number of requests when `sps` is `PAY_PER_USE`.
 
 `stp`:
 : OPTIONAL - Settlement type (one of `COIN`, `CARD`, or `BANK`).
@@ -444,13 +441,33 @@ The following payment related claims are used within PAY and KYA+PAY type tokens
 : OPTIONAL - Meta information for payment settlement, depending on settlement
   type.
 
+### Agent Identity `aid` Sub-claims
+
+The `sti` claim is optional. If present, it MAY contain the following sub-claims,
+all of which are OPTIONAL.
+
+`paymentToken`:
+: String containing Virtual Payment Card Number in ISO/IEC 7812 format. 12-19 characters.
+
+`tokenExpirationMonth`:
+: String containing two-digit Expiration Month Number.
+
+`tokenExpirationYear`:
+: String containing four-digit Expiration Year.
+
+`tokenSecurityCode`:
+: String containing 3 or 4 digit CVV code.
+
+
+### PAY Token Example
+
 The following informative example displays a decoded PAY type token.
 
 ~~~
 {
   "kid": "<JWK Key ID>",
   "alg": "ES256",
-  "typ": "pay+JWT"
+  "typ": "pay+jwt"
 }.{
   "iss": "<URL of the token issuer>",
   "iat": 1742245254,
@@ -459,27 +476,24 @@ The following informative example displays a decoded PAY type token.
   "sub": "<Buyer Agent Account ID>",
   "aud": "<Seller Agent Account ID>",
 
-  "env": "<Issuer environment (sandbox, production, etc)>",
+  "env": "<Issuer environment (sandbox, production, etc.)>",
   "ver": "1",
   "ssi": "<Seller Service ID>",
   "btg": "<Buyer Tag (Buyer's internal reference ID)>",
 
-  "spr": "0.010000",
+  "spr": 0.01,
   "sps": "PAY_PER_USE",
-  "amount": "15.000000",
+  "amount": 15,
   "cur": "USD",
-  "value": "15000000",
-  "mnr": "1500",
+  "value": 15000000,
+  "mnr": 1500,
   "stp": "<COIN | CARD | BANK>",
   "sti": {
     "type": "<'type' is dependant on 'sti' for COIN - USDC | x402; for CARD - VISA_VIC;>",
-    "dynamicDataExpiration": "<Timestamp when DTVV expires>",
-    "dynamicDataId": "<Visa specific identifier>",
-    "dynamicDataType": "DAVV",
-    "dynamicDataValue": "<DAVV value>",
-    "paymentToken": "<16 Digit Virtual Payment Card Number>",
-    "tokenExpirationMonth": "<Expiration Month Number>",
-    "tokenExpirationYear": "<Expiration Year>",
+    "paymentToken": "1234567890123456",
+    "tokenExpirationMonth": "03",
+    "tokenExpirationYear": "2030",
+    "tokenSecurityCode": "0123",
     "verifier": "<URL>", // URL of the payment method verifier (OPTIONAL)
     "verification_status": "VERIFIED", // Outcome of the verifier's payment method verification - one of "VERIFIED", "UNVERIFIED" (OPTIONAL)
     "verification_id": "<Verifier's verification ID>" // Identifier for the verification performed, such as a GUID. (OPTIONAL)
@@ -489,15 +503,15 @@ The following informative example displays a decoded PAY type token.
 ~~~
 {: #example-decoded-pay-token align="left" title="A PAY type token"}
 
-## KYA+PAY Token
+## KYA-PAY Token
 
-The following informative example displays a decoded KYA+PAY type token.
+The following informative example displays a decoded KYA-PAY type token.
 
 ~~~
 {
   "kid": "<JWK Key ID>",
   "alg": "ES256",
-  "typ": "kya+pay+JWT"
+  "typ": "kya-pay+jwt"
 }.{
   "iss": "<URL of the token issuer>",
   "iat": 1742245254,
@@ -506,7 +520,7 @@ The following informative example displays a decoded KYA+PAY type token.
   "sub": "<Buyer Agent Account ID>",
   "aud": "<Seller Agent Account ID>",
 
-  "env": "<Issuer environment (sandbox, production, etc)>",
+  "env": "<Issuer environment (sandbox, production, etc.)>",
   "ver": "1",
   "ssi": "<Seller Service ID>",
   "btg": "<Buyer Tag (Buyer's internal reference ID)>",
@@ -522,27 +536,24 @@ The following informative example displays a decoded KYA+PAY type token.
     // TBD This example is missing the required "id" and "name" members
   },
 
-  "spr": "0.010000",
+  "spr": 0.01,
   "sps": "PAY_PER_USE",
-  "amount": "15.000000",
+  "amount": 15,
   "cur": "USD",
-  "value": "15000000",
-  "mnr": "1500",
+  "value": 15000000,
+  "mnr": 1500,
   "stp": "<COIN | CARD | BANK>",
   "sti": {
     "type": "<'type' is dependant on 'sti'>",
-    "dynamicDataExpiration": "<Timestamp when DTVV expires>",
-    "dynamicDataId": "<Visa specific identifier>",
-    "dynamicDataType": "DAVV",
-    "dynamicDataValue": "<DAVV value>",
-    "paymentToken": "<16 Digit Virtual Payment Card Number>",
-    "tokenExpirationMonth": "<Expiration Month Number>",
-    "tokenExpirationYear": "<Expiration Year>"
+    "paymentToken": "1234567890123456",
+    "tokenExpirationMonth": "03",
+    "tokenExpirationYear": "2030",
+    "tokenSecurityCode": "0123"
   }
 }
 
 ~~~
-{: #example-decoded-kya-pay-token align="left" title="A KYA+PAY type token"}
+{: #example-decoded-kya-pay-token align="left" title="A KYA-PAY type token"}
 
 # Token Validation
 
@@ -553,7 +564,7 @@ The following informative example displays a decoded KYA+PAY type token.
 1. `alg` - JWTs MUST be signed using allowed JWA algorithms (currently, `ES256`).
 2. `kid` - The `kid` claim MUST be present, and set to a valid key id discoverable
    via the issuer's (payload `iss` claim) JWK Set.
-3. `typ` - The `typ` claim MUST be one of: `kya+JWT`, `pay+JWT`, or `kya+pay+JWT`
+3. `typ` - The `typ` claim MUST be one of: `kya+jwt`, `pay+jwt`, or `kya-pay+jwt`
 
 ### JWT Payload Validation
 
@@ -569,11 +580,11 @@ The following informative example displays a decoded KYA+PAY type token.
   a UUID.
 6. **Validate the `aud` Claim** - ...
 7. **Validate the `env` Claim** - Ensure that the Environment claim is set to
-  an expected and usecase-appropriate value (such as `production`, `sandbox`, etc)
+  an expected and usecase-appropriate value (such as `production`, `sandbox`, etc.)
 
 ## Validating PAY Tokens
 
-For tokens of type `pay+JWT` or `kya+pay+JWT`, perform the steps described in
+For tokens of type `pay+jwt` or `kya-pay+jwt`, perform the steps described in
 the Validating KYA and PAY Tokens section.
 
 In addition, perform the following steps.
