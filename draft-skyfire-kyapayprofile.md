@@ -430,7 +430,7 @@ The following payment related claims are used within PAY and KYA-PAY type tokens
 : OPTIONAL - Seller pricing scheme, which represents a way for the seller list how it charges for its service or content. One of `PAY_PER_USE`, `SUBSCRIPTION`, `PAY_PER_MB`, or `CUSTOM`.
 
 `amount`:
-: OPTIONAL - JSON number repreenting token amount in currency units.
+: OPTIONAL - JSON number representing token amount in currency units.
 
 `cur`:
 : OPTIONAL - Currency unit, represented as an ISO 4217 three letter code, such as "EUR".
