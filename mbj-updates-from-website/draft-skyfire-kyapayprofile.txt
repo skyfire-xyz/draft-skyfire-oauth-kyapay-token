@@ -450,7 +450,7 @@ Table of Contents
       the seller list how it charges for its service or content.  One of
       PAY_PER_USE, SUBSCRIPTION, PAY_PER_MB, or CUSTOM.
 
-   amount:  OPTIONAL - JSON number repreenting token amount in currency
+   amount:  OPTIONAL - JSON number representing token amount in currency
       units.
 
    cur:  OPTIONAL - Currency unit, represented as an ISO 4217 three
