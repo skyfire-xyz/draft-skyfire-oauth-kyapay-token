@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-02-19T00:09:45.951795+00:00",
+  "timestamp": "2026-02-22T00:07:32.034071+00:00",
   "repo": "skyfire-xyz/kyapay-ietf-draft",
   "labels": [
     {
@@ -369,26 +369,81 @@
       "id": "PR_kwDOQZxkd87EdhC8",
       "title": "Updates from Website",
       "url": "https://github.com/skyfire-xyz/kyapay-ietf-draft/pull/10",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "selfissued",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Add information present on the Website to the specification.\r\n\r\nSome TBD items in comments were added in the process of comparing the spec to the Website.",
       "createdAt": "2026-02-17T21:25:40Z",
-      "updatedAt": "2026-02-17T21:25:40Z",
+      "updatedAt": "2026-02-19T19:12:17Z",
       "baseRepository": "skyfire-xyz/kyapay-ietf-draft",
       "baseRefName": "main",
       "baseRefOid": "e1f69991ea042fea8ad645113abd2558505a6888",
       "headRepository": "skyfire-xyz/kyapay-ietf-draft",
       "headRefName": "mbj-updates-from-website",
-      "headRefOid": "9d3db3e1518f1d4bc0b26b1b8afcef153059c91d",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "7807da19ed5b00e76c3f52fefc74a7667a302e55",
+      "closedAt": "2026-02-19T19:12:17Z",
+      "mergedAt": "2026-02-19T19:12:17Z",
+      "mergedBy": "selfissued",
+      "mergeCommit": {
+        "oid": "4ae0de511b0d53a8aef2f4a39a84b5d1c37ccf35"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd87j5uZf",
+          "commit": {
+            "abbreviatedOid": "661d979"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-02-19T05:22:15Z",
+          "updatedAt": "2026-02-19T05:24:19Z",
+          "comments": [
+            {
+              "originalPosition": 137,
+              "body": "\"repreenting\" > \"representing\"",
+              "createdAt": "2026-02-19T05:22:15Z",
+              "updatedAt": "2026-02-19T05:24:19Z"
+            },
+            {
+              "originalPosition": 129,
+              "body": "JSON number is fine for now but we need to discuss the precision issue and decide what to do",
+              "createdAt": "2026-02-19T05:22:47Z",
+              "updatedAt": "2026-02-19T05:24:19Z"
+            },
+            {
+              "originalPosition": 199,
+              "body": "Change to the datatype is okay for now but we need to discuss the precision issue and decide what to do.",
+              "createdAt": "2026-02-19T05:23:47Z",
+              "updatedAt": "2026-02-19T05:24:19Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd87kGzmy",
+          "commit": {
+            "abbreviatedOid": "661d979"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-19T16:28:14Z",
+          "updatedAt": "2026-02-19T16:28:15Z",
+          "comments": [
+            {
+              "originalPosition": 129,
+              "body": "Double precision floating point numbers have 53 bits =~ 16 decimal digits of precision.  That's ***way*** more than needed for any financial application.",
+              "createdAt": "2026-02-19T16:28:14Z",
+              "updatedAt": "2026-02-19T16:28:15Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
