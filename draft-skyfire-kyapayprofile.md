@@ -241,33 +241,35 @@ The following informative example displays a decoded KYA type token.
 
 ~~~
 {
-  "kid": "<JWK Key ID>",
+  "kid": "YjFdJgFNWj9AkUmtoXILwoeb37PsBuGWVK6_QvFLwJw", // JWK Key ID
   "alg": "ES256",
   "typ": "kya+jwt"
 }.{
-  "iss": "<URL of the token issuer>",
+  "iss": "https://example.com/issuer", // Issuer URL
   "iat": 1742245254,
   "exp": 1773867654,
   "jti": "b9821893-7699-4d24-af06-803a6a16476b",
-  "sub": "<Buyer Agent Account ID>",
-  "aud": "<Seller Agent Account ID>",
+  "sub": "bb713104-c14e-460f-9b7c-f8140fa9bea4", // Buyer Agent Account ID
+  "aud": "7434230d-0861-46f2-9c2c-a6ee33d07f17", // Seller Agent Account ID
 
-  "env": "<Issuer environment (sandbox, production, etc.)>",
+  "env": "production",
   "ver": "1",
-  "ssi": "<Seller Service ID>",
-  "btg": "<Buyer Tag (Buyer's internal reference ID)>",
+  "ssi": "bc3ff89f-069b-4383-82a9-8cfe53c55fc3", // Seller Service ID
+  "btg": "4f6cbd39-215c-4516-bf33-cab22862ee60", // Buyer Tag (Internal Reference ID)
 
   "bid": {
     "email": "buyer@buyer.com”
   },
   "apd": {
-    // TBD This example is missing the required "id" member
+    "id": "d3306fc0-602b-47e6-9fe2-3d55d028fbd2"
   },
   "aid": {
-    // TBD This example is missing the required "id" and "name" members
-    "creation_ip": "54.86.50.139", // IP address from where the token was created
-    "source_ips": ["54.86.50.139", "54.86.50.140", "54.86.50.141"], // IP addresses from where the buyer agent will make requests to the seller (optional)
-    // TBD it would be good to have an example with an IP address range
+    "id": "626789d6-121d-4bd3-b4cd-68c95840b149",
+    "name": "Acme Agent Extraordinaire",
+    "creation_ip": "54.86.50.139", // IP Address where token was created
+    "source_ips": ["54.86.50.139", "54.86.50.140", "54.86.50.141"]
+      // IP addresses from which the buyer agent will make requests to the seller
+      // TBD it would be good to have an example with an IP address range
   }
 }
 ~~~
@@ -442,16 +444,19 @@ The following payment related claims are used within PAY and KYA-PAY type tokens
 : OPTIONAL - JSON number representing maximum number of requests when `sps` is `PAY_PER_USE`.
 
 `stp`:
-: OPTIONAL - Settlement type (one of `COIN`, `CARD`, or `BANK`).
+: OPTIONAL - Settlement type (one of `COIN` or `CARD`).
 
 `sti`:
 : OPTIONAL - Meta information for payment settlement, depending on settlement
   type.
 
-### Agent Identity `aid` Sub-claims
+### Agent Identity `sti` Sub-claims
 
 The `sti` claim is optional. If present, it MAY contain the following sub-claims,
 all of which are OPTIONAL.
+
+`type`:
+: "type" is dependant on the "stp" value; for "COIN" - "USDC" or "x402"; for "CARD" - "VISA_VIC"
 
 `paymentToken`:
 : String containing Virtual Payment Card Number in ISO/IEC 7812 format. 12-19 characters.
@@ -472,21 +477,21 @@ The following informative example displays a decoded PAY type token.
 
 ~~~
 {
-  "kid": "<JWK Key ID>",
+  "kid": "FgT4q8c5IqbBCCjcho5JdeGQvuK1keMDFc9IwCm8J7Y", // JWK Key ID
   "alg": "ES256",
   "typ": "pay+jwt"
 }.{
-  "iss": "<URL of the token issuer>",
+  "iss": "https://example.net/pay_token_issuer", // Issuer URL
   "iat": 1742245254,
   "exp": 1773867654,
   "jti": "b9821893-7699-4d24-af06-803a6a16476b",
-  "sub": "<Buyer Agent Account ID>",
-  "aud": "<Seller Agent Account ID>",
+  "sub": "8b810549-7443-494f-b4ad-5bc65871e32b", // Buyer Agent Account ID
+  "aud": "37888095-2721-48d9-a2df-bfe4075f223a", // Seller Agent Account ID
 
-  "env": "<Issuer environment (sandbox, production, etc.)>",
+  "env": "sandbox",
   "ver": "1",
-  "ssi": "<Seller Service ID>",
-  "btg": "<Buyer Tag (Buyer's internal reference ID)>",
+  "ssi": "274efc47-024e-466f-b278-152d2ee73955", // Seller Service ID
+  "btg": "16c135ce-a99a-453d-a7b5-4958fd91de5f", // Buyer Tag (Internal Reference ID)
 
   "spr": 0.01,
   "sps": "PAY_PER_USE",
@@ -494,16 +499,16 @@ The following informative example displays a decoded PAY type token.
   "cur": "USD",
   "value": 15000000,
   "mnr": 1500,
-  "stp": "<COIN | CARD | BANK>",
+  "stp": "CARD",
   "sti": {
-    "type": "<'type' is dependant on 'sti' for COIN - USDC | x402; for CARD - VISA_VIC;>",
+    "type": "VISA_VIC",
     "paymentToken": "1234567890123456",
     "tokenExpirationMonth": "03",
     "tokenExpirationYear": "2030",
     "tokenSecurityCode": "0123",
-    "verifier": "<URL>", // URL of the payment method verifier (OPTIONAL)
+    "verifier": "https://verifier.example.info", // URL of payment method verifier
     "verification_status": "VERIFIED", // Outcome of the verifier's payment method verification - one of "VERIFIED", "UNVERIFIED" (OPTIONAL)
-    "verification_id": "<Verifier's verification ID>" // Identifier for the verification performed, such as a GUID. (OPTIONAL)
+    "verification_id": "3a6e1b76-8f78-4c24-b1bd-dc78a8cc3711" // Identifier for the verification performed, such as a GUID.
   }
 }
 
@@ -516,31 +521,32 @@ The following informative example displays a decoded KYA-PAY type token.
 
 ~~~
 {
-  "kid": "<JWK Key ID>",
+  "kid": "YjFdJgFNWj9AkUmtoXILwoeb37PsBuGWVK6_QvFLwJw", // JWK Key ID
   "alg": "ES256",
   "typ": "kya-pay+jwt"
 }.{
-  "iss": "<URL of the token issuer>",
+  "iss": "kya-pay.example.org", // Issuer URL
   "iat": 1742245254,
   "exp": 1773867654,
   "jti": "b9821893-7699-4d24-af06-803a6a16476b",
-  "sub": "<Buyer Agent Account ID>",
-  "aud": "<Seller Agent Account ID>",
+  "sub": "f24a431d-108c-46e6-9357-b428c528210e", // Buyer Agent Account ID
+  "aud": "5e00177d-ff7f-424b-8c83-2756e15efbed", // Seller Agent Account ID
 
-  "env": "<Issuer environment (sandbox, production, etc.)>",
+  "env": "production",
   "ver": "1",
-  "ssi": "<Seller Service ID>",
-  "btg": "<Buyer Tag (Buyer's internal reference ID)>",
+  "ssi": "3e6d33a1-438e-482e-bba5-6aa69544727d", // Seller Service ID
+  "btg": "c52e0ef2-e27d-4e95-862e-475a904ae7b2", // Buyer Tag (Internal Reference ID)
 
   "bid": {
     "email": "buyer@buyer.com”,
     ...
   },
   "apd": {
-    // TBD This example is missing the required "id" claim
+    "id": "4b087db2-b6e5-48b8-8737-1aa8ddf4c4fe"
   },
   "aid": {
-    // TBD This example is missing the required "id" and "name" members
+    "id": "c163d1c6-158b-48d3-b262-d28fc9505012",
+    "name": "Agentic Excellence Я Us"
   },
 
   "spr": 0.01,
@@ -549,9 +555,9 @@ The following informative example displays a decoded KYA-PAY type token.
   "cur": "USD",
   "value": 15000000,
   "mnr": 1500,
-  "stp": "<COIN | CARD | BANK>",
+  "stp": "CARD",
   "sti": {
-    "type": "<'type' is dependant on 'sti'>",
+    "type": "VISA_VIC",
     "paymentToken": "1234567890123456",
     "tokenExpirationMonth": "03",
     "tokenExpirationYear": "2030",
