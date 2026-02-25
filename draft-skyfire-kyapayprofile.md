@@ -42,6 +42,21 @@ normative:
   RFC7519:
   RFC6749:
   RFC8693:
+  OpenID.Core:
+    author:
+    - ins: N. Sakimura
+      name: Nat Sakimura
+    - ins: J. Bradley
+      name: John Bradley
+    - ins: M. Jones
+      name: Michael B. Jones
+    - ins: B. de Medeiros
+      name: Breno de Medeiros
+    - ins: C. Mortimore
+      name: Chuck Mortimore
+    date: December 2023
+    target: https://openid.net/specs/openid-connect-core-1_0.html
+    title: OpenID Connect Core 1.0 incorporating errata set 2
 
 informative:
   RFC8725:
@@ -269,8 +284,8 @@ The following informative example displays a decoded KYA type token.
     "id": "d3306fc0-602b-47e6-9fe2-3d55d028fbd2"
     "name": "Acme Shopping Agents", // Agent platform name
     "email": "platform@acme.com", // Email address for the agent platform
-    "phoneNumber": "+12345677890", // Phone number for the agent platform
-    "businessName": "Acme Shopping Inc.", // Legal name of the agent platform
+    "phone_number": "+12345677890", // Phone number for the agent platform
+    "organization_name": "Acme Shopping Inc.", // Legal name of the agent platform
     "verifier": "https://www.verifier.com/", // URL of the Identity verifier
     "verification_status": "VERIFIED", // Outcome of the verifier's KYA
     "verification_id": "a23c1fe4-a4b7-442d-8bca-3c8fad5ec3a6" // Verifier's verification ID
@@ -296,38 +311,35 @@ as follows.
 
 #### OPTIONAL Human Principal Sub-claims
 
-`nameFirst`:
-: First name of buyer human principal.
+`given_name`:
+: Given name(s) or first name(s) of buyer human principal.
 
-`nameMiddle`:
-: Middle name of buyer human principal.
+`middle_name`:
+: Middle name(s) of buyer human principal.
 
-`nameLast`:
-: Last name of buyer human principal.
+`family_name`:
+: Surname(s) or last name(s) of buyer human principal.
 
-`phoneNumber`:
+`phone_number`:
 : Phone number associated with principal.
 
-`addressStreet1`:
-: First line of address.
+`street_address`:
+: Full street address component, represented as defined for the "street_address" sub-claim of "address" in {{OpenID.Core}}.
 
-`addressStreet2`:
-: Second line of address.
+`locality`:
+: City or locality component of address.
 
-`addressCity`:
-: City.
+`region`:
+: State, province, prefecture, or region component of address.
 
-`addressSubdivision`:
-: Subdivision.
+`postal_code`:
+: Zip code or postal code component of address.
 
-`addressPostalCode`:
-: Postal Code.
-
-`addressCountryCode`:
-: ISO country code.
+`country`:
+: Country name component of address, represented as an ISO two-letter country code.
 
 `birthdate`:
-: Human principal birth date.
+: Birthdate claim, as defined in {{OpenID.Core}}.
 
 `verifier`:
 : URL of the Identity Verifier
@@ -340,50 +352,45 @@ as follows.
 
 #### OPTIONAL Organizational or Business Entity Principal Sub-claims
 
-`businessName`:
+`organization_name`:
 : Name of principal entity.
 
-`businessTaxIdentificationNumber`:
-: Relevant Tax Identification Number of principal entity.
+`business_tax_id`:
+: Tax Identification Number of principal entity.
 
-`businessPhysicalAddressFull`:
-: Full physical address of principal entity.
+`business_full_address`:
+: Full physical address of business principal entity, represented as defined for the "formatted" sub-claim of "address" in {{OpenID.Core}}.
 
-`businessPhysicalAddressStreet1`:
-: First line of physical address of principal entity.
+`business_street_address`:
+Full street address component of business, represented as defined for the "street_address" sub-claim of "address" in {{OpenID.Core}}.
 
-`businessPhysicalAddressStreet2`:
-: Second line of physical address of principal entity.
+`business_locality`:
+: City or locality component of business address.
 
-`businessPhysicalAddressCity`:
-: City component of physical address.
+`business_region`:
+: State, province, prefecture, or region component of business address.
 
-`businessPhysicalAddressSubdivision`:
-: Subdivision component of physical address.
+`business_postal_code`:
+: Zip code or postal code component of business address.
 
-`businessPhysicalAddressPostalCode`:
-: Postal code component of physical address.
+`business_country`:
+: Country name component of business address, represented as an ISO two-letter country code.
 
-`businessPhysicalAddressCountryCode`:
-: ISO country code component of physical address.
 
-`businessRegisteredAddressStreet1`:
-: First line of registered address of principal entity.
+`registered_street_address`:
+Full street address component of registered business address, represented as defined for the "street_address" sub-claim of "address" in {{OpenID.Core}}.
 
-`businessRegisteredAddressStreet2`:
-: Second line of registered address of principal entity.
+`registered_locality`:
+: City or locality component of registered business address.
 
-`businessRegisteredAddressCity`:
-: City component of registered address of principal entity.
+`registered_region`:
+: State, province, prefecture, or region component of registered business address.
 
-`businessRegisteredAddressSubdivision`:
-: Subdivision component of registered address of principal entity.
+`registered_postal_code`:
+: Zip code or postal code component of registered business address.
 
-`businessRegisteredAddressPostalCode`:
-: Postal code component of registered address of principal entity.
-
-`businessRegisteredAddressCountryCode`:
-: ISO country code of registered address of principal entity.
+`registered_country`:
+: Country name component of registered business address, represented as an ISO two-letter country code.
 
 ### Agent Platform Identity `apd` Sub-claims
 
@@ -395,19 +402,19 @@ The `apd` claim is optional. If present, it contains the following sub-claims.
 `name`:
 : REQUIRED - Agent Platform name.
 
-`nameFirst`:
-: First name of agent platform human principal.
+`given_name`:
+: Given name(s) or first name(s) of agent platform human principal.
 
-`nameMiddle`:
-: Middle name of agent platform human principal.
+`middle_name`:
+: Middle name(s) of agent platform human principal.
 
-`nameLast`:
-: Last name of agent platform human principal.
+`family_name`:
+: Surname(s) or last name(s) of agent platform human principal.
 
-`phoneNumber`:
+`phone_number`:
 : Phone number associated with agent platform.
 
-`businessName`:
+`organization_name`:
 : Business name associated with agent platform.
 
 `verifier`:
@@ -556,8 +563,8 @@ The following informative example displays a decoded KYA-PAY type token.
     "id": "4b087db2-b6e5-48b8-8737-1aa8ddf4c4fe", // Agent platform ID
     "name": "Acme Shopping Agents", // Agent platform name
     "email": "platform@acme.com", // Email address for the agent platform
-    "phoneNumber": "+12345677890", // Phone number for the agent platform
-    "businessName": "Acme Shopping Inc.", // Legal name of the agent platform
+    "phone_number": "+12345677890", // Phone number for the agent platform
+    "organization_name": "Acme Shopping Inc.", // Legal name of the agent platform
     "verifier": "https://www.verifier.com/", // URL of the Identity verifier
     "verification_status": "VERIFIED", // Outcome of the verifier's KYA
     "verification_id": "a23c1fe4-a4b7-442d-8bca-3c8fad5ec3a6" // Verifier's verification ID
