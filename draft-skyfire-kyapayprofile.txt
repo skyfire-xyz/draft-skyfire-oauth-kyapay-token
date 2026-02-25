@@ -5,8 +5,8 @@
 Network Working Group                                         A. Agarwal
 Internet-Draft                                                   Skyfire
 Intended status: Informational                                  M. Jones
-Expires: 23 August 2026                           Self-Issued Consulting
-                                                        19 February 2026
+Expires: 29 August 2026                           Self-Issued Consulting
+                                                        25 February 2026
 
 
                              KYAPay Profile
@@ -46,7 +46,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 23 August 2026.
+   This Internet-Draft will expire on 29 August 2026.
 
 Copyright Notice
 
@@ -77,7 +77,7 @@ Table of Contents
        3.2.2.  Agent Platform Identity apd Sub-claims
        3.2.3.  Agent Identity aid Sub-claims
      3.3.  PAY Token
-       3.3.1.  Agent Identity aid Sub-claims
+       3.3.1.  Agent Identity sti Sub-claims
        3.3.2.  PAY Token Example
      3.4.  KYA-PAY Token
    4.  Token Validation
@@ -110,6 +110,11 @@ Table of Contents
    detectors.  This enables agents to bypass common blocking mechanisms
    and access services that were previously restricted to manual human
    interaction.
+
+   Note that, in the future, the payment token functionality could be
+   split into a separate specification, if desired by a working group
+   adopting the specification.  It is retained here at present for ease
+   of reviewing.
 
 2.  Conventions and Definitions
 
@@ -273,33 +278,41 @@ Table of Contents
    The following informative example displays a decoded KYA type token.
 
 {
-  "kid": "<JWK Key ID>",
+  "kid": "YjFdJgFNWj9AkUmtoXILwoeb37PsBuGWVK6_QvFLwJw", // JWK Key ID
   "alg": "ES256",
   "typ": "kya+jwt"
 }.{
-  "iss": "<URL of the token issuer>",
+  "iss": "https://example.com/issuer", // Issuer URL
   "iat": 1742245254,
   "exp": 1773867654,
   "jti": "b9821893-7699-4d24-af06-803a6a16476b",
-  "sub": "<Buyer Agent Account ID>",
-  "aud": "<Seller Agent Account ID>",
+  "sub": "bb713104-c14e-460f-9b7c-f8140fa9bea4", // Buyer Agent Account ID
+  "aud": "7434230d-0861-46f2-9c2c-a6ee33d07f17", // Seller Agent Account ID
 
-  "env": "<Issuer environment (sandbox, production, etc.)>",
+  "env": "production",
   "ver": "1",
-  "ssi": "<Seller Service ID>",
-  "btg": "<Buyer Tag (Buyer's internal reference ID)>",
+  "ssi": "bc3ff89f-069b-4383-82a9-8cfe53c55fc3", // Seller Service ID
+  "btg": "4f6cbd39-215c-4516-bf33-cab22862ee60", // Buyer Tag (Internal Reference ID)
 
   "bid": {
     "email": "buyer@buyer.com”
   },
   "apd": {
-    // TBD This example is missing the required "id" member
+    "id": "d3306fc0-602b-47e6-9fe2-3d55d028fbd2"
+    "name": "Acme Shopping Agents", // Agent platform name
+    "email": "platform@acme.com", // Email address for the agent platform
+    "phoneNumber": "+12345677890", // Phone number for the agent platform
+    "businessName": "Acme Shopping Inc.", // Legal name of the agent platform
+    "verifier": "https://www.verifier.com/", // URL of the Identity verifier
+    "verification_status": "VERIFIED", // Outcome of the verifier's KYA
+    "verification_id": "a23c1fe4-a4b7-442d-8bca-3c8fad5ec3a6" // Verifier's verification ID
   },
   "aid": {
-    // TBD This example is missing the required "id" and "name" members
-    "creation_ip": "54.86.50.139", // IP address from where the token was created
-    "source_ips": ["54.86.50.139", "54.86.50.140", "54.86.50.141"], // IP addresses from where the buyer agent will make requests to the seller (optional)
-    // TBD it would be good to have an example with an IP address range
+    "name": "Acme Agent Extraordinaire",
+    "creation_ip": "54.86.50.139", // IP Address where token was created
+    "source_ips": ["54.86.50.139-54.86.50.141", "1.1.1.0/24",
+      "2001:db8:abcd:0012::/64", "acme.com"]
+      // IP addresses from which the buyer agent will make requests to the seller
   }
 }
 
@@ -443,34 +456,37 @@ Table of Contents
    The following payment related claims are used within PAY and KYA-PAY
    type tokens:
 
-   spr:  OPTIONAL - JSON number representing seller service price in
+   spr:  OPTIONAL - JSON string representing seller service price in
       currency units.
 
    sps:  OPTIONAL - Seller pricing scheme, which represents a way for
       the seller list how it charges for its service or content.  One of
       PAY_PER_USE, SUBSCRIPTION, PAY_PER_MB, or CUSTOM.
 
-   amount:  OPTIONAL - JSON number representing token amount in currency
+   amount:  OPTIONAL - JSON string representing token amount in currency
       units.
 
    cur:  OPTIONAL - Currency unit, represented as an ISO 4217 three
       letter code, such as "EUR".
 
-   value:  OPTIONAL - JSON number representing token amount in
+   value:  OPTIONAL - JSON string representing token amount in
       settlement network's units.
 
    mnr:  OPTIONAL - JSON number representing maximum number of requests
       when sps is PAY_PER_USE.
 
-   stp:  OPTIONAL - Settlement type (one of COIN, CARD, or BANK).
+   stp:  OPTIONAL - Settlement type (one of COIN or CARD).
 
    sti:  OPTIONAL - Meta information for payment settlement, depending
       on settlement type.
 
-3.3.1.  Agent Identity aid Sub-claims
+3.3.1.  Agent Identity sti Sub-claims
 
    The sti claim is optional.  If present, it MAY contain the following
    sub-claims, all of which are OPTIONAL.
+
+   type:  "type" is dependant on the "stp" value; for "COIN" - "USDC" or
+      "x402"; for "CARD" - "VISA_VIC"
 
    paymentToken:  String containing Virtual Payment Card Number in ISO/
       IEC 7812 format. 12-19 characters.
@@ -487,38 +503,38 @@ Table of Contents
    The following informative example displays a decoded PAY type token.
 
 {
-  "kid": "<JWK Key ID>",
+  "kid": "FgT4q8c5IqbBCCjcho5JdeGQvuK1keMDFc9IwCm8J7Y", // JWK Key ID
   "alg": "ES256",
   "typ": "pay+jwt"
 }.{
-  "iss": "<URL of the token issuer>",
+  "iss": "https://example.net/pay_token_issuer", // Issuer URL
   "iat": 1742245254,
   "exp": 1773867654,
   "jti": "b9821893-7699-4d24-af06-803a6a16476b",
-  "sub": "<Buyer Agent Account ID>",
-  "aud": "<Seller Agent Account ID>",
+  "sub": "8b810549-7443-494f-b4ad-5bc65871e32b", // Buyer Agent Account ID
+  "aud": "37888095-2721-48d9-a2df-bfe4075f223a", // Seller Agent Account ID
 
-  "env": "<Issuer environment (sandbox, production, etc.)>",
+  "env": "sandbox",
   "ver": "1",
-  "ssi": "<Seller Service ID>",
-  "btg": "<Buyer Tag (Buyer's internal reference ID)>",
+  "ssi": "274efc47-024e-466f-b278-152d2ee73955", // Seller Service ID
+  "btg": "16c135ce-a99a-453d-a7b5-4958fd91de5f", // Buyer Tag (Internal Reference ID)
 
-  "spr": 0.01,
+  "spr": "0.01",
   "sps": "PAY_PER_USE",
-  "amount": 15,
+  "amount": "15",
   "cur": "USD",
-  "value": 15000000,
+  "value": "15000000",
   "mnr": 1500,
-  "stp": "<COIN | CARD | BANK>",
+  "stp": "CARD",
   "sti": {
-    "type": "<'type' is dependant on 'sti' for COIN - USDC | x402; for CARD - VISA_VIC;>",
+    "type": "VISA_VIC",
     "paymentToken": "1234567890123456",
     "tokenExpirationMonth": "03",
     "tokenExpirationYear": "2030",
     "tokenSecurityCode": "0123",
-    "verifier": "<URL>", // URL of the payment method verifier (OPTIONAL)
+    "verifier": "https://verifier.example.info", // URL of payment method verifier
     "verification_status": "VERIFIED", // Outcome of the verifier's payment method verification - one of "VERIFIED", "UNVERIFIED" (OPTIONAL)
-    "verification_id": "<Verifier's verification ID>" // Identifier for the verification performed, such as a GUID. (OPTIONAL)
+    "verification_id": "3a6e1b76-8f78-4c24-b1bd-dc78a8cc3711" // Identifier for the verification performed, such as a GUID.
   }
 }
 
@@ -529,51 +545,62 @@ Table of Contents
    The following informative example displays a decoded KYA-PAY type
    token.
 
- {
-   "kid": "<JWK Key ID>",
-   "alg": "ES256",
-   "typ": "kya-pay+jwt"
- }.{
-   "iss": "<URL of the token issuer>",
-   "iat": 1742245254,
-   "exp": 1773867654,
-   "jti": "b9821893-7699-4d24-af06-803a6a16476b",
-   "sub": "<Buyer Agent Account ID>",
-   "aud": "<Seller Agent Account ID>",
+{
+  "kid": "YjFdJgFNWj9AkUmtoXILwoeb37PsBuGWVK6_QvFLwJw", // JWK Key ID
+  "alg": "ES256",
+  "typ": "kya-pay+jwt"
+}.{
+  "iss": "kya-pay.example.org", // Issuer URL
+  "iat": 1742245254,
+  "exp": 1773867654,
+  "jti": "b9821893-7699-4d24-af06-803a6a16476b",
+  "sub": "f24a431d-108c-46e6-9357-b428c528210e", // Buyer Agent Account ID
+  "aud": "5e00177d-ff7f-424b-8c83-2756e15efbed", // Seller Agent Account ID
 
-   "env": "<Issuer environment (sandbox, production, etc.)>",
-   "ver": "1",
-   "ssi": "<Seller Service ID>",
-   "btg": "<Buyer Tag (Buyer's internal reference ID)>",
+  "env": "production",
+  "ver": "1",
+  "ssi": "3e6d33a1-438e-482e-bba5-6aa69544727d", // Seller Service ID
+  "btg": "c52e0ef2-e27d-4e95-862e-475a904ae7b2", // Buyer Tag (Internal Reference ID)
 
-   "bid": {
-     "email": "buyer@buyer.com”,
-     ...
-   },
-   "apd": {
-     // TBD This example is missing the required "id" claim
-   },
-   "aid": {
-     // TBD This example is missing the required "id" and "name" members
-   },
+  "bid": {
+    "email": "buyer@buyer.com”,
+    ...
+  },
+  "apd": {
+    "id": "4b087db2-b6e5-48b8-8737-1aa8ddf4c4fe", // Agent platform ID
+    "name": "Acme Shopping Agents", // Agent platform name
+    "email": "platform@acme.com", // Email address for the agent platform
+    "phoneNumber": "+12345677890", // Phone number for the agent platform
+    "businessName": "Acme Shopping Inc.", // Legal name of the agent platform
+    "verifier": "https://www.verifier.com/", // URL of the Identity verifier
+    "verification_status": "VERIFIED", // Outcome of the verifier's KYA
+    "verification_id": "a23c1fe4-a4b7-442d-8bca-3c8fad5ec3a6" // Verifier's verification ID
+  },
+  "aid": {
+    "name": "Agentic Excellence Я Us",
+    "creation_ip": "128.2.42.95", // IP Address where token was created
+    "source_ips": ["54.86.50.139-54.86.50.141", "1.1.1.0/24",
+      "2001:db8:abcd:0012::/64", "agentic-excellence.example.com"]
+      // IP addresses from which the buyer agent will make requests to the seller
+  },
 
-   "spr": 0.01,
-   "sps": "PAY_PER_USE",
-   "amount": 15,
-   "cur": "USD",
-   "value": 15000000,
-   "mnr": 1500,
-   "stp": "<COIN | CARD | BANK>",
-   "sti": {
-     "type": "<'type' is dependant on 'sti'>",
-     "paymentToken": "1234567890123456",
-     "tokenExpirationMonth": "03",
-     "tokenExpirationYear": "2030",
-     "tokenSecurityCode": "0123"
-   }
- }
+  "spr": "0.01",
+  "sps": "PAY_PER_USE",
+  "amount": "15",
+  "cur": "USD",
+  "value": "15000000",
+  "mnr": 1500,
+  "stp": "CARD",
+  "sti": {
+    "type": "VISA_VIC",
+    "paymentToken": "1234567890123456",
+    "tokenExpirationMonth": "03",
+    "tokenExpirationYear": "2030",
+    "tokenSecurityCode": "0123"
+  }
+}
 
-                     Figure 3: A KYA-PAY type token
+                    Figure 3: A KYA-PAY type token
 
 4.  Token Validation
 
@@ -643,7 +670,7 @@ Table of Contents
 
 6.  IANA Considerations
 
-   This document has no IANA actions.
+   // TBD Register newly defined claims
 
 7.  References
 
