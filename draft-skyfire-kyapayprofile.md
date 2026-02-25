@@ -73,6 +73,11 @@ systems, and fraud detectors. This enables agents to bypass common blocking
 mechanisms and access services that were previously restricted to manual human
 interaction.
 
+Note that, in the future,
+the payment token functionality could be split into a separate specification,
+if desired by a working group adopting the specification.
+It is retained here at present for ease of reviewing.
+
 # Conventions and Definitions
 
 {::boilerplate bcp14-tagged}
@@ -262,14 +267,20 @@ The following informative example displays a decoded KYA type token.
   },
   "apd": {
     "id": "d3306fc0-602b-47e6-9fe2-3d55d028fbd2"
+    "name": "Acme Shopping Agents", // Agent platform name
+    "email": "platform@acme.com", // Email address for the agent platform
+    "phoneNumber": "+12345677890", // Phone number for the agent platform
+    "businessName": "Acme Shopping Inc.", // Legal name of the agent platform
+    "verifier": "https://www.verifier.com/", // URL of the Identity verifier
+    "verification_status": "VERIFIED", // Outcome of the verifier's KYA
+    "verification_id": "a23c1fe4-a4b7-442d-8bca-3c8fad5ec3a6" // Verifier's verification ID
   },
   "aid": {
-    "id": "626789d6-121d-4bd3-b4cd-68c95840b149",
     "name": "Acme Agent Extraordinaire",
     "creation_ip": "54.86.50.139", // IP Address where token was created
-    "source_ips": ["54.86.50.139", "54.86.50.140", "54.86.50.141"]
+    "source_ips": ["54.86.50.139-54.86.50.141", "1.1.1.0/24",
+      "2001:db8:abcd:0012::/64", "acme.com"]
       // IP addresses from which the buyer agent will make requests to the seller
-      // TBD it would be good to have an example with an IP address range
   }
 }
 ~~~
@@ -426,19 +437,19 @@ The `aid` claim is optional. If present, it contains the following sub-claims.
 The following payment related claims are used within PAY and KYA-PAY type tokens:
 
 `spr`:
-: OPTIONAL - JSON number representing seller service price in currency units.
+: OPTIONAL - JSON string representing seller service price in currency units.
 
 `sps`:
 : OPTIONAL - Seller pricing scheme, which represents a way for the seller list how it charges for its service or content. One of `PAY_PER_USE`, `SUBSCRIPTION`, `PAY_PER_MB`, or `CUSTOM`.
 
 `amount`:
-: OPTIONAL - JSON number representing token amount in currency units.
+: OPTIONAL - JSON string representing token amount in currency units.
 
 `cur`:
 : OPTIONAL - Currency unit, represented as an ISO 4217 three letter code, such as "EUR".
 
 `value`:
-: OPTIONAL - JSON number representing token amount in settlement network's units.
+: OPTIONAL - JSON string representing token amount in settlement network's units.
 
 `mnr`:
 : OPTIONAL - JSON number representing maximum number of requests when `sps` is `PAY_PER_USE`.
@@ -493,11 +504,11 @@ The following informative example displays a decoded PAY type token.
   "ssi": "274efc47-024e-466f-b278-152d2ee73955", // Seller Service ID
   "btg": "16c135ce-a99a-453d-a7b5-4958fd91de5f", // Buyer Tag (Internal Reference ID)
 
-  "spr": 0.01,
+  "spr": "0.01",
   "sps": "PAY_PER_USE",
-  "amount": 15,
+  "amount": "15",
   "cur": "USD",
-  "value": 15000000,
+  "value": "15000000",
   "mnr": 1500,
   "stp": "CARD",
   "sti": {
@@ -542,18 +553,28 @@ The following informative example displays a decoded KYA-PAY type token.
     ...
   },
   "apd": {
-    "id": "4b087db2-b6e5-48b8-8737-1aa8ddf4c4fe"
+    "id": "4b087db2-b6e5-48b8-8737-1aa8ddf4c4fe", // Agent platform ID
+    "name": "Acme Shopping Agents", // Agent platform name
+    "email": "platform@acme.com", // Email address for the agent platform
+    "phoneNumber": "+12345677890", // Phone number for the agent platform
+    "businessName": "Acme Shopping Inc.", // Legal name of the agent platform
+    "verifier": "https://www.verifier.com/", // URL of the Identity verifier
+    "verification_status": "VERIFIED", // Outcome of the verifier's KYA
+    "verification_id": "a23c1fe4-a4b7-442d-8bca-3c8fad5ec3a6" // Verifier's verification ID
   },
   "aid": {
-    "id": "c163d1c6-158b-48d3-b262-d28fc9505012",
-    "name": "Agentic Excellence Я Us"
+    "name": "Agentic Excellence Я Us",
+    "creation_ip": "128.2.42.95", // IP Address where token was created
+    "source_ips": ["54.86.50.139-54.86.50.141", "1.1.1.0/24",
+      "2001:db8:abcd:0012::/64", "agentic-excellence.example.com"]
+      // IP addresses from which the buyer agent will make requests to the seller
   },
 
-  "spr": 0.01,
+  "spr": "0.01",
   "sps": "PAY_PER_USE",
-  "amount": 15,
+  "amount": "15",
   "cur": "USD",
-  "value": 15000000,
+  "value": "15000000",
   "mnr": 1500,
   "stp": "CARD",
   "sti": {
@@ -617,7 +638,6 @@ follow the best practices and guidelines laid out in {{RFC8725}}.
 
 # IANA Considerations
 
-This document has no IANA actions.
+// TBD Register newly defined claims
 
 --- back
-
