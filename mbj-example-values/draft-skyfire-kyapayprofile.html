@@ -1053,7 +1053,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Agarwal &amp; Jones</td>
-<td class="center">Expires 28 August 2026</td>
+<td class="center">Expires 29 August 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1066,12 +1066,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-skyfire-kyapayprofile-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-02-24" class="published">24 February 2026</time>
+<time datetime="2026-02-25" class="published">25 February 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-08-28">28 August 2026</time></dd>
+<dd class="expires"><time datetime="2026-08-29">29 August 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1123,7 +1123,7 @@ tokens in an interoperable manner.<a href="#section-abstract-1" class="pilcrow">
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 28 August 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 29 August 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1273,6 +1273,10 @@ to services, sites, bot managers, customer identity and access management (CIAM)
 systems, and fraud detectors. This enables agents to bypass common blocking
 mechanisms and access services that were previously restricted to manual human
 interaction.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-3">Note that, in the future,
+the payment token functionality could be split into a separate specification,
+if desired by a working group adopting the specification.
+It is retained here at present for ease of reviewing.<a href="#section-1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="conventions-and-definitions">
@@ -1590,14 +1594,20 @@ claims.<a href="#section-3.2-2.2.1" class="pilcrow">¶</a></p>
   },
   "apd": {
     "id": "d3306fc0-602b-47e6-9fe2-3d55d028fbd2"
+    "name": "Acme Shopping Agents", // Agent platform name
+    "email": "platform@acme.com", // Email address for the agent platform
+    "phoneNumber": "+12345677890", // Phone number for the agent platform
+    "businessName": "Acme Shopping Inc.", // Legal name of the agent platform
+    "verifier": "https://www.verifier.com/", // URL of the Identity verifier
+    "verification_status": "VERIFIED", // Outcome of the verifier's KYA
+    "verification_id": "a23c1fe4-a4b7-442d-8bca-3c8fad5ec3a6" // Verifier's verification ID
   },
   "aid": {
-    "id": "626789d6-121d-4bd3-b4cd-68c95840b149",
     "name": "Acme Agent Extraordinaire",
     "creation_ip": "54.86.50.139", // IP Address where token was created
-    "source_ips": ["54.86.50.139", "54.86.50.140", "54.86.50.141"]
+    "source_ips": ["54.86.50.139-54.86.50.141", "1.1.1.0/24",
+      "2001:db8:abcd:0012::/64", "acme.com"]
       // IP addresses from which the buyer agent will make requests to the seller
-      // TBD it would be good to have an example with an IP address range
   }
 }
 </pre>
@@ -1925,7 +1935,7 @@ as follows.<a href="#section-3.2.1-1" class="pilcrow">¶</a></p>
           <dt id="section-3.3-2.1">
 <code>spr</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-3.3-2.2">
-            <p id="section-3.3-2.2.1"><span class="bcp14">OPTIONAL</span> - JSON number representing seller service price in currency units.<a href="#section-3.3-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-3.3-2.2.1"><span class="bcp14">OPTIONAL</span> - JSON string representing seller service price in currency units.<a href="#section-3.3-2.2.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-3.3-2.3">
@@ -1937,7 +1947,7 @@ as follows.<a href="#section-3.2.1-1" class="pilcrow">¶</a></p>
 <dt id="section-3.3-2.5">
 <code>amount</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-3.3-2.6">
-            <p id="section-3.3-2.6.1"><span class="bcp14">OPTIONAL</span> - JSON number representing token amount in currency units.<a href="#section-3.3-2.6.1" class="pilcrow">¶</a></p>
+            <p id="section-3.3-2.6.1"><span class="bcp14">OPTIONAL</span> - JSON string representing token amount in currency units.<a href="#section-3.3-2.6.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-3.3-2.7">
@@ -1949,7 +1959,7 @@ as follows.<a href="#section-3.2.1-1" class="pilcrow">¶</a></p>
 <dt id="section-3.3-2.9">
 <code>value</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-3.3-2.10">
-            <p id="section-3.3-2.10.1"><span class="bcp14">OPTIONAL</span> - JSON number representing token amount in settlement network's units.<a href="#section-3.3-2.10.1" class="pilcrow">¶</a></p>
+            <p id="section-3.3-2.10.1"><span class="bcp14">OPTIONAL</span> - JSON string representing token amount in settlement network's units.<a href="#section-3.3-2.10.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-3.3-2.11">
@@ -2040,11 +2050,11 @@ all of which are <span class="bcp14">OPTIONAL</span>.<a href="#section-3.3.1-1" 
   "ssi": "274efc47-024e-466f-b278-152d2ee73955", // Seller Service ID
   "btg": "16c135ce-a99a-453d-a7b5-4958fd91de5f", // Buyer Tag (Internal Reference ID)
 
-  "spr": 0.01,
+  "spr": "0.01",
   "sps": "PAY_PER_USE",
-  "amount": 15,
+  "amount": "15",
   "cur": "USD",
-  "value": 15000000,
+  "value": "15000000",
   "mnr": 1500,
   "stp": "CARD",
   "sti": {
@@ -2101,18 +2111,28 @@ all of which are <span class="bcp14">OPTIONAL</span>.<a href="#section-3.3.1-1" 
     ...
   },
   "apd": {
-    "id": "4b087db2-b6e5-48b8-8737-1aa8ddf4c4fe"
+    "id": "4b087db2-b6e5-48b8-8737-1aa8ddf4c4fe", // Agent platform ID
+    "name": "Acme Shopping Agents", // Agent platform name
+    "email": "platform@acme.com", // Email address for the agent platform
+    "phoneNumber": "+12345677890", // Phone number for the agent platform
+    "businessName": "Acme Shopping Inc.", // Legal name of the agent platform
+    "verifier": "https://www.verifier.com/", // URL of the Identity verifier
+    "verification_status": "VERIFIED", // Outcome of the verifier's KYA
+    "verification_id": "a23c1fe4-a4b7-442d-8bca-3c8fad5ec3a6" // Verifier's verification ID
   },
   "aid": {
-    "id": "c163d1c6-158b-48d3-b262-d28fc9505012",
-    "name": "Agentic Excellence Я Us"
+    "name": "Agentic Excellence Я Us",
+    "creation_ip": "128.2.42.95", // IP Address where token was created
+    "source_ips": ["54.86.50.139-54.86.50.141", "1.1.1.0/24",
+      "2001:db8:abcd:0012::/64", "agentic-excellence.example.com"]
+      // IP addresses from which the buyer agent will make requests to the seller
   },
 
-  "spr": 0.01,
+  "spr": "0.01",
   "sps": "PAY_PER_USE",
-  "amount": 15,
+  "amount": "15",
   "cur": "USD",
-  "value": 15000000,
+  "value": "15000000",
   "mnr": 1500,
   "stp": "CARD",
   "sti": {
@@ -2246,7 +2266,7 @@ follow the best practices and guidelines laid out in <span>[<a href="#RFC8725" c
       <h2 id="name-iana-considerations">
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<p id="section-6-1">This document has no IANA actions.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<p id="section-6-1">// TBD Register newly defined claims<a href="#section-6-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-combined-references">
