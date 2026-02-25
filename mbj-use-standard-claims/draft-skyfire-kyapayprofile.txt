@@ -335,19 +335,6 @@ Table of Contents
 
    phone_number:  Phone number associated with principal.
 
-   street_address:  Full street address component, represented as
-      defined for the "street_address" sub-claim of "address" in
-      [OpenID.Core].
-
-   locality:  City or locality component of address.
-
-   region:  State, province, prefecture, or region component of address.
-
-   postal_code:  Zip code or postal code component of address.
-
-   country:  Country name component of address, represented as an ISO
-      two-letter country code.
-
    birthdate:  Birthdate claim, as defined in [OpenID.Core].
 
    verifier:  URL of the Identity Verifier
@@ -365,40 +352,11 @@ Table of Contents
 
    business_tax_id:  Tax Identification Number of principal entity.
 
-   business_full_address:  Full physical address of business principal
-      entity, represented as defined for the "formatted" sub-claim of
-      "address" in [OpenID.Core].
+   // TBD Possibly add "business_address" claim, using sub-claims from
+   "address" claim
 
-   business_street_address: Full street address component of business,
-   represented as defined for the "street_address" sub-claim of
-   "address" in [OpenID.Core].
-
-   business_locality:  City or locality component of business address.
-
-   business_region:  State, province, prefecture, or region component of
-      business address.
-
-   business_postal_code:  Zip code or postal code component of business
-      address.
-
-   business_country:  Country name component of business address,
-      represented as an ISO two-letter country code.
-
-   registered_street_address: Full street address component of
-   registered business address, represented as defined for the
-   "street_address" sub-claim of "address" in [OpenID.Core].
-
-   registered_locality:  City or locality component of registered
-      business address.
-
-   registered_region:  State, province, prefecture, or region component
-      of registered business address.
-
-   registered_postal_code:  Zip code or postal code component of
-      registered business address.
-
-   registered_country:  Country name component of registered business
-      address, represented as an ISO two-letter country code.
+   // TBD Possibly add "registered_business_address" claim, using sub-
+   claims from "address" claim
 
 3.2.2.  Agent Platform Identity apd Sub-claims
 

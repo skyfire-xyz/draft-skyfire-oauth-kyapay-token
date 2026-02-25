@@ -1662,57 +1662,27 @@ as follows.<a href="#section-3.2.1-1" class="pilcrow">¶</a></p>
 </dd>
               <dd class="break"></dd>
 <dt id="section-3.2.1.1-1.9">
-<code>street_address</code>:</dt>
+<code>birthdate</code>:</dt>
               <dd style="margin-left: 1.5em" id="section-3.2.1.1-1.10">
-                <p id="section-3.2.1.1-1.10.1">Full street address component, represented as defined for the "street_address" sub-claim of "address" in <span>[<a href="#OpenID.Core" class="cite xref">OpenID.Core</a>]</span>.<a href="#section-3.2.1.1-1.10.1" class="pilcrow">¶</a></p>
+                <p id="section-3.2.1.1-1.10.1">Birthdate claim, as defined in <span>[<a href="#OpenID.Core" class="cite xref">OpenID.Core</a>]</span>.<a href="#section-3.2.1.1-1.10.1" class="pilcrow">¶</a></p>
 </dd>
               <dd class="break"></dd>
 <dt id="section-3.2.1.1-1.11">
-<code>locality</code>:</dt>
+<code>verifier</code>:</dt>
               <dd style="margin-left: 1.5em" id="section-3.2.1.1-1.12">
-                <p id="section-3.2.1.1-1.12.1">City or locality component of address.<a href="#section-3.2.1.1-1.12.1" class="pilcrow">¶</a></p>
+                <p id="section-3.2.1.1-1.12.1">URL of the Identity Verifier<a href="#section-3.2.1.1-1.12.1" class="pilcrow">¶</a></p>
 </dd>
               <dd class="break"></dd>
 <dt id="section-3.2.1.1-1.13">
-<code>region</code>:</dt>
+<code>verification_status</code>:</dt>
               <dd style="margin-left: 1.5em" id="section-3.2.1.1-1.14">
-                <p id="section-3.2.1.1-1.14.1">State, province, prefecture, or region component of address.<a href="#section-3.2.1.1-1.14.1" class="pilcrow">¶</a></p>
+                <p id="section-3.2.1.1-1.14.1">Verification status.  One of "VERIFIED", "UNVERIFIED".<a href="#section-3.2.1.1-1.14.1" class="pilcrow">¶</a></p>
 </dd>
               <dd class="break"></dd>
 <dt id="section-3.2.1.1-1.15">
-<code>postal_code</code>:</dt>
-              <dd style="margin-left: 1.5em" id="section-3.2.1.1-1.16">
-                <p id="section-3.2.1.1-1.16.1">Zip code or postal code component of address.<a href="#section-3.2.1.1-1.16.1" class="pilcrow">¶</a></p>
-</dd>
-              <dd class="break"></dd>
-<dt id="section-3.2.1.1-1.17">
-<code>country</code>:</dt>
-              <dd style="margin-left: 1.5em" id="section-3.2.1.1-1.18">
-                <p id="section-3.2.1.1-1.18.1">Country name component of address, represented as an ISO two-letter country code.<a href="#section-3.2.1.1-1.18.1" class="pilcrow">¶</a></p>
-</dd>
-              <dd class="break"></dd>
-<dt id="section-3.2.1.1-1.19">
-<code>birthdate</code>:</dt>
-              <dd style="margin-left: 1.5em" id="section-3.2.1.1-1.20">
-                <p id="section-3.2.1.1-1.20.1">Birthdate claim, as defined in <span>[<a href="#OpenID.Core" class="cite xref">OpenID.Core</a>]</span>.<a href="#section-3.2.1.1-1.20.1" class="pilcrow">¶</a></p>
-</dd>
-              <dd class="break"></dd>
-<dt id="section-3.2.1.1-1.21">
-<code>verifier</code>:</dt>
-              <dd style="margin-left: 1.5em" id="section-3.2.1.1-1.22">
-                <p id="section-3.2.1.1-1.22.1">URL of the Identity Verifier<a href="#section-3.2.1.1-1.22.1" class="pilcrow">¶</a></p>
-</dd>
-              <dd class="break"></dd>
-<dt id="section-3.2.1.1-1.23">
-<code>verification_status</code>:</dt>
-              <dd style="margin-left: 1.5em" id="section-3.2.1.1-1.24">
-                <p id="section-3.2.1.1-1.24.1">Verification status.  One of "VERIFIED", "UNVERIFIED".<a href="#section-3.2.1.1-1.24.1" class="pilcrow">¶</a></p>
-</dd>
-              <dd class="break"></dd>
-<dt id="section-3.2.1.1-1.25">
 <code>verification_id</code>:</dt>
-              <dd style="margin-left: 1.5em" id="section-3.2.1.1-1.26">
-                <p id="section-3.2.1.1-1.26.1">Verification identifier. Identifier for the verification performed, such as a GUID.<a href="#section-3.2.1.1-1.26.1" class="pilcrow">¶</a></p>
+              <dd style="margin-left: 1.5em" id="section-3.2.1.1-1.16">
+                <p id="section-3.2.1.1-1.16.1">Verification identifier. Identifier for the verification performed, such as a GUID.<a href="#section-3.2.1.1-1.16.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 </dl>
@@ -1735,70 +1705,10 @@ as follows.<a href="#section-3.2.1-1" class="pilcrow">¶</a></p>
               <dd style="margin-left: 1.5em" id="section-3.2.1.2-1.4">
                 <p id="section-3.2.1.2-1.4.1">Tax Identification Number of principal entity.<a href="#section-3.2.1.2-1.4.1" class="pilcrow">¶</a></p>
 </dd>
-              <dd class="break"></dd>
-<dt id="section-3.2.1.2-1.5">
-<code>business_full_address</code>:</dt>
-              <dd style="margin-left: 1.5em" id="section-3.2.1.2-1.6">
-                <p id="section-3.2.1.2-1.6.1">Full physical address of business principal entity, represented as defined for the "formatted" sub-claim of "address" in <span>[<a href="#OpenID.Core" class="cite xref">OpenID.Core</a>]</span>.<a href="#section-3.2.1.2-1.6.1" class="pilcrow">¶</a></p>
-</dd>
             <dd class="break"></dd>
 </dl>
-<p id="section-3.2.1.2-2"><code>business_street_address</code>:
-Full street address component of business, represented as defined for the "street_address" sub-claim of "address" in <span>[<a href="#OpenID.Core" class="cite xref">OpenID.Core</a>]</span>.<a href="#section-3.2.1.2-2" class="pilcrow">¶</a></p>
-<span class="break"></span><dl class="dlParallel" id="section-3.2.1.2-3">
-              <dt id="section-3.2.1.2-3.1">
-<code>business_locality</code>:</dt>
-              <dd style="margin-left: 1.5em" id="section-3.2.1.2-3.2">
-                <p id="section-3.2.1.2-3.2.1">City or locality component of business address.<a href="#section-3.2.1.2-3.2.1" class="pilcrow">¶</a></p>
-</dd>
-              <dd class="break"></dd>
-<dt id="section-3.2.1.2-3.3">
-<code>business_region</code>:</dt>
-              <dd style="margin-left: 1.5em" id="section-3.2.1.2-3.4">
-                <p id="section-3.2.1.2-3.4.1">State, province, prefecture, or region component of business address.<a href="#section-3.2.1.2-3.4.1" class="pilcrow">¶</a></p>
-</dd>
-              <dd class="break"></dd>
-<dt id="section-3.2.1.2-3.5">
-<code>business_postal_code</code>:</dt>
-              <dd style="margin-left: 1.5em" id="section-3.2.1.2-3.6">
-                <p id="section-3.2.1.2-3.6.1">Zip code or postal code component of business address.<a href="#section-3.2.1.2-3.6.1" class="pilcrow">¶</a></p>
-</dd>
-              <dd class="break"></dd>
-<dt id="section-3.2.1.2-3.7">
-<code>business_country</code>:</dt>
-              <dd style="margin-left: 1.5em" id="section-3.2.1.2-3.8">
-                <p id="section-3.2.1.2-3.8.1">Country name component of business address, represented as an ISO two-letter country code.<a href="#section-3.2.1.2-3.8.1" class="pilcrow">¶</a></p>
-</dd>
-            <dd class="break"></dd>
-</dl>
-<p id="section-3.2.1.2-4"><code>registered_street_address</code>:
-Full street address component of registered business address, represented as defined for the "street_address" sub-claim of "address" in <span>[<a href="#OpenID.Core" class="cite xref">OpenID.Core</a>]</span>.<a href="#section-3.2.1.2-4" class="pilcrow">¶</a></p>
-<span class="break"></span><dl class="dlParallel" id="section-3.2.1.2-5">
-              <dt id="section-3.2.1.2-5.1">
-<code>registered_locality</code>:</dt>
-              <dd style="margin-left: 1.5em" id="section-3.2.1.2-5.2">
-                <p id="section-3.2.1.2-5.2.1">City or locality component of registered business address.<a href="#section-3.2.1.2-5.2.1" class="pilcrow">¶</a></p>
-</dd>
-              <dd class="break"></dd>
-<dt id="section-3.2.1.2-5.3">
-<code>registered_region</code>:</dt>
-              <dd style="margin-left: 1.5em" id="section-3.2.1.2-5.4">
-                <p id="section-3.2.1.2-5.4.1">State, province, prefecture, or region component of registered business address.<a href="#section-3.2.1.2-5.4.1" class="pilcrow">¶</a></p>
-</dd>
-              <dd class="break"></dd>
-<dt id="section-3.2.1.2-5.5">
-<code>registered_postal_code</code>:</dt>
-              <dd style="margin-left: 1.5em" id="section-3.2.1.2-5.6">
-                <p id="section-3.2.1.2-5.6.1">Zip code or postal code component of registered business address.<a href="#section-3.2.1.2-5.6.1" class="pilcrow">¶</a></p>
-</dd>
-              <dd class="break"></dd>
-<dt id="section-3.2.1.2-5.7">
-<code>registered_country</code>:</dt>
-              <dd style="margin-left: 1.5em" id="section-3.2.1.2-5.8">
-                <p id="section-3.2.1.2-5.8.1">Country name component of registered business address, represented as an ISO two-letter country code.<a href="#section-3.2.1.2-5.8.1" class="pilcrow">¶</a></p>
-</dd>
-            <dd class="break"></dd>
-</dl>
+<p id="section-3.2.1.2-2">// TBD Possibly add "business_address" claim, using sub-claims from "address" claim<a href="#section-3.2.1.2-2" class="pilcrow">¶</a></p>
+<p id="section-3.2.1.2-3">// TBD Possibly add "registered_business_address" claim, using sub-claims from "address" claim<a href="#section-3.2.1.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
