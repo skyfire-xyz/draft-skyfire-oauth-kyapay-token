@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-02-24T00:09:04.749039+00:00",
+  "timestamp": "2026-02-26T00:08:13.137075+00:00",
   "repo": "skyfire-xyz/kyapay-ietf-draft",
   "labels": [
     {
@@ -444,6 +444,93 @@
           ]
         }
       ]
+    },
+    {
+      "number": 11,
+      "id": "PR_kwDOQZxkd87F0rq1",
+      "title": "Make example values plausible",
+      "url": "https://github.com/skyfire-xyz/kyapay-ietf-draft/pull/11",
+      "state": "MERGED",
+      "author": "selfissued",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Stop using the \"claim\": \"<claim description>\" convention",
+      "createdAt": "2026-02-24T05:28:56Z",
+      "updatedAt": "2026-02-25T19:37:38Z",
+      "baseRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "baseRefName": "main",
+      "baseRefOid": "4ae0de511b0d53a8aef2f4a39a84b5d1c37ccf35",
+      "headRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "headRefName": "mbj-example-values",
+      "headRefOid": "de8a4f94b05332700cf08177b1a54b8e9ef03a94",
+      "closedAt": "2026-02-25T19:37:38Z",
+      "mergedAt": "2026-02-25T19:37:38Z",
+      "mergedBy": "selfissued",
+      "mergeCommit": {
+        "oid": "706f33df626d46be337b256a6ba855f3caa97dca"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd87lfQ7T",
+          "commit": {
+            "abbreviatedOid": "45ae0da"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-02-24T19:47:52Z",
+          "updatedAt": "2026-02-24T21:43:38Z",
+          "comments": [
+            {
+              "originalPosition": 32,
+              "body": "@selfissued Can you add the \"apd\" sub-claims from here https://docs.skyfire.xyz/docs/token-schemas#kya-token ?",
+              "createdAt": "2026-02-24T19:47:52Z",
+              "updatedAt": "2026-02-24T21:43:38Z"
+            },
+            {
+              "originalPosition": 39,
+              "body": "@selfissued \"id\" can't be a UUID like this since we have no runtime registration / assignment of IDs for ephemeral agents (and would like to avoid it as much as possible). Can you look at what David suggested here - https://docs.google.com/document/d/125ophIxH533FlqEhwEx7eVy7RONO7DVBA-9t3QHgWj0/edit?tab=t.in0xmonjz1rz ? I wonder if we can use Java Package naming / Reversed domain naming as inspiration. Thats basically what David has suggested in his two examples.",
+              "createdAt": "2026-02-24T19:55:33Z",
+              "updatedAt": "2026-02-24T21:43:38Z"
+            },
+            {
+              "originalPosition": 158,
+              "body": "Same as - https://github.com/skyfire-xyz/kyapay-ietf-draft/pull/11/changes#r2849252292",
+              "createdAt": "2026-02-24T19:57:33Z",
+              "updatedAt": "2026-02-24T21:43:38Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 12,
+      "id": "PR_kwDOQZxkd87GVtPH",
+      "title": "Use standard claim names",
+      "url": "https://github.com/skyfire-xyz/kyapay-ietf-draft/pull/12",
+      "state": "OPEN",
+      "author": "selfissued",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Use claim names registered in the IANA JWT Claims registry and sub-claim names from the OpenID Connect \"address\" claim.",
+      "createdAt": "2026-02-25T20:22:07Z",
+      "updatedAt": "2026-02-25T21:21:46Z",
+      "baseRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "baseRefName": "main",
+      "baseRefOid": "706f33df626d46be337b256a6ba855f3caa97dca",
+      "headRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "headRefName": "mbj-use-standard-claims",
+      "headRefOid": "87df67cc6edf8b53ffee2d33000e1f881e8e2a76",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
