@@ -42,6 +42,21 @@ normative:
   RFC7519:
   RFC6749:
   RFC8693:
+  OpenID.Core:
+    author:
+    - ins: N. Sakimura
+      name: Nat Sakimura
+    - ins: J. Bradley
+      name: John Bradley
+    - ins: M. Jones
+      name: Michael B. Jones
+    - ins: B. de Medeiros
+      name: Breno de Medeiros
+    - ins: C. Mortimore
+      name: Chuck Mortimore
+    date: December 2023
+    target: https://openid.net/specs/openid-connect-core-1_0.html
+    title: OpenID Connect Core 1.0 incorporating errata set 2
 
 informative:
   RFC8725:
@@ -297,13 +312,13 @@ as follows.
 #### OPTIONAL Human Principal Sub-claims
 
 `given_name`:
-: First / given name of buyer human principal.
+: Given name(s) or first name(s) of buyer human principal.
 
 `middle_name`:
-: Middle name of buyer human principal.
+: Middle name(s) of buyer human principal.
 
 `family_name`:
-: Family / last name of buyer human principal.
+: Surname(s) or last name(s) of buyer human principal.
 
 `phone_number`:
 : Phone number associated with principal.
