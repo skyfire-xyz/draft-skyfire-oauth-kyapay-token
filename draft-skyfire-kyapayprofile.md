@@ -416,7 +416,7 @@ The following payment related claims are used within PAY and KYA-PAY type tokens
 : REQUIRED - Settlement type (one of `COIN` or `CARD`).
 
 `sti`:
-: REQUIRED - Meta information for payment settlement, depending on settlement
+: REQUIRED - Meta information for payment settlement, depending on settlement.
   type.
 
 ### Agent Identity `sti` Sub-claims
