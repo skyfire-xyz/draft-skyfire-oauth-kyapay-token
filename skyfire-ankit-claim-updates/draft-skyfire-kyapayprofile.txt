@@ -570,7 +570,7 @@ Table of Contents
        discoverable via the issuer's (payload iss claim) JWK Set.
 
    3.  typ - The typ claim MUST be one of: kya+jwt, pay+jwt, or kya-
-       pay+jwt
+       pay+jwt.
 
 4.1.2.  JWT Payload Validation
 
