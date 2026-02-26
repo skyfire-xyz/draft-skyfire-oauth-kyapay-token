@@ -431,7 +431,7 @@ Table of Contents
    stp:  REQUIRED - Settlement type (one of COIN or CARD).
 
    sti:  REQUIRED - Meta information for payment settlement, depending
-      on settlement type.
+      on settlement. type.
 
 3.3.1.  Agent Identity sti Sub-claims
 
