@@ -1053,7 +1053,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Agarwal &amp; Jones</td>
-<td class="center">Expires 29 August 2026</td>
+<td class="center">Expires 30 August 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1066,12 +1066,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-skyfire-kyapayprofile-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-02-25" class="published">25 February 2026</time>
+<time datetime="2026-02-26" class="published">26 February 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-08-29">29 August 2026</time></dd>
+<dd class="expires"><time datetime="2026-08-30">30 August 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1123,7 +1123,7 @@ tokens in an interoperable manner.<a href="#section-abstract-1" class="pilcrow">
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 29 August 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 30 August 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1596,8 +1596,8 @@ claims.<a href="#section-3.2-2.2.1" class="pilcrow">¶</a></p>
     "id": "d3306fc0-602b-47e6-9fe2-3d55d028fbd2"
     "name": "Acme Shopping Agents", // Agent platform name
     "email": "platform@acme.com", // Email address for the agent platform
-    "phoneNumber": "+12345677890", // Phone number for the agent platform
-    "businessName": "Acme Shopping Inc.", // Legal name of the agent platform
+    "phone_number": "+12345677890", // Phone number for the agent platform
+    "organization_name": "Acme Shopping Inc.", // Legal name of the agent platform
     "verifier": "https://www.verifier.com/", // URL of the Identity verifier
     "verification_status": "VERIFIED", // Outcome of the verifier's KYA
     "verification_id": "a23c1fe4-a4b7-442d-8bca-3c8fad5ec3a6" // Verifier's verification ID
@@ -1638,87 +1638,51 @@ as follows.<a href="#section-3.2.1-1" class="pilcrow">¶</a></p>
             </h5>
 <span class="break"></span><dl class="dlParallel" id="section-3.2.1.1-1">
               <dt id="section-3.2.1.1-1.1">
-<code>nameFirst</code>:</dt>
+<code>given_name</code>:</dt>
               <dd style="margin-left: 1.5em" id="section-3.2.1.1-1.2">
-                <p id="section-3.2.1.1-1.2.1">First name of buyer human principal.<a href="#section-3.2.1.1-1.2.1" class="pilcrow">¶</a></p>
+                <p id="section-3.2.1.1-1.2.1">Given name(s) or first name(s) of buyer human principal.<a href="#section-3.2.1.1-1.2.1" class="pilcrow">¶</a></p>
 </dd>
               <dd class="break"></dd>
 <dt id="section-3.2.1.1-1.3">
-<code>nameMiddle</code>:</dt>
+<code>middle_name</code>:</dt>
               <dd style="margin-left: 1.5em" id="section-3.2.1.1-1.4">
-                <p id="section-3.2.1.1-1.4.1">Middle name of buyer human principal.<a href="#section-3.2.1.1-1.4.1" class="pilcrow">¶</a></p>
+                <p id="section-3.2.1.1-1.4.1">Middle name(s) of buyer human principal.<a href="#section-3.2.1.1-1.4.1" class="pilcrow">¶</a></p>
 </dd>
               <dd class="break"></dd>
 <dt id="section-3.2.1.1-1.5">
-<code>nameLast</code>:</dt>
+<code>family_name</code>:</dt>
               <dd style="margin-left: 1.5em" id="section-3.2.1.1-1.6">
-                <p id="section-3.2.1.1-1.6.1">Last name of buyer human principal.<a href="#section-3.2.1.1-1.6.1" class="pilcrow">¶</a></p>
+                <p id="section-3.2.1.1-1.6.1">Surname(s) or last name(s) of buyer human principal.<a href="#section-3.2.1.1-1.6.1" class="pilcrow">¶</a></p>
 </dd>
               <dd class="break"></dd>
 <dt id="section-3.2.1.1-1.7">
-<code>phoneNumber</code>:</dt>
+<code>phone_number</code>:</dt>
               <dd style="margin-left: 1.5em" id="section-3.2.1.1-1.8">
                 <p id="section-3.2.1.1-1.8.1">Phone number associated with principal.<a href="#section-3.2.1.1-1.8.1" class="pilcrow">¶</a></p>
 </dd>
               <dd class="break"></dd>
 <dt id="section-3.2.1.1-1.9">
-<code>addressStreet1</code>:</dt>
+<code>birthdate</code>:</dt>
               <dd style="margin-left: 1.5em" id="section-3.2.1.1-1.10">
-                <p id="section-3.2.1.1-1.10.1">First line of address.<a href="#section-3.2.1.1-1.10.1" class="pilcrow">¶</a></p>
+                <p id="section-3.2.1.1-1.10.1">Birthdate claim, as defined in <span>[<a href="#OpenID.Core" class="cite xref">OpenID.Core</a>]</span>.<a href="#section-3.2.1.1-1.10.1" class="pilcrow">¶</a></p>
 </dd>
               <dd class="break"></dd>
 <dt id="section-3.2.1.1-1.11">
-<code>addressStreet2</code>:</dt>
+<code>verifier</code>:</dt>
               <dd style="margin-left: 1.5em" id="section-3.2.1.1-1.12">
-                <p id="section-3.2.1.1-1.12.1">Second line of address.<a href="#section-3.2.1.1-1.12.1" class="pilcrow">¶</a></p>
+                <p id="section-3.2.1.1-1.12.1">URL of the Identity Verifier<a href="#section-3.2.1.1-1.12.1" class="pilcrow">¶</a></p>
 </dd>
               <dd class="break"></dd>
 <dt id="section-3.2.1.1-1.13">
-<code>addressCity</code>:</dt>
+<code>verification_status</code>:</dt>
               <dd style="margin-left: 1.5em" id="section-3.2.1.1-1.14">
-                <p id="section-3.2.1.1-1.14.1">City.<a href="#section-3.2.1.1-1.14.1" class="pilcrow">¶</a></p>
+                <p id="section-3.2.1.1-1.14.1">Verification status.  One of "VERIFIED", "UNVERIFIED".<a href="#section-3.2.1.1-1.14.1" class="pilcrow">¶</a></p>
 </dd>
               <dd class="break"></dd>
 <dt id="section-3.2.1.1-1.15">
-<code>addressSubdivision</code>:</dt>
-              <dd style="margin-left: 1.5em" id="section-3.2.1.1-1.16">
-                <p id="section-3.2.1.1-1.16.1">Subdivision.<a href="#section-3.2.1.1-1.16.1" class="pilcrow">¶</a></p>
-</dd>
-              <dd class="break"></dd>
-<dt id="section-3.2.1.1-1.17">
-<code>addressPostalCode</code>:</dt>
-              <dd style="margin-left: 1.5em" id="section-3.2.1.1-1.18">
-                <p id="section-3.2.1.1-1.18.1">Postal Code.<a href="#section-3.2.1.1-1.18.1" class="pilcrow">¶</a></p>
-</dd>
-              <dd class="break"></dd>
-<dt id="section-3.2.1.1-1.19">
-<code>addressCountryCode</code>:</dt>
-              <dd style="margin-left: 1.5em" id="section-3.2.1.1-1.20">
-                <p id="section-3.2.1.1-1.20.1">ISO country code.<a href="#section-3.2.1.1-1.20.1" class="pilcrow">¶</a></p>
-</dd>
-              <dd class="break"></dd>
-<dt id="section-3.2.1.1-1.21">
-<code>birthdate</code>:</dt>
-              <dd style="margin-left: 1.5em" id="section-3.2.1.1-1.22">
-                <p id="section-3.2.1.1-1.22.1">Human principal birth date.<a href="#section-3.2.1.1-1.22.1" class="pilcrow">¶</a></p>
-</dd>
-              <dd class="break"></dd>
-<dt id="section-3.2.1.1-1.23">
-<code>verifier</code>:</dt>
-              <dd style="margin-left: 1.5em" id="section-3.2.1.1-1.24">
-                <p id="section-3.2.1.1-1.24.1">URL of the Identity Verifier<a href="#section-3.2.1.1-1.24.1" class="pilcrow">¶</a></p>
-</dd>
-              <dd class="break"></dd>
-<dt id="section-3.2.1.1-1.25">
-<code>verification_status</code>:</dt>
-              <dd style="margin-left: 1.5em" id="section-3.2.1.1-1.26">
-                <p id="section-3.2.1.1-1.26.1">Verification status.  One of "VERIFIED", "UNVERIFIED".<a href="#section-3.2.1.1-1.26.1" class="pilcrow">¶</a></p>
-</dd>
-              <dd class="break"></dd>
-<dt id="section-3.2.1.1-1.27">
 <code>verification_id</code>:</dt>
-              <dd style="margin-left: 1.5em" id="section-3.2.1.1-1.28">
-                <p id="section-3.2.1.1-1.28.1">Verification identifier. Identifier for the verification performed, such as a GUID.<a href="#section-3.2.1.1-1.28.1" class="pilcrow">¶</a></p>
+              <dd style="margin-left: 1.5em" id="section-3.2.1.1-1.16">
+                <p id="section-3.2.1.1-1.16.1">Verification identifier. Identifier for the verification performed, such as a GUID.<a href="#section-3.2.1.1-1.16.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 </dl>
@@ -1731,96 +1695,20 @@ as follows.<a href="#section-3.2.1-1" class="pilcrow">¶</a></p>
             </h5>
 <span class="break"></span><dl class="dlParallel" id="section-3.2.1.2-1">
               <dt id="section-3.2.1.2-1.1">
-<code>businessName</code>:</dt>
+<code>organization_name</code>:</dt>
               <dd style="margin-left: 1.5em" id="section-3.2.1.2-1.2">
                 <p id="section-3.2.1.2-1.2.1">Name of principal entity.<a href="#section-3.2.1.2-1.2.1" class="pilcrow">¶</a></p>
 </dd>
               <dd class="break"></dd>
 <dt id="section-3.2.1.2-1.3">
-<code>businessTaxIdentificationNumber</code>:</dt>
+<code>business_tax_id</code>:</dt>
               <dd style="margin-left: 1.5em" id="section-3.2.1.2-1.4">
-                <p id="section-3.2.1.2-1.4.1">Relevant Tax Identification Number of principal entity.<a href="#section-3.2.1.2-1.4.1" class="pilcrow">¶</a></p>
-</dd>
-              <dd class="break"></dd>
-<dt id="section-3.2.1.2-1.5">
-<code>businessPhysicalAddressFull</code>:</dt>
-              <dd style="margin-left: 1.5em" id="section-3.2.1.2-1.6">
-                <p id="section-3.2.1.2-1.6.1">Full physical address of principal entity.<a href="#section-3.2.1.2-1.6.1" class="pilcrow">¶</a></p>
-</dd>
-              <dd class="break"></dd>
-<dt id="section-3.2.1.2-1.7">
-<code>businessPhysicalAddressStreet1</code>:</dt>
-              <dd style="margin-left: 1.5em" id="section-3.2.1.2-1.8">
-                <p id="section-3.2.1.2-1.8.1">First line of physical address of principal entity.<a href="#section-3.2.1.2-1.8.1" class="pilcrow">¶</a></p>
-</dd>
-              <dd class="break"></dd>
-<dt id="section-3.2.1.2-1.9">
-<code>businessPhysicalAddressStreet2</code>:</dt>
-              <dd style="margin-left: 1.5em" id="section-3.2.1.2-1.10">
-                <p id="section-3.2.1.2-1.10.1">Second line of physical address of principal entity.<a href="#section-3.2.1.2-1.10.1" class="pilcrow">¶</a></p>
-</dd>
-              <dd class="break"></dd>
-<dt id="section-3.2.1.2-1.11">
-<code>businessPhysicalAddressCity</code>:</dt>
-              <dd style="margin-left: 1.5em" id="section-3.2.1.2-1.12">
-                <p id="section-3.2.1.2-1.12.1">City component of physical address.<a href="#section-3.2.1.2-1.12.1" class="pilcrow">¶</a></p>
-</dd>
-              <dd class="break"></dd>
-<dt id="section-3.2.1.2-1.13">
-<code>businessPhysicalAddressSubdivision</code>:</dt>
-              <dd style="margin-left: 1.5em" id="section-3.2.1.2-1.14">
-                <p id="section-3.2.1.2-1.14.1">Subdivision component of physical address.<a href="#section-3.2.1.2-1.14.1" class="pilcrow">¶</a></p>
-</dd>
-              <dd class="break"></dd>
-<dt id="section-3.2.1.2-1.15">
-<code>businessPhysicalAddressPostalCode</code>:</dt>
-              <dd style="margin-left: 1.5em" id="section-3.2.1.2-1.16">
-                <p id="section-3.2.1.2-1.16.1">Postal code component of physical address.<a href="#section-3.2.1.2-1.16.1" class="pilcrow">¶</a></p>
-</dd>
-              <dd class="break"></dd>
-<dt id="section-3.2.1.2-1.17">
-<code>businessPhysicalAddressCountryCode</code>:</dt>
-              <dd style="margin-left: 1.5em" id="section-3.2.1.2-1.18">
-                <p id="section-3.2.1.2-1.18.1">ISO country code component of physical address.<a href="#section-3.2.1.2-1.18.1" class="pilcrow">¶</a></p>
-</dd>
-              <dd class="break"></dd>
-<dt id="section-3.2.1.2-1.19">
-<code>businessRegisteredAddressStreet1</code>:</dt>
-              <dd style="margin-left: 1.5em" id="section-3.2.1.2-1.20">
-                <p id="section-3.2.1.2-1.20.1">First line of registered address of principal entity.<a href="#section-3.2.1.2-1.20.1" class="pilcrow">¶</a></p>
-</dd>
-              <dd class="break"></dd>
-<dt id="section-3.2.1.2-1.21">
-<code>businessRegisteredAddressStreet2</code>:</dt>
-              <dd style="margin-left: 1.5em" id="section-3.2.1.2-1.22">
-                <p id="section-3.2.1.2-1.22.1">Second line of registered address of principal entity.<a href="#section-3.2.1.2-1.22.1" class="pilcrow">¶</a></p>
-</dd>
-              <dd class="break"></dd>
-<dt id="section-3.2.1.2-1.23">
-<code>businessRegisteredAddressCity</code>:</dt>
-              <dd style="margin-left: 1.5em" id="section-3.2.1.2-1.24">
-                <p id="section-3.2.1.2-1.24.1">City component of registered address of principal entity.<a href="#section-3.2.1.2-1.24.1" class="pilcrow">¶</a></p>
-</dd>
-              <dd class="break"></dd>
-<dt id="section-3.2.1.2-1.25">
-<code>businessRegisteredAddressSubdivision</code>:</dt>
-              <dd style="margin-left: 1.5em" id="section-3.2.1.2-1.26">
-                <p id="section-3.2.1.2-1.26.1">Subdivision component of registered address of principal entity.<a href="#section-3.2.1.2-1.26.1" class="pilcrow">¶</a></p>
-</dd>
-              <dd class="break"></dd>
-<dt id="section-3.2.1.2-1.27">
-<code>businessRegisteredAddressPostalCode</code>:</dt>
-              <dd style="margin-left: 1.5em" id="section-3.2.1.2-1.28">
-                <p id="section-3.2.1.2-1.28.1">Postal code component of registered address of principal entity.<a href="#section-3.2.1.2-1.28.1" class="pilcrow">¶</a></p>
-</dd>
-              <dd class="break"></dd>
-<dt id="section-3.2.1.2-1.29">
-<code>businessRegisteredAddressCountryCode</code>:</dt>
-              <dd style="margin-left: 1.5em" id="section-3.2.1.2-1.30">
-                <p id="section-3.2.1.2-1.30.1">ISO country code of registered address of principal entity.<a href="#section-3.2.1.2-1.30.1" class="pilcrow">¶</a></p>
+                <p id="section-3.2.1.2-1.4.1">Tax Identification Number of principal entity.<a href="#section-3.2.1.2-1.4.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 </dl>
+<p id="section-3.2.1.2-2">// TBD Possibly add "business_address" claim, using sub-claims from "address" claim<a href="#section-3.2.1.2-2" class="pilcrow">¶</a></p>
+<p id="section-3.2.1.2-3">// TBD Possibly add "registered_business_address" claim, using sub-claims from "address" claim<a href="#section-3.2.1.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1845,31 +1733,31 @@ as follows.<a href="#section-3.2.1-1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.2.2-2.5">
-<code>nameFirst</code>:</dt>
+<code>given_name</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.2.2-2.6">
-              <p id="section-3.2.2-2.6.1">First name of agent platform human principal.<a href="#section-3.2.2-2.6.1" class="pilcrow">¶</a></p>
+              <p id="section-3.2.2-2.6.1">Given name(s) or first name(s) of agent platform human principal.<a href="#section-3.2.2-2.6.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.2.2-2.7">
-<code>nameMiddle</code>:</dt>
+<code>middle_name</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.2.2-2.8">
-              <p id="section-3.2.2-2.8.1">Middle name of agent platform human principal.<a href="#section-3.2.2-2.8.1" class="pilcrow">¶</a></p>
+              <p id="section-3.2.2-2.8.1">Middle name(s) of agent platform human principal.<a href="#section-3.2.2-2.8.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.2.2-2.9">
-<code>nameLast</code>:</dt>
+<code>family_name</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.2.2-2.10">
-              <p id="section-3.2.2-2.10.1">Last name of agent platform human principal.<a href="#section-3.2.2-2.10.1" class="pilcrow">¶</a></p>
+              <p id="section-3.2.2-2.10.1">Surname(s) or last name(s) of agent platform human principal.<a href="#section-3.2.2-2.10.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.2.2-2.11">
-<code>phoneNumber</code>:</dt>
+<code>phone_number</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.2.2-2.12">
               <p id="section-3.2.2-2.12.1">Phone number associated with agent platform.<a href="#section-3.2.2-2.12.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.2.2-2.13">
-<code>businessName</code>:</dt>
+<code>organization_name</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.2.2-2.14">
               <p id="section-3.2.2-2.14.1">Business name associated with agent platform.<a href="#section-3.2.2-2.14.1" class="pilcrow">¶</a></p>
 </dd>
@@ -2114,8 +2002,8 @@ all of which are <span class="bcp14">OPTIONAL</span>.<a href="#section-3.3.1-1" 
     "id": "4b087db2-b6e5-48b8-8737-1aa8ddf4c4fe", // Agent platform ID
     "name": "Acme Shopping Agents", // Agent platform name
     "email": "platform@acme.com", // Email address for the agent platform
-    "phoneNumber": "+12345677890", // Phone number for the agent platform
-    "businessName": "Acme Shopping Inc.", // Legal name of the agent platform
+    "phone_number": "+12345677890", // Phone number for the agent platform
+    "organization_name": "Acme Shopping Inc.", // Legal name of the agent platform
     "verifier": "https://www.verifier.com/", // URL of the Identity verifier
     "verification_status": "VERIFIED", // Outcome of the verifier's KYA
     "verification_id": "a23c1fe4-a4b7-442d-8bca-3c8fad5ec3a6" // Verifier's verification ID
@@ -2280,6 +2168,10 @@ follow the best practices and guidelines laid out in <span>[<a href="#RFC8725" c
 <a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
         </h3>
 <dl class="references">
+<dt id="OpenID.Core">[OpenID.Core]</dt>
+        <dd>
+<span class="refAuthor">Sakimura, N.</span>, <span class="refAuthor">Bradley, J.</span>, <span class="refAuthor">Jones, M.</span>, <span class="refAuthor">de Medeiros, B.</span>, and <span class="refAuthor">C. Mortimore</span>, <span class="refTitle">"OpenID Connect Core 1.0 incorporating errata set 2"</span>, <time datetime="2023-12" class="refDate">December 2023</time>, <span>&lt;<a href="https://openid.net/specs/openid-connect-core-1_0.html">https://openid.net/specs/openid-connect-core-1_0.html</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>

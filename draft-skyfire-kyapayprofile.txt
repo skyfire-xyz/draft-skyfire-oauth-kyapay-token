@@ -5,8 +5,8 @@
 Network Working Group                                         A. Agarwal
 Internet-Draft                                                   Skyfire
 Intended status: Informational                                  M. Jones
-Expires: 29 August 2026                           Self-Issued Consulting
-                                                        25 February 2026
+Expires: 30 August 2026                           Self-Issued Consulting
+                                                        26 February 2026
 
 
                              KYAPay Profile
@@ -46,7 +46,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 29 August 2026.
+   This Internet-Draft will expire on 30 August 2026.
 
 Copyright Notice
 
@@ -301,8 +301,8 @@ Table of Contents
     "id": "d3306fc0-602b-47e6-9fe2-3d55d028fbd2"
     "name": "Acme Shopping Agents", // Agent platform name
     "email": "platform@acme.com", // Email address for the agent platform
-    "phoneNumber": "+12345677890", // Phone number for the agent platform
-    "businessName": "Acme Shopping Inc.", // Legal name of the agent platform
+    "phone_number": "+12345677890", // Phone number for the agent platform
+    "organization_name": "Acme Shopping Inc.", // Legal name of the agent platform
     "verifier": "https://www.verifier.com/", // URL of the Identity verifier
     "verification_status": "VERIFIED", // Outcome of the verifier's KYA
     "verification_id": "a23c1fe4-a4b7-442d-8bca-3c8fad5ec3a6" // Verifier's verification ID
@@ -327,27 +327,15 @@ Table of Contents
 
 3.2.1.1.  OPTIONAL Human Principal Sub-claims
 
-   nameFirst:  First name of buyer human principal.
+   given_name:  Given name(s) or first name(s) of buyer human principal.
 
-   nameMiddle:  Middle name of buyer human principal.
+   middle_name:  Middle name(s) of buyer human principal.
 
-   nameLast:  Last name of buyer human principal.
+   family_name:  Surname(s) or last name(s) of buyer human principal.
 
-   phoneNumber:  Phone number associated with principal.
+   phone_number:  Phone number associated with principal.
 
-   addressStreet1:  First line of address.
-
-   addressStreet2:  Second line of address.
-
-   addressCity:  City.
-
-   addressSubdivision:  Subdivision.
-
-   addressPostalCode:  Postal Code.
-
-   addressCountryCode:  ISO country code.
-
-   birthdate:  Human principal birth date.
+   birthdate:  Birthdate claim, as defined in [OpenID.Core].
 
    verifier:  URL of the Identity Verifier
 
@@ -360,48 +348,15 @@ Table of Contents
 3.2.1.2.  OPTIONAL Organizational or Business Entity Principal Sub-
           claims
 
-   businessName:  Name of principal entity.
+   organization_name:  Name of principal entity.
 
-   businessTaxIdentificationNumber:  Relevant Tax Identification Number
-      of principal entity.
+   business_tax_id:  Tax Identification Number of principal entity.
 
-   businessPhysicalAddressFull:  Full physical address of principal
-      entity.
+   // TBD Possibly add "business_address" claim, using sub-claims from
+   "address" claim
 
-   businessPhysicalAddressStreet1:  First line of physical address of
-      principal entity.
-
-   businessPhysicalAddressStreet2:  Second line of physical address of
-      principal entity.
-
-   businessPhysicalAddressCity:  City component of physical address.
-
-   businessPhysicalAddressSubdivision:  Subdivision component of
-      physical address.
-
-   businessPhysicalAddressPostalCode:  Postal code component of physical
-      address.
-
-   businessPhysicalAddressCountryCode:  ISO country code component of
-      physical address.
-
-   businessRegisteredAddressStreet1:  First line of registered address
-      of principal entity.
-
-   businessRegisteredAddressStreet2:  Second line of registered address
-      of principal entity.
-
-   businessRegisteredAddressCity:  City component of registered address
-      of principal entity.
-
-   businessRegisteredAddressSubdivision:  Subdivision component of
-      registered address of principal entity.
-
-   businessRegisteredAddressPostalCode:  Postal code component of
-      registered address of principal entity.
-
-   businessRegisteredAddressCountryCode:  ISO country code of registered
-      address of principal entity.
+   // TBD Possibly add "registered_business_address" claim, using sub-
+   claims from "address" claim
 
 3.2.2.  Agent Platform Identity apd Sub-claims
 
@@ -412,15 +367,17 @@ Table of Contents
 
    name:  REQUIRED - Agent Platform name.
 
-   nameFirst:  First name of agent platform human principal.
+   given_name:  Given name(s) or first name(s) of agent platform human
+      principal.
 
-   nameMiddle:  Middle name of agent platform human principal.
+   middle_name:  Middle name(s) of agent platform human principal.
 
-   nameLast:  Last name of agent platform human principal.
+   family_name:  Surname(s) or last name(s) of agent platform human
+      principal.
 
-   phoneNumber:  Phone number associated with agent platform.
+   phone_number:  Phone number associated with agent platform.
 
-   businessName:  Business name associated with agent platform.
+   organization_name:  Business name associated with agent platform.
 
    verifier:  URL of the Identity Verifier
 
@@ -570,8 +527,8 @@ Table of Contents
     "id": "4b087db2-b6e5-48b8-8737-1aa8ddf4c4fe", // Agent platform ID
     "name": "Acme Shopping Agents", // Agent platform name
     "email": "platform@acme.com", // Email address for the agent platform
-    "phoneNumber": "+12345677890", // Phone number for the agent platform
-    "businessName": "Acme Shopping Inc.", // Legal name of the agent platform
+    "phone_number": "+12345677890", // Phone number for the agent platform
+    "organization_name": "Acme Shopping Inc.", // Legal name of the agent platform
     "verifier": "https://www.verifier.com/", // URL of the Identity verifier
     "verification_status": "VERIFIED", // Outcome of the verifier's KYA
     "verification_id": "a23c1fe4-a4b7-442d-8bca-3c8fad5ec3a6" // Verifier's verification ID
@@ -675,6 +632,12 @@ Table of Contents
 7.  References
 
 7.1.  Normative References
+
+   [OpenID.Core]
+              Sakimura, N., Bradley, J., Jones, M., de Medeiros, B., and
+              C. Mortimore, "OpenID Connect Core 1.0 incorporating
+              errata set 2", December 2023,
+              <https://openid.net/specs/openid-connect-core-1_0.html>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
