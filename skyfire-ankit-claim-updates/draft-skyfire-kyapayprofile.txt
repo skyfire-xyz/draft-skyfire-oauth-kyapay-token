@@ -327,11 +327,11 @@ Table of Contents
 
 3.2.1.1.  OPTIONAL Human Principal Sub-claims
 
-   given_name:  First / given name of buyer human principal.
+   given_name:  Given name(s) or first name(s) of buyer human principal.
 
-   middle_name:  Middle name of buyer human principal.
+   middle_name:  Middle name(s) of buyer human principal.
 
-   family_name:  Family / last name of buyer human principal.
+   family_name:  Surname(s) or last name(s) of buyer human principal.
 
    phone_number:  Phone number associated with principal.
 
@@ -630,6 +630,12 @@ Table of Contents
 7.  References
 
 7.1.  Normative References
+
+   [OpenID.Core]
+              Sakimura, N., Bradley, J., Jones, M., de Medeiros, B., and
+              C. Mortimore, "OpenID Connect Core 1.0 incorporating
+              errata set 2", December 2023,
+              <https://openid.net/specs/openid-connect-core-1_0.html>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
