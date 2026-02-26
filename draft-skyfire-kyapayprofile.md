@@ -556,7 +556,7 @@ The following informative example displays a decoded KYA-PAY type token.
 1. `alg` - JWTs MUST be signed using allowed JWA algorithms (currently, `ES256`).
 2. `kid` - The `kid` claim MUST be present, and set to a valid key id discoverable
    via the issuer's (payload `iss` claim) JWK Set.
-3. `typ` - The `typ` claim MUST be one of: `kya+jwt`, `pay+jwt`, or `kya-pay+jwt`
+3. `typ` - The `typ` claim MUST be one of: `kya+jwt`, `pay+jwt`, or `kya-pay+jwt`.
 
 ### JWT Payload Validation
 
