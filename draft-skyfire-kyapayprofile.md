@@ -220,7 +220,7 @@ PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
 : REQUIRED - as defined in {{Section 4.1.4 of RFC7519}}.  Identifies the expiration time on or after which the JWT MUST NOT be accepted for processing.
 
 `sdm`:
-: REQUIRED - Seller domain, associated with the audience claim, the token is intended for.
+: OPTIONAL - Seller domain, associated with the audience claim, the token is intended for.
 
 `srl`:
 : OPTIONAL - Seller resource locator - the URL the agent is intended to access.
@@ -245,14 +245,14 @@ PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
 The following identity related claims are used within KYA and KYA-PAY tokens:
 
 `bid`:
-: OPTIONAL (Required for buyer identity use cases) - A map of buyer identity
+: REQUIRED (Required for buyer identity use cases) - A map of buyer identity
   claims.
 
 `apd`:
 : OPTIONAL - Agent Platform identity claims.
 
 `aid`:
-: OPTIONAL - Agent identity claims.
+: REQUIRED - Agent identity claims.
 
 `scope`
 : OPTIONAL - String with space-separated scope values, per {{RFC8693}}
@@ -323,9 +323,6 @@ as follows.
 `phone_number`:
 : Phone number associated with principal.
 
-`birthdate`:
-: Birthdate claim, as defined in {{OpenID.Core}}.
-
 `verifier`:
 : URL of the Identity Verifier
 
@@ -340,12 +337,17 @@ as follows.
 `organization_name`:
 : Name of principal entity.
 
-`business_tax_id`:
-: Tax Identification Number of principal entity.
+`phone_number`:
+: Phone number associated with principal.
 
-// TBD Possibly add "business_address" claim, using sub-claims from "address" claim
+`verifier`:
+: URL of the Identity Verifier
 
-// TBD Possibly add "registered_business_address" claim, using sub-claims from "address" claim
+`verification_status`:
+: Verification status.  One of "VERIFIED", "UNVERIFIED".
+
+`verification_id`:
+: Verification identifier. Identifier for the verification performed, such as a GUID.
 
 ### Agent Platform Identity `apd` Sub-claims
 
@@ -357,29 +359,23 @@ The `apd` claim is optional. If present, it contains the following sub-claims.
 `name`:
 : REQUIRED - Agent Platform name.
 
-`given_name`:
-: Given name(s) or first name(s) of agent platform human principal.
-
-`middle_name`:
-: Middle name(s) of agent platform human principal.
-
-`family_name`:
-: Surname(s) or last name(s) of agent platform human principal.
+`email`:
+: OPTIONAL - Email associated with agent platform.
 
 `phone_number`:
-: Phone number associated with agent platform.
+: OPTIONAL - Phone number associated with agent platform.
 
 `organization_name`:
-: Business name associated with agent platform.
+: OPTIONAL - Legal name associated with agent platform.
 
 `verifier`:
-: URL of the Identity Verifier
+: OPTIONAL - URL of the Identity Verifier
 
 `verification_status`:
-: Verification status.  One of "VERIFIED", "UNVERIFIED".
+: OPTIONAL - Verification status.  One of "VERIFIED", "UNVERIFIED".
 
 `verification_id`:
-: Verification identifier. Identifier for the verification performed, such as a GUID.
+: OPTIONAL - Verification identifier. Identifier for the verification performed, such as a GUID.
 
 ### Agent Identity `aid` Sub-claims
 
@@ -405,22 +401,22 @@ The following payment related claims are used within PAY and KYA-PAY type tokens
 : OPTIONAL - Seller pricing scheme, which represents a way for the seller list how it charges for its service or content. One of `PAY_PER_USE`, `SUBSCRIPTION`, `PAY_PER_MB`, or `CUSTOM`.
 
 `amount`:
-: OPTIONAL - JSON string representing token amount in currency units.
+: REQUIRED - JSON string representing token amount in currency units.
 
 `cur`:
-: OPTIONAL - Currency unit, represented as an ISO 4217 three letter code, such as "EUR".
+: REQUIRED - Currency unit, represented as an ISO 4217 three letter code, such as "EUR".
 
 `value`:
-: OPTIONAL - JSON string representing token amount in settlement network's units.
+: REQUIRED - JSON string representing token amount in settlement network's units.
 
 `mnr`:
 : OPTIONAL - JSON number representing maximum number of requests when `sps` is `PAY_PER_USE`.
 
 `stp`:
-: OPTIONAL - Settlement type (one of `COIN` or `CARD`).
+: REQUIRED - Settlement type (one of `COIN` or `CARD`).
 
 `sti`:
-: OPTIONAL - Meta information for payment settlement, depending on settlement
+: REQUIRED - Meta information for payment settlement, depending on settlement.
   type.
 
 ### Agent Identity `sti` Sub-claims
@@ -429,19 +425,19 @@ The `sti` claim is optional. If present, it MAY contain the following sub-claims
 all of which are OPTIONAL.
 
 `type`:
-: "type" is dependant on the "stp" value; for "COIN" - "USDC" or "x402"; for "CARD" - "VISA_VIC"
+: REQUIRED - "type" is dependant on the "stp" value; for "COIN" - "USDC" or "x402"; for "CARD" - "VISA_VIC"
 
 `paymentToken`:
-: String containing Virtual Payment Card Number in ISO/IEC 7812 format. 12-19 characters.
+: OPTIONAL - String containing Virtual Payment Card Number in ISO/IEC 7812 format. 12-19 characters.
 
 `tokenExpirationMonth`:
-: String containing two-digit Expiration Month Number.
+: OPTIONAL - String containing two-digit Expiration Month Number.
 
 `tokenExpirationYear`:
-: String containing four-digit Expiration Year.
+: OPTIONAL - String containing four-digit Expiration Year.
 
 `tokenSecurityCode`:
-: String containing 3 or 4 digit CVV code.
+: OPTIONAL - String containing 3 or 4 digit CVV code.
 
 
 ### PAY Token Example
@@ -478,7 +474,7 @@ The following informative example displays a decoded PAY type token.
     "paymentToken": "1234567890123456",
     "tokenExpirationMonth": "03",
     "tokenExpirationYear": "2030",
-    "tokenSecurityCode": "0123",
+    "tokenSecurityCode": "123",
     "verifier": "https://verifier.example.info", // URL of payment method verifier
     "verification_status": "VERIFIED", // Outcome of the verifier's payment method verification - one of "VERIFIED", "UNVERIFIED" (OPTIONAL)
     "verification_id": "3a6e1b76-8f78-4c24-b1bd-dc78a8cc3711" // Identifier for the verification performed, such as a GUID.
@@ -544,7 +540,7 @@ The following informative example displays a decoded KYA-PAY type token.
     "paymentToken": "1234567890123456",
     "tokenExpirationMonth": "03",
     "tokenExpirationYear": "2030",
-    "tokenSecurityCode": "0123"
+    "tokenSecurityCode": "123"
   }
 }
 
@@ -560,7 +556,7 @@ The following informative example displays a decoded KYA-PAY type token.
 1. `alg` - JWTs MUST be signed using allowed JWA algorithms (currently, `ES256`).
 2. `kid` - The `kid` claim MUST be present, and set to a valid key id discoverable
    via the issuer's (payload `iss` claim) JWK Set.
-3. `typ` - The `typ` claim MUST be one of: `kya+jwt`, `pay+jwt`, or `kya-pay+jwt`
+3. `typ` - The `typ` claim MUST be one of: `kya+jwt`, `pay+jwt`, or `kya-pay+jwt`.
 
 ### JWT Payload Validation
 
