@@ -1250,7 +1250,7 @@ tokens in an interoperable manner.<a href="#section-abstract-1" class="pilcrow">
                     <p id="section-toc.1-1.7.2.1.2.1.1"><a href="#section-7.1.1" class="auto internal xref">7.1.1</a>.  <a href="#name-sdm" class="internal xref">sdm</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1.2.2">
-                    <p id="section-toc.1-1.7.2.1.2.2.1"><a href="#section-7.1.2" class="auto internal xref">7.1.2</a>.  <a href="#name-slr" class="internal xref">slr</a></p>
+                    <p id="section-toc.1-1.7.2.1.2.2.1"><a href="#section-7.1.2" class="auto internal xref">7.1.2</a>.  <a href="#name-srl" class="internal xref">srl</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1.2.3">
                     <p id="section-toc.1-1.7.2.1.2.3.1"><a href="#section-7.1.3" class="auto internal xref">7.1.3</a>.  <a href="#name-ori" class="internal xref">ori</a></p>
@@ -1539,7 +1539,7 @@ PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.<a href
           <dt id="section-3.1-2.1">
 <code>iss</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-3.1-2.2">
-            <p id="section-3.1-2.2.1"><span class="bcp14">REQUIRED</span> - Url of the token's issuer. Used for discovering JWK Sets for token
+            <p id="section-3.1-2.2.1"><span class="bcp14">REQUIRED</span> - URL of the token's issuer. Used for discovering JWK Sets for token
 signature verification, via the <code>/.well-known/jwks.json</code> suffix mechanism.<a href="#section-3.1-2.2.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
@@ -1585,7 +1585,7 @@ A single string value.<a href="#section-3.1-2.6.1" class="pilcrow">¶</a></p>
 <dt id="section-3.1-2.15">
 <code>srl</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-3.1-2.16">
-            <p id="section-3.1-2.16.1"><span class="bcp14">OPTIONAL</span> - Seller resource locator - the URL the agent is intended to access.<a href="#section-3.1-2.16.1" class="pilcrow">¶</a></p>
+            <p id="section-3.1-2.16.1"><span class="bcp14">OPTIONAL</span> - Seller resource locator - URL the agent is intended to access.<a href="#section-3.1-2.16.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-3.1-2.17">
@@ -1965,7 +1965,7 @@ all of which are <span class="bcp14">OPTIONAL</span>.<a href="#section-3.3.1-1" 
             <dt id="section-3.3.1-2.1">
 <code>type</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.3.1-2.2">
-              <p id="section-3.3.1-2.2.1"><span class="bcp14">REQUIRED</span> - "type" is dependant on the "stp" value; for "COIN" - "USDC" or "x402"; for "CARD" - "VISA_VIC"<a href="#section-3.3.1-2.2.1" class="pilcrow">¶</a></p>
+              <p id="section-3.3.1-2.2.1"><span class="bcp14">REQUIRED</span> - "type" is dependent on the "stp" value; for "COIN" - "USDC" or "x402"; for "CARD" - "VISA_VIC"<a href="#section-3.3.1-2.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.3.1-2.3">
@@ -2146,7 +2146,7 @@ all of which are <span class="bcp14">OPTIONAL</span>.<a href="#section-3.3.1-1" 
               <p id="section-4.1.1-1.1.1"><code>alg</code> - JWTs <span class="bcp14">MUST</span> be signed using allowed JWA algorithms (currently, <code>ES256</code>).<a href="#section-4.1.1-1.1.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-4.1.1-1.2">
-              <p id="section-4.1.1-1.2.1"><code>kid</code> - The <code>kid</code> claim <span class="bcp14">MUST</span> be present, and set to a valid key id discoverable
+              <p id="section-4.1.1-1.2.1"><code>kid</code> - The <code>kid</code> claim <span class="bcp14">MUST</span> be present, and set to a valid Key ID discoverable
 via the issuer's (payload <code>iss</code> claim) JWK Set.<a href="#section-4.1.1-1.2.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-4.1.1-1.3">
@@ -2186,7 +2186,7 @@ via the issuer's (payload <code>iss</code> claim) JWK Set.<a href="#section-4.1.
 </li>
             <li id="section-4.1.2-1.7">
               <p id="section-4.1.2-1.7.1"><strong>Validate the <code>env</code> Claim</strong> - Ensure that the Environment claim is set to
-  an expected and usecase-appropriate value (such as <code>production</code>, <code>sandbox</code>, etc.)<a href="#section-4.1.2-1.7.1" class="pilcrow">¶</a></p>
+  an expected and use case appropriate value (such as <code>production</code>, <code>sandbox</code>, etc.)<a href="#section-4.1.2-1.7.1" class="pilcrow">¶</a></p>
 </li>
           </ol>
 </section>
@@ -2287,17 +2287,17 @@ established by <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.<
           </ul>
 </section>
 </div>
-<div id="slr">
+<div id="srl">
 <section id="section-7.1.2">
-          <h4 id="name-slr">
-<a href="#section-7.1.2" class="section-number selfRef">7.1.2. </a><a href="#name-slr" class="section-name selfRef">slr</a>
+          <h4 id="name-srl">
+<a href="#section-7.1.2" class="section-number selfRef">7.1.2. </a><a href="#name-srl" class="section-name selfRef">srl</a>
           </h4>
 <ul class="normal">
 <li class="normal" id="section-7.1.2-1.1">
-              <p id="section-7.1.2-1.1.1">Claim Name: "slr"<a href="#section-7.1.2-1.1.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.2-1.1.1">Claim Name: "srl"<a href="#section-7.1.2-1.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.2-1.2">
-              <p id="section-7.1.2-1.2.1">Claim Description: Seller resource locator - the URL the agent is intended to access<a href="#section-7.1.2-1.2.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.2-1.2.1">Claim Description: Seller resource locator - URL the agent is intended to access<a href="#section-7.1.2-1.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.2-1.3">
               <p id="section-7.1.2-1.3.1">Change Controller: Michael B. Jones - michael_b_jones@hotmail.com<a href="#section-7.1.2-1.3.1" class="pilcrow">¶</a></p>
