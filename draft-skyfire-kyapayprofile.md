@@ -93,11 +93,54 @@ the payment token functionality could be split into a separate specification,
 if desired by a working group adopting the specification.
 It is retained here at present for ease of reviewing.
 
+## Use Cases for the KYAPay Token
+
+Enabling agents to access websites and APIs on behalf of
+the human principals they represent is a design goal of KYAPay tokens.
+Today’s internet is designed primarily for humans, meaning that automated systems
+are often classified as malicious and blocked by web security infrastructure.
+However, the rise of AI agents has introduced a new paradigm where
+programmatic clients legitimately access websites and APIs
+on behalf of human principals.
+Because these agents can be hard to distinguish from traditional bots,
+they are often inadvertently blocked,
+creating a need for the web security ecosystem to distinguish between
+legitimate agentic traffic and truly malicious activity.
+KYAPay tokens are designed to address this challenge by enabling agents to convey
+verified identity and payment credentials.
+These tokens can provide web security systems and merchants with
+a strong signal that the requests are authorized by a human,
+allowing them to safely permit legitimate programmatic transactions
+while aggressively blocking undesired traffic.
+
+Enabling agents to create accounts and/or log in to accounts
+on behalf of their human principals is related design goal.
+To achieve this, systems can utilize a token exchange workflow {{RFC8693}}.
+In this process, a Security Token Service (STS), Identity Provider (IdP),
+or OAuth Authorization Server verifies incoming KYA tokens
+and extracts claims associated with the human principal, such as email addresses.
+The authorization server then performs a token exchange,
+swapping the KYA token for a standard OAuth Access Token,
+which the agent subsequently uses to interact with the target service.
+Crucially, this architecture allows the service to know
+that the agent is acting on behalf of the user,
+making it possible to differentiate between
+direct, human-present sessions and human-initiated, agentic sessions
+for authorization, auditing, and security purposes.
+
+Note that the protocols using these tokens to achieve these goals
+are not defined by this specification.
+The interoperable use of them for these purposes will require further specification.
+
+<!--
+Early production deployments of KYAPay tokens are described at https://kyapay.org.
+-->
+
 # Conventions and Definitions
 
 {::boilerplate bcp14-tagged}
 
-The terms `iss`, `iat`, `exp`, `jti`, `aud`, `typ` are defined in {{RFC7519}}.
+The claims `iss`, `iat`, `exp`, `jti`, `aud`, `typ` are defined by {{RFC7519}}.
 
 The `alg` value `ES256` is a digital signature algorithm described in
 {{Section 3.4 of RFC7518}}.
