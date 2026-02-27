@@ -635,7 +635,24 @@ In addition, perform the following steps.
 # Security Considerations
 
 When validating the JWTs described in this specification, implementers SHOULD
-follow the best practices and guidelines laid out in {{RFC8725}}.
+follow the best practices and guidelines described in {{RFC8725}}.
+
+# Privacy Considerations
+
+KYAPay tokens are designed to convey the information that
+an agent is acting on behalf of a principal - a person or organization.
+To do this, they will necessarily contain information about that principal
+that can be verified and utilized by participants in the system.
+Participants should therefore only share these tokens with other legitimate
+participants and not make their contents public or disclose them to
+unknown or untrustworthy parties.
+
+Consent of the principal represented to participate in the interactions is vital.
+If I authorize an agent to shop for a widget at given price,
+it's legitimate for the agent to carry enough information about me
+to the merchant to be able to do this for me.
+Whereas, if an agent claims to be shopping for me but does not have my authorization
+to do so, my privacy and possibly also my financial integrity are being violated.
 
 # IANA Considerations
 
