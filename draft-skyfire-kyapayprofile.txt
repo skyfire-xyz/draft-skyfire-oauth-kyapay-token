@@ -90,6 +90,15 @@ Table of Contents
    6.  Privacy Considerations
    7.  IANA Considerations
      7.1.  JSON Web Token Claims Registration
+       7.1.1.  sdm
+       7.1.2.  slr
+       7.1.3.  ori
+       7.1.4.  env
+       7.1.5.  ver
+       7.1.6.  btg
+       7.1.7.  bid
+       7.1.8.  apd
+       7.1.9.  aid
    8.  References
      8.1.  Normative References
      8.2.  Informative References
@@ -691,6 +700,8 @@ Table of Contents
    Web Token Claims" registry [IANA.JWT.Claims] established by
    [RFC7519].
 
+7.1.1.  sdm
+
    *  Claim Name: "sdm"
 
    *  Claim Description: Seller domain the token is intended for
@@ -698,6 +709,8 @@ Table of Contents
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
    *  Reference: (#common-claims) of this specification
+
+7.1.2.  slr
 
    *  Claim Name: "slr"
 
@@ -708,6 +721,8 @@ Table of Contents
 
    *  Reference: (#common-claims) of this specification
 
+7.1.3.  ori
+
    *  Claim Name: "ori"
 
    *  Claim Description: URL of the token's originator
@@ -715,6 +730,8 @@ Table of Contents
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
    *  Reference: (#common-claims) of this specification
+
+7.1.4.  env
 
    *  Claim Name: "env"
 
@@ -725,6 +742,8 @@ Table of Contents
 
    *  Reference: (#common-claims) of this specification
 
+7.1.5.  ver
+
    *  Claim Name: "ver"
 
    *  Claim Description: Version string
@@ -732,6 +751,8 @@ Table of Contents
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
    *  Reference: (#common-claims) of this specification
+
+7.1.6.  btg
 
    *  Claim Name: "btg"
 
@@ -742,6 +763,8 @@ Table of Contents
 
    *  Reference: (#common-claims) of this specification
 
+7.1.7.  bid
+
    *  Claim Name: "bid"
 
    *  Claim Description: JSON structure containing buyer identity claims
@@ -749,6 +772,8 @@ Table of Contents
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
    *  Reference: (#common-claims) of this specification
+
+7.1.8.  apd
 
    *  Claim Name: "apd"
 
@@ -758,6 +783,8 @@ Table of Contents
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
    *  Reference: (#common-claims) of this specification
+
+7.1.9.  aid
 
    *  Claim Name: "aid"
 
