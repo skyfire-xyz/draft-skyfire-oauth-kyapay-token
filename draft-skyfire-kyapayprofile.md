@@ -60,6 +60,11 @@ normative:
 
 informative:
   RFC8725:
+  IANA.JWT.Claims:
+    author:
+    - name: IANA
+    target: https://www.iana.org/assignments/jwt
+    title: JSON Web Token Claims
 
 ...
 
@@ -192,7 +197,7 @@ Payment Token Issuer:
 
 # KYAPay Token Schemas
 
-## Common Token Claims
+## Common Token Claims {#common-claims}
 
 The following are claims in common, used within the KYA (Know Your Agent),
 PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
@@ -238,7 +243,7 @@ PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
 : OPTIONAL - Seller Service ID that this token was created for.
 
 `btg`:
-: OPTIONAL - Buyer tag, an opaque reference ID internal to the buyer.
+: OPTIONAL - Buyer tag - an opaque reference ID internal to the buyer.
 
 ## KYA Token
 
@@ -278,7 +283,7 @@ The following informative example displays a decoded KYA type token.
   "btg": "4f6cbd39-215c-4516-bf33-cab22862ee60", // Buyer Tag (Internal Reference ID)
 
   "bid": {
-    "email": "buyer@buyer.com”
+    "email": "buyer@buyer.com"
   },
   "apd": {
     "id": "d3306fc0-602b-47e6-9fe2-3d55d028fbd2"
@@ -332,7 +337,7 @@ as follows.
 `verification_id`:
 : Verification identifier. Identifier for the verification performed, such as a GUID.
 
-#### OPTIONAL Organizational or Business Entity Principal Sub-claims
+#### OPTIONAL Organizational or Business Entity Principal Sub-claims {#biz-claims}
 
 `organization_name`:
 : Name of principal entity.
@@ -507,7 +512,7 @@ The following informative example displays a decoded KYA-PAY type token.
   "btg": "c52e0ef2-e27d-4e95-862e-475a904ae7b2", // Buyer Tag (Internal Reference ID)
 
   "bid": {
-    "email": "buyer@buyer.com”,
+    "email": "buyer@buyer.com",
     ...
   },
   "apd": {
@@ -596,6 +601,64 @@ follow the best practices and guidelines laid out in {{RFC8725}}.
 
 # IANA Considerations
 
-// TBD Register newly defined claims
+## JSON Web Token Claims Registration
+
+This specification registers the following Claims in
+the IANA "JSON Web Token Claims" registry {{IANA.JWT.Claims}}
+established by {{RFC7519}}.
+
+* Claim Name: "sdm"
+* Claim Description: Seller domain the token is intended for
+* Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
+* Reference: (#common-claims) of this specification
+
+* Claim Name: "slr"
+* Claim Description: Seller resource locator - the URL the agent is intended to access
+* Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
+* Reference: (#common-claims) of this specification
+
+* Claim Name: "ori"
+* Claim Description: URL of the token's originator
+* Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
+* Reference: (#common-claims) of this specification
+
+* Claim Name: "env"
+* Claim Description: Issuer environment (such as "sandbox" or "production")
+* Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
+* Reference: (#common-claims) of this specification
+
+* Claim Name: "ver"
+* Claim Description: Version string
+* Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
+* Reference: (#common-claims) of this specification
+
+* Claim Name: "btg"
+* Claim Description: Buyer tag, an opaque reference ID internal to the buyer
+* Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
+* Reference: (#common-claims) of this specification
+
+* Claim Name: "bid"
+* Claim Description: JSON structure containing buyer identity claims
+* Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
+* Reference: (#common-claims) of this specification
+
+* Claim Name: "apd"
+* Claim Description: JSON structure containing agent platform identity claims
+* Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
+* Reference: (#common-claims) of this specification
+
+* Claim Name: "aid"
+* Claim Description: JSON structure containing agent identity claims
+* Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
+* Reference: (#common-claims) of this specification
 
 --- back
+
+# Document History
+{: numbered="false"}
+
+[[ to be removed by the RFC Editor before publication as an RFC ]]
+
+-00
+
+* Initial Internet Draft.
