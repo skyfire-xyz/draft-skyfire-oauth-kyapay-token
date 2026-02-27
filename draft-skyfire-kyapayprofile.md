@@ -667,45 +667,63 @@ This specification registers the following Claims in
 the IANA "JSON Web Token Claims" registry {{IANA.JWT.Claims}}
 established by {{RFC7519}}.
 
+### sdm
+
 * Claim Name: "sdm"
 * Claim Description: Seller domain the token is intended for
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
 * Reference: (#common-claims) of this specification
+
+### slr
 
 * Claim Name: "slr"
 * Claim Description: Seller resource locator - the URL the agent is intended to access
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
 * Reference: (#common-claims) of this specification
 
+### ori
+
 * Claim Name: "ori"
 * Claim Description: URL of the token's originator
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
 * Reference: (#common-claims) of this specification
+
+### env
 
 * Claim Name: "env"
 * Claim Description: Issuer environment (such as "sandbox" or "production")
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
 * Reference: (#common-claims) of this specification
 
+### ver
+
 * Claim Name: "ver"
 * Claim Description: Version string
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
 * Reference: (#common-claims) of this specification
+
+### btg
 
 * Claim Name: "btg"
 * Claim Description: Buyer tag, an opaque reference ID internal to the buyer
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
 * Reference: (#common-claims) of this specification
 
+### bid
+
 * Claim Name: "bid"
 * Claim Description: JSON structure containing buyer identity claims
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
 * Reference: (#common-claims) of this specification
 
+### apd
+
 * Claim Name: "apd"
 * Claim Description: JSON structure containing agent platform identity claims
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
 * Reference: (#common-claims) of this specification
+
+### aid
 
 * Claim Name: "aid"
 * Claim Description: JSON structure containing agent identity claims
