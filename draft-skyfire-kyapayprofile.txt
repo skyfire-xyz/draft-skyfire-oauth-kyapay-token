@@ -5,8 +5,8 @@
 Network Working Group                                         A. Agarwal
 Internet-Draft                                                   Skyfire
 Intended status: Informational                                  M. Jones
-Expires: 30 August 2026                           Self-Issued Consulting
-                                                        26 February 2026
+Expires: 31 August 2026                           Self-Issued Consulting
+                                                        27 February 2026
 
 
                              KYAPay Profile
@@ -46,7 +46,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 30 August 2026.
+   This Internet-Draft will expire on 31 August 2026.
 
 Copyright Notice
 
@@ -65,6 +65,7 @@ Copyright Notice
 Table of Contents
 
    1.  Introduction
+     1.1.  Use Cases for the KYAPay Token
    2.  Conventions and Definitions
      2.1.  Roles
        2.1.1.  Buy-Side Roles
@@ -116,6 +117,44 @@ Table of Contents
    adopting the specification.  It is retained here at present for ease
    of reviewing.
 
+1.1.  Use Cases for the KYAPay Token
+
+   Enabling agents to access websites and APIs on behalf of the human
+   principals they represent is a design goal of KYAPay tokens.  Today’s
+   internet is designed primarily for humans, meaning that automated
+   systems are often classified as malicious and blocked by web security
+   infrastructure.  However, the rise of AI agents has introduced a new
+   paradigm where programmatic clients legitimately access websites and
+   APIs on behalf of human principals.  Because these agents can be hard
+   to distinguish from traditional bots, they are often inadvertently
+   blocked, creating a need for the web security ecosystem to
+   distinguish between legitimate agentic traffic and truly malicious
+   activity.  KYAPay tokens are designed to address this challenge by
+   enabling agents to convey verified identity and payment credentials.
+   These tokens can provide web security systems and merchants with a
+   strong signal that the requests are authorized by a human, allowing
+   them to safely permit legitimate programmatic transactions while
+   aggressively blocking undesired traffic.
+
+   Enabling agents to create accounts and/or log in to accounts on
+   behalf of their human principals is related design goal.  To achieve
+   this, systems can utilize a token exchange workflow [RFC8693].  In
+   this process, a Security Token Service (STS), Identity Provider
+   (IdP), or OAuth Authorization Server verifies incoming KYA tokens and
+   extracts claims associated with the human principal, such as email
+   addresses.  The authorization server then performs a token exchange,
+   swapping the KYA token for a standard OAuth Access Token, which the
+   agent subsequently uses to interact with the target service.
+   Crucially, this architecture allows the service to know that the
+   agent is acting on behalf of the user, making it possible to
+   differentiate between direct, human-present sessions and human-
+   initiated, agentic sessions for authorization, auditing, and security
+   purposes.
+
+   Note that the protocols using these tokens to achieve these goals are
+   not defined by this specification.  The interoperable use of them for
+   these purposes will require further specification.
+
 2.  Conventions and Definitions
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
@@ -124,7 +163,7 @@ Table of Contents
    BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
-   The terms iss, iat, exp, jti, aud, typ are defined in [RFC7519].
+   The claims iss, iat, exp, jti, aud, typ are defined by [RFC7519].
 
    The alg value ES256 is a digital signature algorithm described in
    Section 3.4 of [RFC7518].
