@@ -246,7 +246,7 @@ The following are claims in common, used within the KYA (Know Your Agent),
 PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
 
 `iss`:
-: REQUIRED - Url of the token's issuer. Used for discovering JWK Sets for token
+: REQUIRED - URL of the token's issuer. Used for discovering JWK Sets for token
   signature verification, via the `/.well-known/jwks.json` suffix mechanism.
 
 `sub`:
@@ -271,7 +271,7 @@ PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
 : OPTIONAL - Seller domain, associated with the audience claim, the token is intended for.
 
 `srl`:
-: OPTIONAL - Seller resource locator - the URL the agent is intended to access.
+: OPTIONAL - Seller resource locator - URL the agent is intended to access.
 
 `ori`:
 : OPTIONAL - URL of the token's originator.
@@ -473,7 +473,7 @@ The `sti` claim is optional. If present, it MAY contain the following sub-claims
 all of which are OPTIONAL.
 
 `type`:
-: REQUIRED - "type" is dependant on the "stp" value; for "COIN" - "USDC" or "x402"; for "CARD" - "VISA_VIC"
+: REQUIRED - "type" is dependent on the "stp" value; for "COIN" - "USDC" or "x402"; for "CARD" - "VISA_VIC"
 
 `paymentToken`:
 : OPTIONAL - String containing Virtual Payment Card Number in ISO/IEC 7812 format. 12-19 characters.
@@ -602,7 +602,7 @@ The following informative example displays a decoded KYA-PAY type token.
 ### JWT Header Validation
 
 1. `alg` - JWTs MUST be signed using allowed JWA algorithms (currently, `ES256`).
-2. `kid` - The `kid` claim MUST be present, and set to a valid key id discoverable
+2. `kid` - The `kid` claim MUST be present, and set to a valid Key ID discoverable
    via the issuer's (payload `iss` claim) JWK Set.
 3. `typ` - The `typ` claim MUST be one of: `kya+jwt`, `pay+jwt`, or `kya-pay+jwt`.
 
@@ -620,7 +620,7 @@ The following informative example displays a decoded KYA-PAY type token.
   a UUID.
 6. **Validate the `aud` Claim** - ...
 7. **Validate the `env` Claim** - Ensure that the Environment claim is set to
-  an expected and usecase-appropriate value (such as `production`, `sandbox`, etc.)
+  an expected and use case appropriate value (such as `production`, `sandbox`, etc.)
 
 ## Validating PAY Tokens
 
@@ -674,10 +674,10 @@ established by {{RFC7519}}.
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
 * Reference: (#common-claims) of this specification
 
-### slr
+### srl
 
-* Claim Name: "slr"
-* Claim Description: Seller resource locator - the URL the agent is intended to access
+* Claim Name: "srl"
+* Claim Description: Seller resource locator - URL the agent is intended to access
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
 * Reference: (#common-claims) of this specification
 
