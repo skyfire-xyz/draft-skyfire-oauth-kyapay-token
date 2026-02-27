@@ -93,6 +93,12 @@ systems, and fraud detectors. This enables agents to bypass common blocking
 mechanisms and access services that were previously restricted to manual human
 interaction.
 
+KYAPay does not aim to define agentic identity in its entirety, rather it specifies 
+a standard and extensible JWT profile for a token that securely shares human 
+principal and agent identity information with the websites and APIs. KYAPay tokens 
+provide a strong signal of human presence behind agentic requests that are 
+otherwise indistinguishable from programmatic / malicious bot requests.
+
 Note that, in the future,
 the payment token functionality could be split into a separate specification,
 if desired by a working group adopting the specification.
