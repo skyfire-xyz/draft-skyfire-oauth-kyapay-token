@@ -87,10 +87,11 @@ Table of Contents
        4.1.2.  JWT Payload Validation
      4.2.  Validating PAY Tokens
    5.  Security Considerations
-   6.  IANA Considerations
-   7.  References
-     7.1.  Normative References
-     7.2.  Informative References
+   6.  Privacy Considerations
+   7.  IANA Considerations
+   8.  References
+     8.1.  Normative References
+     8.2.  Informative References
    Contributors
    Authors' Addresses
 
@@ -659,16 +660,34 @@ Table of Contents
 5.  Security Considerations
 
    When validating the JWTs described in this specification,
-   implementers SHOULD follow the best practices and guidelines laid out
-   in [RFC8725].
+   implementers SHOULD follow the best practices and guidelines
+   described in [RFC8725].
 
-6.  IANA Considerations
+6.  Privacy Considerations
+
+   KYAPay tokens are designed to convey the information that an agent is
+   acting on behalf of a principal - a person or organization.  To do
+   this, they will necessarily contain information about that principal
+   that can be verified and utilized by participants in the system.
+   Participants should therefore only share these tokens with other
+   legitimate participants and not make their contents public or
+   disclose them to unknown or untrustworthy parties.
+
+   Consent of the principal represented to participate in the
+   interactions is vital.  If I authorize an agent to shop for a widget
+   at given price, it's legitimate for the agent to carry enough
+   information about me to the merchant to be able to do this for me.
+   Whereas, if an agent claims to be shopping for me but does not have
+   my authorization to do so, my privacy and possibly also my financial
+   integrity are being violated.
+
+7.  IANA Considerations
 
    // TBD Register newly defined claims
 
-7.  References
+8.  References
 
-7.1.  Normative References
+8.1.  Normative References
 
    [OpenID.Core]
               Sakimura, N., Bradley, J., Jones, M., de Medeiros, B., and
@@ -702,7 +721,7 @@ Table of Contents
               DOI 10.17487/RFC8693, January 2020,
               <https://www.rfc-editor.org/rfc/rfc8693>.
 
-7.2.  Informative References
+8.2.  Informative References
 
    [RFC8725]  Sheffer, Y., Hardt, D., and M. Jones, "JSON Web Token Best
               Current Practices", BCP 225, RFC 8725,
