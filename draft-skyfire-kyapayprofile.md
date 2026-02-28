@@ -38,6 +38,7 @@ contributor:
 # see https://github.com/cabo/kramdown-rfc/wiki/Syntax2#authors-contributors
 
 normative:
+  RFC7515:
   RFC7518:
   RFC7519:
   RFC6749:
@@ -179,9 +180,10 @@ Early production deployments of KYAPay tokens are described at https://kyapay.or
 
 {::boilerplate bcp14-tagged}
 
-The claims `iss`, `iat`, `exp`, `jti`, `aud`, `typ` are defined by {{RFC7519}}.
+The claims `iss`, `iat`, `exp`, `aud`, and `jti` are defined by {{RFC7519}}.
+The header parameters `alg`, `kid`, and `typ` are defined by {{RFC7515}}.
 
-The `alg` value `ES256` is a digital signature algorithm described in
+The `alg` value `ES256` is a digital signature algorithm defined in
 {{Section 3.4 of RFC7518}}.
 
 ## Roles
@@ -311,16 +313,17 @@ PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
 : OPTIONAL - URL of the token's originator.
 
 `env`:
-: OPTIONAL - Issuer environment (such as "sandbox" or "production").
-
-`ver`:
-: OPTIONAL - Version of the token schema.
+: OPTIONAL - Issuer environment (such as "production" or "sandbox").  Additional values may be defined and used.
 
 `ssi`:
 : OPTIONAL - Seller Service ID that this token was created for.
 
 `btg`:
 : OPTIONAL - Buyer tag - an opaque reference ID internal to the buyer.
+
+Additional claims MAY be defined and used in these tokens.
+The recipient MUST ignore any unrecognized claims.
+
 
 ## KYA Token
 
@@ -355,7 +358,6 @@ The following informative example displays a decoded KYA type token.
   "aud": "7434230d-0861-46f2-9c2c-a6ee33d07f17", // Seller Agent Account ID
 
   "env": "production",
-  "ver": "1",
   "ssi": "bc3ff89f-069b-4383-82a9-8cfe53c55fc3", // Seller Service ID
   "btg": "4f6cbd39-215c-4516-bf33-cab22862ee60", // Buyer Tag (Internal Reference ID)
 
@@ -369,7 +371,7 @@ The following informative example displays a decoded KYA type token.
     "phone_number": "+12345677890", // Phone number for the agent platform
     "organization_name": "Acme Shopping Inc.", // Legal name of the agent platform
     "verifier": "https://www.verifier.com/", // URL of the Identity verifier
-    "verification_status": "VERIFIED", // Outcome of the verifier's KYA
+    "verified": true, // Outcome of the verifier's KYA verification
     "verification_id": "a23c1fe4-a4b7-442d-8bca-3c8fad5ec3a6" // Verifier's verification ID
   },
   "aid": {
@@ -408,8 +410,8 @@ as follows.
 `verifier`:
 : URL of the Identity Verifier
 
-`verification_status`:
-: Verification status.  One of "VERIFIED", "UNVERIFIED".
+`verified`:
+: Boolean Verification status.  True if verified, otherwise false.
 
 `verification_id`:
 : Verification identifier. Identifier for the verification performed, such as a GUID.
@@ -425,8 +427,8 @@ as follows.
 `verifier`:
 : URL of the Identity Verifier
 
-`verification_status`:
-: Verification status.  One of "VERIFIED", "UNVERIFIED".
+`verified`:
+: Boolean Verification status.  True if verified, otherwise false.
 
 `verification_id`:
 : Verification identifier. Identifier for the verification performed, such as a GUID.
@@ -453,8 +455,8 @@ The `apd` claim is optional. If present, it contains the following sub-claims.
 `verifier`:
 : OPTIONAL - URL of the Identity Verifier
 
-`verification_status`:
-: OPTIONAL - Verification status.  One of "VERIFIED", "UNVERIFIED".
+`verified`:
+: OPTIONAL - Boolean Verification status.  True if verified, otherwise false.
 
 `verification_id`:
 : OPTIONAL - Verification identifier. Identifier for the verification performed, such as a GUID.
@@ -480,7 +482,7 @@ The following payment related claims are used within PAY and KYA-PAY type tokens
 : OPTIONAL - JSON string representing seller service price in currency units.
 
 `sps`:
-: OPTIONAL - Seller pricing scheme, which represents a way for the seller list how it charges for its service or content. One of `PAY_PER_USE`, `SUBSCRIPTION`, `PAY_PER_MB`, or `CUSTOM`.
+: OPTIONAL - Seller pricing scheme, which represents a way for the seller list how it charges for its service or content. One of `pay_per_use`, `subscription`, `pay_per_mb`, or `custom`.  Additional values may be defined and used.
 
 `amount`:
 : REQUIRED - JSON string representing token amount in currency units.
@@ -492,10 +494,10 @@ The following payment related claims are used within PAY and KYA-PAY type tokens
 : REQUIRED - JSON string representing token amount in settlement network's units.
 
 `mnr`:
-: OPTIONAL - JSON number representing maximum number of requests when `sps` is `PAY_PER_USE`.
+: OPTIONAL - JSON number representing maximum number of requests when `sps` is `pay_per_use`.
 
 `stp`:
-: REQUIRED - Settlement type (one of `COIN` or `CARD`).
+: REQUIRED - Settlement type (one of `coin` or `card`).  Additional values may be defined and used.
 
 `sti`:
 : REQUIRED - Meta information for payment settlement, depending on settlement.
@@ -507,7 +509,7 @@ The `sti` claim is optional. If present, it MAY contain the following sub-claims
 all of which are OPTIONAL.
 
 `type`:
-: REQUIRED - "type" is dependent on the "stp" value; for "COIN" - "USDC" or "x402"; for "CARD" - "VISA_VIC"
+: REQUIRED - "type" is dependent on the "stp" value; for "coin" - "USDC" or "x402"; for "card" - "visa_vic".  Additional values may be defined and used.
 
 `paymentToken`:
 : OPTIONAL - String containing Virtual Payment Card Number in ISO/IEC 7812 format. 12-19 characters.
@@ -540,25 +542,24 @@ The following informative example displays a decoded PAY type token.
   "aud": "37888095-2721-48d9-a2df-bfe4075f223a", // Seller Agent Account ID
 
   "env": "sandbox",
-  "ver": "1",
   "ssi": "274efc47-024e-466f-b278-152d2ee73955", // Seller Service ID
   "btg": "16c135ce-a99a-453d-a7b5-4958fd91de5f", // Buyer Tag (Internal Reference ID)
 
   "spr": "0.01",
-  "sps": "PAY_PER_USE",
+  "sps": "pay_per_use",
   "amount": "15",
   "cur": "USD",
   "value": "15000000",
-  "mnr": 1500,
-  "stp": "CARD",
+  "mnr": 1600,
+  "stp": "card",
   "sti": {
-    "type": "VISA_VIC",
+    "type": "visa_vic",
     "paymentToken": "1234567890123456",
     "tokenExpirationMonth": "03",
     "tokenExpirationYear": "2030",
     "tokenSecurityCode": "123",
     "verifier": "https://verifier.example.info", // URL of payment method verifier
-    "verification_status": "VERIFIED", // Outcome of the verifier's payment method verification - one of "VERIFIED", "UNVERIFIED" (OPTIONAL)
+    "verified": true, // Outcome of the verifier's payment method verification
     "verification_id": "3a6e1b76-8f78-4c24-b1bd-dc78a8cc3711" // Identifier for the verification performed, such as a GUID.
   }
 }
@@ -584,7 +585,6 @@ The following informative example displays a decoded KYA-PAY type token.
   "aud": "5e00177d-ff7f-424b-8c83-2756e15efbed", // Seller Agent Account ID
 
   "env": "production",
-  "ver": "1",
   "ssi": "3e6d33a1-438e-482e-bba5-6aa69544727d", // Seller Service ID
   "btg": "c52e0ef2-e27d-4e95-862e-475a904ae7b2", // Buyer Tag (Internal Reference ID)
 
@@ -599,7 +599,7 @@ The following informative example displays a decoded KYA-PAY type token.
     "phone_number": "+12345677890", // Phone number for the agent platform
     "organization_name": "Acme Shopping Inc.", // Legal name of the agent platform
     "verifier": "https://www.verifier.com/", // URL of the Identity verifier
-    "verification_status": "VERIFIED", // Outcome of the verifier's KYA
+    "verified": true, // Outcome of the verifier's KYA verification
     "verification_id": "a23c1fe4-a4b7-442d-8bca-3c8fad5ec3a6" // Verifier's verification ID
   },
   "aid": {
@@ -611,14 +611,14 @@ The following informative example displays a decoded KYA-PAY type token.
   },
 
   "spr": "0.01",
-  "sps": "PAY_PER_USE",
+  "sps": "pay_per_use",
   "amount": "15",
   "cur": "USD",
   "value": "15000000",
-  "mnr": 1500,
-  "stp": "CARD",
+  "mnr": 1600,
+  "stp": "card",
   "sti": {
-    "type": "VISA_VIC",
+    "type": "visa_vic",
     "paymentToken": "1234567890123456",
     "tokenExpirationMonth": "03",
     "tokenExpirationYear": "2030",
@@ -638,7 +638,7 @@ The following informative example displays a decoded KYA-PAY type token.
 1. `alg` - JWTs MUST be signed using allowed JWA algorithms (currently, `ES256`).
 2. `kid` - The `kid` claim MUST be present, and set to a valid Key ID discoverable
    via the issuer's (payload `iss` claim) JWK Set.
-3. `typ` - The `typ` claim MUST be one of: `kya+jwt`, `pay+jwt`, or `kya-pay+jwt`.
+3. `typ` - The `typ` header parameter value MUST be one of: `kya+jwt`, `pay+jwt`, or `kya-pay+jwt`.
 
 ### JWT Payload Validation
 
@@ -654,7 +654,7 @@ The following informative example displays a decoded KYA-PAY type token.
   a UUID.
 6. **Validate the `aud` Claim** - ...
 7. **Validate the `env` Claim** - Ensure that the Environment claim is set to
-  an expected and use case appropriate value (such as `production`, `sandbox`, etc.)
+  an expected and use case appropriate value (such as `production` or `sandbox`)
 
 ## Validating PAY Tokens
 
@@ -729,14 +729,7 @@ established by {{RFC7519}}.
 ### env
 
 * Claim Name: "env"
-* Claim Description: Issuer environment (such as "sandbox" or "production")
-* Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
-* Reference: (#common-claims) of this specification
-
-### ver
-
-* Claim Name: "ver"
-* Claim Description: Version string
+* Claim Description: Issuer environment (such as "production" or "sandbox")
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
 * Reference: (#common-claims) of this specification
 
