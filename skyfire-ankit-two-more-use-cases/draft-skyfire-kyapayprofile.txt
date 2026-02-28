@@ -157,16 +157,16 @@ Table of Contents
    aggressively blocking undesired traffic.
 
    Enabling agents to create accounts and/or log in to accounts on
-   behalf of their human principals is related design goal.  To achieve
-   this, systems can utilize a token exchange workflow [RFC8693].  In
-   this process, a Security Token Service (STS), Identity Provider
-   (IdP), or OAuth Authorization Server verifies incoming KYA tokens and
-   extracts claims associated with the human principal, such as email
-   addresses.  The authorization server then performs a token exchange,
-   swapping the KYA token for a standard OAuth Access Token, which the
-   agent subsequently uses to interact with the target service.
-   Crucially, this architecture allows the service to know that the
-   agent is acting on behalf of the user, making it possible to
+   behalf of their human principals is a related design goal.  To
+   achieve this, systems can utilize a token exchange workflow
+   [RFC8693].  In this process, a Security Token Service (STS), Identity
+   Provider (IdP), or OAuth Authorization Server verifies incoming KYA
+   tokens and extracts claims associated with the human principal, such
+   as email addresses.  The authorization server then performs a token
+   exchange, swapping the KYA token for a standard OAuth Access Token,
+   which the agent subsequently uses to interact with the target
+   service.  Crucially, this architecture allows the service to know
+   that the agent is acting on behalf of the user, making it possible to
    differentiate between direct, human-present sessions and human-
    initiated, agentic sessions for authorization, auditing, and security
    purposes.
@@ -189,7 +189,7 @@ Table of Contents
    execution without the friction of fragmented authentication silos.
 
    Enabling the ecosystem of web security vendors to engage in finer-
-   grained and deliberate bad-actor mitigation is related design goal.
+   grained and deliberate bad-actor mitigation is a related design goal.
    KYA tokens provide a layered, verified, and extensible identity stack
    specifically engineered for autonomous agents.  This advanced
    framework allows the web security ecosystem to distinguish between
