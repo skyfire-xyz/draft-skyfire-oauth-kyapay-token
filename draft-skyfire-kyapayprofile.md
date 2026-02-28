@@ -139,6 +139,40 @@ making it possible to differentiate between
 direct, human-present sessions and human-initiated, agentic sessions
 for authorization, auditing, and security purposes.
 
+Enabling agents to have ubiquity of access across the Internet just like their
+human principals is related design goal.
+The natural trajectory for human-augmenting automation is one of expansion; as
+these systems become more reliable, accessible, and cost-effective, their
+footprint across industry inevitably grows. Unlike previous milestones—such as
+cron jobs or low-code platforms that still demand a baseline of technical
+literacy—agentic automation promises a future where sophisticated workflows
+are triggered through simple natural language instructions.
+As Large Language Models improve and infrastructure scales, these agents will
+become more dependable and affordable, yet their true utility remains throttled
+by fragmented security standards. Current protocols like mTLS and
+HTTP Message Signatures fail to scale because they require every individual
+buyer to manually establish their own network of acceptance. To fully unleash
+agentic potential, agents require ubiquitous, verified access across the
+internet. KYAPay Token Issuers solve this bottleneck by flipping the traditional
+Certificate Authority model; instead of just verifying the server, they verify
+and attest to the identity of the agents and their human principals, building a
+global network of acceptance that allows agents to securely go anywhere and do
+anything on behalf of their users.
+
+Enabling the ecosystem of web security vendors to engage in finer-grained and
+deliberate bad-actor mitigation is related design goal.
+Unlike traditional technologies such as mTLS and
+HTTP Message Signatures—which function as relatively blunt identifiers for client
+platforms—KYA tokens provide a layered, verified, and extensible identity stack
+specifically engineered for autonomous agents. This advanced framework allows
+the web security ecosystem to distinguish between individual agent instances,
+the platforms they run on, and the human principals behind them. By establishing
+this level of granular visibility, security systems can transition from broad
+defensive measures to deliberate, surgical mitigation; rather than being forced
+to block an entire platform, administrators can now isolate and neutralize a
+single malicious human user or a malfunctioning software instance without
+disrupting legitimate traffic.
+
 Note that the protocols using these tokens to achieve these goals
 are not defined by this specification.
 The interoperable use of them for these purposes will require further specification.
