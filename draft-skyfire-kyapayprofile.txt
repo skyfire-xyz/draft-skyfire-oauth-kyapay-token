@@ -5,8 +5,8 @@
 Network Working Group                                         A. Agarwal
 Internet-Draft                                                   Skyfire
 Intended status: Informational                                  M. Jones
-Expires: 31 August 2026                           Self-Issued Consulting
-                                                        27 February 2026
+Expires: 1 September 2026                         Self-Issued Consulting
+                                                        28 February 2026
 
 
                              KYAPay Profile
@@ -46,7 +46,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 31 August 2026.
+   This Internet-Draft will expire on 1 September 2026.
 
 Copyright Notice
 
@@ -123,6 +123,14 @@ Table of Contents
    detectors.  This enables agents to bypass common blocking mechanisms
    and access services that were previously restricted to manual human
    interaction.
+
+   KYAPay does not aim to define agentic identity in its entirety.
+   Rather, it specifies a standard and extensible JWT profile for a
+   token that can be used to securely share human principal and agent
+   identity information with websites and APIs.  KYAPay tokens provide a
+   strong signal of human presence behind agentic requests that are
+   otherwise indistinguishable from programmatic and potentially
+   malicious bot requests.
 
    Note that, in the future, the payment token functionality could be
    split into a separate specification, if desired by a working group
