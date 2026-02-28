@@ -665,6 +665,10 @@ to the merchant to be able to do this for me.
 Whereas, if an agent claims to be shopping for me but does not have my authorization
 to do so, my privacy and possibly also my financial integrity are being violated.
 
+The principle of minimal disclosure should be employed.
+Only the infomation needed to facilitate the intended interactions
+should be placed in the tokens and conveyed to participants.
+
 # IANA Considerations
 
 ## JSON Web Token Claims Registration
