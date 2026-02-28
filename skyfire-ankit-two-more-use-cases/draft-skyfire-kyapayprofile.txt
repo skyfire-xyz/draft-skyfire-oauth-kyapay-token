@@ -172,7 +172,7 @@ Table of Contents
    purposes.
 
    Enabling agents to have ubiquity of access across the Internet just
-   like their human principals is related design goal.  The natural
+   like their human principals is a related design goal.  The natural
    trajectory for human-augmenting automation is one of expansion; as
    these systems become more reliable, accessible, and cost-effective,
    their footprint across industry inevitably grows.  Unlike previous
