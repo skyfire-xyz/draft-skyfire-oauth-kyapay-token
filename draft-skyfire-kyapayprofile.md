@@ -147,7 +147,7 @@ low-code / no-code platforms, agentic automation leverages LLMs to execute
 tasks via natural language, effectively removing the software-skill barrier.
 As model reasoning improves and infrastructure scales, these agents become
 increasingly dependable and affordable for the human principal.
-To maximize utility, agents require ubiquitous internet access, a feat made
+To maximize utility, agents require ubiquitous Internet access, a feat made
 possible by KYAPay Token Issuers. By providing a client-side verification
 framework analogous to the server-side role of Certificate Authorities (CAs),
 KYAPay builds a standardized network of acceptance across the web security
