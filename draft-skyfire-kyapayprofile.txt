@@ -700,6 +700,10 @@ Table of Contents
    my authorization to do so, my privacy and possibly also my financial
    integrity are being violated.
 
+   The principle of minimal disclosure should be employed.  Only the
+   infomation needed to facilitate the intended interactions should be
+   placed in the tokens and conveyed to participants.
+
 7.  IANA Considerations
 
 7.1.  JSON Web Token Claims Registration
