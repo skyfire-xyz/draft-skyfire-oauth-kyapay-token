@@ -158,7 +158,7 @@ without the friction of fragmented authentication silos.
 Enabling the ecosystem of web security vendors to engage in finer-grained and
 deliberate bad-actor mitigation is a related design goal.
 KYA tokens provide a layered, verified, and extensible identity stack
-specifically engineered for autonomous agents. This advanced framework
+specifically engineered for autonomous agents. This framework
 allows the web security ecosystem to distinguish between individual agent
 instances, the platforms they run on, and the human principals behind them.
 By establishing this level of granular visibility, security systems can
