@@ -157,19 +157,49 @@ Table of Contents
    aggressively blocking undesired traffic.
 
    Enabling agents to create accounts and/or log in to accounts on
-   behalf of their human principals is related design goal.  To achieve
-   this, systems can utilize a token exchange workflow [RFC8693].  In
-   this process, a Security Token Service (STS), Identity Provider
-   (IdP), or OAuth Authorization Server verifies incoming KYA tokens and
-   extracts claims associated with the human principal, such as email
-   addresses.  The authorization server then performs a token exchange,
-   swapping the KYA token for a standard OAuth Access Token, which the
-   agent subsequently uses to interact with the target service.
-   Crucially, this architecture allows the service to know that the
-   agent is acting on behalf of the user, making it possible to
+   behalf of their human principals is a related design goal.  To
+   achieve this, systems can utilize a token exchange workflow
+   [RFC8693].  In this process, a Security Token Service (STS), Identity
+   Provider (IdP), or OAuth Authorization Server verifies incoming KYA
+   tokens and extracts claims associated with the human principal, such
+   as email addresses.  The authorization server then performs a token
+   exchange, swapping the KYA token for a standard OAuth Access Token,
+   which the agent subsequently uses to interact with the target
+   service.  Crucially, this architecture allows the service to know
+   that the agent is acting on behalf of the user, making it possible to
    differentiate between direct, human-present sessions and human-
    initiated, agentic sessions for authorization, auditing, and security
    purposes.
+
+   Enabling agents to have ubiquity of access across the Internet just
+   like their human principals is a related design goal.  Automation
+   typically scales as it achieves higher reliability and lower cost-to-
+   entry.  Unlike the structured logic required by cron jobs or low-code
+   / no-code platforms, agentic automation leverages LLMs to execute
+   tasks via natural language, effectively removing the software-skill
+   barrier.  As model reasoning improves and infrastructure scales,
+   these agents become increasingly dependable and affordable for the
+   human principal.  To maximize utility, agents require ubiquitous
+   Internet access, a feat made possible by KYAPay Token Issuers.  By
+   providing a client-side verification framework analogous to the
+   server-side role of Certificate Authorities (CAs), KYAPay builds a
+   standardized network of acceptance across the web security ecosystem.
+   This allows for the seamless attestation of both the agent’s and the
+   human principal’s identity, ensuring secure, cross-domain task
+   execution without the friction of fragmented authentication silos.
+
+   Enabling the ecosystem of web security vendors to engage in finer-
+   grained and deliberate bad-actor mitigation is a related design goal.
+   KYA tokens provide a layered, verified, and extensible identity stack
+   specifically engineered for autonomous agents.  This framework allows
+   the web security ecosystem to distinguish among individual agent
+   instances, the platforms they run on, and the human principals behind
+   them.  By establishing this level of granular visibility, security
+   systems can transition from broad defensive measures to specific
+   mitigation; rather than being forced to block an entire platform,
+   administrators can now isolate and neutralize a single malicious
+   human user or a malfunctioning software instance without disrupting
+   legitimate traffic.
 
    Note that the protocols using these tokens to achieve these goals are
    not defined by this specification.  The interoperable use of them for
