@@ -172,26 +172,21 @@ Table of Contents
    purposes.
 
    Enabling agents to have ubiquity of access across the Internet just
-   like their human principals is a related design goal.  The natural
-   trajectory for human-augmenting automation is one of expansion; as
-   these systems become more reliable, accessible, and cost-effective,
-   their footprint across industry inevitably grows.  Unlike previous
-   milestones—such as cron jobs or low-code platforms that still demand
-   a baseline of technical literacy, agentic automation promises a
-   future in which sophisticated workflows are triggered through simple
-   natural language instructions.  As Large Language Models improve and
-   infrastructure scales, these agents will become more dependable and
-   affordable, yet their true utility remains throttled by fragmented
-   security standards.  Current protocols like mTLS and HTTP Message
-   Signatures fail to scale because they require every individual buyer
-   to manually establish their own network of acceptance.  To fully
-   unleash agentic potential, agents require ubiquitous, verified access
-   across the internet.  KYAPay Token Issuers solve this bottleneck by
-   flipping the traditional Certificate Authority model; instead of just
-   verifying the server, they verify and attest to the identity of the
-   agents and their human principals, building a global network of
-   acceptance that allows agents to securely go anywhere and do anything
-   on behalf of their users.
+   like their human principals is a related design goal.  Automation
+   typically scales as it achieves higher reliability and lower cost-to-
+   entry.  Unlike the structured logic required by cron jobs or low-code
+   / no-code platforms, agentic automation leverages LLMs to execute
+   tasks via natural language, effectively removing the software-skill
+   barrier.  As model reasoning improves and infrastructure scales,
+   these agents become increasingly dependable and affordable for the
+   human principal.  To maximize utility, agents require ubiquitous
+   internet access, a feat made possible by KYAPay Token Issuers.  By
+   providing a client-side verification framework analogous to the
+   server-side role of Certificate Authorities (CAs), KYAPay builds a
+   standardized network of acceptance across the web security ecosystem.
+   This allows for the seamless attestation of both the agent’s and the
+   human principal’s identity, ensuring secure, cross-domain task
+   execution without the friction of fragmented authentication silos.
 
    Enabling the ecosystem of web security vendors to engage in finer-
    grained and deliberate bad-actor mitigation is related design goal.
