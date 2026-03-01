@@ -1189,7 +1189,7 @@ tokens in an interoperable manner.<a href="#section-abstract-1" class="pilcrow">
                 <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-kya-token" class="internal xref">KYA Token</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2.2.1">
-                    <p id="section-toc.1-1.3.2.2.2.1.1"><a href="#section-3.2.1" class="auto internal xref">3.2.1</a>.  <a href="#name-bid-human-identity-sub-clai" class="internal xref"><code>bid</code> - Human Identity Sub-Claims</a></p>
+                    <p id="section-toc.1-1.3.2.2.2.1.1"><a href="#section-3.2.1" class="auto internal xref">3.2.1</a>.  <a href="#name-hid-human-identity-sub-clai" class="internal xref"><code>hid</code> - Human Identity Sub-Claims</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2.2.2">
                     <p id="section-toc.1-1.3.2.2.2.2.1"><a href="#section-3.2.2" class="auto internal xref">3.2.2</a>.  <a href="#name-agent-platform-identity-apd" class="internal xref">Agent Platform Identity <code>apd</code> Sub-Claims</a></p>
@@ -1262,7 +1262,7 @@ tokens in an interoperable manner.<a href="#section-abstract-1" class="pilcrow">
                     <p id="section-toc.1-1.7.2.1.2.5.1"><a href="#section-7.1.5" class="auto internal xref">7.1.5</a>.  <a href="#name-btg-claim" class="internal xref">"btg" Claim</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1.2.6">
-                    <p id="section-toc.1-1.7.2.1.2.6.1"><a href="#section-7.1.6" class="auto internal xref">7.1.6</a>.  <a href="#name-bid-claim" class="internal xref">"bid" Claim</a></p>
+                    <p id="section-toc.1-1.7.2.1.2.6.1"><a href="#section-7.1.6" class="auto internal xref">7.1.6</a>.  <a href="#name-hid-claim" class="internal xref">"hid" Claim</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1.2.7">
                     <p id="section-toc.1-1.7.2.1.2.7.1"><a href="#section-7.1.7" class="auto internal xref">7.1.7</a>.  <a href="#name-apd-claim" class="internal xref">"apd" Claim</a></p>
@@ -1492,7 +1492,7 @@ an agent or service is operating.<a href="#section-2.1-1.8.1" class="pilcrow">¶
             <dt id="section-2.1.1-1.1">Buyer Agent:</dt>
             <dd style="margin-left: 1.5em" id="section-2.1.1-1.2">
               <p id="section-2.1.1-1.2.1">An Agent performing tasks on behalf of a Buyer Principal, that has its own
-Agent Identity.<a href="#section-2.1.1-1.2.1" class="pilcrow">¶</a></p>
+Agent Identity, grouped into the <code>aid</code> claim.<a href="#section-2.1.1-1.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-2.1.1-1.3">Buyer Agent Platform:</dt>
@@ -1501,22 +1501,23 @@ Agent Identity.<a href="#section-2.1.1-1.2.1" class="pilcrow">¶</a></p>
 to have its own verified identity assertions, grouped into the <code>apd</code> claim.<a href="#section-2.1.1-1.4.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-2.1.1-1.5">Buyer Identity:</dt>
+<dt id="section-2.1.1-1.5">Buyer Principal:</dt>
             <dd style="margin-left: 1.5em" id="section-2.1.1-1.6">
-              <p id="section-2.1.1-1.6.1">The aggregate verified identity assertions of the buy-side entities, typically
-encompassing the Buyer Principal, the Buyer Agent Platform, and the Buyer Agent
-itself. This composite identity is conveyed via the KYA token, allowing the
-seller to verify the entire chain of responsibility behind a request.
-Grouped into the <code>bid</code> claim.<a href="#section-2.1.1-1.6.1" class="pilcrow">¶</a></p>
-</dd>
-            <dd class="break"></dd>
-<dt id="section-2.1.1-1.7">Buyer Principal:</dt>
-            <dd style="margin-left: 1.5em" id="section-2.1.1-1.8">
-              <p id="section-2.1.1-1.8.1">A legal entity (human or organization) behind the purchase / consumption of a
+              <p id="section-2.1.1-1.6.1">A legal entity (human or organization) behind the purchase / consumption of a
 product or service. The Principal typically interacts with the seller via a
 Buyer Agent. Many sellers are required to be able to determine the Buyer
 Identity in order to comply with KYC/AML regulations, accounting standards,
-and to maintain a direct customer relationships.<a href="#section-2.1.1-1.8.1" class="pilcrow">¶</a></p>
+and to maintain a direct customer relationships. The buyer principal's
+identity is grouped into the <code>hid</code> claim.<a href="#section-2.1.1-1.6.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-2.1.1-1.7">Buyer Identity:</dt>
+            <dd style="margin-left: 1.5em" id="section-2.1.1-1.8">
+              <p id="section-2.1.1-1.8.1">The aggregate verified identity assertions of the buy-side entities, typically
+encompassing the Buyer Principal, the Buyer Agent Platform, and the Buyer Agent
+itself. This composite identity is conveyed via the KYA token, allowing the
+seller to verify the entire chain of responsibility behind a request.
+These buyer identity encompasses the <code>hid</code>, <code>apd</code> and <code>aid</code> claims.<a href="#section-2.1.1-1.8.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 </dl>
@@ -1532,30 +1533,34 @@ and to maintain a direct customer relationships.<a href="#section-2.1.1-1.8.1" c
             <dd style="margin-left: 1.5em" id="section-2.1.2-1.2">
               <p id="section-2.1.2-1.2.1">An Agent performing tasks on behalf of a Seller Principal, directly interacting
 with Buyer Agents to facilitate discovery and purchase. Typically runs on
-Internet-connected infrastructure, and discoverable via service directories.<a href="#section-2.1.2-1.2.1" class="pilcrow">¶</a></p>
+Internet-connected infrastructure, and discoverable via service directories.
+Seller agent identity claims are also grouped into the <code>aid</code> claim
+if KYA tokens are generated for the sellers.<a href="#section-2.1.2-1.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-2.1.2-1.3">Seller Agent Platform:</dt>
             <dd style="margin-left: 1.5em" id="section-2.1.2-1.4">
-              <p id="section-2.1.2-1.4.1">The Agent Platform that hosts Seller Agents.<a href="#section-2.1.2-1.4.1" class="pilcrow">¶</a></p>
+              <p id="section-2.1.2-1.4.1">The Agent Platform that hosts Seller Agents. Some use cases require the Platform
+to have its own verified identity assertions, grouped into the <code>apd</code> claim.<a href="#section-2.1.2-1.4.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-2.1.2-1.5">Seller Identity:</dt>
+<dt id="section-2.1.2-1.5">Seller Principal:</dt>
             <dd style="margin-left: 1.5em" id="section-2.1.2-1.6">
-              <p id="section-2.1.2-1.6.1">The aggregate verified identity assertions of the sell-side entities, typically
+              <p id="section-2.1.2-1.6.1">A legal entity (human or organization) that owns the product, service, or
+content being sold, and serves as the ultimate beneficiary of a transaction.
+The seller principal's identity is grouped into the <code>hid</code> claim.<a href="#section-2.1.2-1.6.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-2.1.2-1.7">Seller Identity:</dt>
+            <dd style="margin-left: 1.5em" id="section-2.1.2-1.8">
+              <p id="section-2.1.2-1.8.1">The aggregate verified identity assertions of the sell-side entities, typically
 encompassing the Seller Principal, the Seller Agent Platform, as well as the
 Seller Agent Identity.
 These various aspects of Seller Identity allow Buyers and Buyer Agents to
 perform reputation-based logic, to verify that they are interacting with
 the authorized (and expected) counter-party, and to fulfill KYC/AML regulation
-requirements.<a href="#section-2.1.2-1.6.1" class="pilcrow">¶</a></p>
-</dd>
-            <dd class="break"></dd>
-<dt id="section-2.1.2-1.7">Seller Principal:</dt>
-            <dd style="margin-left: 1.5em" id="section-2.1.2-1.8">
-              <p id="section-2.1.2-1.8.1">A legal entity (human or organization) that owns the product, service, or
-content being sold, and serves as the ultimate beneficiary of a business
-transaction.<a href="#section-2.1.2-1.8.1" class="pilcrow">¶</a></p>
+requirements.
+These seller identity encompasses the <code>hid</code>, <code>apd</code> and <code>aid</code> claims.<a href="#section-2.1.2-1.8.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 </dl>
@@ -1696,7 +1701,7 @@ The recipient <span class="bcp14">MUST</span> ignore any unrecognized claims.<a 
 <p id="section-3.2-1">The following identity related claims are used within KYA and KYA-PAY tokens:<a href="#section-3.2-1" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-3.2-2">
           <dt id="section-3.2-2.1">
-<code>bid</code>:</dt>
+<code>hid</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-3.2-2.2">
             <p id="section-3.2-2.2.1"><span class="bcp14">REQUIRED</span> (Required for human identity use cases) - A map of human identity
 claims (individual or organization).<a href="#section-3.2-2.2.1" class="pilcrow">¶</a></p>
@@ -1741,7 +1746,7 @@ claims (individual or organization).<a href="#section-3.2-2.2.1" class="pilcrow"
   "ssi": "bc3ff89f-069b-4383-82a9-8cfe53c55fc3", // Seller Service ID
   "btg": "4f6cbd39-215c-4516-bf33-cab22862ee60", // Buyer Tag (Internal Reference ID)
 
-  "bid": {
+  "hid": {
     "email": "buyer@buyer.com"
   },
   "apd": {
@@ -1768,12 +1773,12 @@ claims (individual or organization).<a href="#section-3.2-2.2.1" class="pilcrow"
 <a href="#name-a-kya-type-token" class="selfRef">A KYA type token</a>
           </figcaption></figure>
 </div>
-<div id="bid-human-identity-sub-claims">
+<div id="hid-human-identity-sub-claims">
 <section id="section-3.2.1">
-          <h4 id="name-bid-human-identity-sub-clai">
-<a href="#section-3.2.1" class="section-number selfRef">3.2.1. </a><a href="#name-bid-human-identity-sub-clai" class="section-name selfRef"><code>bid</code> - Human Identity Sub-Claims</a>
+          <h4 id="name-hid-human-identity-sub-clai">
+<a href="#section-3.2.1" class="section-number selfRef">3.2.1. </a><a href="#name-hid-human-identity-sub-clai" class="section-name selfRef"><code>hid</code> - Human Identity Sub-Claims</a>
           </h4>
-<p id="section-3.2.1-1">The Human Identity (<code>bid</code>) claim contains sub-claims identifying the human
+<p id="section-3.2.1-1">The Human Identity (<code>hid</code>) claim contains sub-claims identifying the human
 individual principal or human organization principal as follows.<a href="#section-3.2.1-1" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-3.2.1-2">
             <dt id="section-3.2.1-2.1">
@@ -2122,7 +2127,7 @@ The recipient <span class="bcp14">MUST</span> ignore any unrecognized sub-claims
   "ssi": "3e6d33a1-438e-482e-bba5-6aa69544727d", // Seller Service ID
   "btg": "c52e0ef2-e27d-4e95-862e-475a904ae7b2", // Buyer Tag (Internal Reference ID)
 
-  "bid": {
+  "hid": {
     "email": "maryjane@buyer.example.com",
     "given_name": "Mary",
     "middle_name": "Jane",
@@ -2422,14 +2427,14 @@ established by <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.<
           </ul>
 </section>
 </div>
-<div id="bid-claim">
+<div id="hid-claim">
 <section id="section-7.1.6">
-          <h4 id="name-bid-claim">
-<a href="#section-7.1.6" class="section-number selfRef">7.1.6. </a><a href="#name-bid-claim" class="section-name selfRef">"bid" Claim</a>
+          <h4 id="name-hid-claim">
+<a href="#section-7.1.6" class="section-number selfRef">7.1.6. </a><a href="#name-hid-claim" class="section-name selfRef">"hid" Claim</a>
           </h4>
 <ul class="normal">
 <li class="normal" id="section-7.1.6-1.1">
-              <p id="section-7.1.6-1.1.1">Claim Name: bid<a href="#section-7.1.6-1.1.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.6-1.1.1">Claim Name: hid<a href="#section-7.1.6-1.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.6-1.2">
               <p id="section-7.1.6-1.2.1">Claim Description: JSON structure containing human identity claims<a href="#section-7.1.6-1.2.1" class="pilcrow">¶</a></p>

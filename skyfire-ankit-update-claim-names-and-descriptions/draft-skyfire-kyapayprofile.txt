@@ -74,7 +74,7 @@ Table of Contents
    3.  KYAPay Token Schemas
      3.1.  Common Token Claims
      3.2.  KYA Token
-       3.2.1.  bid - Human Identity Sub-Claims
+       3.2.1.  hid - Human Identity Sub-Claims
        3.2.2.  Agent Platform Identity apd Sub-Claims
        3.2.3.  Agent Identity aid Sub-Claims
      3.3.  PAY Token
@@ -95,7 +95,7 @@ Table of Contents
        7.1.3.  "ori" Claim
        7.1.4.  "env" Claim
        7.1.5.  "btg" Claim
-       7.1.6.  "bid" Claim
+       7.1.6.  "hid" Claim
        7.1.7.  "apd" Claim
        7.1.8.  "aid" Claim
        7.1.9.  "spr" Claim
@@ -257,34 +257,45 @@ Table of Contents
 2.1.1.  Buy-Side Roles
 
    Buyer Agent:  An Agent performing tasks on behalf of a Buyer
-      Principal, that has its own Agent Identity.
+      Principal, that has its own Agent Identity, grouped into the aid
+      claim.
 
    Buyer Agent Platform:  The Agent Platform hosting the Buyer Agent.
       Some use cases require the Platform to have its own verified
       identity assertions, grouped into the apd claim.
-
-   Buyer Identity:  The aggregate verified identity assertions of the
-      buy-side entities, typically encompassing the Buyer Principal, the
-      Buyer Agent Platform, and the Buyer Agent itself.  This composite
-      identity is conveyed via the KYA token, allowing the seller to
-      verify the entire chain of responsibility behind a request.
-      Grouped into the bid claim.
 
    Buyer Principal:  A legal entity (human or organization) behind the
       purchase / consumption of a product or service.  The Principal
       typically interacts with the seller via a Buyer Agent.  Many
       sellers are required to be able to determine the Buyer Identity in
       order to comply with KYC/AML regulations, accounting standards,
-      and to maintain a direct customer relationships.
+      and to maintain a direct customer relationships.  The buyer
+      principal's identity is grouped into the hid claim.
+
+   Buyer Identity:  The aggregate verified identity assertions of the
+      buy-side entities, typically encompassing the Buyer Principal, the
+      Buyer Agent Platform, and the Buyer Agent itself.  This composite
+      identity is conveyed via the KYA token, allowing the seller to
+      verify the entire chain of responsibility behind a request.  These
+      buyer identity encompasses the hid, apd and aid claims.
 
 2.1.2.  Sell-Side Roles
 
    Seller Agent:  An Agent performing tasks on behalf of a Seller
       Principal, directly interacting with Buyer Agents to facilitate
       discovery and purchase.  Typically runs on Internet-connected
-      infrastructure, and discoverable via service directories.
+      infrastructure, and discoverable via service directories.  Seller
+      agent identity claims are also grouped into the aid claim if KYA
+      tokens are generated for the sellers.
 
    Seller Agent Platform:  The Agent Platform that hosts Seller Agents.
+      Some use cases require the Platform to have its own verified
+      identity assertions, grouped into the apd claim.
+
+   Seller Principal:  A legal entity (human or organization) that owns
+      the product, service, or content being sold, and serves as the
+      ultimate beneficiary of a transaction.  The seller principal's
+      identity is grouped into the hid claim.
 
    Seller Identity:  The aggregate verified identity assertions of the
       sell-side entities, typically encompassing the Seller Principal,
@@ -292,11 +303,8 @@ Table of Contents
       These various aspects of Seller Identity allow Buyers and Buyer
       Agents to perform reputation-based logic, to verify that they are
       interacting with the authorized (and expected) counter-party, and
-      to fulfill KYC/AML regulation requirements.
-
-   Seller Principal:  A legal entity (human or organization) that owns
-      the product, service, or content being sold, and serves as the
-      ultimate beneficiary of a business transaction.
+      to fulfill KYC/AML regulation requirements.  These seller identity
+      encompasses the hid, apd and aid claims.
 
 2.1.3.  Ecosystem Infrastructure Roles
 
@@ -367,7 +375,7 @@ Table of Contents
    The following identity related claims are used within KYA and KYA-PAY
    tokens:
 
-   bid:  REQUIRED (Required for human identity use cases) - A map of
+   hid:  REQUIRED (Required for human identity use cases) - A map of
       human identity claims (individual or organization).
 
    apd:  OPTIONAL - Agent Platform identity claims.
@@ -395,7 +403,7 @@ Table of Contents
   "ssi": "bc3ff89f-069b-4383-82a9-8cfe53c55fc3", // Seller Service ID
   "btg": "4f6cbd39-215c-4516-bf33-cab22862ee60", // Buyer Tag (Internal Reference ID)
 
-  "bid": {
+  "hid": {
     "email": "buyer@buyer.com"
   },
   "apd": {
@@ -419,9 +427,9 @@ Table of Contents
 
                       Figure 1: A KYA type token
 
-3.2.1.  bid - Human Identity Sub-Claims
+3.2.1.  hid - Human Identity Sub-Claims
 
-   The Human Identity (bid) claim contains sub-claims identifying the
+   The Human Identity (hid) claim contains sub-claims identifying the
    human individual principal or human organization principal as
    follows.
 
@@ -623,7 +631,7 @@ Table of Contents
   "ssi": "3e6d33a1-438e-482e-bba5-6aa69544727d", // Seller Service ID
   "btg": "c52e0ef2-e27d-4e95-862e-475a904ae7b2", // Buyer Tag (Internal Reference ID)
 
-  "bid": {
+  "hid": {
     "email": "maryjane@buyer.example.com",
     "given_name": "Mary",
     "middle_name": "Jane",
@@ -817,9 +825,9 @@ Table of Contents
 
    *  Reference: (#common-claims) of this specification
 
-7.1.6.  "bid" Claim
+7.1.6.  "hid" Claim
 
-   *  Claim Name: bid
+   *  Claim Name: hid
 
    *  Claim Description: JSON structure containing human identity claims
 
