@@ -208,25 +208,26 @@ an agent or service is operating.
 
 Buyer Agent:
 : An Agent performing tasks on behalf of a Buyer Principal, that has its own
-  Agent Identity.
+  Agent Identity, grouped into the `aid` claim.
 
 Buyer Agent Platform:
 : The Agent Platform hosting the Buyer Agent. Some use cases require the Platform
   to have its own verified identity assertions, grouped into the `apd` claim.
-
-Buyer Identity:
-: The aggregate verified identity assertions of the buy-side entities, typically
-  encompassing the Buyer Principal, the Buyer Agent Platform, and the Buyer Agent
-  itself. This composite identity is conveyed via the KYA token, allowing the
-  seller to verify the entire chain of responsibility behind a request.
-  Grouped into the `bid` claim.
 
 Buyer Principal:
 : A legal entity (human or organization) behind the purchase / consumption of a
   product or service. The Principal typically interacts with the seller via a
   Buyer Agent. Many sellers are required to be able to determine the Buyer
   Identity in order to comply with KYC/AML regulations, accounting standards,
-  and to maintain a direct customer relationships.
+  and to maintain a direct customer relationships. The buyer principal's
+  identity is grouped into the `hid` claim.
+
+Buyer Identity:
+: The aggregate verified identity assertions of the buy-side entities, typically
+  encompassing the Buyer Principal, the Buyer Agent Platform, and the Buyer Agent
+  itself. This composite identity is conveyed via the KYA token, allowing the
+  seller to verify the entire chain of responsibility behind a request.
+  These buyer identity encompasses the `hid`, `apd` and `aid` claims.
 
 ### Sell-Side Roles
 
@@ -234,9 +235,17 @@ Seller Agent:
 : An Agent performing tasks on behalf of a Seller Principal, directly interacting
   with Buyer Agents to facilitate discovery and purchase. Typically runs on
   Internet-connected infrastructure, and discoverable via service directories.
+  Seller agent identity claims are also grouped into the `aid` claim
+  if KYA tokens are generated for the sellers.
 
 Seller Agent Platform:
-: The Agent Platform that hosts Seller Agents.
+: The Agent Platform that hosts Seller Agents. Some use cases require the Platform
+  to have its own verified identity assertions, grouped into the `apd` claim.
+
+Seller Principal:
+: A legal entity (human or organization) that owns the product, service, or
+  content being sold, and serves as the ultimate beneficiary of a transaction.
+  The seller principal's identity is grouped into the `hid` claim.
 
 Seller Identity:
 : The aggregate verified identity assertions of the sell-side entities, typically
@@ -246,11 +255,7 @@ Seller Identity:
   perform reputation-based logic, to verify that they are interacting with
   the authorized (and expected) counter-party, and to fulfill KYC/AML regulation
   requirements.
-
-Seller Principal:
-: A legal entity (human or organization) that owns the product, service, or
-  content being sold, and serves as the ultimate beneficiary of a business
-  transaction.
+  These seller identity encompasses the `hid`, `apd` and `aid` claims.
 
 ### Ecosystem Infrastructure Roles
 
@@ -325,7 +330,7 @@ The recipient MUST ignore any unrecognized claims.
 
 The following identity related claims are used within KYA and KYA-PAY tokens:
 
-`bid`:
+`hid`:
 : REQUIRED (Required for human identity use cases) - A map of human identity
   claims (individual or organization).
 
@@ -357,7 +362,7 @@ The following informative example displays a decoded KYA type token.
   "ssi": "bc3ff89f-069b-4383-82a9-8cfe53c55fc3", // Seller Service ID
   "btg": "4f6cbd39-215c-4516-bf33-cab22862ee60", // Buyer Tag (Internal Reference ID)
 
-  "bid": {
+  "hid": {
     "email": "buyer@buyer.com"
   },
   "apd": {
@@ -381,9 +386,9 @@ The following informative example displays a decoded KYA type token.
 ~~~
 {: #example-decoded-kya-token align="left" title="A KYA type token"}
 
-### `bid` - Human Identity Sub-Claims
+### `hid` - Human Identity Sub-Claims
 
-The Human Identity (`bid`) claim contains sub-claims identifying the human
+The Human Identity (`hid`) claim contains sub-claims identifying the human
 individual principal or human organization principal as follows.
 
 `email`:
@@ -593,7 +598,7 @@ The following informative example displays a decoded KYA-PAY type token.
   "ssi": "3e6d33a1-438e-482e-bba5-6aa69544727d", // Seller Service ID
   "btg": "c52e0ef2-e27d-4e95-862e-475a904ae7b2", // Buyer Tag (Internal Reference ID)
 
-  "bid": {
+  "hid": {
     "email": "maryjane@buyer.example.com",
     "given_name": "Mary",
     "middle_name": "Jane",
@@ -749,9 +754,9 @@ established by {{RFC7519}}.
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
 * Reference: (#common-claims) of this specification
 
-### "bid" Claim
+### "hid" Claim
 
-* Claim Name: bid
+* Claim Name: hid
 * Claim Description: JSON structure containing human identity claims
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
 * Reference: (#common-claims) of this specification
