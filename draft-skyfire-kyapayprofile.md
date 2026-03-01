@@ -43,29 +43,21 @@ normative:
   RFC7519:
   RFC6749:
   RFC8693:
-  OpenID.Core:
-    author:
-    - ins: N. Sakimura
-      name: Nat Sakimura
-    - ins: J. Bradley
-      name: John Bradley
-    - ins: M. Jones
-      name: Michael B. Jones
-    - ins: B. de Medeiros
-      name: Breno de Medeiros
-    - ins: C. Mortimore
-      name: Chuck Mortimore
-    date: December 2023
-    target: https://openid.net/specs/openid-connect-core-1_0.html
-    title: OpenID Connect Core 1.0 incorporating errata set 2
 
 informative:
+  RFC2046:
+  RFC6838:
   RFC8725:
   IANA.JWT.Claims:
     author:
     - name: IANA
     target: https://www.iana.org/assignments/jwt
     title: JSON Web Token Claims
+  IANA.MediaTypes:
+    author:
+    - name: IANA
+    target: https://www.iana.org/assignments/media-types
+    title: Media Types
 
 ...
 
@@ -325,7 +317,7 @@ Additional claims MAY be defined and used in these tokens.
 The recipient MUST ignore any unrecognized claims.
 
 
-## KYA Token
+## KYA Token {#kya-token}
 
 The following identity related claims are used within KYA and KYA-PAY tokens:
 
@@ -385,7 +377,7 @@ The following informative example displays a decoded KYA type token.
 ~~~
 {: #example-decoded-kya-token align="left" title="A KYA type token"}
 
-### `bid` - Buyer Identity Sub-claims
+### `bid` - Buyer Identity Sub-Claims
 
 The Buyer Identity (`bid`) claim contains sub-claims useful for buyer use cases,
 as follows.
@@ -393,7 +385,7 @@ as follows.
 `email`:
 : REQUIRED - Buyer email.
 
-#### OPTIONAL Human Principal Sub-claims
+#### OPTIONAL Human Principal Sub-Claims
 
 `given_name`:
 : Given name(s) or first name(s) of buyer human principal.
@@ -416,7 +408,10 @@ as follows.
 `verification_id`:
 : Verification identifier. Identifier for the verification performed, such as a GUID.
 
-#### OPTIONAL Organizational or Business Entity Principal Sub-claims {#biz-claims}
+Additional sub-claims MAY be defined and used.
+The recipient MUST ignore any unrecognized sub-claims.
+
+#### OPTIONAL Organizational or Business Entity Principal Sub-Claims {#biz-claims}
 
 `organization_name`:
 : Name of principal entity.
@@ -433,7 +428,10 @@ as follows.
 `verification_id`:
 : Verification identifier. Identifier for the verification performed, such as a GUID.
 
-### Agent Platform Identity `apd` Sub-claims
+Additional sub-claims MAY be defined and used.
+The recipient MUST ignore any unrecognized sub-claims.
+
+### Agent Platform Identity `apd` Sub-Claims
 
 The `apd` claim is optional. If present, it contains the following sub-claims.
 
@@ -461,7 +459,10 @@ The `apd` claim is optional. If present, it contains the following sub-claims.
 `verification_id`:
 : OPTIONAL - Verification identifier. Identifier for the verification performed, such as a GUID.
 
-### Agent Identity `aid` Sub-claims
+Additional sub-claims MAY be defined and used.
+The recipient MUST ignore any unrecognized sub-claims.
+
+### Agent Identity `aid` Sub-Claims
 
 The `aid` claim is optional. If present, it contains the following sub-claims.
 
@@ -474,7 +475,10 @@ The `aid` claim is optional. If present, it contains the following sub-claims.
 `source_ips`:
 : OPTIONAL - Valid public IP address, or range of public IP addresses, from where the system / agent's requests to merchants / services will originate. Array of comma-separated IPv4 addresses or ranges, IPv6 addresses or ranges, or domain names resolvable to an IP address via DNS. IPv4 and IPv6 addresses can be a single IPv4 or IPv6 address or a range of IPv4 or IPv6 addresses in CIDR notation or start-and-end IP pairs.
 
-## PAY Token
+Additional sub-claims MAY be defined and used.
+The recipient MUST ignore any unrecognized sub-claims.
+
+## PAY Token {#pay-token}
 
 The following payment related claims are used within PAY and KYA-PAY type tokens:
 
@@ -484,13 +488,13 @@ The following payment related claims are used within PAY and KYA-PAY type tokens
 `sps`:
 : OPTIONAL - Seller pricing scheme, which represents a way for the seller list how it charges for its service or content. One of `pay_per_use`, `subscription`, `pay_per_mb`, or `custom`.  Additional values may be defined and used.
 
-`amount`:
+`amt`:
 : REQUIRED - JSON string representing token amount in currency units.
 
 `cur`:
 : REQUIRED - Currency unit, represented as an ISO 4217 three letter code, such as "EUR".
 
-`value`:
+`val`:
 : REQUIRED - JSON string representing token amount in settlement network's units.
 
 `mnr`:
@@ -503,7 +507,7 @@ The following payment related claims are used within PAY and KYA-PAY type tokens
 : REQUIRED - Meta information for payment settlement, depending on settlement.
   type.
 
-### Agent Identity `sti` Sub-claims
+### Agent Identity `sti` Sub-Claims
 
 The `sti` claim is optional. If present, it MAY contain the following sub-claims,
 all of which are OPTIONAL.
@@ -523,8 +527,10 @@ all of which are OPTIONAL.
 `tokenSecurityCode`:
 : OPTIONAL - String containing 3 or 4 digit CVV code.
 
+Additional sub-claims MAY be defined and used.
+The recipient MUST ignore any unrecognized sub-claims.
 
-### PAY Token Example
+### PAY Token Example {#pay}
 
 The following informative example displays a decoded PAY type token.
 
@@ -547,9 +553,9 @@ The following informative example displays a decoded PAY type token.
 
   "spr": "0.01",
   "sps": "pay_per_use",
-  "amount": "15",
+  "amt": "15",
   "cur": "USD",
-  "value": "15000000",
+  "val": "15000000",
   "mnr": 1600,
   "stp": "card",
   "sti": {
@@ -567,7 +573,7 @@ The following informative example displays a decoded PAY type token.
 ~~~
 {: #example-decoded-pay-token align="left" title="A PAY type token"}
 
-## KYA-PAY Token
+## KYA-PAY Token {#kya-pay-token}
 
 The following informative example displays a decoded KYA-PAY type token.
 
@@ -589,8 +595,12 @@ The following informative example displays a decoded KYA-PAY type token.
   "btg": "c52e0ef2-e27d-4e95-862e-475a904ae7b2", // Buyer Tag (Internal Reference ID)
 
   "bid": {
-    "email": "buyer@buyer.com",
-    ...
+    "email": "maryjane@buyer.example.com",
+    "given_name": "Mary",
+    "middle_name": "Jane",
+    "family_name": "Doe",
+    "phone_number": "+1-425-555-1212",
+    "verified": false
   },
   "apd": {
     "id": "4b087db2-b6e5-48b8-8737-1aa8ddf4c4fe", // Agent platform ID
@@ -612,9 +622,9 @@ The following informative example displays a decoded KYA-PAY type token.
 
   "spr": "0.01",
   "sps": "pay_per_use",
-  "amount": "15",
+  "amt": "15",
   "cur": "USD",
-  "value": "15000000",
+  "val": "15000000",
   "mnr": 1600,
   "stp": "card",
   "sti": {
@@ -652,7 +662,7 @@ The following informative example displays a decoded KYA-PAY type token.
   issued in the past, within the verifier's clock drift tolerance.
 5. **Validate the `jti` Claim** - Ensure that the `jti` claim is present, and is
   a UUID.
-6. **Validate the `aud` Claim** - ...
+6. **Validate the `aud` Claim** - Ensure that the `aud` identifies the recipient as the intended audience.
 7. **Validate the `env` Claim** - Ensure that the Environment claim is set to
   an expected and use case appropriate value (such as `production` or `sandbox`)
 
@@ -663,8 +673,8 @@ the Validating KYA and PAY Tokens section.
 
 In addition, perform the following steps.
 
-1. The `value` claim is greater than 0.
-2. The `amount` claim is greater than 0.
+1. The `val` claim is greater than 0.
+2. The `amt` claim is greater than 0.
 3. The `cur` claim is set to a currency the seller supports (such as `USD`)
 4. The `sps` claim, if present, matches the pricing scheme that you configured in
   the seller's service
@@ -705,61 +715,187 @@ This specification registers the following Claims in
 the IANA "JSON Web Token Claims" registry {{IANA.JWT.Claims}}
 established by {{RFC7519}}.
 
-### sdm
+### "sdm" Claim
 
-* Claim Name: "sdm"
+* Claim Name: sdm
 * Claim Description: Seller domain the token is intended for
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
 * Reference: (#common-claims) of this specification
 
-### srl
+### "srl" Claim
 
-* Claim Name: "srl"
+* Claim Name: srl
 * Claim Description: Seller resource locator - URL the agent is intended to access
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
 * Reference: (#common-claims) of this specification
 
-### ori
+### "ori" Claim
 
-* Claim Name: "ori"
+* Claim Name: ori
 * Claim Description: URL of the token's originator
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
 * Reference: (#common-claims) of this specification
 
-### env
+### "env" Claim
 
-* Claim Name: "env"
+* Claim Name: env
 * Claim Description: Issuer environment (such as "production" or "sandbox")
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
 * Reference: (#common-claims) of this specification
 
-### btg
+### "btg" Claim
 
-* Claim Name: "btg"
+* Claim Name: btg
 * Claim Description: Buyer tag, an opaque reference ID internal to the buyer
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
 * Reference: (#common-claims) of this specification
 
-### bid
+### "bid" Claim
 
-* Claim Name: "bid"
+* Claim Name: bid
 * Claim Description: JSON structure containing buyer identity claims
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
 * Reference: (#common-claims) of this specification
 
-### apd
+### "apd" Claim
 
-* Claim Name: "apd"
+* Claim Name: apd
 * Claim Description: JSON structure containing agent platform identity claims
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
 * Reference: (#common-claims) of this specification
 
-### aid
+### "aid" Claim
 
-* Claim Name: "aid"
+* Claim Name: aid
 * Claim Description: JSON structure containing agent identity claims
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
 * Reference: (#common-claims) of this specification
+
+### "spr" Claim
+
+* Claim Name: spr
+* Claim Description: JSON string representing seller service price in currency units
+* Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
+* Reference: (#pay-token) of this specification
+
+### "sps" Claim
+
+* Claim Name: sps
+* Claim Description: Seller pricing scheme, which represents a way for the seller list how it charges for its service or content
+* Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
+* Reference: (#pay-token) of this specification
+
+### "amt" Claim
+
+* Claim Name: amt
+* Claim Description: JSON string representing token amount in currency units
+* Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
+* Reference: (#pay-token) of this specification
+
+### "cur" Claim
+
+* Claim Name: cur
+* Claim Description: Currency unit, represented as an ISO 4217 three letter code, such as "EUR"
+* Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
+* Reference: (#pay-token) of this specification
+
+### "val" Claim
+
+* Claim Name: val
+* Claim Description: JSON string representing token amount in settlement network's units
+* Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
+* Reference: (#pay-token) of this specification
+
+### "mnr" Claim
+
+* Claim Name: mnr
+* Claim Description: JSON number representing maximum number of requests
+* Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
+* Reference: (#pay-token) of this specification
+
+### "stp" Claim
+
+* Claim Name: stp
+* Claim Description: Settlement type
+* Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
+* Reference: (#pay-token) of this specification
+
+### "sti" Claim
+
+* Claim Name: sti
+* Claim Description: Meta information for payment settlement, depending on settlement
+* Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
+* Reference: (#pay-token) of this specification
+
+
+## Media Types Registration
+
+This section registers the following media types {{RFC2046}}
+in the IANA "Media Types" registry {{IANA.MediaTypes}}
+in the manner described in {{RFC6838}}.
+
+### application/kya+jwt {#kya-jwt-media-type}
+
+* Type name: `application`
+* Subtype name: `kya+jwt`
+* Required parameters: n/a
+* Optional parameters: n/a
+* Encoding considerations: Uses JWS Compact Serialization as defined in {{RFC7515}}
+* Security considerations: See Security Considerations in in {{RFC7519}}
+* Interoperability considerations: n/a
+* Published specification: (#kya-token) of this specification
+* Applications that use this media type: Applications using Know Your Agent tokens
+* Additional information:
+  - Magic number(s): n/a
+  - File extension(s): n/a
+  - Macintosh file type code(s): n/a
+* Person & email address to contact for further information: TBD
+* Intended usage: COMMON
+* Restrictions on usage: none
+* Author: Michael B. Jones - michael_b_jones@hotmail.com
+* Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
+
+### application/pay+jwt {#pay-jwt-media-type}
+
+* Type name: `application`
+* Subtype name: `pay+jwt`
+* Required parameters: n/a
+* Optional parameters: n/a
+* Encoding considerations: Uses JWS Compact Serialization as defined in {{RFC7515}}
+* Security considerations: See Security Considerations in in {{RFC7519}}
+* Interoperability considerations: n/a
+* Published specification: (#pay-token) of this specification
+* Applications that use this media type: Applications using Pay tokens
+* Additional information:
+  - Magic number(s): n/a
+  - File extension(s): n/a
+  - Macintosh file type code(s): n/a
+* Person & email address to contact for further information: TBD
+* Intended usage: COMMON
+* Restrictions on usage: none
+* Author: Michael B. Jones - michael_b_jones@hotmail.com
+* Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
+
+### application/kya-pay+jwt {#kya-pay-jwt-media-type}
+
+* Type name: `application`
+* Subtype name: `kya-pay+jwt`
+* Required parameters: n/a
+* Optional parameters: n/a
+* Encoding considerations: Uses JWS Compact Serialization as defined in {{RFC7515}}
+* Security considerations: See Security Considerations in in {{RFC7519}}
+* Interoperability considerations: n/a
+* Published specification: (#kya-pay-token) of this specification
+* Applications that use this media type: Applications using KYA-Pay tokens
+* Additional information:
+  - Magic number(s): n/a
+  - File extension(s): n/a
+  - Macintosh file type code(s): n/a
+* Person & email address to contact for further information: TBD
+* Intended usage: COMMON
+* Restrictions on usage: none
+* Author: Michael B. Jones - michael_b_jones@hotmail.com
+* Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
 
 --- back
 
