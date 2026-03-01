@@ -551,8 +551,8 @@ Table of Contents
    sub-claims, all of which are OPTIONAL.
 
    type:  REQUIRED - "type" is dependent on the "stp" value; for "coin"
-      - "USDC" or "x402"; for "card" - "visa_vic".  Additional values
-      may be defined and used.
+      - "usdc"; for "card" - "visa_vic".  Additional values may be
+      defined and used.
 
    paymentToken:  OPTIONAL - String containing Virtual Payment Card
       Number in ISO/IEC 7812 format. 12-19 characters.
