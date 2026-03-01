@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-02-26T00:08:13.137075+00:00",
+  "timestamp": "2026-03-01T00:08:07.773502+00:00",
   "repo": "skyfire-xyz/kyapay-ietf-draft",
   "labels": [
     {
@@ -511,26 +511,756 @@
       "id": "PR_kwDOQZxkd87GVtPH",
       "title": "Use standard claim names",
       "url": "https://github.com/skyfire-xyz/kyapay-ietf-draft/pull/12",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "selfissued",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Use claim names registered in the IANA JWT Claims registry and sub-claim names from the OpenID Connect \"address\" claim.",
       "createdAt": "2026-02-25T20:22:07Z",
-      "updatedAt": "2026-02-25T21:21:46Z",
+      "updatedAt": "2026-02-26T03:10:38Z",
       "baseRepository": "skyfire-xyz/kyapay-ietf-draft",
       "baseRefName": "main",
       "baseRefOid": "706f33df626d46be337b256a6ba855f3caa97dca",
       "headRepository": "skyfire-xyz/kyapay-ietf-draft",
       "headRefName": "mbj-use-standard-claims",
       "headRefOid": "87df67cc6edf8b53ffee2d33000e1f881e8e2a76",
-      "closedAt": null,
+      "closedAt": "2026-02-26T03:10:37Z",
+      "mergedAt": "2026-02-26T03:10:37Z",
+      "mergedBy": "selfissued",
+      "mergeCommit": {
+        "oid": "6ef713edfa4302f22c94f73c59635b6369e451de"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd87l9Gp2",
+          "commit": {
+            "abbreviatedOid": "87df67c"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-02-26T02:08:00Z",
+          "updatedAt": "2026-02-26T02:08:56Z",
+          "comments": [
+            {
+              "originalPosition": 19,
+              "body": "@selfissued I dropped \"birthdate\" for now too - https://docs.skyfire.xyz/docs/token-schemas",
+              "createdAt": "2026-02-26T02:08:00Z",
+              "updatedAt": "2026-02-26T02:08:57Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 13,
+      "id": "PR_kwDOQZxkd87GaFQK",
+      "title": "Updating claims in specification",
+      "url": "https://github.com/skyfire-xyz/kyapay-ietf-draft/pull/13",
+      "state": "CLOSED",
+      "author": "skyfire-ankit",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Updating the claim names, dropping removed claims, and calling out required vs optional claims.",
+      "createdAt": "2026-02-26T02:36:33Z",
+      "updatedAt": "2026-02-26T03:40:04Z",
+      "baseRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "baseRefName": "main",
+      "baseRefOid": "6ef713edfa4302f22c94f73c59635b6369e451de",
+      "headRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "headRefName": "skyfire-ankit-claim-updates",
+      "headRefOid": "b26d6c9750ebf61dfb667427923a12d197658272",
+      "closedAt": "2026-02-26T03:40:03Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
+      "comments": [
+        {
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Replaced by #14 ",
+          "createdAt": "2026-02-26T03:40:03Z",
+          "updatedAt": "2026-02-26T03:40:03Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd87l9xgk",
+          "commit": {
+            "abbreviatedOid": "4dc23cf"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-02-26T03:15:53Z",
+          "updatedAt": "2026-02-26T03:15:53Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 14,
+      "id": "PR_kwDOQZxkd87GajWO",
+      "title": "Contents of skyfire-ankit-claim-updates branch",
+      "url": "https://github.com/skyfire-xyz/kyapay-ietf-draft/pull/14",
+      "state": "MERGED",
+      "author": "selfissued",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Contents of #13 to work around odd persistent merge conflict",
+      "createdAt": "2026-02-26T03:39:03Z",
+      "updatedAt": "2026-02-26T03:39:35Z",
+      "baseRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "baseRefName": "main",
+      "baseRefOid": "6ef713edfa4302f22c94f73c59635b6369e451de",
+      "headRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "headRefName": "mbj-ankit-claim-updates",
+      "headRefOid": "334e8a8e2012b86b707f416d6e8d977999fc9448",
+      "closedAt": "2026-02-26T03:39:35Z",
+      "mergedAt": "2026-02-26T03:39:35Z",
+      "mergedBy": "selfissued",
+      "mergeCommit": {
+        "oid": "0ef2280a692e8f27416103e56b75caea7badff0e"
+      },
       "comments": [],
       "reviews": []
+    },
+    {
+      "number": 15,
+      "id": "PR_kwDOQZxkd87GtKgy",
+      "title": "Add Use Cases",
+      "url": "https://github.com/skyfire-xyz/kyapay-ietf-draft/pull/15",
+      "state": "MERGED",
+      "author": "selfissued",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-02-27T02:32:09Z",
+      "updatedAt": "2026-02-27T05:44:58Z",
+      "baseRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "baseRefName": "main",
+      "baseRefOid": "0ef2280a692e8f27416103e56b75caea7badff0e",
+      "headRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "headRefName": "mbj-use-cases",
+      "headRefOid": "6d5421b28344351eacde9782dfb3bd933a46d227",
+      "closedAt": "2026-02-27T05:44:58Z",
+      "mergedAt": "2026-02-27T05:44:58Z",
+      "mergedBy": "selfissued",
+      "mergeCommit": {
+        "oid": "32e96aa3a007ecfc16afeaf4206dd3c3da27e8bb"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 16,
+      "id": "PR_kwDOQZxkd87GtU3B",
+      "title": "Add Privacy Considerations",
+      "url": "https://github.com/skyfire-xyz/kyapay-ietf-draft/pull/16",
+      "state": "MERGED",
+      "author": "selfissued",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-02-27T02:53:20Z",
+      "updatedAt": "2026-02-27T05:45:16Z",
+      "baseRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "baseRefName": "main",
+      "baseRefOid": "0ef2280a692e8f27416103e56b75caea7badff0e",
+      "headRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "headRefName": "mbj-privacy-considerations",
+      "headRefOid": "bb4da77a8d73765aa4ea395119973813011c4f91",
+      "closedAt": "2026-02-27T05:45:16Z",
+      "mergedAt": "2026-02-27T05:45:16Z",
+      "mergedBy": "selfissued",
+      "mergeCommit": {
+        "oid": "138b7006d622ea34c56c054a2c303ca6d4d9ba30"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 17,
+      "id": "PR_kwDOQZxkd87Gu0w-",
+      "title": "Add IANA Considerations",
+      "url": "https://github.com/skyfire-xyz/kyapay-ietf-draft/pull/17",
+      "state": "MERGED",
+      "author": "selfissued",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-02-27T05:43:45Z",
+      "updatedAt": "2026-02-27T05:45:41Z",
+      "baseRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "baseRefName": "main",
+      "baseRefOid": "0ef2280a692e8f27416103e56b75caea7badff0e",
+      "headRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "headRefName": "mbj-iana-considerations",
+      "headRefOid": "a1f25f429d939b7adc2d83a1d5548ef6efbbe818",
+      "closedAt": "2026-02-27T05:45:41Z",
+      "mergedAt": "2026-02-27T05:45:41Z",
+      "mergedBy": "selfissued",
+      "mergeCommit": {
+        "oid": "9f69178c7406037517cd84f62fc557fc82693c0b"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 18,
+      "id": "PR_kwDOQZxkd87G8UL3",
+      "title": "Add note about not being agent identity",
+      "url": "https://github.com/skyfire-xyz/kyapay-ietf-draft/pull/18",
+      "state": "MERGED",
+      "author": "skyfire-ankit",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Adding a note to the introduction that KYAPay does NOT aim to define agentic identity. Its aim is to carry agentic identity claims, whatever they may be, from caller to callee.",
+      "createdAt": "2026-02-27T23:40:55Z",
+      "updatedAt": "2026-02-28T01:43:43Z",
+      "baseRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "baseRefName": "main",
+      "baseRefOid": "3aef75c991a2326f2b78f8305faa3bc70d063ca6",
+      "headRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "headRefName": "skyfire-ankit-note-not-agent-identity",
+      "headRefOid": "13e96a287b9fe381a80d663f56c97d71523b593f",
+      "closedAt": "2026-02-28T01:43:43Z",
+      "mergedAt": "2026-02-28T01:43:43Z",
+      "mergedBy": "selfissued",
+      "mergeCommit": {
+        "oid": "545845a18fd5e8aef71a1543b708ffa06f261551"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd87mqT5h",
+          "commit": {
+            "abbreviatedOid": "84db8ec"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-28T01:42:26Z",
+          "updatedAt": "2026-02-28T01:42:27Z",
+          "comments": [
+            {
+              "originalPosition": 9,
+              "body": "```suggestion\nKYAPay does not aim to define agentic identity in its entirety. Rather, it specifies\na standard and extensible JWT profile for a token that can be used to securely share human\nprincipal and agent identity information with websites and APIs. KYAPay tokens\nprovide a strong signal of human presence behind agentic requests that are\notherwise indistinguishable from programmatic and potentially malicious bot requests.\n\n```",
+              "createdAt": "2026-02-28T01:42:26Z",
+              "updatedAt": "2026-02-28T01:42:27Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd87mqUXs",
+          "commit": {
+            "abbreviatedOid": "13e96a2"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-02-28T01:43:16Z",
+          "updatedAt": "2026-02-28T01:43:16Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 19,
+      "id": "PR_kwDOQZxkd87G9X2A",
+      "title": "Add Privacy Consideration on minimal disclosure",
+      "url": "https://github.com/skyfire-xyz/kyapay-ietf-draft/pull/19",
+      "state": "MERGED",
+      "author": "selfissued",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-02-28T02:08:35Z",
+      "updatedAt": "2026-02-28T02:37:50Z",
+      "baseRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "baseRefName": "main",
+      "baseRefOid": "545845a18fd5e8aef71a1543b708ffa06f261551",
+      "headRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "headRefName": "mbj-minimal-disclosure",
+      "headRefOid": "bfb7ed122b3ac195ff8e17c00cd606ec72445fc2",
+      "closedAt": "2026-02-28T02:37:50Z",
+      "mergedAt": "2026-02-28T02:37:49Z",
+      "mergedBy": "skyfire-ankit",
+      "mergeCommit": {
+        "oid": "2a2b04c5540bc5253a9e5d13a68cfb293e41abc4"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd87mqu5-",
+          "commit": {
+            "abbreviatedOid": "bfb7ed1"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-02-28T02:37:30Z",
+          "updatedAt": "2026-02-28T02:37:30Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 20,
+      "id": "PR_kwDOQZxkd87G90W7",
+      "title": "Add two more use-cases",
+      "url": "https://github.com/skyfire-xyz/kyapay-ietf-draft/pull/20",
+      "state": "MERGED",
+      "author": "skyfire-ankit",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Adding two more usde-cases",
+      "createdAt": "2026-02-28T03:37:51Z",
+      "updatedAt": "2026-02-28T18:14:18Z",
+      "baseRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "baseRefName": "main",
+      "baseRefOid": "2a2b04c5540bc5253a9e5d13a68cfb293e41abc4",
+      "headRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "headRefName": "skyfire-ankit-two-more-use-cases",
+      "headRefOid": "6f8b7dfda7c30549f76266c052f1f83a78b08075",
+      "closedAt": "2026-02-28T18:14:18Z",
+      "mergedAt": "2026-02-28T18:14:18Z",
+      "mergedBy": "skyfire-ankit",
+      "mergeCommit": {
+        "oid": "4106a14f521dbe457ae8753f4ca7dd802ecebfb3"
+      },
+      "comments": [
+        {
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Committed @selfissued 's comments.",
+          "createdAt": "2026-02-28T18:14:11Z",
+          "updatedAt": "2026-02-28T18:14:11Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd87mrQEq",
+          "commit": {
+            "abbreviatedOid": "3c08638"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-28T05:20:50Z",
+          "updatedAt": "2026-02-28T05:20:50Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "```suggestion\nhuman principals is a related design goal.\n```",
+              "createdAt": "2026-02-28T05:20:50Z",
+              "updatedAt": "2026-02-28T05:20:50Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd87mrQSk",
+          "commit": {
+            "abbreviatedOid": "3c08638"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-28T05:21:31Z",
+          "updatedAt": "2026-02-28T05:21:31Z",
+          "comments": [
+            {
+              "originalPosition": 10,
+              "body": "```suggestion\nliteracy, agentic automation promises a future in which sophisticated workflows\n```",
+              "createdAt": "2026-02-28T05:21:31Z",
+              "updatedAt": "2026-02-28T05:21:31Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd87mrRCI",
+          "commit": {
+            "abbreviatedOid": "3c08638"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-28T05:24:44Z",
+          "updatedAt": "2026-02-28T05:24:44Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "Throwing mTLS and HTTP Messasge signatures under the bus will create enemies when we need allies.",
+              "createdAt": "2026-02-28T05:24:44Z",
+              "updatedAt": "2026-02-28T05:24:44Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd87mrRIR",
+          "commit": {
+            "abbreviatedOid": "3c08638"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-28T05:25:23Z",
+          "updatedAt": "2026-02-28T05:25:23Z",
+          "comments": [
+            {
+              "originalPosition": 19,
+              "body": "This sounds too much like marketing for a technical specification.",
+              "createdAt": "2026-02-28T05:25:23Z",
+              "updatedAt": "2026-02-28T05:25:23Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd87mrRSq",
+          "commit": {
+            "abbreviatedOid": "3c08638"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-28T05:26:37Z",
+          "updatedAt": "2026-02-28T05:26:37Z",
+          "comments": [
+            {
+              "originalPosition": 20,
+              "body": "We've already talked about attesting to the identity of agents.  This seems duplicative.",
+              "createdAt": "2026-02-28T05:26:37Z",
+              "updatedAt": "2026-02-28T05:26:37Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd87mrRbN",
+          "commit": {
+            "abbreviatedOid": "3c08638"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-28T05:27:38Z",
+          "updatedAt": "2026-02-28T05:27:38Z",
+          "comments": [
+            {
+              "originalPosition": 28,
+              "body": "Again, throwing mTLS and HTTP Message Signatures under the bus will create enemies.  These are tools, not competitors.",
+              "createdAt": "2026-02-28T05:27:38Z",
+              "updatedAt": "2026-02-28T05:27:38Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd87mrRs2",
+          "commit": {
+            "abbreviatedOid": "3c08638"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-28T05:29:55Z",
+          "updatedAt": "2026-02-28T05:29:55Z",
+          "comments": [
+            {
+              "originalPosition": 36,
+              "body": "This could be read as cheerleading rather than a description of technical capabilities.  \"advanced\" \"surgical\".\n\nI'm not saying you're wrong.  But if the spec comes off as a marketing piece to someone when they first read it, they'll be turned off and stay that way.",
+              "createdAt": "2026-02-28T05:29:55Z",
+              "updatedAt": "2026-02-28T05:29:55Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd87mrSN2",
+          "commit": {
+            "abbreviatedOid": "3c08638"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "This is too long and restates some things we've already stated.  It should be more concise and come off as declarative rather than promotional.\n\nCan we make the same essential points with less than half the words?",
+          "createdAt": "2026-02-28T05:31:48Z",
+          "updatedAt": "2026-02-28T05:31:48Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd87mtMMy",
+          "commit": {
+            "abbreviatedOid": "66658a8"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-28T17:09:51Z",
+          "updatedAt": "2026-02-28T17:09:51Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "Makes sense. I will rewrite this.",
+              "createdAt": "2026-02-28T17:09:51Z",
+              "updatedAt": "2026-02-28T17:09:51Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd87mtMTB",
+          "commit": {
+            "abbreviatedOid": "f0d59f2"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "Hey @selfissued I have rewritten use-cases 3 and 4 to focus on KYAPay vs trying to explain what we saw missing in other protocols that led us to inventing something new. Please take a look. \ud83d\ude4f ",
+          "createdAt": "2026-02-28T17:10:34Z",
+          "updatedAt": "2026-02-28T17:36:16Z",
+          "comments": [
+            {
+              "originalPosition": 19,
+              "body": "I will try to rewrite this but TBH the explanation seemed technical to me. In any case, let me give it another shot.",
+              "createdAt": "2026-02-28T17:10:34Z",
+              "updatedAt": "2026-02-28T17:36:16Z"
+            },
+            {
+              "originalPosition": 20,
+              "body": "I will rewrite but I think this is important to call out so that each use-case can stand independently.",
+              "createdAt": "2026-02-28T17:11:29Z",
+              "updatedAt": "2026-02-28T17:36:16Z"
+            },
+            {
+              "originalPosition": 28,
+              "body": "Makes sense. In both use-case 3 and 4, my intent was to clarify that we looked at mTLS and HTTP message signatures but they didn't meet the needs that we see and thats why we invented KYAPay. But I will rewrite and focus on why KYAPay works so that it does not sound negative to the other protocols.",
+              "createdAt": "2026-02-28T17:18:14Z",
+              "updatedAt": "2026-02-28T17:36:16Z"
+            },
+            {
+              "originalPosition": 36,
+              "body": "Makes sense. I will rewrite.",
+              "createdAt": "2026-02-28T17:18:27Z",
+              "updatedAt": "2026-02-28T17:36:16Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd87mtWaS",
+          "commit": {
+            "abbreviatedOid": "f0d59f2"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-28T17:59:51Z",
+          "updatedAt": "2026-02-28T17:59:51Z",
+          "comments": [
+            {
+              "originalPosition": 32,
+              "body": "```suggestion\nspecifically engineered for autonomous agents. This framework\n```\n\nI know may sound like nit-picking, but \"advanced\" sounds like a value judgment, and may trigger some readers.",
+              "createdAt": "2026-02-28T17:59:51Z",
+              "updatedAt": "2026-02-28T17:59:51Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd87mtWfr",
+          "commit": {
+            "abbreviatedOid": "f0d59f2"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-28T18:00:27Z",
+          "updatedAt": "2026-02-28T18:00:27Z",
+          "comments": [
+            {
+              "originalPosition": 33,
+              "body": "```suggestion\nallows the web security ecosystem to distinguish among individual agent\n```",
+              "createdAt": "2026-02-28T18:00:27Z",
+              "updatedAt": "2026-02-28T18:00:27Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd87mtWqS",
+          "commit": {
+            "abbreviatedOid": "f0d59f2"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Looks good now.  Please apply my two suggestions, then good to merge.",
+          "createdAt": "2026-02-28T18:01:23Z",
+          "updatedAt": "2026-02-28T18:01:23Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd87mtYTk",
+          "commit": {
+            "abbreviatedOid": "3c08638"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-28T18:12:52Z",
+          "updatedAt": "2026-02-28T18:12:52Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "Rewritten",
+              "createdAt": "2026-02-28T18:12:52Z",
+              "updatedAt": "2026-02-28T18:12:52Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd87mtYVN",
+          "commit": {
+            "abbreviatedOid": "3c08638"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-28T18:13:03Z",
+          "updatedAt": "2026-02-28T18:13:03Z",
+          "comments": [
+            {
+              "originalPosition": 19,
+              "body": "Rewritten",
+              "createdAt": "2026-02-28T18:13:03Z",
+              "updatedAt": "2026-02-28T18:13:04Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd87mtYWt",
+          "commit": {
+            "abbreviatedOid": "3c08638"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-28T18:13:12Z",
+          "updatedAt": "2026-02-28T18:13:13Z",
+          "comments": [
+            {
+              "originalPosition": 20,
+              "body": "Rewritten",
+              "createdAt": "2026-02-28T18:13:12Z",
+              "updatedAt": "2026-02-28T18:13:13Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd87mtYYk",
+          "commit": {
+            "abbreviatedOid": "3c08638"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-28T18:13:26Z",
+          "updatedAt": "2026-02-28T18:13:26Z",
+          "comments": [
+            {
+              "originalPosition": 28,
+              "body": "Rewritten",
+              "createdAt": "2026-02-28T18:13:26Z",
+              "updatedAt": "2026-02-28T18:13:27Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd87mtYaE",
+          "commit": {
+            "abbreviatedOid": "3c08638"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-28T18:13:36Z",
+          "updatedAt": "2026-02-28T18:13:36Z",
+          "comments": [
+            {
+              "originalPosition": 36,
+              "body": "Rewritten",
+              "createdAt": "2026-02-28T18:13:36Z",
+              "updatedAt": "2026-02-28T18:13:36Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 21,
+      "id": "PR_kwDOQZxkd87HBocr",
+      "title": "Follow JWT conventions",
+      "url": "https://github.com/skyfire-xyz/kyapay-ietf-draft/pull/21",
+      "state": "MERGED",
+      "author": "selfissued",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Specifically:\r\n\r\n- Allow additional claims and values to be defined and used.\r\n- Require that unrecognized claims be ignored.\r\n- Perform versioning with the \"typ\" header parameter value and claims present rather than a version number.\r\n- Use a boolean-valued claim when the value is effectively true or false.\r\n- Use lowercase names in values.\r\n",
+      "createdAt": "2026-02-28T17:27:55Z",
+      "updatedAt": "2026-02-28T18:16:02Z",
+      "baseRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "baseRefName": "main",
+      "baseRefOid": "2a2b04c5540bc5253a9e5d13a68cfb293e41abc4",
+      "headRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "headRefName": "mbj-follow-jwt-conventions",
+      "headRefOid": "510f355a49db57e7d4712b609e03fa5a561d1185",
+      "closedAt": "2026-02-28T18:16:02Z",
+      "mergedAt": "2026-02-28T18:16:02Z",
+      "mergedBy": "skyfire-ankit",
+      "mergeCommit": {
+        "oid": "a17a1e2ecb8b5cf932662da8850462a5b781421a"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd87mtSwP",
+          "commit": {
+            "abbreviatedOid": "510f355"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "lgtm - I will update our docs and implementation to match.",
+          "createdAt": "2026-02-28T17:45:15Z",
+          "updatedAt": "2026-02-28T17:45:15Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
