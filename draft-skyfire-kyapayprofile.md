@@ -516,7 +516,7 @@ The `sti` claim is optional. If present, it MAY contain the following sub-claims
 all of which are OPTIONAL.
 
 `type`:
-: REQUIRED - "type" is dependent on the "stp" value; for "coin" - "USDC" or "x402";
+: REQUIRED - "type" is dependent on the "stp" value; for "coin" - "usdc";
   for "card" - "visa_vic".  Additional values may be defined and used.
 
 `paymentToken`:
