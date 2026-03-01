@@ -287,13 +287,16 @@ PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
   A single string value.
 
 `iat`:
-: REQUIRED - as defined in {{Section 4.1.6 of RFC7519}}.  Identifies the time at which the JWT was issued.  This claim must have a value in the past and can be used to determine the age of the JWT.
+: REQUIRED - as defined in {{Section 4.1.6 of RFC7519}}.  Identifies the time
+  at which the JWT was issued.  This claim must have a value in the past and can
+  be used to determine the age of the JWT.
 
 `jti`:
 : REQUIRED - Unique ID of this JWT as defined in {{Section 4.1.7 of RFC7519}}.
 
 `exp`:
-: REQUIRED - as defined in {{Section 4.1.4 of RFC7519}}.  Identifies the expiration time on or after which the JWT MUST NOT be accepted for processing.
+: REQUIRED - as defined in {{Section 4.1.4 of RFC7519}}.  Identifies the expiration
+  time on or after which the JWT MUST NOT be accepted for processing.
 
 `sdm`:
 : OPTIONAL - Seller domain, associated with the audience claim, the token is intended for.
@@ -305,7 +308,8 @@ PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
 : OPTIONAL - URL of the token's originator.
 
 `env`:
-: OPTIONAL - Issuer environment (such as "production" or "sandbox").  Additional values may be defined and used.
+: OPTIONAL - Issuer environment (such as "production" or "sandbox").  Additional values
+  may be defined and used.
 
 `ssi`:
 : OPTIONAL - Seller Service ID that this token was created for.
@@ -322,8 +326,8 @@ The recipient MUST ignore any unrecognized claims.
 The following identity related claims are used within KYA and KYA-PAY tokens:
 
 `bid`:
-: REQUIRED (Required for buyer identity use cases) - A map of buyer identity
-  claims.
+: REQUIRED (Required for human identity use cases) - A map of human identity
+  claims (individual or organization).
 
 `apd`:
 : OPTIONAL - Agent Platform identity claims.
@@ -377,56 +381,40 @@ The following informative example displays a decoded KYA type token.
 ~~~
 {: #example-decoded-kya-token align="left" title="A KYA type token"}
 
-### `bid` - Buyer Identity Sub-Claims
+### `bid` - Human Identity Sub-Claims
 
-The Buyer Identity (`bid`) claim contains sub-claims useful for buyer use cases,
-as follows.
+The Human Identity (`bid`) claim contains sub-claims identifying the human
+individual principal or human organization principal as follows.
 
 `email`:
-: REQUIRED - Buyer email.
-
-#### OPTIONAL Human Principal Sub-Claims
+: REQUIRED - Email address associated with the human individual or business
 
 `given_name`:
-: Given name(s) or first name(s) of buyer human principal.
+: OPTIONAL - Given name(s) or first name(s) of the human principal if they
+  are an individual.
 
 `middle_name`:
-: Middle name(s) of buyer human principal.
+: OPTIONAL - Middle name(s) of the human principal if they are an individual.
 
 `family_name`:
-: Surname(s) or last name(s) of buyer human principal.
+: OPTIONAL - Surname(s) or last name(s) of the human principal if they are an
+  individual.
 
 `phone_number`:
-: Phone number associated with principal.
-
-`verifier`:
-: URL of the Identity Verifier
-
-`verified`:
-: Boolean Verification status.  True if verified, otherwise false.
-
-`verification_id`:
-: Verification identifier. Identifier for the verification performed, such as a GUID.
-
-Additional sub-claims MAY be defined and used.
-The recipient MUST ignore any unrecognized sub-claims.
-
-#### OPTIONAL Organizational or Business Entity Principal Sub-Claims {#biz-claims}
+: OPTIONAL - Phone number associated with the human individual or organization.
 
 `organization_name`:
-: Name of principal entity.
-
-`phone_number`:
-: Phone number associated with principal.
+: OPTIONAL - Name of the human principal if they are an organization.
 
 `verifier`:
-: URL of the Identity Verifier
+: OPTIONAL - URL of the Identity Verifier
 
 `verified`:
-: Boolean Verification status.  True if verified, otherwise false.
+: OPTIONAL - Boolean Verification status.  True if verified, otherwise false.
 
 `verification_id`:
-: Verification identifier. Identifier for the verification performed, such as a GUID.
+: OPTIONAL - Verification identifier. Identifier for the verification performed,
+  such as a GUID.
 
 Additional sub-claims MAY be defined and used.
 The recipient MUST ignore any unrecognized sub-claims.
@@ -470,10 +458,17 @@ The `aid` claim is optional. If present, it contains the following sub-claims.
 : REQUIRED - Agent name. The name should reflect the business purpose of the agent.
 
 `creation_ip`:
-: OPTIONAL - The public IP address of the system / agent that requested the token. Its value is a string containing the public IPv4 or IPv6 address from where the token request originated. It MUST be captured directly from the token request.
+: REQUIRED - The public IP address of the system / agent that requested the token.
+  Its value is a string containing the public IPv4 or IPv6 address from where the
+  token request originated. It MUST be captured directly from the token request.
 
 `source_ips`:
-: OPTIONAL - Valid public IP address, or range of public IP addresses, from where the system / agent's requests to merchants / services will originate. Array of comma-separated IPv4 addresses or ranges, IPv6 addresses or ranges, or domain names resolvable to an IP address via DNS. IPv4 and IPv6 addresses can be a single IPv4 or IPv6 address or a range of IPv4 or IPv6 addresses in CIDR notation or start-and-end IP pairs.
+: OPTIONAL - Valid public IP address, or range of public IP addresses, from where
+  the system / agent's requests to merchants / services will originate. Array of
+  comma-separated IPv4 addresses or ranges, IPv6 addresses or ranges, or domain
+  names resolvable to an IP address via DNS. IPv4 and IPv6 addresses can be a
+  single IPv4 or IPv6 address or a range of IPv4 or IPv6 addresses in CIDR notation
+  or start-and-end IP pairs.
 
 Additional sub-claims MAY be defined and used.
 The recipient MUST ignore any unrecognized sub-claims.
@@ -486,7 +481,10 @@ The following payment related claims are used within PAY and KYA-PAY type tokens
 : OPTIONAL - JSON string representing seller service price in currency units.
 
 `sps`:
-: OPTIONAL - Seller pricing scheme, which represents a way for the seller list how it charges for its service or content. One of `pay_per_use`, `subscription`, `pay_per_mb`, or `custom`.  Additional values may be defined and used.
+: OPTIONAL - Seller pricing scheme, which represents a way for the seller list
+  how it charges for its service or content. One of `pay_per_use`,
+  `subscription`, `pay_per_mb`, or `custom`.  Additional values may be defined
+  and used.
 
 `amt`:
 : REQUIRED - JSON string representing token amount in currency units.
@@ -513,7 +511,8 @@ The `sti` claim is optional. If present, it MAY contain the following sub-claims
 all of which are OPTIONAL.
 
 `type`:
-: REQUIRED - "type" is dependent on the "stp" value; for "coin" - "USDC" or "x402"; for "card" - "visa_vic".  Additional values may be defined and used.
+: REQUIRED - "type" is dependent on the "stp" value; for "coin" - "USDC" or "x402";
+  for "card" - "visa_vic".  Additional values may be defined and used.
 
 `paymentToken`:
 : OPTIONAL - String containing Virtual Payment Card Number in ISO/IEC 7812 format. 12-19 characters.
@@ -753,7 +752,7 @@ established by {{RFC7519}}.
 ### "bid" Claim
 
 * Claim Name: bid
-* Claim Description: JSON structure containing buyer identity claims
+* Claim Description: JSON structure containing human identity claims
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
 * Reference: (#common-claims) of this specification
 
