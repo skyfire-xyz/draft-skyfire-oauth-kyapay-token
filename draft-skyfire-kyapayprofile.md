@@ -518,7 +518,7 @@ all of which are OPTIONAL.
 
 `type`:
 : REQUIRED - "type" is dependent on the "stp" value; for "coin" - "usdc";
-  for "card" - "visa_vic".  Additional values may be defined and used.
+  for "card" - "visa_vic" or "mastercard_scof".  Additional values may be defined and used.
 
 `paymentToken`:
 : OPTIONAL - String containing Virtual Payment Card Number in ISO/IEC 7812 format. 12-19 characters.
