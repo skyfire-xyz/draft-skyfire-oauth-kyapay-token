@@ -389,7 +389,7 @@ The following informative example displays a decoded KYA type token.
 ### `hid` - Human Identity Sub-Claims
 
 The Human Identity (`hid`) claim contains sub-claims identifying the human
-individual principal or human organization principal as follows.
+principal (individual or organization) as follows.
 
 `email`:
 : REQUIRED - Email address associated with the human individual or business
