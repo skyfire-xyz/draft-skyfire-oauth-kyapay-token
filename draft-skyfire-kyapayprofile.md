@@ -409,7 +409,7 @@ principal (individual or organization) as follows.
 : OPTIONAL - Phone number associated with the human individual or organization.
 
 `organization_name`:
-: OPTIONAL - Name of the human principal if they are an organization.
+: OPTIONAL - Name of the organization.
 
 `verifier`:
 : OPTIONAL - URL of the Identity Verifier
