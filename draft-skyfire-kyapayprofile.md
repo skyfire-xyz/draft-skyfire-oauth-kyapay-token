@@ -243,8 +243,9 @@ Seller Agent Platform:
   to have its own verified identity assertions, grouped into the `apd` claim.
 
 Seller Principal:
-: A legal entity (human or organization) that owns the product, service, or
-  content being sold, and serves as the ultimate beneficiary of a transaction.
+: A human principal (individual or organization) that that owns the product,
+  service, API, website, or content being consumed or sold, and serves as the
+  ultimate beneficiary of a transaction.
   The seller principal's identity is grouped into the `hid` claim.
 
 Seller Identity:
