@@ -303,8 +303,8 @@ Table of Contents
       These various aspects of Seller Identity allow Buyers and Buyer
       Agents to perform reputation-based logic, to verify that they are
       interacting with the authorized (and expected) counter-party, and
-      to fulfill KYC/AML regulation requirements.  These seller identity
-      encompasses the hid, apd and aid claims.
+      to fulfill KYC/AML regulation requirements.  The seller identity
+      utilizes the hid, apd, and aid claims.
 
 2.1.3.  Ecosystem Infrastructure Roles
 
