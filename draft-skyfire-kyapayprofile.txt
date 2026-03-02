@@ -5,8 +5,8 @@
 Network Working Group                                         A. Agarwal
 Internet-Draft                                                   Skyfire
 Intended status: Informational                                  M. Jones
-Expires: 2 September 2026                         Self-Issued Consulting
-                                                            1 March 2026
+Expires: 3 September 2026                         Self-Issued Consulting
+                                                            2 March 2026
 
 
                              KYAPay Profile
@@ -46,7 +46,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 2 September 2026.
+   This Internet-Draft will expire on 3 September 2026.
 
 Copyright Notice
 
@@ -74,7 +74,7 @@ Table of Contents
    3.  KYAPay Token Schemas
      3.1.  Common Token Claims
      3.2.  KYA Token
-       3.2.1.  bid - Buyer Identity Sub-Claims
+       3.2.1.  hid - Human Identity Sub-Claims
        3.2.2.  Agent Platform Identity apd Sub-Claims
        3.2.3.  Agent Identity aid Sub-Claims
      3.3.  PAY Token
@@ -95,7 +95,7 @@ Table of Contents
        7.1.3.  "ori" Claim
        7.1.4.  "env" Claim
        7.1.5.  "btg" Claim
-       7.1.6.  "bid" Claim
+       7.1.6.  "hid" Claim
        7.1.7.  "apd" Claim
        7.1.8.  "aid" Claim
        7.1.9.  "spr" Claim
@@ -257,34 +257,46 @@ Table of Contents
 2.1.1.  Buy-Side Roles
 
    Buyer Agent:  An Agent performing tasks on behalf of a Buyer
-      Principal, that has its own Agent Identity.
+      Principal, that has its own Agent Identity, grouped into the aid
+      claim.
 
    Buyer Agent Platform:  The Agent Platform hosting the Buyer Agent.
       Some use cases require the Platform to have its own verified
       identity assertions, grouped into the apd claim.
-
-   Buyer Identity:  The aggregate verified identity assertions of the
-      buy-side entities, typically encompassing the Buyer Principal, the
-      Buyer Agent Platform, and the Buyer Agent itself.  This composite
-      identity is conveyed via the KYA token, allowing the seller to
-      verify the entire chain of responsibility behind a request.
-      Grouped into the bid claim.
 
    Buyer Principal:  A legal entity (human or organization) behind the
       purchase / consumption of a product or service.  The Principal
       typically interacts with the seller via a Buyer Agent.  Many
       sellers are required to be able to determine the Buyer Identity in
       order to comply with KYC/AML regulations, accounting standards,
-      and to maintain a direct customer relationships.
+      and to maintain a direct customer relationships.  The buyer
+      principal's identity is grouped into the hid claim.
+
+   Buyer Identity:  The aggregate verified identity assertions of the
+      buy-side entities, typically encompassing the Buyer Principal, the
+      Buyer Agent Platform, and the Buyer Agent itself.  This composite
+      identity is conveyed via the KYA token, allowing the seller to
+      verify the entire chain of responsibility behind a request.  The
+      buyer identity utilizes the hid, apd, and aid claims.
 
 2.1.2.  Sell-Side Roles
 
    Seller Agent:  An Agent performing tasks on behalf of a Seller
       Principal, directly interacting with Buyer Agents to facilitate
       discovery and purchase.  Typically runs on Internet-connected
-      infrastructure, and discoverable via service directories.
+      infrastructure, and discoverable via service directories.  Seller
+      agent identity claims are also grouped into the aid claim if KYA
+      tokens are generated for the sellers.
 
    Seller Agent Platform:  The Agent Platform that hosts Seller Agents.
+      Some use cases require the Platform to have its own verified
+      identity assertions, grouped into the apd claim.
+
+   Seller Principal:  A human principal (individual or organization)
+      that that owns the product, service, API, website, or content
+      being consumed or sold, and serves as the ultimate beneficiary of
+      a transaction.  The seller principal's identity is grouped into
+      the hid claim.
 
    Seller Identity:  The aggregate verified identity assertions of the
       sell-side entities, typically encompassing the Seller Principal,
@@ -292,19 +304,17 @@ Table of Contents
       These various aspects of Seller Identity allow Buyers and Buyer
       Agents to perform reputation-based logic, to verify that they are
       interacting with the authorized (and expected) counter-party, and
-      to fulfill KYC/AML regulation requirements.
-
-   Seller Principal:  A legal entity (human or organization) that owns
-      the product, service, or content being sold, and serves as the
-      ultimate beneficiary of a business transaction.
+      to fulfill KYC/AML regulation requirements.  The seller identity
+      utilizes the hid, apd, and aid claims.
 
 2.1.3.  Ecosystem Infrastructure Roles
 
    Identity Token Issuer:  A trusted neutral entity that conducts Know
-      Your Customer (KYC) and Know Your Business (KYB) verifications.
-      It is responsible for issuing cryptographically signed kya tokens
-      that attest to the identity of the Principal, Agent, and Agent
-      Platform, for both Buyers and Sellers.
+      Your Customer (KYC) and Know Your Business (KYB) (for
+      organizations) verifications.  It is responsible for issuing
+      cryptographically signed kya tokens that attest to the identity of
+      the Principal, Agent, and Agent Platform, for both Buyers and
+      Sellers.
 
    Payment Token Issuer:  A trusted entity responsible for facilitating
       the exchange of payments and credentials between the Buyer and
@@ -367,8 +377,8 @@ Table of Contents
    The following identity related claims are used within KYA and KYA-PAY
    tokens:
 
-   bid:  REQUIRED (Required for buyer identity use cases) - A map of
-      buyer identity claims.
+   hid:  REQUIRED (Required for human identity use cases) - A map of
+      human identity claims (individual or organization).
 
    apd:  OPTIONAL - Agent Platform identity claims.
 
@@ -395,7 +405,7 @@ Table of Contents
   "ssi": "bc3ff89f-069b-4383-82a9-8cfe53c55fc3", // Seller Service ID
   "btg": "4f6cbd39-215c-4516-bf33-cab22862ee60", // Buyer Tag (Internal Reference ID)
 
-  "bid": {
+  "hid": {
     "email": "buyer@buyer.com"
   },
   "apd": {
@@ -419,48 +429,35 @@ Table of Contents
 
                       Figure 1: A KYA type token
 
-3.2.1.  bid - Buyer Identity Sub-Claims
+3.2.1.  hid - Human Identity Sub-Claims
 
-   The Buyer Identity (bid) claim contains sub-claims useful for buyer
-   use cases, as follows.
+   The Human Identity (hid) claim contains sub-claims identifying the
+   human principal (individual or organization) as follows.
 
-   email:  REQUIRED - Buyer email.
+   email:  REQUIRED - Email address associated with the human individual
+      or organization
 
-3.2.1.1.  OPTIONAL Human Principal Sub-Claims
+   given_name:  OPTIONAL - Given name(s) or first name(s) of the human
+      principal if they are an individual.
 
-   given_name:  Given name(s) or first name(s) of buyer human principal.
+   middle_name:  OPTIONAL - Middle name(s) of the human principal if
+      they are an individual.
 
-   middle_name:  Middle name(s) of buyer human principal.
+   family_name:  OPTIONAL - Surname(s) or last name(s) of the human
+      principal if they are an individual.
 
-   family_name:  Surname(s) or last name(s) of buyer human principal.
+   phone_number:  OPTIONAL - Phone number associated with the human
+      individual or organization.
 
-   phone_number:  Phone number associated with principal.
+   organization_name:  OPTIONAL - Name of the organization.
 
-   verifier:  URL of the Identity Verifier
+   verifier:  OPTIONAL - URL of the Identity Verifier
 
-   verified:  Boolean Verification status.  True if verified, otherwise
-      false.
+   verified:  OPTIONAL - Boolean Verification status.  True if verified,
+      otherwise false.
 
-   verification_id:  Verification identifier.  Identifier for the
-      verification performed, such as a GUID.
-
-   Additional sub-claims MAY be defined and used.  The recipient MUST
-   ignore any unrecognized sub-claims.
-
-3.2.1.2.  OPTIONAL Organizational or Business Entity Principal Sub-
-          Claims
-
-   organization_name:  Name of principal entity.
-
-   phone_number:  Phone number associated with principal.
-
-   verifier:  URL of the Identity Verifier
-
-   verified:  Boolean Verification status.  True if verified, otherwise
-      false.
-
-   verification_id:  Verification identifier.  Identifier for the
-      verification performed, such as a GUID.
+   verification_id:  OPTIONAL - Verification identifier.  Identifier for
+      the verification performed, such as a GUID.
 
    Additional sub-claims MAY be defined and used.  The recipient MUST
    ignore any unrecognized sub-claims.
@@ -501,7 +498,7 @@ Table of Contents
    name:  REQUIRED - Agent name.  The name should reflect the business
       purpose of the agent.
 
-   creation_ip:  OPTIONAL - The public IP address of the system / agent
+   creation_ip:  REQUIRED - The public IP address of the system / agent
       that requested the token.  Its value is a string containing the
       public IPv4 or IPv6 address from where the token request
       originated.  It MUST be captured directly from the token request.
@@ -554,8 +551,8 @@ Table of Contents
    sub-claims, all of which are OPTIONAL.
 
    type:  REQUIRED - "type" is dependent on the "stp" value; for "coin"
-      - "USDC" or "x402"; for "card" - "visa_vic".  Additional values
-      may be defined and used.
+      - "usdc"; for "card" - "visa_vic" or "mastercard_scof".
+      Additional values may be defined and used.
 
    paymentToken:  OPTIONAL - String containing Virtual Payment Card
       Number in ISO/IEC 7812 format. 12-19 characters.
@@ -634,7 +631,7 @@ Table of Contents
   "ssi": "3e6d33a1-438e-482e-bba5-6aa69544727d", // Seller Service ID
   "btg": "c52e0ef2-e27d-4e95-862e-475a904ae7b2", // Buyer Tag (Internal Reference ID)
 
-  "bid": {
+  "hid": {
     "email": "maryjane@buyer.example.com",
     "given_name": "Mary",
     "middle_name": "Jane",
@@ -828,11 +825,11 @@ Table of Contents
 
    *  Reference: (#common-claims) of this specification
 
-7.1.6.  "bid" Claim
+7.1.6.  "hid" Claim
 
-   *  Claim Name: bid
+   *  Claim Name: hid
 
-   *  Claim Description: JSON structure containing buyer identity claims
+   *  Claim Description: JSON structure containing human identity claims
 
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
