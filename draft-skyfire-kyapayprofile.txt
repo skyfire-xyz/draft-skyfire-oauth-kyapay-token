@@ -216,6 +216,9 @@ Table of Contents
    not defined by this specification.  The interoperable use of them for
    these purposes will require further specification.
 
+   Early production deployments of KYAPay tokens are described at
+   https://kyapay.ai.
+
 2.  Conventions and Definitions
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
