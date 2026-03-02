@@ -217,7 +217,7 @@ Table of Contents
    these purposes will require further specification.
 
    Early production deployments of KYAPay tokens are described at
-   https://kyapay.ai.
+   https://kyapay.org.
 
 2.  Conventions and Definitions
 
