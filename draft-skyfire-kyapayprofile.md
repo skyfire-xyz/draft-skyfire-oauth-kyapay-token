@@ -227,7 +227,7 @@ Buyer Identity:
   encompassing the Buyer Principal, the Buyer Agent Platform, and the Buyer Agent
   itself. This composite identity is conveyed via the KYA token, allowing the
   seller to verify the entire chain of responsibility behind a request.
-  These buyer identity encompasses the `hid`, `apd` and `aid` claims.
+  The buyer identity utilizes the `hid`, `apd`, and `aid` claims.
 
 ### Sell-Side Roles
 
