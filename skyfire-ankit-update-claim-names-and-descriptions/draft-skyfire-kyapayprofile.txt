@@ -5,8 +5,8 @@
 Network Working Group                                         A. Agarwal
 Internet-Draft                                                   Skyfire
 Intended status: Informational                                  M. Jones
-Expires: 2 September 2026                         Self-Issued Consulting
-                                                            1 March 2026
+Expires: 3 September 2026                         Self-Issued Consulting
+                                                            2 March 2026
 
 
                              KYAPay Profile
@@ -46,7 +46,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 2 September 2026.
+   This Internet-Draft will expire on 3 September 2026.
 
 Copyright Notice
 
@@ -276,8 +276,8 @@ Table of Contents
       buy-side entities, typically encompassing the Buyer Principal, the
       Buyer Agent Platform, and the Buyer Agent itself.  This composite
       identity is conveyed via the KYA token, allowing the seller to
-      verify the entire chain of responsibility behind a request.  These
-      buyer identity encompasses the hid, apd and aid claims.
+      verify the entire chain of responsibility behind a request.  The
+      buyer identity utilizes the hid, apd, and aid claims.
 
 2.1.2.  Sell-Side Roles
 
