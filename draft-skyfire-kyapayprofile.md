@@ -164,9 +164,7 @@ Note that the protocols using these tokens to achieve these goals
 are not defined by this specification.
 The interoperable use of them for these purposes will require further specification.
 
-<!--
-Early production deployments of KYAPay tokens are described at https://kyapay.org.
--->
+Early production deployments of KYAPay tokens are described at https://kyapay.ai.
 
 # Conventions and Definitions
 
