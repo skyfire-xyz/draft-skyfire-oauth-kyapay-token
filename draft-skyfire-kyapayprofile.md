@@ -262,9 +262,9 @@ Seller Identity:
 
 Identity Token Issuer:
 : A trusted neutral entity that conducts Know Your Customer (KYC) and Know Your
-  Business (KYB) verifications. It is responsible for issuing cryptographically
-  signed `kya` tokens that attest to the identity of the Principal, Agent, and Agent
-  Platform, for both Buyers and Sellers.
+  Business (KYB) (for organizations) verifications. It is responsible for issuing
+  cryptographically signed `kya` tokens that attest to the identity of the
+  Principal, Agent, and Agent Platform, for both Buyers and Sellers.
 
 Payment Token Issuer:
 : A trusted entity responsible for facilitating the exchange of payments and
@@ -393,7 +393,7 @@ The Human Identity (`hid`) claim contains sub-claims identifying the human
 principal (individual or organization) as follows.
 
 `email`:
-: REQUIRED - Email address associated with the human individual or business
+: REQUIRED - Email address associated with the human individual or organization
 
 `given_name`:
 : OPTIONAL - Given name(s) or first name(s) of the human principal if they
