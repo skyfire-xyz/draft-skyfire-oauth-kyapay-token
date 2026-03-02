@@ -255,7 +255,7 @@ Seller Identity:
   perform reputation-based logic, to verify that they are interacting with
   the authorized (and expected) counter-party, and to fulfill KYC/AML regulation
   requirements.
-  These seller identity encompasses the `hid`, `apd` and `aid` claims.
+  The seller identity utilizes the `hid`, `apd`, and `aid` claims.
 
 ### Ecosystem Infrastructure Roles
 
