@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-03-01T00:08:07.773502+00:00",
+  "timestamp": "2026-03-03T00:09:11.215131+00:00",
   "repo": "skyfire-xyz/kyapay-ietf-draft",
   "labels": [
     {
@@ -1258,6 +1258,386 @@
           "body": "lgtm - I will update our docs and implementation to match.",
           "createdAt": "2026-02-28T17:45:15Z",
           "updatedAt": "2026-02-28T17:45:15Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 22,
+      "id": "PR_kwDOQZxkd87HECBV",
+      "title": "Add more IANA registrations plus other tweaks",
+      "url": "https://github.com/skyfire-xyz/kyapay-ietf-draft/pull/22",
+      "state": "MERGED",
+      "author": "selfissued",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Register more claims.  Register media types.\r\n\r\namount -> amt\r\nvalue -> val\r\n\r\nAdd missing aud validation logic.\r\n\r\nAdd more claims to buyer example.",
+      "createdAt": "2026-03-01T01:37:51Z",
+      "updatedAt": "2026-03-01T03:49:56Z",
+      "baseRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "baseRefName": "main",
+      "baseRefOid": "a17a1e2ecb8b5cf932662da8850462a5b781421a",
+      "headRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "headRefName": "mbj-more-iana",
+      "headRefOid": "8fa57974b5eaa7d484104669910c3d0bd514e705",
+      "closedAt": "2026-03-01T03:49:56Z",
+      "mergedAt": "2026-03-01T03:49:56Z",
+      "mergedBy": "skyfire-ankit",
+      "mergeCommit": {
+        "oid": "69f488839841f9eaf8243c61e385e40d13e1cd3e"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd87mvqCL",
+          "commit": {
+            "abbreviatedOid": "8fa5797"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "lgtm",
+          "createdAt": "2026-03-01T03:49:50Z",
+          "updatedAt": "2026-03-01T03:49:50Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 23,
+      "id": "PR_kwDOQZxkd87HF1r-",
+      "title": "Update claim names and descriptions",
+      "url": "https://github.com/skyfire-xyz/kyapay-ietf-draft/pull/23",
+      "state": "MERGED",
+      "author": "skyfire-ankit",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Update claim names and descriptions",
+      "createdAt": "2026-03-01T06:49:22Z",
+      "updatedAt": "2026-03-02T02:32:51Z",
+      "baseRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "baseRefName": "main",
+      "baseRefOid": "69f488839841f9eaf8243c61e385e40d13e1cd3e",
+      "headRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "headRefName": "skyfire-ankit-update-claim-names-and-descriptions",
+      "headRefOid": "8979c768dca0607e6053ac7377010bd315356bc6",
+      "closedAt": "2026-03-02T02:32:51Z",
+      "mergedAt": "2026-03-02T02:32:50Z",
+      "mergedBy": "selfissued",
+      "mergeCommit": {
+        "oid": "22f67bbd7c4f746e9bd1aa424ab021bd99e8bac9"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd87m1r4Y",
+          "commit": {
+            "abbreviatedOid": "cc7a95b"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "Change \"bid\" to \"hid\" to be buyer / seller agnostic.",
+          "createdAt": "2026-03-01T17:40:03Z",
+          "updatedAt": "2026-03-01T17:40:03Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd87m1_I7",
+          "commit": {
+            "abbreviatedOid": "e589b31"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "Make USDC small to match other claim names and values.",
+          "createdAt": "2026-03-01T17:53:43Z",
+          "updatedAt": "2026-03-01T17:53:43Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd87m4ToW",
+          "commit": {
+            "abbreviatedOid": "e589b31"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-01T23:10:31Z",
+          "updatedAt": "2026-03-01T23:10:32Z",
+          "comments": [
+            {
+              "originalPosition": 32,
+              "body": "```suggestion\n  The buyer identity utilizes the `hid`, `apd`, and `aid` claims.\n```",
+              "createdAt": "2026-03-01T23:10:32Z",
+              "updatedAt": "2026-03-01T23:10:32Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd87m4U62",
+          "commit": {
+            "abbreviatedOid": "e589b31"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-01T23:12:37Z",
+          "updatedAt": "2026-03-01T23:12:37Z",
+          "comments": [
+            {
+              "originalPosition": 51,
+              "body": "The odd thing about this is that seller can be an organization but `hid` is about human identity.  How should we reconcile this apparent contradiction?",
+              "createdAt": "2026-03-01T23:12:37Z",
+              "updatedAt": "2026-03-01T23:12:37Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd87m4VOJ",
+          "commit": {
+            "abbreviatedOid": "e589b31"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-01T23:13:08Z",
+          "updatedAt": "2026-03-01T23:13:08Z",
+          "comments": [
+            {
+              "originalPosition": 64,
+              "body": "```suggestion\n  The seller identity utilizes the `hid`, `apd`, and `aid` claims.\n```",
+              "createdAt": "2026-03-01T23:13:08Z",
+              "updatedAt": "2026-03-01T23:13:08Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd87m4V6Q",
+          "commit": {
+            "abbreviatedOid": "e589b31"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-01T23:14:21Z",
+          "updatedAt": "2026-03-01T23:14:21Z",
+          "comments": [
+            {
+              "originalPosition": 129,
+              "body": "What is a \"human organization principal\"?",
+              "createdAt": "2026-03-01T23:14:21Z",
+              "updatedAt": "2026-03-01T23:14:21Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd87m4WlC",
+          "commit": {
+            "abbreviatedOid": "e589b31"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-01T23:15:33Z",
+          "updatedAt": "2026-03-01T23:15:34Z",
+          "comments": [
+            {
+              "originalPosition": 174,
+              "body": "```suggestion\n: OPTIONAL - Name of the organization.\n```",
+              "createdAt": "2026-03-01T23:15:33Z",
+              "updatedAt": "2026-03-01T23:15:34Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd87m4X52",
+          "commit": {
+            "abbreviatedOid": "e589b31"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Looks mostly good but please apply my suggestions and address my other comments before   merging.",
+          "createdAt": "2026-03-01T23:18:24Z",
+          "updatedAt": "2026-03-01T23:18:24Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd87m41-4",
+          "commit": {
+            "abbreviatedOid": "e589b31"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-02T00:56:24Z",
+          "updatedAt": "2026-03-02T00:56:24Z",
+          "comments": [
+            {
+              "originalPosition": 129,
+              "body": "I think this is better said as \"human principal (individual or organization)\" as I think you suggested elsewhere in the draft. I will update.",
+              "createdAt": "2026-03-02T00:56:24Z",
+              "updatedAt": "2026-03-02T00:56:24Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd87m43QD",
+          "commit": {
+            "abbreviatedOid": "e589b31"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-02T01:01:06Z",
+          "updatedAt": "2026-03-02T01:01:06Z",
+          "comments": [
+            {
+              "originalPosition": 51,
+              "body": "`hid` is human identity (individual or organization). I think \"A legal entity (human or organization) that...\" should be \"A human principal (individual or organization) that...\". I will update.",
+              "createdAt": "2026-03-02T01:01:06Z",
+              "updatedAt": "2026-03-02T01:01:06Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd87m436d",
+          "commit": {
+            "abbreviatedOid": "e589b31"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-02T01:03:30Z",
+          "updatedAt": "2026-03-02T01:03:31Z",
+          "comments": [
+            {
+              "originalPosition": 51,
+              "body": "I've updated the draft. I'll resolve the comment for now.",
+              "createdAt": "2026-03-02T01:03:30Z",
+              "updatedAt": "2026-03-02T01:03:31Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd87m45d3",
+          "commit": {
+            "abbreviatedOid": "c303e8a"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "Updated based on Mike's feedback",
+          "createdAt": "2026-03-02T01:07:45Z",
+          "updatedAt": "2026-03-02T01:07:45Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd87m46ob",
+          "commit": {
+            "abbreviatedOid": "8979c76"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "Added mastercard_scof as payment type",
+          "createdAt": "2026-03-02T01:10:31Z",
+          "updatedAt": "2026-03-02T01:10:31Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 24,
+      "id": "PR_kwDOQZxkd87HXG44",
+      "title": "Reference kyapay.ai",
+      "url": "https://github.com/skyfire-xyz/kyapay-ietf-draft/pull/24",
+      "state": "MERGED",
+      "author": "selfissued",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-03-02T15:24:17Z",
+      "updatedAt": "2026-03-02T15:46:10Z",
+      "baseRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "baseRefName": "main",
+      "baseRefOid": "22f67bbd7c4f746e9bd1aa424ab021bd99e8bac9",
+      "headRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "headRefName": "mbj-kyapay.ai",
+      "headRefOid": "140838e4c3c692262c8ba2f7f80ff70792756398",
+      "closedAt": "2026-03-02T15:46:10Z",
+      "mergedAt": "2026-03-02T15:46:10Z",
+      "mergedBy": "skyfire-ankit",
+      "mergeCommit": {
+        "oid": "ef17a31dd479136c493ed8afe3f3ba6eeb3d72fa"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd87nFqfx",
+          "commit": {
+            "abbreviatedOid": "140838e"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "lgtm",
+          "createdAt": "2026-03-02T15:46:03Z",
+          "updatedAt": "2026-03-02T15:46:03Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 25,
+      "id": "PR_kwDOQZxkd87HYGmd",
+      "title": "Reference kyapay.org",
+      "url": "https://github.com/skyfire-xyz/kyapay-ietf-draft/pull/25",
+      "state": "MERGED",
+      "author": "selfissued",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-03-02T16:31:02Z",
+      "updatedAt": "2026-03-02T16:35:08Z",
+      "baseRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "baseRefName": "main",
+      "baseRefOid": "ef17a31dd479136c493ed8afe3f3ba6eeb3d72fa",
+      "headRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "headRefName": "mbj-kyapay.org",
+      "headRefOid": "26495728e17e2b27e454fb8a0023e6606c87bdb4",
+      "closedAt": "2026-03-02T16:35:08Z",
+      "mergedAt": "2026-03-02T16:35:08Z",
+      "mergedBy": "skyfire-ankit",
+      "mergeCommit": {
+        "oid": "119e1c15e97822c6d5ce6343c68bd5914ae61129"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd87nGqd3",
+          "commit": {
+            "abbreviatedOid": "2649572"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "lgtm",
+          "createdAt": "2026-03-02T16:34:59Z",
+          "updatedAt": "2026-03-02T16:34:59Z",
           "comments": []
         }
       ]
