@@ -305,9 +305,6 @@ PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
 `sdm`:
 : OPTIONAL - Seller domain, associated with the audience claim, the token is intended for.
 
-`srl`:
-: OPTIONAL - Seller resource locator - URL the agent is intended to access.
-
 `ori`:
 : OPTIONAL - URL of the token's originator.
 
@@ -722,13 +719,6 @@ established by {{RFC7519}}.
 
 * Claim Name: sdm
 * Claim Description: Seller domain the token is intended for
-* Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
-* Reference: (#common-claims) of this specification
-
-### "srl" Claim
-
-* Claim Name: srl
-* Claim Description: Seller resource locator - URL the agent is intended to access
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
 * Reference: (#common-claims) of this specification
 
