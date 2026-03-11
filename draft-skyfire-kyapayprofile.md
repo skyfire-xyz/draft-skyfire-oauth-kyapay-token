@@ -34,6 +34,7 @@ author:
   uri: https://self-issued.info/
 
 contributor:
+    name: Andrew Stitt
     name: Dmitri Zagidulin
 # see https://github.com/cabo/kramdown-rfc/wiki/Syntax2#authors-contributors
 
