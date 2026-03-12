@@ -5,8 +5,8 @@
 Network Working Group                                         A. Agarwal
 Internet-Draft                                                   Skyfire
 Intended status: Informational                                  M. Jones
-Expires: 3 September 2026                         Self-Issued Consulting
-                                                            2 March 2026
+Expires: 13 September 2026                        Self-Issued Consulting
+                                                           12 March 2026
 
 
                              KYAPay Profile
@@ -46,7 +46,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 3 September 2026.
+   This Internet-Draft will expire on 13 September 2026.
 
 Copyright Notice
 
@@ -91,21 +91,20 @@ Table of Contents
    7.  IANA Considerations
      7.1.  JSON Web Token Claims Registration
        7.1.1.  "sdm" Claim
-       7.1.2.  "srl" Claim
-       7.1.3.  "ori" Claim
-       7.1.4.  "env" Claim
-       7.1.5.  "btg" Claim
-       7.1.6.  "hid" Claim
-       7.1.7.  "apd" Claim
-       7.1.8.  "aid" Claim
-       7.1.9.  "spr" Claim
-       7.1.10. "sps" Claim
-       7.1.11. "amt" Claim
-       7.1.12. "cur" Claim
-       7.1.13. "val" Claim
-       7.1.14. "mnr" Claim
-       7.1.15. "stp" Claim
-       7.1.16. "sti" Claim
+       7.1.2.  "ori" Claim
+       7.1.3.  "env" Claim
+       7.1.4.  "btg" Claim
+       7.1.5.  "hid" Claim
+       7.1.6.  "apd" Claim
+       7.1.7.  "aid" Claim
+       7.1.8.  "spr" Claim
+       7.1.9.  "sps" Claim
+       7.1.10. "amt" Claim
+       7.1.11. "cur" Claim
+       7.1.12. "val" Claim
+       7.1.13. "mnr" Claim
+       7.1.14. "stp" Claim
+       7.1.15. "sti" Claim
      7.2.  Media Types Registration
        7.2.1.  application/kya+jwt
        7.2.2.  application/pay+jwt
@@ -358,9 +357,6 @@ Table of Contents
 
    sdm:  OPTIONAL - Seller domain, associated with the audience claim,
       the token is intended for.
-
-   srl:  OPTIONAL - Seller resource locator - URL the agent is intended
-      to access.
 
    ori:  OPTIONAL - URL of the token's originator.
 
@@ -785,18 +781,7 @@ Table of Contents
 
    *  Reference: (#common-claims) of this specification
 
-7.1.2.  "srl" Claim
-
-   *  Claim Name: srl
-
-   *  Claim Description: Seller resource locator - URL the agent is
-      intended to access
-
-   *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
-
-   *  Reference: (#common-claims) of this specification
-
-7.1.3.  "ori" Claim
+7.1.2.  "ori" Claim
 
    *  Claim Name: ori
 
@@ -806,7 +791,7 @@ Table of Contents
 
    *  Reference: (#common-claims) of this specification
 
-7.1.4.  "env" Claim
+7.1.3.  "env" Claim
 
    *  Claim Name: env
 
@@ -817,7 +802,7 @@ Table of Contents
 
    *  Reference: (#common-claims) of this specification
 
-7.1.5.  "btg" Claim
+7.1.4.  "btg" Claim
 
    *  Claim Name: btg
 
@@ -828,7 +813,7 @@ Table of Contents
 
    *  Reference: (#common-claims) of this specification
 
-7.1.6.  "hid" Claim
+7.1.5.  "hid" Claim
 
    *  Claim Name: hid
 
@@ -838,7 +823,7 @@ Table of Contents
 
    *  Reference: (#common-claims) of this specification
 
-7.1.7.  "apd" Claim
+7.1.6.  "apd" Claim
 
    *  Claim Name: apd
 
@@ -849,7 +834,7 @@ Table of Contents
 
    *  Reference: (#common-claims) of this specification
 
-7.1.8.  "aid" Claim
+7.1.7.  "aid" Claim
 
    *  Claim Name: aid
 
@@ -859,7 +844,7 @@ Table of Contents
 
    *  Reference: (#common-claims) of this specification
 
-7.1.9.  "spr" Claim
+7.1.8.  "spr" Claim
 
    *  Claim Name: spr
 
@@ -870,7 +855,7 @@ Table of Contents
 
    *  Reference: (#pay-token) of this specification
 
-7.1.10.  "sps" Claim
+7.1.9.  "sps" Claim
 
    *  Claim Name: sps
 
@@ -881,7 +866,7 @@ Table of Contents
 
    *  Reference: (#pay-token) of this specification
 
-7.1.11.  "amt" Claim
+7.1.10.  "amt" Claim
 
    *  Claim Name: amt
 
@@ -892,7 +877,7 @@ Table of Contents
 
    *  Reference: (#pay-token) of this specification
 
-7.1.12.  "cur" Claim
+7.1.11.  "cur" Claim
 
    *  Claim Name: cur
 
@@ -903,7 +888,7 @@ Table of Contents
 
    *  Reference: (#pay-token) of this specification
 
-7.1.13.  "val" Claim
+7.1.12.  "val" Claim
 
    *  Claim Name: val
 
@@ -914,7 +899,7 @@ Table of Contents
 
    *  Reference: (#pay-token) of this specification
 
-7.1.14.  "mnr" Claim
+7.1.13.  "mnr" Claim
 
    *  Claim Name: mnr
 
@@ -925,7 +910,7 @@ Table of Contents
 
    *  Reference: (#pay-token) of this specification
 
-7.1.15.  "stp" Claim
+7.1.14.  "stp" Claim
 
    *  Claim Name: stp
 
@@ -935,7 +920,7 @@ Table of Contents
 
    *  Reference: (#pay-token) of this specification
 
-7.1.16.  "sti" Claim
+7.1.15.  "sti" Claim
 
    *  Claim Name: sti
 
