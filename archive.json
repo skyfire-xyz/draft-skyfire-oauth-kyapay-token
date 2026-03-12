@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-03-10T00:07:01.723527+00:00",
+  "timestamp": "2026-03-12T00:08:05.744704+00:00",
   "repo": "skyfire-xyz/kyapay-ietf-draft",
   "labels": [
     {
@@ -1641,6 +1641,58 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 26,
+      "id": "PR_kwDOQZxkd87Jg3k3",
+      "title": "Drop the \"srl\" claim to prevent data leakage",
+      "url": "https://github.com/skyfire-xyz/kyapay-ietf-draft/pull/26",
+      "state": "OPEN",
+      "author": "skyfire-ankit",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "The srl claim will leak data when browser use agents send requests for 3rd party resources while loading the target's URL.\r\n\r\nThe HTTP referrerpolicy is explicitly designed to prevent this and the recommendation is that the referer header should just be the target domain.",
+      "createdAt": "2026-03-10T21:32:37Z",
+      "updatedAt": "2026-03-10T21:32:41Z",
+      "baseRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "baseRefName": "main",
+      "baseRefOid": "119e1c15e97822c6d5ce6343c68bd5914ae61129",
+      "headRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "headRefName": "skyfire-ankit-drop-srl-claim",
+      "headRefOid": "137d267746fb5e66257b436ff6b540266aa3b07e",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 27,
+      "id": "PR_kwDOQZxkd87J214c",
+      "title": "Add contributor Andrew Stitt",
+      "url": "https://github.com/skyfire-xyz/kyapay-ietf-draft/pull/27",
+      "state": "OPEN",
+      "author": "skyfire-ankit",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Add Andrew as an original contributor",
+      "createdAt": "2026-03-11T22:42:49Z",
+      "updatedAt": "2026-03-11T22:43:01Z",
+      "baseRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "baseRefName": "main",
+      "baseRefOid": "119e1c15e97822c6d5ce6343c68bd5914ae61129",
+      "headRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "headRefName": "skyfire-ankit-add-contributor-andrew",
+      "headRefOid": "537c53b427098b654fa7591af1b0fbe41f48c0a0",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
