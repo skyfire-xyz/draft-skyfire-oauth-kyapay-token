@@ -898,6 +898,10 @@ in the manner described in {{RFC6838}}.
 
 [[ to be removed by the RFC Editor before publication as an RFC ]]
 
+-01
+
+* Removed "srl" (Seller Resource Locator) claim.
+
 -00
 
 * Initial Internet Draft.
