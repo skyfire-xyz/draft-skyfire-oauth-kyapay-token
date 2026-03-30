@@ -5,8 +5,8 @@
 Network Working Group                                         A. Agarwal
 Internet-Draft                                                   Skyfire
 Intended status: Informational                                  M. Jones
-Expires: 13 September 2026                        Self-Issued Consulting
-                                                           12 March 2026
+Expires: 1 October 2026                           Self-Issued Consulting
+                                                           30 March 2026
 
 
                              KYAPay Profile
@@ -46,7 +46,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 13 September 2026.
+   This Internet-Draft will expire on 1 October 2026.
 
 Copyright Notice
 
@@ -1122,6 +1122,10 @@ Table of Contents
 Document History
 
    [[ to be removed by the RFC Editor before publication as an RFC ]]
+
+   -01
+
+   *  Removed "srl" (Seller Resource Locator) claim.
 
    -00
 
