@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-03-29T00:11:13.335896+00:00",
+  "timestamp": "2026-03-31T00:12:06.523238+00:00",
   "repo": "skyfire-xyz/kyapay-ietf-draft",
   "labels": [
     {
@@ -1722,6 +1722,48 @@
           "body": "",
           "createdAt": "2026-03-12T01:24:46Z",
           "updatedAt": "2026-03-12T01:24:46Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 28,
+      "id": "PR_kwDOQZxkd87Oxhhn",
+      "title": "Add history entry for draft -01",
+      "url": "https://github.com/skyfire-xyz/kyapay-ietf-draft/pull/28",
+      "state": "MERGED",
+      "author": "selfissued",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "-01\r\n\r\n* Remove \"srl\" (Seller Resource Locator) claim.",
+      "createdAt": "2026-03-30T22:30:48Z",
+      "updatedAt": "2026-03-30T23:00:39Z",
+      "baseRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "baseRefName": "main",
+      "baseRefOid": "f6f850d1d2c7bf529a006657926b9dd0505dd6c1",
+      "headRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "headRefName": "mbj-history-01",
+      "headRefOid": "e8a63b1b721fc4796d21380dc7f19d43b9c86c9f",
+      "closedAt": "2026-03-30T23:00:39Z",
+      "mergedAt": "2026-03-30T23:00:38Z",
+      "mergedBy": "skyfire-ankit",
+      "mergeCommit": {
+        "oid": "452d2861815e39c948abf42092002967a11be5a4"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd87wbbLV",
+          "commit": {
+            "abbreviatedOid": "e8a63b1"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-03-30T23:00:32Z",
+          "updatedAt": "2026-03-30T23:00:32Z",
           "comments": []
         }
       ]
