@@ -5,8 +5,8 @@
 Network Working Group                                         A. Agarwal
 Internet-Draft                                                   Skyfire
 Intended status: Informational                                  M. Jones
-Expires: 1 October 2026                           Self-Issued Consulting
-                                                           30 March 2026
+Expires: 2 October 2026                           Self-Issued Consulting
+                                                           31 March 2026
 
 
                              KYAPay Profile
@@ -46,7 +46,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 1 October 2026.
+   This Internet-Draft will expire on 2 October 2026.
 
 Copyright Notice
 
@@ -1132,6 +1132,9 @@ Document History
    *  Initial Internet Draft.
 
 Contributors
+
+   Andrew Stitt
+
 
    Dmitri Zagidulin
 
