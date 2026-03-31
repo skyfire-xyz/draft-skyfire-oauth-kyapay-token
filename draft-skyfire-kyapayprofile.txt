@@ -78,7 +78,7 @@ Table of Contents
        3.2.2.  Agent Platform Identity apd Sub-Claims
        3.2.3.  Agent Identity aid Sub-Claims
      3.3.  PAY Token
-       3.3.1.  Agent Identity sti Sub-Claims
+       3.3.1.  Settlement Information sti Sub-Claims
        3.3.2.  PAY Token Example
      3.4.  KYA-PAY Token
    4.  Token Validation
@@ -544,7 +544,7 @@ Table of Contents
    sti:  REQUIRED - Meta information for payment settlement, depending
       on settlement. type.
 
-3.3.1.  Agent Identity sti Sub-Claims
+3.3.1.  Settlement Information sti Sub-Claims
 
    The sti claim is optional.  If present, it MAY contain the following
    sub-claims, all of which are OPTIONAL.
@@ -553,17 +553,25 @@ Table of Contents
       - "usdc"; for "card" - "visa_vic" or "mastercard_scof".
       Additional values may be defined and used.
 
-   paymentToken:  OPTIONAL - String containing Virtual Payment Card
+   payment_token:  OPTIONAL - String containing Virtual Payment Card
       Number in ISO/IEC 7812 format. 12-19 characters.
 
-   tokenExpirationMonth:  OPTIONAL - String containing two-digit
+   token_expiration_month:  OPTIONAL - String containing two-digit
       Expiration Month Number.
 
-   tokenExpirationYear:  OPTIONAL - String containing four-digit
+   token_expiration_year:  OPTIONAL - String containing four-digit
       Expiration Year.
 
-   tokenSecurityCode:  OPTIONAL - String containing 3 or 4 digit CVV
+   token_security_code:  OPTIONAL - String containing 3 or 4 digit CVV
       code.
+
+   verifier:  OPTIONAL - URL of the Payment Verifier
+
+   verified:  OPTIONAL - Boolean Verification status.  True if verified,
+      otherwise false.
+
+   verification_id:  OPTIONAL - Verification identifier.  Identifier for
+      the verification performed, such as a GUID.
 
    Additional sub-claims MAY be defined and used.  The recipient MUST
    ignore any unrecognized sub-claims.

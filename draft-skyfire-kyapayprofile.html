@@ -1203,7 +1203,7 @@ tokens in an interoperable manner.<a href="#section-abstract-1" class="pilcrow">
                 <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-pay-token" class="internal xref">PAY Token</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3.2.1">
-                    <p id="section-toc.1-1.3.2.3.2.1.1"><a href="#section-3.3.1" class="auto internal xref">3.3.1</a>.  <a href="#name-agent-identity-sti-sub-clai" class="internal xref">Agent Identity <code>sti</code> Sub-Claims</a></p>
+                    <p id="section-toc.1-1.3.2.3.2.1.1"><a href="#section-3.3.1" class="auto internal xref">3.3.1</a>.  <a href="#name-settlement-information-sti-" class="internal xref">Settlement Information <code>sti</code> Sub-Claims</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3.2.2">
                     <p id="section-toc.1-1.3.2.3.2.2.1"><a href="#section-3.3.2" class="auto internal xref">3.3.2</a>.  <a href="#name-pay-token-example" class="internal xref">PAY Token Example</a></p>
@@ -1995,10 +1995,10 @@ type.<a href="#section-3.3-2.16.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 </dl>
-<div id="agent-identity-sti-sub-claims">
+<div id="settlement-information-sti-sub-claims">
 <section id="section-3.3.1">
-          <h4 id="name-agent-identity-sti-sub-clai">
-<a href="#section-3.3.1" class="section-number selfRef">3.3.1. </a><a href="#name-agent-identity-sti-sub-clai" class="section-name selfRef">Agent Identity <code>sti</code> Sub-Claims</a>
+          <h4 id="name-settlement-information-sti-">
+<a href="#section-3.3.1" class="section-number selfRef">3.3.1. </a><a href="#name-settlement-information-sti-" class="section-name selfRef">Settlement Information <code>sti</code> Sub-Claims</a>
           </h4>
 <p id="section-3.3.1-1">The <code>sti</code> claim is optional. If present, it <span class="bcp14">MAY</span> contain the following sub-claims,
 all of which are <span class="bcp14">OPTIONAL</span>.<a href="#section-3.3.1-1" class="pilcrow">¶</a></p>
@@ -2011,27 +2011,45 @@ for "card" - "visa_vic" or "mastercard_scof".  Additional values may be defined 
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.3.1-2.3">
-<code>paymentToken</code>:</dt>
+<code>payment_token</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.3.1-2.4">
               <p id="section-3.3.1-2.4.1"><span class="bcp14">OPTIONAL</span> - String containing Virtual Payment Card Number in ISO/IEC 7812 format. 12-19 characters.<a href="#section-3.3.1-2.4.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.3.1-2.5">
-<code>tokenExpirationMonth</code>:</dt>
+<code>token_expiration_month</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.3.1-2.6">
               <p id="section-3.3.1-2.6.1"><span class="bcp14">OPTIONAL</span> - String containing two-digit Expiration Month Number.<a href="#section-3.3.1-2.6.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.3.1-2.7">
-<code>tokenExpirationYear</code>:</dt>
+<code>token_expiration_year</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.3.1-2.8">
               <p id="section-3.3.1-2.8.1"><span class="bcp14">OPTIONAL</span> - String containing four-digit Expiration Year.<a href="#section-3.3.1-2.8.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.3.1-2.9">
-<code>tokenSecurityCode</code>:</dt>
+<code>token_security_code</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.3.1-2.10">
               <p id="section-3.3.1-2.10.1"><span class="bcp14">OPTIONAL</span> - String containing 3 or 4 digit CVV code.<a href="#section-3.3.1-2.10.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-3.3.1-2.11">
+<code>verifier</code>:</dt>
+            <dd style="margin-left: 1.5em" id="section-3.3.1-2.12">
+              <p id="section-3.3.1-2.12.1"><span class="bcp14">OPTIONAL</span> - URL of the Payment Verifier<a href="#section-3.3.1-2.12.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-3.3.1-2.13">
+<code>verified</code>:</dt>
+            <dd style="margin-left: 1.5em" id="section-3.3.1-2.14">
+              <p id="section-3.3.1-2.14.1"><span class="bcp14">OPTIONAL</span> - Boolean Verification status.  True if verified, otherwise false.<a href="#section-3.3.1-2.14.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-3.3.1-2.15">
+<code>verification_id</code>:</dt>
+            <dd style="margin-left: 1.5em" id="section-3.3.1-2.16">
+              <p id="section-3.3.1-2.16.1"><span class="bcp14">OPTIONAL</span> - Verification identifier. Identifier for the verification performed, such as a GUID.<a href="#section-3.3.1-2.16.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 </dl>
