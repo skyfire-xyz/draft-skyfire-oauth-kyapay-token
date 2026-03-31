@@ -510,7 +510,7 @@ The following payment related claims are used within PAY and KYA-PAY type tokens
 : REQUIRED - Meta information for payment settlement, depending on settlement.
   type.
 
-### Agent Identity `sti` Sub-Claims
+### Settlement Information `sti` Sub-Claims
 
 The `sti` claim is optional. If present, it MAY contain the following sub-claims,
 all of which are OPTIONAL.
@@ -519,17 +519,26 @@ all of which are OPTIONAL.
 : REQUIRED - "type" is dependent on the "stp" value; for "coin" - "usdc";
   for "card" - "visa_vic" or "mastercard_scof".  Additional values may be defined and used.
 
-`paymentToken`:
+`payment_token`:
 : OPTIONAL - String containing Virtual Payment Card Number in ISO/IEC 7812 format. 12-19 characters.
 
-`tokenExpirationMonth`:
+`token_expiration_month`:
 : OPTIONAL - String containing two-digit Expiration Month Number.
 
-`tokenExpirationYear`:
+`token_expiration_year`:
 : OPTIONAL - String containing four-digit Expiration Year.
 
-`tokenSecurityCode`:
+`token_security_code`:
 : OPTIONAL - String containing 3 or 4 digit CVV code.
+
+`verifier`:
+: OPTIONAL - URL of the Payment Verifier
+
+`verified`:
+: OPTIONAL - Boolean Verification status.  True if verified, otherwise false.
+
+`verification_id`:
+: OPTIONAL - Verification identifier. Identifier for the verification performed, such as a GUID.
 
 Additional sub-claims MAY be defined and used.
 The recipient MUST ignore any unrecognized sub-claims.
