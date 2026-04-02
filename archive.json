@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-03-31T00:12:06.523238+00:00",
+  "timestamp": "2026-04-02T00:10:34.023665+00:00",
   "repo": "skyfire-xyz/kyapay-ietf-draft",
   "labels": [
     {
@@ -1764,6 +1764,90 @@
           "body": "",
           "createdAt": "2026-03-30T23:00:32Z",
           "updatedAt": "2026-03-30T23:00:32Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 29,
+      "id": "PR_kwDOQZxkd87OykxH",
+      "title": "Fix Contributors YAML syntax",
+      "url": "https://github.com/skyfire-xyz/kyapay-ietf-draft/pull/29",
+      "state": "MERGED",
+      "author": "selfissued",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-03-31T00:24:53Z",
+      "updatedAt": "2026-03-31T01:02:19Z",
+      "baseRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "baseRefName": "main",
+      "baseRefOid": "452d2861815e39c948abf42092002967a11be5a4",
+      "headRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "headRefName": "mbj-contributors",
+      "headRefOid": "7fe8983c1a0fbb30d475685de7cfc5e0c5ea5807",
+      "closedAt": "2026-03-31T01:02:18Z",
+      "mergedAt": "2026-03-31T01:02:18Z",
+      "mergedBy": "skyfire-ankit",
+      "mergeCommit": {
+        "oid": "a91590a19b057be1192d799153c902a9d01a8128"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd87wcp6Y",
+          "commit": {
+            "abbreviatedOid": "7fe8983"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-03-31T01:02:13Z",
+          "updatedAt": "2026-03-31T01:02:13Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 30,
+      "id": "PR_kwDOQZxkd87PE7tz",
+      "title": "Corrections to the \"sti\" sub-claims",
+      "url": "https://github.com/skyfire-xyz/kyapay-ietf-draft/pull/30",
+      "state": "MERGED",
+      "author": "skyfire-ankit",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Minor corrections to the \"sti\" sub-claims",
+      "createdAt": "2026-03-31T21:54:28Z",
+      "updatedAt": "2026-03-31T22:01:34Z",
+      "baseRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "baseRefName": "main",
+      "baseRefOid": "a91590a19b057be1192d799153c902a9d01a8128",
+      "headRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "headRefName": "skyfire-ankit-sti-corrections",
+      "headRefOid": "1c9eb9bc9c56b07eedf73983b21e8288cb226ec3",
+      "closedAt": "2026-03-31T22:01:34Z",
+      "mergedAt": "2026-03-31T22:01:34Z",
+      "mergedBy": "selfissued",
+      "mergeCommit": {
+        "oid": "ec086767c1c002314dfaad6a2bc4ad21737815e2"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd87w1EqV",
+          "commit": {
+            "abbreviatedOid": "1c9eb9b"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-03-31T22:01:21Z",
+          "updatedAt": "2026-03-31T22:01:21Z",
           "comments": []
         }
       ]
