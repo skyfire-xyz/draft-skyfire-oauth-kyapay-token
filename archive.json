@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-04-14T00:17:34.980325+00:00",
+  "timestamp": "2026-04-16T00:17:44.481284+00:00",
   "repo": "skyfire-xyz/kyapay-ietf-draft",
   "labels": [
     {
@@ -49,7 +49,24 @@
       "color": "ffffff"
     }
   ],
-  "issues": [],
+  "issues": [
+    {
+      "number": 31,
+      "id": "I_kwDOQZxkd87-iqj9",
+      "title": "Wallet identity for `coin` settlement: in scope, or sibling spec?",
+      "url": "https://github.com/skyfire-xyz/kyapay-ietf-draft/issues/31",
+      "state": "OPEN",
+      "author": "douglasborthwick-crypto",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Reading draft -01. The abstract is explicit about scope:\n\n> KYAPay does not aim to define agentic identity in its entirety. Rather, it specifies a standard and extensible JWT profile\u2026\n\nPR #18 (\"Add note about not being agent identity\") makes the boundary even sharper. I want to raise a question that sits exactly on that boundary, and ask whether the answer belongs in this draft or in a sibling specification.\n\n### Observation\n\nThe spec defines four identity-bearing claim groups:\n\n- `hid` \u2014 Human Identity, with the `verifier` / `verified` / `verification_id` pattern for delegated KYC.\n- `apd` \u2014 Agent Platform identity, with the same `verifier` / `verified` / `verification_id` pattern.\n- `aid` \u2014 Agent Identity, identified by `creation_ip` and `source_ips`.\n- `sti` \u2014 Settlement Information, with sub-claims for `payment_token`, expiration, CVV, etc.\n\n`stp` is a REQUIRED claim with the enum `coin` or `card`, and the Payment Token Issuer role description says settlement happens \"via various schemes (Cards, Banks, Cryptocurrency).\"\n\nFor `stp: card`, `sti` has a complete schema \u2014 payment token, expiration, security code, plus the verifier triple. For `stp: coin`, only `sti.type: \"usdc\"` is defined; no schema exists for the wallet that signs the on-chain transfer, the chain it lives on, or any verifier reference for it.\n\nWhen `stp: coin`, the buyer agent's on-chain wallet is the field that determines whether the seller can rely on the settlement. KYC on `hid` does not bind to a wallet \u2014 a sanctioned or compromised wallet behind a KYC'd human still settles, and on-chain settlements are non-reversible. The current schema gives implementers nowhere to put this information, which suggests `coin` deployments today are either (a) carrying wallet metadata in private extensions to `sti`, or (b) operating without it.\n\n### Question\n\nDoes this belong in scope of the KYAPay profile, or is it intentionally deferred to a sibling specification?\n\nIf **in scope**, the existing structural pattern would suggest a sibling claim alongside `hid` / `apd` / `aid` (name TBD), mirroring the `verifier` / `verified` / `verification_id` shape that `hid` and `apd` already use:\n\n```\n\"<wallet-claim>\": {                                       // claim name TBD\n  \"address\": \"0x...\",                                     // canonical wallet identifier\n  \"chain\": \"eip155:1\",                                    // CAIP-2 chain id\n  \"verifier\": \"https://example.com/.well-known/jwks.json\",\n  \"verified\": true,\n  \"verification_id\": \"...\"\n}\n```\n\nThis:\n\n- Mirrors the existing `apd` / `hid` claim shape exactly.\n- Stays JWT-native \u2014 no nested signed structures, no new envelope.\n- Defers wallet verification to an external party using the same delegation model the draft already chose for human KYC and agent platform KYA.\n- Keeps the spec's existing scope posture: the token *carries* the verified claim; it does not define how the verification is performed.\n\nIf **out of scope**, the existing `apd.verifier` precedent suggests the natural home would be a sibling specification defining the wallet identity claim shape, referenced from KYAPay similarly to how the draft references {{IANA.JWT.Claims}} and {{IANA.MediaTypes}}.\n\nI don't have a strong view on which, but the question seems worth pinning down before the next revision \u2014 it affects whether implementations of `stp: coin` continue to fork `sti` privately or wait for a normative answer.\n\nHappy to contribute either direction if useful.",
+      "createdAt": "2026-04-15T17:14:28Z",
+      "updatedAt": "2026-04-15T17:14:28Z",
+      "closedAt": null,
+      "comments": []
+    }
+  ],
   "pulls": [
     {
       "number": 1,
