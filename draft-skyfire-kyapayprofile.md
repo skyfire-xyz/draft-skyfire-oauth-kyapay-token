@@ -24,8 +24,9 @@ venue:
 author:
 -
   name: Ankit Agarwal
-  organization: Skyfire
-  email: ankit@skyfire.xyz
+  organization: Skyfire Systems Inc.
+  email: ankit_agarwal@yahoo.com
+  uri: https://skyfire.xyz
 -
   ins: M. Jones
   name: Michael B. Jones
