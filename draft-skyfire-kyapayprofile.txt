@@ -3,10 +3,10 @@
 
 
 Network Working Group                                         A. Agarwal
-Internet-Draft                                                   Skyfire
+Internet-Draft                                      Skyfire Systems Inc.
 Intended status: Informational                                  M. Jones
-Expires: 2 October 2026                           Self-Issued Consulting
-                                                           31 March 2026
+Expires: 18 November 2026                         Self-Issued Consulting
+                                                             17 May 2026
 
 
                              KYAPay Profile
@@ -46,7 +46,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 2 October 2026.
+   This Internet-Draft will expire on 18 November 2026.
 
 Copyright Notice
 
@@ -1150,8 +1150,9 @@ Contributors
 Authors' Addresses
 
    Ankit Agarwal
-   Skyfire
-   Email: ankit@skyfire.xyz
+   Skyfire Systems Inc.
+   Email: ankit_agarwal@yahoo.com
+   URI:   https://skyfire.xyz
 
 
    Michael B. Jones
