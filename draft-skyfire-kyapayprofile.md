@@ -1,7 +1,7 @@
 ---
 title: "KYAPay Profile"
 #abbrev: ""
-category: info
+category: std
 
 docname: draft-skyfire-kyapayprofile-latest
 submissiontype: IETF  # also: "independent", "editorial", "IAB", or "IRTF"
@@ -13,6 +13,10 @@ v: 3
 # workgroup: TODO
 keyword:
  - agent
+ - identity
+ - agentic
+ - payment
+ - commerce
 venue:
   github: "skyfire-xyz/kyapay-ietf-draft"
 #  group: WG
