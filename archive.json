@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-05-19T00:26:31.713180+00:00",
+  "timestamp": "2026-06-14T00:29:53.029138+00:00",
   "repo": "skyfire-xyz/kyapay-ietf-draft",
   "labels": [
     {
@@ -1910,6 +1910,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 33,
+      "id": "PR_kwDOQZxkd87lb89K",
+      "title": "Change from Informational to Standards Track",
+      "url": "https://github.com/skyfire-xyz/kyapay-ietf-draft/pull/33",
+      "state": "OPEN",
+      "author": "selfissued",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-06-11T17:55:07Z",
+      "updatedAt": "2026-06-11T17:55:07Z",
+      "baseRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "baseRefName": "main",
+      "baseRefOid": "0c29cf5c898a53e1f173578382d1bca6d116d185",
+      "headRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "headRefName": "mbj-std",
+      "headRefOid": "d22ef8c3c1b66b48171610737971a3e4081eca56",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
