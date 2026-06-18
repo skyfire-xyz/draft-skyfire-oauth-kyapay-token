@@ -207,59 +207,62 @@ Principal:
 : A legal entity (human or organization) on whose behalf / in whose authority
 an agent or service is operating.
 
-### Buy-Side Roles
+### Initiator Roles
 
-Buyer Agent:
-: An Agent performing tasks on behalf of a Buyer Principal, that has its own
+Initiator Agent:
+: An Agent performing tasks on behalf of a Initiator Principal, that has its own
   Agent Identity, grouped into the `aid` claim.
 
-Buyer Agent Platform:
-: The Agent Platform hosting the Buyer Agent. Some use cases require the Platform
+Initiator Agent Platform:
+: The Agent Platform hosting the Initiator Agent. Some use cases require the Platform
   to have its own verified identity assertions, grouped into the `apd` claim.
 
-Buyer Principal:
+Initiator Principal:
 : A legal entity (human or organization) behind the purchase / consumption of a
-  product or service. The Principal typically interacts with the seller via a
-  Buyer Agent. Many sellers are required to be able to determine the Buyer
+  product or service.
+  In buyer/seller transactions, the Initiator is the buyer.
+  The Principal typically interacts with the target via a
+  Initiator Agent. Many targets are required to be able to determine the Initiator
   Identity in order to comply with KYC/AML regulations, accounting standards,
-  and to maintain a direct customer relationships. The buyer principal's
+  and to maintain a direct customer relationships. The initiator principal's
   identity is grouped into the `hid` claim.
 
-Buyer Identity:
-: The aggregate verified identity assertions of the buy-side entities, typically
-  encompassing the Buyer Principal, the Buyer Agent Platform, and the Buyer Agent
+Initiator Identity:
+: The aggregate verified identity assertions of the initiator entities, typically
+  encompassing the Initiator Principal, the Initiator Agent Platform, and the Initiator Agent
   itself. This composite identity is conveyed via the KYA token, allowing the
-  seller to verify the entire chain of responsibility behind a request.
-  The buyer identity utilizes the `hid`, `apd`, and `aid` claims.
+  target to verify the entire chain of responsibility behind a request.
+  The initiator identity utilizes the `hid`, `apd`, and `aid` claims.
 
-### Sell-Side Roles
+### Target Roles
 
-Seller Agent:
-: An Agent performing tasks on behalf of a Seller Principal, directly interacting
-  with Buyer Agents to facilitate discovery and purchase. Typically runs on
+Target Agent:
+: An Agent performing tasks on behalf of a Target Principal, directly interacting
+  with Initiator Agents to facilitate discovery and purchase. Typically runs on
   Internet-connected infrastructure, and discoverable via service directories.
-  Seller agent identity claims are also grouped into the `aid` claim
-  if KYA tokens are generated for the sellers.
+  Target agent identity claims are also grouped into the `aid` claim
+  if KYA tokens are generated for the targets.
 
-Seller Agent Platform:
-: The Agent Platform that hosts Seller Agents. Some use cases require the Platform
+Target Agent Platform:
+: The Agent Platform that hosts Target Agents. Some use cases require the Platform
   to have its own verified identity assertions, grouped into the `apd` claim.
 
-Seller Principal:
+Target Principal:
 : A human principal (individual or organization) that that owns the product,
   service, API, website, or content being consumed or sold, and serves as the
   ultimate beneficiary of a transaction.
-  The seller principal's identity is grouped into the `hid` claim.
+  In buyer/seller transactions, the Target is the seller.
+  The target principal's identity is grouped into the `hid` claim.
 
-Seller Identity:
-: The aggregate verified identity assertions of the sell-side entities, typically
-  encompassing the Seller Principal, the Seller Agent Platform, as well as the
-  Seller Agent Identity.
-  These various aspects of Seller Identity allow Buyers and Buyer Agents to
+Target Identity:
+: The aggregate verified identity assertions of the target entities, typically
+  encompassing the Target Principal, the Target Agent Platform, as well as the
+  Target Agent Identity.
+  These various aspects of Target Identity allow Initiators and Initiator Agents to
   perform reputation-based logic, to verify that they are interacting with
   the authorized (and expected) counter-party, and to fulfill KYC/AML regulation
   requirements.
-  The seller identity utilizes the `hid`, `apd`, and `aid` claims.
+  The target identity utilizes the `hid`, `apd`, and `aid` claims.
 
 ### Ecosystem Infrastructure Roles
 
@@ -267,11 +270,11 @@ Identity Token Issuer:
 : A trusted neutral entity that conducts Know Your Customer (KYC) and Know Your
   Business (KYB) (for organizations) verifications. It is responsible for issuing
   cryptographically signed `kya` tokens that attest to the identity of the
-  Principal, Agent, and Agent Platform, for both Buyers and Sellers.
+  Principal, Agent, and Agent Platform, for both Initiators and Targets.
 
 Payment Token Issuer:
 : A trusted entity responsible for facilitating the exchange of payments and
-  credentials between the Buyer and Seller. It issues signed `pay` tokens that
+  credentials between the Initiator and Target. It issues signed `pay` tokens that
   enable settlement via various schemes (Cards, Banks, Cryptocurrency), without
   exposing raw credentials or secrets.
 
@@ -292,7 +295,7 @@ PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
 
 `aud`:
 : REQUIRED - Audience (used for audience binding and replay attack mitigation),
-  uniquely identifying the seller agent.
+  uniquely identifying the target agent.
   A single string value.
 
 `iat`:
@@ -307,8 +310,8 @@ PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
 : REQUIRED - as defined in {{Section 4.1.4 of RFC7519}}.  Identifies the expiration
   time on or after which the JWT MUST NOT be accepted for processing.
 
-`sdm`:
-: OPTIONAL - Seller domain, associated with the audience claim, the token is intended for.
+`tdm`:
+: OPTIONAL - Target domain, associated with the audience claim, the token is intended for.
 
 `ori`:
 : OPTIONAL - URL of the token's originator.
@@ -317,11 +320,11 @@ PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
 : OPTIONAL - Issuer environment (such as "production" or "sandbox").  Additional values
   may be defined and used.
 
-`ssi`:
-: OPTIONAL - Seller Service ID that this token was created for.
+`tsi`:
+: OPTIONAL - Target Service ID that this token was created for.
 
-`btg`:
-: OPTIONAL - Buyer tag - an opaque reference ID internal to the buyer.
+`itg`:
+: OPTIONAL - Initiator tag - an opaque reference ID internal to the initiator.
 
 Additional claims MAY be defined and used in these tokens.
 The recipient MUST ignore any unrecognized claims.
@@ -356,15 +359,15 @@ The following informative example displays a decoded KYA type token.
   "iat": 1742245254,
   "exp": 1773867654,
   "jti": "b9821893-7699-4d24-af06-803a6a16476b",
-  "sub": "bb713104-c14e-460f-9b7c-f8140fa9bea4", // Buyer Agent Account ID
-  "aud": "7434230d-0861-46f2-9c2c-a6ee33d07f17", // Seller Agent Account ID
+  "sub": "bb713104-c14e-460f-9b7c-f8140fa9bea4", // Initiator Agent Account ID
+  "aud": "7434230d-0861-46f2-9c2c-a6ee33d07f17", // Target Agent Account ID
 
   "env": "production",
-  "ssi": "bc3ff89f-069b-4383-82a9-8cfe53c55fc3", // Seller Service ID
-  "btg": "4f6cbd39-215c-4516-bf33-cab22862ee60", // Buyer Tag (Internal Reference ID)
+  "tsi": "bc3ff89f-069b-4383-82a9-8cfe53c55fc3", // Target Service ID
+  "itg": "4f6cbd39-215c-4516-bf33-cab22862ee60", // Initiator Tag (Internal Reference ID)
 
   "hid": {
-    "email": "buyer@buyer.com"
+    "email": "initiator@initiator.com"
   },
   "apd": {
     "id": "d3306fc0-602b-47e6-9fe2-3d55d028fbd2"
@@ -381,7 +384,7 @@ The following informative example displays a decoded KYA type token.
     "creation_ip": "54.86.50.139", // IP Address where token was created
     "source_ips": ["54.86.50.139-54.86.50.141", "1.1.1.0/24",
       "2001:db8:abcd:0012::/64", "acme.com"]
-      // IP addresses from which the buyer agent will make requests to the seller
+      // IP addresses from which the initiator agent will make requests to the target
   }
 }
 ~~~
@@ -483,11 +486,11 @@ The recipient MUST ignore any unrecognized sub-claims.
 
 The following payment related claims are used within PAY and KYA-PAY type tokens:
 
-`spr`:
-: OPTIONAL - JSON string representing seller service price in currency units.
+`tpr`:
+: OPTIONAL - JSON string representing target service price in currency units.
 
-`sps`:
-: OPTIONAL - Seller pricing scheme, which represents a way for the seller list
+`tps`:
+: OPTIONAL - Target pricing scheme, which represents a way for the target list
   how it charges for its service or content. One of `pay_per_use`,
   `subscription`, `pay_per_mb`, or `custom`.  Additional values may be defined
   and used.
@@ -502,7 +505,7 @@ The following payment related claims are used within PAY and KYA-PAY type tokens
 : REQUIRED - JSON string representing token amount in settlement network's units.
 
 `mnr`:
-: OPTIONAL - JSON number representing maximum number of requests when `sps` is `pay_per_use`.
+: OPTIONAL - JSON number representing maximum number of requests when `tps` is `pay_per_use`.
 
 `stp`:
 : REQUIRED - Settlement type (one of `coin` or `card`).  Additional values may be defined and used.
@@ -558,15 +561,15 @@ The following informative example displays a decoded PAY type token.
   "iat": 1742245254,
   "exp": 1773867654,
   "jti": "b9821893-7699-4d24-af06-803a6a16476b",
-  "sub": "8b810549-7443-494f-b4ad-5bc65871e32b", // Buyer Agent Account ID
-  "aud": "37888095-2721-48d9-a2df-bfe4075f223a", // Seller Agent Account ID
+  "sub": "8b810549-7443-494f-b4ad-5bc65871e32b", // Initiator Agent Account ID
+  "aud": "37888095-2721-48d9-a2df-bfe4075f223a", // Target Agent Account ID
 
   "env": "sandbox",
-  "ssi": "274efc47-024e-466f-b278-152d2ee73955", // Seller Service ID
-  "btg": "16c135ce-a99a-453d-a7b5-4958fd91de5f", // Buyer Tag (Internal Reference ID)
+  "tsi": "274efc47-024e-466f-b278-152d2ee73955", // Target Service ID
+  "itg": "16c135ce-a99a-453d-a7b5-4958fd91de5f", // Initiator Tag (Internal Reference ID)
 
-  "spr": "0.01",
-  "sps": "pay_per_use",
+  "tpr": "0.01",
+  "tps": "pay_per_use",
   "amt": "15",
   "cur": "USD",
   "val": "15000000",
@@ -601,15 +604,15 @@ The following informative example displays a decoded KYA-PAY type token.
   "iat": 1742245254,
   "exp": 1773867654,
   "jti": "b9821893-7699-4d24-af06-803a6a16476b",
-  "sub": "f24a431d-108c-46e6-9357-b428c528210e", // Buyer Agent Account ID
-  "aud": "5e00177d-ff7f-424b-8c83-2756e15efbed", // Seller Agent Account ID
+  "sub": "f24a431d-108c-46e6-9357-b428c528210e", // Initiator Agent Account ID
+  "aud": "5e00177d-ff7f-424b-8c83-2756e15efbed", // Target Agent Account ID
 
   "env": "production",
-  "ssi": "3e6d33a1-438e-482e-bba5-6aa69544727d", // Seller Service ID
-  "btg": "c52e0ef2-e27d-4e95-862e-475a904ae7b2", // Buyer Tag (Internal Reference ID)
+  "tsi": "3e6d33a1-438e-482e-bba5-6aa69544727d", // Target Service ID
+  "itg": "c52e0ef2-e27d-4e95-862e-475a904ae7b2", // Initiator Tag (Internal Reference ID)
 
   "hid": {
-    "email": "maryjane@buyer.example.com",
+    "email": "maryjane@initiator.example.com",
     "given_name": "Mary",
     "middle_name": "Jane",
     "family_name": "Doe",
@@ -631,11 +634,11 @@ The following informative example displays a decoded KYA-PAY type token.
     "creation_ip": "128.2.42.95", // IP Address where token was created
     "source_ips": ["54.86.50.139-54.86.50.141", "1.1.1.0/24",
       "2001:db8:abcd:0012::/64", "agentic-excellence.example.com"]
-      // IP addresses from which the buyer agent will make requests to the seller
+      // IP addresses from which the initiator agent will make requests to the target
   },
 
-  "spr": "0.01",
-  "sps": "pay_per_use",
+  "tpr": "0.01",
+  "tps": "pay_per_use",
   "amt": "15",
   "cur": "USD",
   "val": "15000000",
@@ -689,11 +692,11 @@ In addition, perform the following steps.
 
 1. The `val` claim is greater than 0.
 2. The `amt` claim is greater than 0.
-3. The `cur` claim is set to a currency the seller supports (such as `USD`)
-4. The `sps` claim, if present, matches the pricing scheme that you configured in
-  the seller's service
-5. The `spr` claim, if present, matches the price that you configured in the
-  seller's service
+3. The `cur` claim is set to a currency the target supports (such as `USD`)
+4. The `tps` claim, if present, matches the pricing scheme that you configured in
+  the target's service
+5. The `tpr` claim, if present, matches the price that you configured in the
+  target's service
 
 # Security Considerations
 
@@ -729,10 +732,17 @@ This specification registers the following Claims in
 the IANA "JSON Web Token Claims" registry {{IANA.JWT.Claims}}
 established by {{RFC7519}}.
 
-### "sdm" Claim
+### "tdm" Claim
 
-* Claim Name: sdm
-* Claim Description: Seller domain the token is intended for
+* Claim Name: tdm
+* Claim Description: Target domain the token is intended for
+* Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
+* Reference: (#common-claims) of this specification
+
+### "tsi" Claim
+
+* Claim Name: tsi
+* Claim Description: Target Service ID that this token was created for
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
 * Reference: (#common-claims) of this specification
 
@@ -750,10 +760,10 @@ established by {{RFC7519}}.
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
 * Reference: (#common-claims) of this specification
 
-### "btg" Claim
+### "itg" Claim
 
-* Claim Name: btg
-* Claim Description: Buyer tag, an opaque reference ID internal to the buyer
+* Claim Name: itg
+* Claim Description: Initiator tag, an opaque reference ID internal to the initiator
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
 * Reference: (#common-claims) of this specification
 
@@ -762,33 +772,33 @@ established by {{RFC7519}}.
 * Claim Name: hid
 * Claim Description: JSON structure containing human identity claims
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
-* Reference: (#common-claims) of this specification
+* Reference: (#kya-token) of this specification
 
 ### "apd" Claim
 
 * Claim Name: apd
 * Claim Description: JSON structure containing agent platform identity claims
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
-* Reference: (#common-claims) of this specification
+* Reference: (#kya-token) of this specification
 
 ### "aid" Claim
 
 * Claim Name: aid
 * Claim Description: JSON structure containing agent identity claims
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
-* Reference: (#common-claims) of this specification
+* Reference: (#kya-token) of this specification
 
-### "spr" Claim
+### "tpr" Claim
 
-* Claim Name: spr
-* Claim Description: JSON string representing seller service price in currency units
+* Claim Name: tpr
+* Claim Description: JSON string representing target service price in currency units
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
 * Reference: (#pay-token) of this specification
 
-### "sps" Claim
+### "tps" Claim
 
-* Claim Name: sps
-* Claim Description: Seller pricing scheme, which represents a way for the seller list how it charges for its service or content
+* Claim Name: tps
+* Claim Description: Target pricing scheme, which represents a way for the target list how it charges for its service or content
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
 * Reference: (#pay-token) of this specification
 
@@ -910,6 +920,14 @@ in the manner described in {{RFC6838}}.
 {: numbered="false"}
 
 [[ to be removed by the RFC Editor before publication as an RFC ]]
+
+-02
+
+* Changed terms buyer and seller to initiator and target to generalize applicability.
+  These claim names were changed: "sdm" to "tdm", "ssi" to "tsi", "btg" to "itg",
+  "spr" to "tpr", and "sps" to "tps".
+* Updated Settlement Information sti Sub-Claims.
+* Changed specification type from Informative to Proposed Standard.
 
 -01
 
