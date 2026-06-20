@@ -214,7 +214,7 @@ an agent or service is operating.
 ### Initiator Roles
 
 Initiator Agent:
-: An Agent performing tasks on behalf of a Initiator Principal, that has its own
+: An Agent performing tasks on behalf of an Initiator Principal, that has its own
   Agent Identity, grouped into the `aid` claim.
 
 Initiator Agent Platform:
@@ -225,7 +225,7 @@ Initiator Principal:
 : A legal entity (human or organization) behind the purchase / consumption of a
   product or service.
   In buyer/seller transactions, the Initiator is the buyer.
-  The Principal typically interacts with the target via a
+  The Principal typically interacts with the target via an
   Initiator Agent. Many targets are required to be able to determine the Initiator
   Identity in order to comply with KYC/AML regulations, accounting standards,
   and to maintain a direct customer relationships. The initiator principal's
