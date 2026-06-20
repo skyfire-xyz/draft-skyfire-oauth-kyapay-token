@@ -5,8 +5,8 @@
 Network Working Group                                         A. Agarwal
 Internet-Draft                                      Skyfire Systems Inc.
 Intended status: Informational                                  M. Jones
-Expires: 20 December 2026                         Self-Issued Consulting
-                                                            18 June 2026
+Expires: 22 December 2026                         Self-Issued Consulting
+                                                            20 June 2026
 
 
                              KYAPay Profile
@@ -46,7 +46,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 20 December 2026.
+   This Internet-Draft will expire on 22 December 2026.
 
 Copyright Notice
 
@@ -259,7 +259,7 @@ Table of Contents
 
 2.1.1.  Initiator Roles
 
-   Initiator Agent:  An Agent performing tasks on behalf of a Initiator
+   Initiator Agent:  An Agent performing tasks on behalf of an Initiator
       Principal, that has its own Agent Identity, grouped into the aid
       claim.
 
@@ -270,7 +270,7 @@ Table of Contents
    Initiator Principal:  A legal entity (human or organization) behind
       the purchase / consumption of a product or service.  In buyer/
       seller transactions, the Initiator is the buyer.  The Principal
-      typically interacts with the target via a Initiator Agent.  Many
+      typically interacts with the target via an Initiator Agent.  Many
       targets are required to be able to determine the Initiator
       Identity in order to comply with KYC/AML regulations, accounting
       standards, and to maintain a direct customer relationships.  The
