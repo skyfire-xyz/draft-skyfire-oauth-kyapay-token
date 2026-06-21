@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-06-14T00:29:53.029138+00:00",
+  "timestamp": "2026-06-21T00:30:08.100591+00:00",
   "repo": "skyfire-xyz/kyapay-ietf-draft",
   "labels": [
     {
@@ -1916,26 +1916,118 @@
       "id": "PR_kwDOQZxkd87lb89K",
       "title": "Change from Informational to Standards Track",
       "url": "https://github.com/skyfire-xyz/kyapay-ietf-draft/pull/33",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "selfissued",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2026-06-11T17:55:07Z",
-      "updatedAt": "2026-06-11T17:55:07Z",
+      "updatedAt": "2026-06-20T16:01:38Z",
       "baseRepository": "skyfire-xyz/kyapay-ietf-draft",
       "baseRefName": "main",
       "baseRefOid": "0c29cf5c898a53e1f173578382d1bca6d116d185",
       "headRepository": "skyfire-xyz/kyapay-ietf-draft",
       "headRefName": "mbj-std",
       "headRefOid": "d22ef8c3c1b66b48171610737971a3e4081eca56",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-06-20T16:01:38Z",
+      "mergedAt": "2026-06-20T16:01:38Z",
+      "mergedBy": "selfissued",
+      "mergeCommit": {
+        "oid": "91a34224e66c0ea4340aac58a27b00df9b304116"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd88AAAABDn3VEA",
+          "commit": {
+            "abbreviatedOid": "d22ef8c"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "lgtm",
+          "createdAt": "2026-06-20T15:31:10Z",
+          "updatedAt": "2026-06-20T15:31:10Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 34,
+      "id": "PR_kwDOQZxkd87nvd1S",
+      "title": "Changed buyer to initiator and seller to target",
+      "url": "https://github.com/skyfire-xyz/kyapay-ietf-draft/pull/34",
+      "state": "MERGED",
+      "author": "selfissued",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-06-18T02:00:46Z",
+      "updatedAt": "2026-06-20T16:13:36Z",
+      "baseRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "baseRefName": "main",
+      "baseRefOid": "0c29cf5c898a53e1f173578382d1bca6d116d185",
+      "headRepository": "skyfire-xyz/kyapay-ietf-draft",
+      "headRefName": "mbj-buyer-seller-to-initiator-target",
+      "headRefOid": "71aa58436caaaf87c0167e62239cd38a9b414e12",
+      "closedAt": "2026-06-20T16:13:36Z",
+      "mergedAt": "2026-06-20T16:13:36Z",
+      "mergedBy": "selfissued",
+      "mergeCommit": {
+        "oid": "e9a21f1605dcfaedb601169553c632a33322c118"
+      },
+      "comments": [
+        {
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Lgtm",
+          "createdAt": "2026-06-20T16:11:47Z",
+          "updatedAt": "2026-06-20T16:11:47Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd88AAAABDn1nVA",
+          "commit": {
+            "abbreviatedOid": "5124b07"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "DISMISSED",
+          "body": "",
+          "createdAt": "2026-06-20T15:21:42Z",
+          "updatedAt": "2026-06-20T16:07:48Z",
+          "comments": [
+            {
+              "originalPosition": 10,
+              "body": "\"...an Initiator...\"",
+              "createdAt": "2026-06-20T15:21:42Z",
+              "updatedAt": "2026-06-20T15:54:43Z"
+            },
+            {
+              "originalPosition": 26,
+              "body": "\"...via an...\"",
+              "createdAt": "2026-06-20T15:22:49Z",
+              "updatedAt": "2026-06-20T15:54:43Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABDn_C6A",
+          "commit": {
+            "abbreviatedOid": "71aa584"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "Lgtm",
+          "createdAt": "2026-06-20T16:12:26Z",
+          "updatedAt": "2026-06-20T16:12:26Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
