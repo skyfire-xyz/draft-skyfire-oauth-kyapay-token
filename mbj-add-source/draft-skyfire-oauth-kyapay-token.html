@@ -4,33 +4,38 @@
 <meta charset="utf-8">
 <meta content="Common,Cyrillic,Latin" name="scripts">
 <meta content="initial-scale=1.0" name="viewport">
-<title>KYAPay Profile</title>
+<title>KYAPay Token</title>
 <meta content="Ankit Agarwal" name="author">
 <meta content="Michael B. Jones" name="author">
 <meta content="
-       This document defines a profile for agent identity and payment tokens in
-JSON web token (JWT) format. Authorization servers and resource servers from
-different vendors can leverage this profile to consume identity and payment
+       This document defines a token format for agent identity and payment tokens in
+JSON Web Token (JWT) format. Authorization servers and resource servers from
+different vendors can leverage this token format to consume identity and payment
 tokens in an interoperable manner. 
     " name="description">
-<meta content="xml2rfc 3.32.0" name="generator">
+<meta content="xml2rfc 3.34.0" name="generator">
 <meta content="agent" name="keyword">
-<meta content="draft-skyfire-kyapayprofile-latest" name="ietf.draft">
+<meta content="identity" name="keyword">
+<meta content="agentic" name="keyword">
+<meta content="payment" name="keyword">
+<meta content="commerce" name="keyword">
+<meta content="draft-skyfire-oauth-kyapay-token-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.32.0
-    Python 3.12.12
-    ConfigArgParse 1.7
+  xml2rfc 3.34.0
+    Python 3.14.5
+    ConfigArgParse 1.7.5
     google-i18n-address 3.1.1
     intervaltree 3.2.1
     Jinja2 3.1.6
-    lxml 6.0.2
-    platformdirs 4.9.4
+    lxml 6.1.1
+    natsort 8.4.0
+    platformdirs 4.10.0
     pycountry 24.6.1
     PyYAML 6.0.3
-    requests 2.32.5
-    wcwidth 0.6.0
+    requests 2.33.1
+    wcwidth 0.8.2
 -->
-<link href="draft-skyfire-kyapayprofile.xml" rel="alternate" type="application/rfc+xml">
+<link href="draft-skyfire-oauth-kyapay-token.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
 <style type="text/css">@font-face {
   font-family: 'Lora';
@@ -295,16 +300,19 @@ h1, h2, h3, h4, h5, h6 {
   font-size-adjust: 0.5;
   color: var(--title-color);
 }
-h1#title {
-  font-size: 32px;
-  line-height: 40px;
-  clear: both;
-}
-h1#title, h1#rfcnum {
-  margin: 1.5em 0 0.2em;
-}
-h1#rfcnum + h1#title {
-  margin: 0.2em 0;
+h1 {
+  &#title {
+    font-size: 32px;
+    line-height: 40px;
+    clear: both;
+    margin: 1.5em 0 0.2em;
+  }
+  &#rfcnum {
+    margin: 1.5em 0 0.2em;
+    & + h1#title {
+      margin: 0.2em 0;
+    }
+  }
 }
 
 h1, h2, h3 {
@@ -324,10 +332,10 @@ h4, h5, h6 {
 #abstract+p {
   font-size: 18px;
   line-height: 24px;
-}
-#abstract+p code, #abstract+p samp, #abstract+p tt {
-  font-size: 16px;
-  line-height: 0;
+  & code, & samp, & tt {
+    font-size: 16px;
+    line-height: 0;
+  }
 }
 
 p {
@@ -338,59 +346,59 @@ p {
 div {
   margin: 0;
 }
-.alignRight.art-text {
-  background-color: var(--highlight-color);
-  border: 1px solid var(--line-color);
-  border-radius: 3px;
-  padding: 0.5em 1em 0;
-  margin-bottom: 0.5em;
-}
-.alignRight.art-text pre {
-  padding: 0;
-  width: auto;
-}
 .alignRight {
   margin: 1em 0;
-}
-.alignRight > *:first-child {
-  border: none;
-  margin: 0;
-  float: right;
-  clear: both;
-}
-.alignRight > *:nth-child(2) {
-  clear: both;
-  display: block;
-  border: none;
+  &.art-text {
+    background-color: var(--highlight-color);
+    border: 1px solid var(--line-color);
+    border-radius: 3px;
+    padding: 0.5em 1em 0;
+    margin-bottom: 0.5em;
+    & pre {
+      padding: 0;
+      width: auto;
+    }
+  }
+  & > *:first-child {
+    border: none;
+    margin: 0;
+    float: right;
+    clear: both;
+  }
+  & > *:nth-child(2) {
+    clear: both;
+    display: block;
+    border: none;
+  }
 }
 svg {
   display: block;
-}
-/* font-family isn't space-separated, but =~ will have to do */
-svg[font-family~="monospace" i], svg [font-family~="monospace" i] {
-  font-family: var(--font-mono);
-}
-.alignCenter.art-text {
-  background-color: var(--highlight-color);
-  border: 1px solid var(--line-color);
-  border-radius: 3px;
-  padding: 0.5em 1em 0;
-  margin-bottom: 0.5em;
-}
-.alignCenter.art-text pre {
-  padding: 0;
-  width: auto;
+  /* font-family isn't space-separated, but =~ will have to do */
+  &[font-family~="monospace" i], & [font-family~="monospace" i] {
+    font-family: var(--font-mono);
+  }
 }
 .alignCenter {
   margin: 1em 0;
-}
-.alignCenter > *:first-child {
-  border: none;
-  /* this isn't optimal, but it's an existence proof.  PrinceXML doesn't
-     support flexbox yet.
-  */
-  display: table;
-  margin: 0 auto;
+  &.art-text {
+    background-color: var(--highlight-color);
+    border: 1px solid var(--line-color);
+    border-radius: 3px;
+    padding: 0.5em 1em 0;
+    margin-bottom: 0.5em;
+    & pre {
+      padding: 0;
+      width: auto;
+    }
+  }
+  & > *:first-child {
+    border: none;
+    /* this isn't optimal, but it's an existence proof.  PrinceXML doesn't
+       support flexbox yet.
+    */
+    display: table;
+    margin: 0 auto;
+  }
 }
 
 /* lists */
@@ -428,26 +436,25 @@ dl {
     --indent: 5ch;
     & > dt {
       min-width: calc(var(--indent) - 2ch);
+      float: none;
     }
-  }
-  &.olPercent > dt {
-    float: none;
   }
 
   dl > dd > & {
     margin-top: 0.5em;
     margin-bottom: 0;
   }
-}
-dl:not(.dlNewline) > dt {
-  float: left;
-  margin-right: 2ch;
-  min-width: 8ch;
-}
-dl > dd {
-  margin-bottom: .8em;
-  margin-left: var(--indent) !important; /* stupid element overrides */
-  min-height: 2ex;
+
+  &:not(.dlNewline) > dt {
+    float: left;
+    margin-right: 2ch;
+    min-width: 8ch;
+  }
+  & > dd {
+    margin-bottom: .8em;
+    margin-left: var(--indent) !important; /* stupid element overrides */
+    min-height: 2ex;
+  }
 }
 :is(dl.compact, .dlCompact) > dd {
   margin-bottom: 0;
@@ -463,20 +470,22 @@ dl > dd {
 }
 
 /* links */
-a, a[href].selfRef:hover {
+a {
   text-decoration: none;
+  &[href] {
+    color: var(--link-color);
+    &:hover { text-decoration: underline; }
+    &.selfRef {
+      color: var(--text-color);
+      &:hover {
+        text-decoration: none;
+        background-color: var(--highlight-color);
+      }
+    }
+  }
 }
-a[href] {
-  color: var(--link-color);
-}
-a[href].selfRef, .iref + a[href].internal {
+.iref + a[href].internal {
   color: var(--text-color);
-}
-a[href]:hover {
-  text-decoration: underline;
-}
-a[href].selfRef:hover {
-  background-color: var(--highlight-color);
 }
 a.xref:is(.cite, .auto), :is(#status-of-memo, #copyright) a {
   white-space: nowrap;
@@ -512,9 +521,9 @@ img {
 figure {
   margin: 0.5em 0;
   padding: 0;
-}
-figure blockquote {
-  margin: 0.8em 0.4em 0.4em;
+  & blockquote {
+    margin: 0.8em 0.4em 0.4em;
+  }
 }
 figcaption, caption {
   font-style: italic;
@@ -524,17 +533,19 @@ figcaption, caption {
 }
 @media screen {
   /* Auto-collapse boilerplate. */
-  :is(#status-of-memo, #copyright) p {
-    margin: -2px 0;
-    max-height: 0;
-    transition: max-height 2s ease, margin 0.5s ease 0.5s;
-    overflow: hidden;
-  }
-  :is(#status-of-memo, #copyright):hover p,
-  :is(#status-of-memo, #copyright) h2:target ~ p {
-    margin: 0.5em 0;
-    max-height: 500px;
-    overflow: auto;
+  :is(#status-of-memo, #copyright) {
+    & p {
+      margin: -2px 0;
+      max-height: 0;
+      transition: max-height 2s ease, margin 0.5s ease 0.5s;
+      overflow: hidden;
+    }
+    &:hover p,
+    & h2:target ~ p {
+      margin: 0.5em 0;
+      max-height: 500px;
+      overflow: auto;
+    }
   }
   pre, svg {
     display: inline-block;
@@ -584,25 +595,17 @@ table {
   max-width: 100%;
   margin: 0 0 1em;
   border-collapse: collapse;
-}
-table.right {
-  margin-left: auto;
-}
-table.center {
-  margin-left: auto;
-  margin-right: auto;
-}
-table.left {
-  margin-right: auto;
-}
-table .text-left {
-  text-align: left;
-}
-table .text-center {
-  text-align: center;
-}
-table .text-right {
-  text-align: right;
+  &.right { margin-left: auto; }
+  &.center { margin-left: auto; margin-right: auto; }
+  &.left { margin-right: auto; }
+  & .text-left { text-align: left; }
+  & .text-center { text-align: center; }
+  & .text-right { text-align: right; }
+  & caption {
+    margin: 0;
+    padding: 3px 0 3px 1em;
+  }
+  & p { margin: 0; }
 }
 
 thead, tbody {
@@ -622,13 +625,6 @@ th {
 :is(tr:nth-child(2n+1), thead+tbody > tr:nth-child(2n)) > td {
   background-color: var(--highlight-color);
 }
-table caption {
-  margin: 0;
-  padding: 3px 0 3px 1em;
-}
-table p {
-  margin: 0;
-}
 
 /* pilcrow */
 a.pilcrow {
@@ -639,18 +635,16 @@ a.pilcrow {
     color: var(--pilcrow-weak);
     &:hover { text-decoration: none; }
   }
-}
-@media not print {
-  :hover > a.pilcrow, a.pilcrow:focus {
-    opacity: 1;
+  @media not print {
+    :hover > &, &:focus {
+      opacity: 1;
+    }
+    &[href]:hover {
+      color: var(--pilcrow-strong);
+      background-color: transparent;
+    }
   }
-  a.pilcrow[href]:hover {
-    color: var(--pilcrow-strong);
-    background-color: transparent;
-  }
-}
-@media print {
-  a.pilcrow {
+  @media print {
     display: none;
   }
 }
@@ -709,9 +703,9 @@ sub, sup {
   font-size: 0.9em;
   font-style: italic;
   margin-top: 2em;
-}
-.docInfo .prepared {
-  float: right;
+  & .prepared {
+    float: right;
+  }
 }
 
 /* table of contents */
@@ -801,23 +795,27 @@ hr.addr {
   max-width: calc(100% - 16px);
 }
 @media (min-width: 500px) {
-  #authors-addresses > section {
-    column-count: 2;
-    column-gap: 20px;
-  }
-  #authors-addresses > section > h2 {
-    column-span: all;
-  }
-  /* hack for break-inside: avoid-column */
-  #authors-addresses address {
-    display: inline-block;
-    break-inside: avoid-column;
+  #authors-addresses {
+    & > section {
+      column-count: 2;
+      column-gap: 20px;
+    }
+    & > section > h2 {
+      column-span: all;
+    }
+    /* hack for break-inside: avoid-column */
+    & address {
+      display: inline-block;
+      break-inside: avoid-column;
+    }
   }
 }
 
 /* Comments */
-.rfcEditorRemove p:first-of-type {
-  font-style: italic;
+.rfcEditorRemove {
+  & p:first-of-type {
+    font-style: italic;
+  }
 }
 .cref {
   background-color: rgba(249, 232, 105, 0.3);
@@ -828,19 +826,21 @@ hr.addr {
 }
 
 @media screen {
-  #toc nav {
-    font-family: var(--font-title);
-    font-weight: 360;
-    & > ul { margin-bottom: 2em; }
-    & ul {
-      margin: 0 0 0 4px;
-      & :is(p, li) {
-        margin: 2px 0;
+  #toc {
+    & nav {
+      font-family: var(--font-title);
+      font-weight: 360;
+      & > ul { margin-bottom: 2em; }
+      & ul {
+        margin: 0 0 0 4px;
+        & :is(p, li) {
+          margin: 2px 0;
+        }
       }
     }
-  }
-  #toc a.toplink {
-    float: right;
+    & a.toplink {
+      float: right;
+    }
   }
 }
 @media not screen {
@@ -861,54 +861,54 @@ hr.addr {
     margin: 0;
     border-bottom: 1px solid #ccc;
     opacity: 0.6;
-  }
-  #toc h2 {
-    margin: 0;
-    padding: 2px 0 2px 6px;
-    padding-right: 1em;
-    font-size: 18px;
-    line-height: 24px;
-    min-width: 190px;
-    text-align: right;
-    background-color: #444;
-    color: white;
-    cursor: pointer;
-    &::before { /* css hamburger */
-      float: right;
-      position: relative;
-      width: 1em;
-      height: 1px;
-      left: -164px;
-      margin: 8px 0 0 0;
-      background: white none repeat scroll 0 0;
-      box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
-      content: "";
+    & h2 {
+      margin: 0;
+      padding: 2px 0 2px 6px;
+      padding-right: 1em;
+      font-size: 18px;
+      line-height: 24px;
+      min-width: 190px;
+      text-align: right;
+      background-color: #444;
+      color: white;
+      cursor: pointer;
+      &::before { /* css hamburger */
+        float: right;
+        position: relative;
+        width: 1em;
+        height: 1px;
+        left: -164px;
+        margin: 8px 0 0 0;
+        background: white none repeat scroll 0 0;
+        box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
+        content: "";
+      }
     }
-  }
-  #toc nav {
-    display: none;
-    background-color: var(--background-color);
-    padding: 0.5em 1em 1em;
-    overflow: auto;
-    overscroll-behavior: contain;
-    height: calc(100vh - 48px);
-    border-left: 1px solid #ddd;
-  }
-  #toc.active {
-    opacity: 1;
-    & nav { display: block; }
-  }
-  /* Make the collapsed ToC header render white on gray also when it's a link */
-  #toc h2 a,
-  #toc h2 a:is(:link, :focus, :hover),
-  #toc a.toplink,
-  #toc a.toplink:hover {
-    color: white;
-    background-color: #444;
-    text-decoration: none;
-  }
-  #toc a.toplink {
-    margin: 2px 0.5em 0;
+    & nav {
+      display: none;
+      background-color: var(--background-color);
+      padding: 0.5em 1em 1em;
+      overflow: auto;
+      overscroll-behavior: contain;
+      height: calc(100vh - 48px);
+      border-left: 1px solid #ddd;
+    }
+    &.active {
+      opacity: 1;
+      & nav { display: block; }
+    }
+    /* Make the collapsed ToC header render white on gray also when it's a link */
+    & h2 a,
+    & h2 a:is(:link, :focus, :hover),
+    & a.toplink,
+    & a.toplink:hover {
+      color: white;
+      background-color: #444;
+      text-decoration: none;
+    }
+    & a.toplink {
+      margin: 2px 0.5em 0;
+    }
   }
 }
 
@@ -927,26 +927,26 @@ hr.addr {
     margin: 0;
     padding: 0;
     z-index: 1;
-  }
-  #toc h2 {
-    margin: 0;
-    padding: 0.25em 1em 1em 0;
-  }
-  #toc nav {
-    display: block;
-    height: calc(90vh - 84px);
-    bottom: 0;
-    padding: 0.5em 0 2em;
-    overflow: auto;
-    overscroll-behavior: contain;
-    scrollbar-width: thin;
+    & h2 {
+      margin: 0;
+      padding: 0.25em 1em 1em 0;
+    }
+    & nav {
+      display: block;
+      height: calc(90vh - 84px);
+      bottom: 0;
+      padding: 0.5em 0 2em;
+      overflow: auto;
+      overscroll-behavior: contain;
+      scrollbar-width: thin;
+    }
+    & a.toplink {
+      margin: 8px 0.5em 0;
+    }
   }
   img { /* future proofing */
     max-width: 100%;
     height: auto;
-  }
-  #toc a.toplink {
-    margin: 8px 0.5em 0;
   }
 }
 
@@ -962,12 +962,13 @@ hr.addr {
   #n-copyright-notice {
     border-bottom: none;
   }
-  #toc, #n-introduction {
-    page-break-before: always;
-  }
   #toc {
+    page-break-before: always;
     border-top: none;
     padding-top: 0;
+  }
+  #n-introduction {
+    page-break-before: always;
   }
   figure, pre, .vcard {
     page-break-inside: avoid;
@@ -1029,17 +1030,19 @@ hr.addr {
 }
 
 /* SVG Trick: a prefix match works because only black and white are allowed */
-svg :is([stroke="black"], [stroke^="#000"]) {
-  stroke: var(--text-color);
-}
-svg :is([stroke="white"], [stroke^="#fff"]) {
-  stroke: var(--background-color);
-}
-svg :is([fill="black"], [fill^="#000"], :not([fill])) {
-  fill: var(--text-color);
-}
-svg :is([fill="white"], [fill^="#fff"]) {
-  fill: var(--background-color);
+svg {
+  & :is([stroke="black"], [stroke^="#000"]) {
+    stroke: var(--text-color);
+  }
+  & :is([stroke="white"], [stroke^="#fff"]) {
+    stroke: var(--background-color);
+  }
+  & :is([fill="black"], [fill^="#000"], :not([fill])) {
+    fill: var(--text-color);
+  }
+  & :is([fill="white"], [fill^="#fff"]) {
+    fill: var(--background-color);
+  }
 }
 </style>
 
@@ -1048,12 +1051,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <table class="ears">
 <thead><tr>
 <td class="left">Internet-Draft</td>
-<td class="center">KYAPay Profile</td>
-<td class="right">March 2026</td>
+<td class="center">KYAPay Token</td>
+<td class="right">July 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Agarwal &amp; Jones</td>
-<td class="center">Expires 1 October 2026</td>
+<td class="center">Expires 4 January 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1063,20 +1066,20 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dt class="label-workgroup">Workgroup:</dt>
 <dd class="workgroup">Network Working Group</dd>
 <dt class="label-internet-draft">Internet-Draft:</dt>
-<dd class="internet-draft">draft-skyfire-kyapayprofile-latest</dd>
+<dd class="internet-draft">draft-skyfire-oauth-kyapay-token-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-03-30" class="published">30 March 2026</time>
+<time datetime="2026-07-03" class="published">3 July 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
-<dd class="intended-status">Informational</dd>
+<dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-10-01">1 October 2026</time></dd>
+<dd class="expires"><time datetime="2027-01-04">4 January 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
       <div class="author-name">A. Agarwal</div>
-<div class="org">Skyfire</div>
+<div class="org">Skyfire Systems Inc.</div>
 </div>
 <div class="author">
       <div class="author-name">M. Jones</div>
@@ -1085,12 +1088,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </dd>
 </dl>
 </div>
-<h1 id="title">KYAPay Profile</h1>
+<h1 id="title">KYAPay Token</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
-<p id="section-abstract-1">This document defines a profile for agent identity and payment tokens in
-JSON web token (JWT) format. Authorization servers and resource servers from
-different vendors can leverage this profile to consume identity and payment
+<p id="section-abstract-1">This document defines a token format for agent identity and payment tokens in
+JSON Web Token (JWT) format. Authorization servers and resource servers from
+different vendors can leverage this token format to consume identity and payment
 tokens in an interoperable manner.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <section class="note rfcEditorRemove" id="section-note.1">
@@ -1099,10 +1102,10 @@ tokens in an interoperable manner.<a href="#section-abstract-1" class="pilcrow">
       </h2>
 <p id="section-note.1-1">This note is to be removed before publishing as an RFC.<a href="#section-note.1-1" class="pilcrow">¶</a></p>
 <p id="section-note.1-2">
-        The latest revision of this draft can be found at <span><a href="https://skyfire-xyz.github.io/kyapay-ietf-draft/draft-skyfire-kyapayprofile.html">https://skyfire-xyz.github.io/kyapay-ietf-draft/draft-skyfire-kyapayprofile.html</a></span>.
-        Status information for this document may be found at <span><a href="https://datatracker.ietf.org/doc/draft-skyfire-kyapayprofile/">https://datatracker.ietf.org/doc/draft-skyfire-kyapayprofile/</a></span>.<a href="#section-note.1-2" class="pilcrow">¶</a></p>
+        The latest revision of this draft can be found at <span><a href="https://skyfire-xyz.github.io/draft-skyfire-oauth-kyapay-token/draft-skyfire-oauth-kyapay-token.html">https://skyfire-xyz.github.io/draft-skyfire-oauth-kyapay-token/draft-skyfire-oauth-kyapay-token.html</a></span>.
+        Status information for this document may be found at <span><a href="https://datatracker.ietf.org/doc/draft-skyfire-oauth-kyapay-token/">https://datatracker.ietf.org/doc/draft-skyfire-oauth-kyapay-token/</a></span>.<a href="#section-note.1-2" class="pilcrow">¶</a></p>
 <p id="section-note.1-3">Source for this draft and an issue tracker can be found at
-        <span><a href="https://github.com/skyfire-xyz/kyapay-ietf-draft">https://github.com/skyfire-xyz/kyapay-ietf-draft</a></span>.<a href="#section-note.1-3" class="pilcrow">¶</a></p>
+        <span><a href="https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token">https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token</a></span>.<a href="#section-note.1-3" class="pilcrow">¶</a></p>
 </section>
 <div id="status-of-memo">
 <section id="section-boilerplate.1">
@@ -1123,7 +1126,7 @@ tokens in an interoperable manner.<a href="#section-abstract-1" class="pilcrow">
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 1 October 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 4 January 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1167,10 +1170,10 @@ tokens in an interoperable manner.<a href="#section-abstract-1" class="pilcrow">
                 <p id="section-toc.1-1.2.2.1.1"><a href="#section-2.1" class="auto internal xref">2.1</a>.  <a href="#name-roles" class="internal xref">Roles</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.1.2.1">
-                    <p id="section-toc.1-1.2.2.1.2.1.1" class="keepWithNext"><a href="#section-2.1.1" class="auto internal xref">2.1.1</a>.  <a href="#name-buy-side-roles" class="internal xref">Buy-Side Roles</a></p>
+                    <p id="section-toc.1-1.2.2.1.2.1.1" class="keepWithNext"><a href="#section-2.1.1" class="auto internal xref">2.1.1</a>.  <a href="#name-initiator-roles" class="internal xref">Initiator Roles</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.1.2.2">
-                    <p id="section-toc.1-1.2.2.1.2.2.1"><a href="#section-2.1.2" class="auto internal xref">2.1.2</a>.  <a href="#name-sell-side-roles" class="internal xref">Sell-Side Roles</a></p>
+                    <p id="section-toc.1-1.2.2.1.2.2.1"><a href="#section-2.1.2" class="auto internal xref">2.1.2</a>.  <a href="#name-target-roles" class="internal xref">Target Roles</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.1.2.3">
                     <p id="section-toc.1-1.2.2.1.2.3.1"><a href="#section-2.1.3" class="auto internal xref">2.1.3</a>.  <a href="#name-ecosystem-infrastructure-ro" class="internal xref">Ecosystem Infrastructure Roles</a></p>
@@ -1203,7 +1206,7 @@ tokens in an interoperable manner.<a href="#section-abstract-1" class="pilcrow">
                 <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-pay-token" class="internal xref">PAY Token</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3.2.1">
-                    <p id="section-toc.1-1.3.2.3.2.1.1"><a href="#section-3.3.1" class="auto internal xref">3.3.1</a>.  <a href="#name-agent-identity-sti-sub-clai" class="internal xref">Agent Identity <code>sti</code> Sub-Claims</a></p>
+                    <p id="section-toc.1-1.3.2.3.2.1.1"><a href="#section-3.3.1" class="auto internal xref">3.3.1</a>.  <a href="#name-settlement-information-sti-" class="internal xref">Settlement Information <code>sti</code> Sub-Claims</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3.2.2">
                     <p id="section-toc.1-1.3.2.3.2.2.1"><a href="#section-3.3.2" class="auto internal xref">3.3.2</a>.  <a href="#name-pay-token-example" class="internal xref">PAY Token Example</a></p>
@@ -1247,49 +1250,52 @@ tokens in an interoperable manner.<a href="#section-abstract-1" class="pilcrow">
                 <p id="section-toc.1-1.7.2.1.1"><a href="#section-7.1" class="auto internal xref">7.1</a>.  <a href="#name-json-web-token-claims-regis" class="internal xref">JSON Web Token Claims Registration</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1.2.1">
-                    <p id="section-toc.1-1.7.2.1.2.1.1"><a href="#section-7.1.1" class="auto internal xref">7.1.1</a>.  <a href="#name-sdm-claim" class="internal xref">"sdm" Claim</a></p>
+                    <p id="section-toc.1-1.7.2.1.2.1.1"><a href="#section-7.1.1" class="auto internal xref">7.1.1</a>.  <a href="#name-tdm-claim" class="internal xref">"tdm" Claim</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1.2.2">
-                    <p id="section-toc.1-1.7.2.1.2.2.1"><a href="#section-7.1.2" class="auto internal xref">7.1.2</a>.  <a href="#name-ori-claim" class="internal xref">"ori" Claim</a></p>
+                    <p id="section-toc.1-1.7.2.1.2.2.1"><a href="#section-7.1.2" class="auto internal xref">7.1.2</a>.  <a href="#name-tsi-claim" class="internal xref">"tsi" Claim</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1.2.3">
-                    <p id="section-toc.1-1.7.2.1.2.3.1"><a href="#section-7.1.3" class="auto internal xref">7.1.3</a>.  <a href="#name-env-claim" class="internal xref">"env" Claim</a></p>
+                    <p id="section-toc.1-1.7.2.1.2.3.1"><a href="#section-7.1.3" class="auto internal xref">7.1.3</a>.  <a href="#name-ori-claim" class="internal xref">"ori" Claim</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1.2.4">
-                    <p id="section-toc.1-1.7.2.1.2.4.1"><a href="#section-7.1.4" class="auto internal xref">7.1.4</a>.  <a href="#name-btg-claim" class="internal xref">"btg" Claim</a></p>
+                    <p id="section-toc.1-1.7.2.1.2.4.1"><a href="#section-7.1.4" class="auto internal xref">7.1.4</a>.  <a href="#name-env-claim" class="internal xref">"env" Claim</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1.2.5">
-                    <p id="section-toc.1-1.7.2.1.2.5.1"><a href="#section-7.1.5" class="auto internal xref">7.1.5</a>.  <a href="#name-hid-claim" class="internal xref">"hid" Claim</a></p>
+                    <p id="section-toc.1-1.7.2.1.2.5.1"><a href="#section-7.1.5" class="auto internal xref">7.1.5</a>.  <a href="#name-itg-claim" class="internal xref">"itg" Claim</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1.2.6">
-                    <p id="section-toc.1-1.7.2.1.2.6.1"><a href="#section-7.1.6" class="auto internal xref">7.1.6</a>.  <a href="#name-apd-claim" class="internal xref">"apd" Claim</a></p>
+                    <p id="section-toc.1-1.7.2.1.2.6.1"><a href="#section-7.1.6" class="auto internal xref">7.1.6</a>.  <a href="#name-hid-claim" class="internal xref">"hid" Claim</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1.2.7">
-                    <p id="section-toc.1-1.7.2.1.2.7.1"><a href="#section-7.1.7" class="auto internal xref">7.1.7</a>.  <a href="#name-aid-claim" class="internal xref">"aid" Claim</a></p>
+                    <p id="section-toc.1-1.7.2.1.2.7.1"><a href="#section-7.1.7" class="auto internal xref">7.1.7</a>.  <a href="#name-apd-claim" class="internal xref">"apd" Claim</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1.2.8">
-                    <p id="section-toc.1-1.7.2.1.2.8.1"><a href="#section-7.1.8" class="auto internal xref">7.1.8</a>.  <a href="#name-spr-claim" class="internal xref">"spr" Claim</a></p>
+                    <p id="section-toc.1-1.7.2.1.2.8.1"><a href="#section-7.1.8" class="auto internal xref">7.1.8</a>.  <a href="#name-aid-claim" class="internal xref">"aid" Claim</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1.2.9">
-                    <p id="section-toc.1-1.7.2.1.2.9.1"><a href="#section-7.1.9" class="auto internal xref">7.1.9</a>.  <a href="#name-sps-claim" class="internal xref">"sps" Claim</a></p>
+                    <p id="section-toc.1-1.7.2.1.2.9.1"><a href="#section-7.1.9" class="auto internal xref">7.1.9</a>.  <a href="#name-tpr-claim" class="internal xref">"tpr" Claim</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1.2.10">
-                    <p id="section-toc.1-1.7.2.1.2.10.1"><a href="#section-7.1.10" class="auto internal xref">7.1.10</a>. <a href="#name-amt-claim" class="internal xref">"amt" Claim</a></p>
+                    <p id="section-toc.1-1.7.2.1.2.10.1"><a href="#section-7.1.10" class="auto internal xref">7.1.10</a>. <a href="#name-tps-claim" class="internal xref">"tps" Claim</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1.2.11">
-                    <p id="section-toc.1-1.7.2.1.2.11.1"><a href="#section-7.1.11" class="auto internal xref">7.1.11</a>. <a href="#name-cur-claim" class="internal xref">"cur" Claim</a></p>
+                    <p id="section-toc.1-1.7.2.1.2.11.1"><a href="#section-7.1.11" class="auto internal xref">7.1.11</a>. <a href="#name-amt-claim" class="internal xref">"amt" Claim</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1.2.12">
-                    <p id="section-toc.1-1.7.2.1.2.12.1"><a href="#section-7.1.12" class="auto internal xref">7.1.12</a>. <a href="#name-val-claim" class="internal xref">"val" Claim</a></p>
+                    <p id="section-toc.1-1.7.2.1.2.12.1"><a href="#section-7.1.12" class="auto internal xref">7.1.12</a>. <a href="#name-cur-claim" class="internal xref">"cur" Claim</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1.2.13">
-                    <p id="section-toc.1-1.7.2.1.2.13.1"><a href="#section-7.1.13" class="auto internal xref">7.1.13</a>. <a href="#name-mnr-claim" class="internal xref">"mnr" Claim</a></p>
+                    <p id="section-toc.1-1.7.2.1.2.13.1"><a href="#section-7.1.13" class="auto internal xref">7.1.13</a>. <a href="#name-val-claim" class="internal xref">"val" Claim</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1.2.14">
-                    <p id="section-toc.1-1.7.2.1.2.14.1"><a href="#section-7.1.14" class="auto internal xref">7.1.14</a>. <a href="#name-stp-claim" class="internal xref">"stp" Claim</a></p>
+                    <p id="section-toc.1-1.7.2.1.2.14.1"><a href="#section-7.1.14" class="auto internal xref">7.1.14</a>. <a href="#name-mnr-claim" class="internal xref">"mnr" Claim</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1.2.15">
-                    <p id="section-toc.1-1.7.2.1.2.15.1"><a href="#section-7.1.15" class="auto internal xref">7.1.15</a>. <a href="#name-sti-claim" class="internal xref">"sti" Claim</a></p>
+                    <p id="section-toc.1-1.7.2.1.2.15.1"><a href="#section-7.1.15" class="auto internal xref">7.1.15</a>. <a href="#name-stp-claim" class="internal xref">"stp" Claim</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1.2.16">
+                    <p id="section-toc.1-1.7.2.1.2.16.1"><a href="#section-7.1.16" class="auto internal xref">7.1.16</a>. <a href="#name-sti-claim" class="internal xref">"sti" Claim</a></p>
 </li>
                 </ul>
 </li>
@@ -1351,7 +1357,7 @@ systems, and fraud detectors. This enables agents to bypass common blocking
 mechanisms and access services that were previously restricted to manual human
 interaction.<a href="#section-1-2" class="pilcrow">¶</a></p>
 <p id="section-1-3">KYAPay does not aim to define agentic identity in its entirety. Rather, it specifies
-a standard and extensible JWT profile for a token that can be used to securely share human
+a standard and extensible JSON Web Token (JWT) <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span> that can be used to securely share human
 principal and agent identity information with websites and APIs. KYAPay tokens
 provide a strong signal of human presence behind agentic requests that are
 otherwise indistinguishable from programmatic and potentially malicious bot requests.<a href="#section-1-3" class="pilcrow">¶</a></p>
@@ -1481,85 +1487,88 @@ an agent or service is operating.<a href="#section-2.1-1.8.1" class="pilcrow">¶
 </dd>
         <dd class="break"></dd>
 </dl>
-<div id="buy-side-roles">
+<div id="initiator-roles">
 <section id="section-2.1.1">
-          <h4 id="name-buy-side-roles">
-<a href="#section-2.1.1" class="section-number selfRef">2.1.1. </a><a href="#name-buy-side-roles" class="section-name selfRef">Buy-Side Roles</a>
+          <h4 id="name-initiator-roles">
+<a href="#section-2.1.1" class="section-number selfRef">2.1.1. </a><a href="#name-initiator-roles" class="section-name selfRef">Initiator Roles</a>
           </h4>
 <span class="break"></span><dl class="dlParallel" id="section-2.1.1-1">
-            <dt id="section-2.1.1-1.1">Buyer Agent:</dt>
+            <dt id="section-2.1.1-1.1">Initiator Agent:</dt>
             <dd style="margin-left: 1.5em" id="section-2.1.1-1.2">
-              <p id="section-2.1.1-1.2.1">An Agent performing tasks on behalf of a Buyer Principal, that has its own
+              <p id="section-2.1.1-1.2.1">An Agent performing tasks on behalf of an Initiator Principal, that has its own
 Agent Identity, grouped into the <code>aid</code> claim.<a href="#section-2.1.1-1.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-2.1.1-1.3">Buyer Agent Platform:</dt>
+<dt id="section-2.1.1-1.3">Initiator Agent Platform:</dt>
             <dd style="margin-left: 1.5em" id="section-2.1.1-1.4">
-              <p id="section-2.1.1-1.4.1">The Agent Platform hosting the Buyer Agent. Some use cases require the Platform
+              <p id="section-2.1.1-1.4.1">The Agent Platform hosting the Initiator Agent. Some use cases require the Platform
 to have its own verified identity assertions, grouped into the <code>apd</code> claim.<a href="#section-2.1.1-1.4.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-2.1.1-1.5">Buyer Principal:</dt>
+<dt id="section-2.1.1-1.5">Initiator Principal:</dt>
             <dd style="margin-left: 1.5em" id="section-2.1.1-1.6">
               <p id="section-2.1.1-1.6.1">A legal entity (human or organization) behind the purchase / consumption of a
-product or service. The Principal typically interacts with the seller via a
-Buyer Agent. Many sellers are required to be able to determine the Buyer
+product or service.
+In buyer/seller transactions, the Initiator is the buyer.
+The Principal typically interacts with the target via an
+Initiator Agent. Many targets are required to be able to determine the Initiator
 Identity in order to comply with KYC/AML regulations, accounting standards,
-and to maintain a direct customer relationships. The buyer principal's
+and to maintain a direct customer relationships. The initiator principal's
 identity is grouped into the <code>hid</code> claim.<a href="#section-2.1.1-1.6.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-2.1.1-1.7">Buyer Identity:</dt>
+<dt id="section-2.1.1-1.7">Initiator Identity:</dt>
             <dd style="margin-left: 1.5em" id="section-2.1.1-1.8">
-              <p id="section-2.1.1-1.8.1">The aggregate verified identity assertions of the buy-side entities, typically
-encompassing the Buyer Principal, the Buyer Agent Platform, and the Buyer Agent
+              <p id="section-2.1.1-1.8.1">The aggregate verified identity assertions of the initiator entities, typically
+encompassing the Initiator Principal, the Initiator Agent Platform, and the Initiator Agent
 itself. This composite identity is conveyed via the KYA token, allowing the
-seller to verify the entire chain of responsibility behind a request.
-The buyer identity utilizes the <code>hid</code>, <code>apd</code>, and <code>aid</code> claims.<a href="#section-2.1.1-1.8.1" class="pilcrow">¶</a></p>
+target to verify the entire chain of responsibility behind a request.
+The initiator identity utilizes the <code>hid</code>, <code>apd</code>, and <code>aid</code> claims.<a href="#section-2.1.1-1.8.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 </dl>
 </section>
 </div>
-<div id="sell-side-roles">
+<div id="target-roles">
 <section id="section-2.1.2">
-          <h4 id="name-sell-side-roles">
-<a href="#section-2.1.2" class="section-number selfRef">2.1.2. </a><a href="#name-sell-side-roles" class="section-name selfRef">Sell-Side Roles</a>
+          <h4 id="name-target-roles">
+<a href="#section-2.1.2" class="section-number selfRef">2.1.2. </a><a href="#name-target-roles" class="section-name selfRef">Target Roles</a>
           </h4>
 <span class="break"></span><dl class="dlParallel" id="section-2.1.2-1">
-            <dt id="section-2.1.2-1.1">Seller Agent:</dt>
+            <dt id="section-2.1.2-1.1">Target Agent:</dt>
             <dd style="margin-left: 1.5em" id="section-2.1.2-1.2">
-              <p id="section-2.1.2-1.2.1">An Agent performing tasks on behalf of a Seller Principal, directly interacting
-with Buyer Agents to facilitate discovery and purchase. Typically runs on
+              <p id="section-2.1.2-1.2.1">An Agent performing tasks on behalf of a Target Principal, directly interacting
+with Initiator Agents to facilitate discovery and purchase. Typically runs on
 Internet-connected infrastructure, and discoverable via service directories.
-Seller agent identity claims are also grouped into the <code>aid</code> claim
-if KYA tokens are generated for the sellers.<a href="#section-2.1.2-1.2.1" class="pilcrow">¶</a></p>
+Target agent identity claims are also grouped into the <code>aid</code> claim
+if KYA tokens are generated for the targets.<a href="#section-2.1.2-1.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-2.1.2-1.3">Seller Agent Platform:</dt>
+<dt id="section-2.1.2-1.3">Target Agent Platform:</dt>
             <dd style="margin-left: 1.5em" id="section-2.1.2-1.4">
-              <p id="section-2.1.2-1.4.1">The Agent Platform that hosts Seller Agents. Some use cases require the Platform
+              <p id="section-2.1.2-1.4.1">The Agent Platform that hosts Target Agents. Some use cases require the Platform
 to have its own verified identity assertions, grouped into the <code>apd</code> claim.<a href="#section-2.1.2-1.4.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-2.1.2-1.5">Seller Principal:</dt>
+<dt id="section-2.1.2-1.5">Target Principal:</dt>
             <dd style="margin-left: 1.5em" id="section-2.1.2-1.6">
               <p id="section-2.1.2-1.6.1">A human principal (individual or organization) that that owns the product,
 service, API, website, or content being consumed or sold, and serves as the
 ultimate beneficiary of a transaction.
-The seller principal's identity is grouped into the <code>hid</code> claim.<a href="#section-2.1.2-1.6.1" class="pilcrow">¶</a></p>
+In buyer/seller transactions, the Target is the seller.
+The target principal's identity is grouped into the <code>hid</code> claim.<a href="#section-2.1.2-1.6.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-2.1.2-1.7">Seller Identity:</dt>
+<dt id="section-2.1.2-1.7">Target Identity:</dt>
             <dd style="margin-left: 1.5em" id="section-2.1.2-1.8">
-              <p id="section-2.1.2-1.8.1">The aggregate verified identity assertions of the sell-side entities, typically
-encompassing the Seller Principal, the Seller Agent Platform, as well as the
-Seller Agent Identity.
-These various aspects of Seller Identity allow Buyers and Buyer Agents to
+              <p id="section-2.1.2-1.8.1">The aggregate verified identity assertions of the target entities, typically
+encompassing the Target Principal, the Target Agent Platform, as well as the
+Target Agent Identity.
+These various aspects of Target Identity allow Initiators and Initiator Agents to
 perform reputation-based logic, to verify that they are interacting with
 the authorized (and expected) counter-party, and to fulfill KYC/AML regulation
 requirements.
-The seller identity utilizes the <code>hid</code>, <code>apd</code>, and <code>aid</code> claims.<a href="#section-2.1.2-1.8.1" class="pilcrow">¶</a></p>
+The target identity utilizes the <code>hid</code>, <code>apd</code>, and <code>aid</code> claims.<a href="#section-2.1.2-1.8.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 </dl>
@@ -1576,13 +1585,13 @@ The seller identity utilizes the <code>hid</code>, <code>apd</code>, and <code>a
               <p id="section-2.1.3-1.2.1">A trusted neutral entity that conducts Know Your Customer (KYC) and Know Your
 Business (KYB) (for organizations) verifications. It is responsible for issuing
 cryptographically signed <code>kya</code> tokens that attest to the identity of the
-Principal, Agent, and Agent Platform, for both Buyers and Sellers.<a href="#section-2.1.3-1.2.1" class="pilcrow">¶</a></p>
+Principal, Agent, and Agent Platform, for both Initiators and Targets.<a href="#section-2.1.3-1.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-2.1.3-1.3">Payment Token Issuer:</dt>
             <dd style="margin-left: 1.5em" id="section-2.1.3-1.4">
               <p id="section-2.1.3-1.4.1">A trusted entity responsible for facilitating the exchange of payments and
-credentials between the Buyer and Seller. It issues signed <code>pay</code> tokens that
+credentials between the Initiator and Target. It issues signed <code>pay</code> tokens that
 enable settlement via various schemes (Cards, Banks, Cryptocurrency), without
 exposing raw credentials or secrets.<a href="#section-2.1.3-1.4.1" class="pilcrow">¶</a></p>
 </dd>
@@ -1625,7 +1634,7 @@ a given issuer.<a href="#section-3.1-2.4.1" class="pilcrow">¶</a></p>
 <code>aud</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-3.1-2.6">
             <p id="section-3.1-2.6.1"><span class="bcp14">REQUIRED</span> - Audience (used for audience binding and replay attack mitigation),
-uniquely identifying the seller agent.
+uniquely identifying the target agent.
 A single string value.<a href="#section-3.1-2.6.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
@@ -1651,9 +1660,9 @@ time on or after which the JWT <span class="bcp14">MUST NOT</span> be accepted f
 </dd>
           <dd class="break"></dd>
 <dt id="section-3.1-2.13">
-<code>sdm</code>:</dt>
+<code>tdm</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-3.1-2.14">
-            <p id="section-3.1-2.14.1"><span class="bcp14">OPTIONAL</span> - Seller domain, associated with the audience claim, the token is intended for.<a href="#section-3.1-2.14.1" class="pilcrow">¶</a></p>
+            <p id="section-3.1-2.14.1"><span class="bcp14">OPTIONAL</span> - Target domain, associated with the audience claim, the token is intended for.<a href="#section-3.1-2.14.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-3.1-2.15">
@@ -1670,15 +1679,15 @@ may be defined and used.<a href="#section-3.1-2.18.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-3.1-2.19">
-<code>ssi</code>:</dt>
+<code>tsi</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-3.1-2.20">
-            <p id="section-3.1-2.20.1"><span class="bcp14">OPTIONAL</span> - Seller Service ID that this token was created for.<a href="#section-3.1-2.20.1" class="pilcrow">¶</a></p>
+            <p id="section-3.1-2.20.1"><span class="bcp14">OPTIONAL</span> - Target Service ID that this token was created for.<a href="#section-3.1-2.20.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-3.1-2.21">
-<code>btg</code>:</dt>
+<code>itg</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-3.1-2.22">
-            <p id="section-3.1-2.22.1"><span class="bcp14">OPTIONAL</span> - Buyer tag - an opaque reference ID internal to the buyer.<a href="#section-3.1-2.22.1" class="pilcrow">¶</a></p>
+            <p id="section-3.1-2.22.1"><span class="bcp14">OPTIONAL</span> - Initiator tag - an opaque reference ID internal to the initiator.<a href="#section-3.1-2.22.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 </dl>
@@ -1732,15 +1741,15 @@ claims (individual or organization).<a href="#section-3.2-2.2.1" class="pilcrow"
   "iat": 1742245254,
   "exp": 1773867654,
   "jti": "b9821893-7699-4d24-af06-803a6a16476b",
-  "sub": "bb713104-c14e-460f-9b7c-f8140fa9bea4", // Buyer Agent Account ID
-  "aud": "7434230d-0861-46f2-9c2c-a6ee33d07f17", // Seller Agent Account ID
+  "sub": "bb713104-c14e-460f-9b7c-f8140fa9bea4", // Initiator Agent Account ID
+  "aud": "7434230d-0861-46f2-9c2c-a6ee33d07f17", // Target Agent Account ID
 
   "env": "production",
-  "ssi": "bc3ff89f-069b-4383-82a9-8cfe53c55fc3", // Seller Service ID
-  "btg": "4f6cbd39-215c-4516-bf33-cab22862ee60", // Buyer Tag (Internal Reference ID)
+  "tsi": "bc3ff89f-069b-4383-82a9-8cfe53c55fc3", // Target Service ID
+  "itg": "4f6cbd39-215c-4516-bf33-cab22862ee60", // Initiator Tag (Internal Reference ID)
 
   "hid": {
-    "email": "buyer@buyer.com"
+    "email": "initiator@initiator.com"
   },
   "apd": {
     "id": "d3306fc0-602b-47e6-9fe2-3d55d028fbd2"
@@ -1757,7 +1766,7 @@ claims (individual or organization).<a href="#section-3.2-2.2.1" class="pilcrow"
     "creation_ip": "54.86.50.139", // IP Address where token was created
     "source_ips": ["54.86.50.139-54.86.50.141", "1.1.1.0/24",
       "2001:db8:abcd:0012::/64", "acme.com"]
-      // IP addresses from which the buyer agent will make requests to the seller
+      // IP addresses from which the initiator agent will make requests to the target
   }
 }
 </pre>
@@ -1943,15 +1952,15 @@ The recipient <span class="bcp14">MUST</span> ignore any unrecognized sub-claims
 <p id="section-3.3-1">The following payment related claims are used within PAY and KYA-PAY type tokens:<a href="#section-3.3-1" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-3.3-2">
           <dt id="section-3.3-2.1">
-<code>spr</code>:</dt>
+<code>tpr</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-3.3-2.2">
-            <p id="section-3.3-2.2.1"><span class="bcp14">OPTIONAL</span> - JSON string representing seller service price in currency units.<a href="#section-3.3-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-3.3-2.2.1"><span class="bcp14">OPTIONAL</span> - JSON string representing target service price in currency units.<a href="#section-3.3-2.2.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-3.3-2.3">
-<code>sps</code>:</dt>
+<code>tps</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-3.3-2.4">
-            <p id="section-3.3-2.4.1"><span class="bcp14">OPTIONAL</span> - Seller pricing scheme, which represents a way for the seller list
+            <p id="section-3.3-2.4.1"><span class="bcp14">OPTIONAL</span> - Target pricing scheme, which represents a way for the target list
 how it charges for its service or content. One of <code>pay_per_use</code>,
 <code>subscription</code>, <code>pay_per_mb</code>, or <code>custom</code>.  Additional values may be defined
 and used.<a href="#section-3.3-2.4.1" class="pilcrow">¶</a></p>
@@ -1978,7 +1987,7 @@ and used.<a href="#section-3.3-2.4.1" class="pilcrow">¶</a></p>
 <dt id="section-3.3-2.11">
 <code>mnr</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-3.3-2.12">
-            <p id="section-3.3-2.12.1"><span class="bcp14">OPTIONAL</span> - JSON number representing maximum number of requests when <code>sps</code> is <code>pay_per_use</code>.<a href="#section-3.3-2.12.1" class="pilcrow">¶</a></p>
+            <p id="section-3.3-2.12.1"><span class="bcp14">OPTIONAL</span> - JSON number representing maximum number of requests when <code>tps</code> is <code>pay_per_use</code>.<a href="#section-3.3-2.12.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-3.3-2.13">
@@ -1995,10 +2004,10 @@ type.<a href="#section-3.3-2.16.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 </dl>
-<div id="agent-identity-sti-sub-claims">
+<div id="settlement-information-sti-sub-claims">
 <section id="section-3.3.1">
-          <h4 id="name-agent-identity-sti-sub-clai">
-<a href="#section-3.3.1" class="section-number selfRef">3.3.1. </a><a href="#name-agent-identity-sti-sub-clai" class="section-name selfRef">Agent Identity <code>sti</code> Sub-Claims</a>
+          <h4 id="name-settlement-information-sti-">
+<a href="#section-3.3.1" class="section-number selfRef">3.3.1. </a><a href="#name-settlement-information-sti-" class="section-name selfRef">Settlement Information <code>sti</code> Sub-Claims</a>
           </h4>
 <p id="section-3.3.1-1">The <code>sti</code> claim is optional. If present, it <span class="bcp14">MAY</span> contain the following sub-claims,
 all of which are <span class="bcp14">OPTIONAL</span>.<a href="#section-3.3.1-1" class="pilcrow">¶</a></p>
@@ -2011,27 +2020,45 @@ for "card" - "visa_vic" or "mastercard_scof".  Additional values may be defined 
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.3.1-2.3">
-<code>paymentToken</code>:</dt>
+<code>payment_token</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.3.1-2.4">
               <p id="section-3.3.1-2.4.1"><span class="bcp14">OPTIONAL</span> - String containing Virtual Payment Card Number in ISO/IEC 7812 format. 12-19 characters.<a href="#section-3.3.1-2.4.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.3.1-2.5">
-<code>tokenExpirationMonth</code>:</dt>
+<code>token_expiration_month</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.3.1-2.6">
               <p id="section-3.3.1-2.6.1"><span class="bcp14">OPTIONAL</span> - String containing two-digit Expiration Month Number.<a href="#section-3.3.1-2.6.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.3.1-2.7">
-<code>tokenExpirationYear</code>:</dt>
+<code>token_expiration_year</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.3.1-2.8">
               <p id="section-3.3.1-2.8.1"><span class="bcp14">OPTIONAL</span> - String containing four-digit Expiration Year.<a href="#section-3.3.1-2.8.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.3.1-2.9">
-<code>tokenSecurityCode</code>:</dt>
+<code>token_security_code</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.3.1-2.10">
               <p id="section-3.3.1-2.10.1"><span class="bcp14">OPTIONAL</span> - String containing 3 or 4 digit CVV code.<a href="#section-3.3.1-2.10.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-3.3.1-2.11">
+<code>verifier</code>:</dt>
+            <dd style="margin-left: 1.5em" id="section-3.3.1-2.12">
+              <p id="section-3.3.1-2.12.1"><span class="bcp14">OPTIONAL</span> - URL of the Payment Verifier<a href="#section-3.3.1-2.12.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-3.3.1-2.13">
+<code>verified</code>:</dt>
+            <dd style="margin-left: 1.5em" id="section-3.3.1-2.14">
+              <p id="section-3.3.1-2.14.1"><span class="bcp14">OPTIONAL</span> - Boolean Verification status.  True if verified, otherwise false.<a href="#section-3.3.1-2.14.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-3.3.1-2.15">
+<code>verification_id</code>:</dt>
+            <dd style="margin-left: 1.5em" id="section-3.3.1-2.16">
+              <p id="section-3.3.1-2.16.1"><span class="bcp14">OPTIONAL</span> - Verification identifier. Identifier for the verification performed, such as a GUID.<a href="#section-3.3.1-2.16.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 </dl>
@@ -2058,15 +2085,15 @@ The recipient <span class="bcp14">MUST</span> ignore any unrecognized sub-claims
   "iat": 1742245254,
   "exp": 1773867654,
   "jti": "b9821893-7699-4d24-af06-803a6a16476b",
-  "sub": "8b810549-7443-494f-b4ad-5bc65871e32b", // Buyer Agent Account ID
-  "aud": "37888095-2721-48d9-a2df-bfe4075f223a", // Seller Agent Account ID
+  "sub": "8b810549-7443-494f-b4ad-5bc65871e32b", // Initiator Agent Account ID
+  "aud": "37888095-2721-48d9-a2df-bfe4075f223a", // Target Agent Account ID
 
   "env": "sandbox",
-  "ssi": "274efc47-024e-466f-b278-152d2ee73955", // Seller Service ID
-  "btg": "16c135ce-a99a-453d-a7b5-4958fd91de5f", // Buyer Tag (Internal Reference ID)
+  "tsi": "274efc47-024e-466f-b278-152d2ee73955", // Target Service ID
+  "itg": "16c135ce-a99a-453d-a7b5-4958fd91de5f", // Initiator Tag (Internal Reference ID)
 
-  "spr": "0.01",
-  "sps": "pay_per_use",
+  "tpr": "0.01",
+  "tps": "pay_per_use",
   "amt": "15",
   "cur": "USD",
   "val": "15000000",
@@ -2113,15 +2140,15 @@ The recipient <span class="bcp14">MUST</span> ignore any unrecognized sub-claims
   "iat": 1742245254,
   "exp": 1773867654,
   "jti": "b9821893-7699-4d24-af06-803a6a16476b",
-  "sub": "f24a431d-108c-46e6-9357-b428c528210e", // Buyer Agent Account ID
-  "aud": "5e00177d-ff7f-424b-8c83-2756e15efbed", // Seller Agent Account ID
+  "sub": "f24a431d-108c-46e6-9357-b428c528210e", // Initiator Agent Account ID
+  "aud": "5e00177d-ff7f-424b-8c83-2756e15efbed", // Target Agent Account ID
 
   "env": "production",
-  "ssi": "3e6d33a1-438e-482e-bba5-6aa69544727d", // Seller Service ID
-  "btg": "c52e0ef2-e27d-4e95-862e-475a904ae7b2", // Buyer Tag (Internal Reference ID)
+  "tsi": "3e6d33a1-438e-482e-bba5-6aa69544727d", // Target Service ID
+  "itg": "c52e0ef2-e27d-4e95-862e-475a904ae7b2", // Initiator Tag (Internal Reference ID)
 
   "hid": {
-    "email": "maryjane@buyer.example.com",
+    "email": "maryjane@initiator.example.com",
     "given_name": "Mary",
     "middle_name": "Jane",
     "family_name": "Doe",
@@ -2143,11 +2170,11 @@ The recipient <span class="bcp14">MUST</span> ignore any unrecognized sub-claims
     "creation_ip": "128.2.42.95", // IP Address where token was created
     "source_ips": ["54.86.50.139-54.86.50.141", "1.1.1.0/24",
       "2001:db8:abcd:0012::/64", "agentic-excellence.example.com"]
-      // IP addresses from which the buyer agent will make requests to the seller
+      // IP addresses from which the initiator agent will make requests to the target
   },
 
-  "spr": "0.01",
-  "sps": "pay_per_use",
+  "tpr": "0.01",
+  "tps": "pay_per_use",
   "amt": "15",
   "cur": "USD",
   "val": "15000000",
@@ -2255,15 +2282,15 @@ the Validating KYA and PAY Tokens section.<a href="#section-4.2-1" class="pilcro
             <p id="section-4.2-3.2.1">The <code>amt</code> claim is greater than 0.<a href="#section-4.2-3.2.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-4.2-3.3">
-            <p id="section-4.2-3.3.1">The <code>cur</code> claim is set to a currency the seller supports (such as <code>USD</code>)<a href="#section-4.2-3.3.1" class="pilcrow">¶</a></p>
+            <p id="section-4.2-3.3.1">The <code>cur</code> claim is set to a currency the target supports (such as <code>USD</code>)<a href="#section-4.2-3.3.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-4.2-3.4">
-            <p id="section-4.2-3.4.1">The <code>sps</code> claim, if present, matches the pricing scheme that you configured in
-  the seller's service<a href="#section-4.2-3.4.1" class="pilcrow">¶</a></p>
+            <p id="section-4.2-3.4.1">The <code>tps</code> claim, if present, matches the pricing scheme that you configured in
+  the target's service<a href="#section-4.2-3.4.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-4.2-3.5">
-            <p id="section-4.2-3.5.1">The <code>spr</code> claim, if present, matches the price that you configured in the
-  seller's service<a href="#section-4.2-3.5.1" class="pilcrow">¶</a></p>
+            <p id="section-4.2-3.5.1">The <code>tpr</code> claim, if present, matches the price that you configured in the
+  target's service<a href="#section-4.2-3.5.1" class="pilcrow">¶</a></p>
 </li>
         </ol>
 </section>
@@ -2315,17 +2342,17 @@ should be placed in the tokens and conveyed to participants.<a href="#section-6-
 <p id="section-7.1-1">This specification registers the following Claims in
 the IANA "JSON Web Token Claims" registry <span>[<a href="#IANA.JWT.Claims" class="cite xref">IANA.JWT.Claims</a>]</span>
 established by <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
-<div id="sdm-claim">
+<div id="tdm-claim">
 <section id="section-7.1.1">
-          <h4 id="name-sdm-claim">
-<a href="#section-7.1.1" class="section-number selfRef">7.1.1. </a><a href="#name-sdm-claim" class="section-name selfRef">"sdm" Claim</a>
+          <h4 id="name-tdm-claim">
+<a href="#section-7.1.1" class="section-number selfRef">7.1.1. </a><a href="#name-tdm-claim" class="section-name selfRef">"tdm" Claim</a>
           </h4>
 <ul class="normal">
 <li class="normal" id="section-7.1.1-1.1">
-              <p id="section-7.1.1-1.1.1">Claim Name: sdm<a href="#section-7.1.1-1.1.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.1-1.1.1">Claim Name: tdm<a href="#section-7.1.1-1.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.1-1.2">
-              <p id="section-7.1.1-1.2.1">Claim Description: Seller domain the token is intended for<a href="#section-7.1.1-1.2.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.1-1.2.1">Claim Description: Target domain the token is intended for<a href="#section-7.1.1-1.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.1-1.3">
               <p id="section-7.1.1-1.3.1">Change Controller: Michael B. Jones - michael_b_jones@hotmail.com<a href="#section-7.1.1-1.3.1" class="pilcrow">¶</a></p>
@@ -2336,17 +2363,17 @@ established by <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.<
           </ul>
 </section>
 </div>
-<div id="ori-claim">
+<div id="tsi-claim">
 <section id="section-7.1.2">
-          <h4 id="name-ori-claim">
-<a href="#section-7.1.2" class="section-number selfRef">7.1.2. </a><a href="#name-ori-claim" class="section-name selfRef">"ori" Claim</a>
+          <h4 id="name-tsi-claim">
+<a href="#section-7.1.2" class="section-number selfRef">7.1.2. </a><a href="#name-tsi-claim" class="section-name selfRef">"tsi" Claim</a>
           </h4>
 <ul class="normal">
 <li class="normal" id="section-7.1.2-1.1">
-              <p id="section-7.1.2-1.1.1">Claim Name: ori<a href="#section-7.1.2-1.1.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.2-1.1.1">Claim Name: tsi<a href="#section-7.1.2-1.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.2-1.2">
-              <p id="section-7.1.2-1.2.1">Claim Description: URL of the token's originator<a href="#section-7.1.2-1.2.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.2-1.2.1">Claim Description: Target Service ID that this token was created for<a href="#section-7.1.2-1.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.2-1.3">
               <p id="section-7.1.2-1.3.1">Change Controller: Michael B. Jones - michael_b_jones@hotmail.com<a href="#section-7.1.2-1.3.1" class="pilcrow">¶</a></p>
@@ -2357,17 +2384,17 @@ established by <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.<
           </ul>
 </section>
 </div>
-<div id="env-claim">
+<div id="ori-claim">
 <section id="section-7.1.3">
-          <h4 id="name-env-claim">
-<a href="#section-7.1.3" class="section-number selfRef">7.1.3. </a><a href="#name-env-claim" class="section-name selfRef">"env" Claim</a>
+          <h4 id="name-ori-claim">
+<a href="#section-7.1.3" class="section-number selfRef">7.1.3. </a><a href="#name-ori-claim" class="section-name selfRef">"ori" Claim</a>
           </h4>
 <ul class="normal">
 <li class="normal" id="section-7.1.3-1.1">
-              <p id="section-7.1.3-1.1.1">Claim Name: env<a href="#section-7.1.3-1.1.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.3-1.1.1">Claim Name: ori<a href="#section-7.1.3-1.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.3-1.2">
-              <p id="section-7.1.3-1.2.1">Claim Description: Issuer environment (such as "production" or "sandbox")<a href="#section-7.1.3-1.2.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.3-1.2.1">Claim Description: URL of the token's originator<a href="#section-7.1.3-1.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.3-1.3">
               <p id="section-7.1.3-1.3.1">Change Controller: Michael B. Jones - michael_b_jones@hotmail.com<a href="#section-7.1.3-1.3.1" class="pilcrow">¶</a></p>
@@ -2378,17 +2405,17 @@ established by <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.<
           </ul>
 </section>
 </div>
-<div id="btg-claim">
+<div id="env-claim">
 <section id="section-7.1.4">
-          <h4 id="name-btg-claim">
-<a href="#section-7.1.4" class="section-number selfRef">7.1.4. </a><a href="#name-btg-claim" class="section-name selfRef">"btg" Claim</a>
+          <h4 id="name-env-claim">
+<a href="#section-7.1.4" class="section-number selfRef">7.1.4. </a><a href="#name-env-claim" class="section-name selfRef">"env" Claim</a>
           </h4>
 <ul class="normal">
 <li class="normal" id="section-7.1.4-1.1">
-              <p id="section-7.1.4-1.1.1">Claim Name: btg<a href="#section-7.1.4-1.1.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.4-1.1.1">Claim Name: env<a href="#section-7.1.4-1.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.4-1.2">
-              <p id="section-7.1.4-1.2.1">Claim Description: Buyer tag, an opaque reference ID internal to the buyer<a href="#section-7.1.4-1.2.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.4-1.2.1">Claim Description: Issuer environment (such as "production" or "sandbox")<a href="#section-7.1.4-1.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.4-1.3">
               <p id="section-7.1.4-1.3.1">Change Controller: Michael B. Jones - michael_b_jones@hotmail.com<a href="#section-7.1.4-1.3.1" class="pilcrow">¶</a></p>
@@ -2399,17 +2426,17 @@ established by <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.<
           </ul>
 </section>
 </div>
-<div id="hid-claim">
+<div id="itg-claim">
 <section id="section-7.1.5">
-          <h4 id="name-hid-claim">
-<a href="#section-7.1.5" class="section-number selfRef">7.1.5. </a><a href="#name-hid-claim" class="section-name selfRef">"hid" Claim</a>
+          <h4 id="name-itg-claim">
+<a href="#section-7.1.5" class="section-number selfRef">7.1.5. </a><a href="#name-itg-claim" class="section-name selfRef">"itg" Claim</a>
           </h4>
 <ul class="normal">
 <li class="normal" id="section-7.1.5-1.1">
-              <p id="section-7.1.5-1.1.1">Claim Name: hid<a href="#section-7.1.5-1.1.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.5-1.1.1">Claim Name: itg<a href="#section-7.1.5-1.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.5-1.2">
-              <p id="section-7.1.5-1.2.1">Claim Description: JSON structure containing human identity claims<a href="#section-7.1.5-1.2.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.5-1.2.1">Claim Description: Initiator tag, an opaque reference ID internal to the initiator<a href="#section-7.1.5-1.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.5-1.3">
               <p id="section-7.1.5-1.3.1">Change Controller: Michael B. Jones - michael_b_jones@hotmail.com<a href="#section-7.1.5-1.3.1" class="pilcrow">¶</a></p>
@@ -2420,80 +2447,80 @@ established by <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.<
           </ul>
 </section>
 </div>
-<div id="apd-claim">
+<div id="hid-claim">
 <section id="section-7.1.6">
-          <h4 id="name-apd-claim">
-<a href="#section-7.1.6" class="section-number selfRef">7.1.6. </a><a href="#name-apd-claim" class="section-name selfRef">"apd" Claim</a>
+          <h4 id="name-hid-claim">
+<a href="#section-7.1.6" class="section-number selfRef">7.1.6. </a><a href="#name-hid-claim" class="section-name selfRef">"hid" Claim</a>
           </h4>
 <ul class="normal">
 <li class="normal" id="section-7.1.6-1.1">
-              <p id="section-7.1.6-1.1.1">Claim Name: apd<a href="#section-7.1.6-1.1.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.6-1.1.1">Claim Name: hid<a href="#section-7.1.6-1.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.6-1.2">
-              <p id="section-7.1.6-1.2.1">Claim Description: JSON structure containing agent platform identity claims<a href="#section-7.1.6-1.2.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.6-1.2.1">Claim Description: JSON structure containing human identity claims<a href="#section-7.1.6-1.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.6-1.3">
               <p id="section-7.1.6-1.3.1">Change Controller: Michael B. Jones - michael_b_jones@hotmail.com<a href="#section-7.1.6-1.3.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.6-1.4">
-              <p id="section-7.1.6-1.4.1">Reference: (#common-claims) of this specification<a href="#section-7.1.6-1.4.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.6-1.4.1">Reference: (#kya-token) of this specification<a href="#section-7.1.6-1.4.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
 </div>
-<div id="aid-claim">
+<div id="apd-claim">
 <section id="section-7.1.7">
-          <h4 id="name-aid-claim">
-<a href="#section-7.1.7" class="section-number selfRef">7.1.7. </a><a href="#name-aid-claim" class="section-name selfRef">"aid" Claim</a>
+          <h4 id="name-apd-claim">
+<a href="#section-7.1.7" class="section-number selfRef">7.1.7. </a><a href="#name-apd-claim" class="section-name selfRef">"apd" Claim</a>
           </h4>
 <ul class="normal">
 <li class="normal" id="section-7.1.7-1.1">
-              <p id="section-7.1.7-1.1.1">Claim Name: aid<a href="#section-7.1.7-1.1.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.7-1.1.1">Claim Name: apd<a href="#section-7.1.7-1.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.7-1.2">
-              <p id="section-7.1.7-1.2.1">Claim Description: JSON structure containing agent identity claims<a href="#section-7.1.7-1.2.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.7-1.2.1">Claim Description: JSON structure containing agent platform identity claims<a href="#section-7.1.7-1.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.7-1.3">
               <p id="section-7.1.7-1.3.1">Change Controller: Michael B. Jones - michael_b_jones@hotmail.com<a href="#section-7.1.7-1.3.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.7-1.4">
-              <p id="section-7.1.7-1.4.1">Reference: (#common-claims) of this specification<a href="#section-7.1.7-1.4.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.7-1.4.1">Reference: (#kya-token) of this specification<a href="#section-7.1.7-1.4.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
 </div>
-<div id="spr-claim">
+<div id="aid-claim">
 <section id="section-7.1.8">
-          <h4 id="name-spr-claim">
-<a href="#section-7.1.8" class="section-number selfRef">7.1.8. </a><a href="#name-spr-claim" class="section-name selfRef">"spr" Claim</a>
+          <h4 id="name-aid-claim">
+<a href="#section-7.1.8" class="section-number selfRef">7.1.8. </a><a href="#name-aid-claim" class="section-name selfRef">"aid" Claim</a>
           </h4>
 <ul class="normal">
 <li class="normal" id="section-7.1.8-1.1">
-              <p id="section-7.1.8-1.1.1">Claim Name: spr<a href="#section-7.1.8-1.1.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.8-1.1.1">Claim Name: aid<a href="#section-7.1.8-1.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.8-1.2">
-              <p id="section-7.1.8-1.2.1">Claim Description: JSON string representing seller service price in currency units<a href="#section-7.1.8-1.2.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.8-1.2.1">Claim Description: JSON structure containing agent identity claims<a href="#section-7.1.8-1.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.8-1.3">
               <p id="section-7.1.8-1.3.1">Change Controller: Michael B. Jones - michael_b_jones@hotmail.com<a href="#section-7.1.8-1.3.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.8-1.4">
-              <p id="section-7.1.8-1.4.1">Reference: (#pay-token) of this specification<a href="#section-7.1.8-1.4.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.8-1.4.1">Reference: (#kya-token) of this specification<a href="#section-7.1.8-1.4.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
 </div>
-<div id="sps-claim">
+<div id="tpr-claim">
 <section id="section-7.1.9">
-          <h4 id="name-sps-claim">
-<a href="#section-7.1.9" class="section-number selfRef">7.1.9. </a><a href="#name-sps-claim" class="section-name selfRef">"sps" Claim</a>
+          <h4 id="name-tpr-claim">
+<a href="#section-7.1.9" class="section-number selfRef">7.1.9. </a><a href="#name-tpr-claim" class="section-name selfRef">"tpr" Claim</a>
           </h4>
 <ul class="normal">
 <li class="normal" id="section-7.1.9-1.1">
-              <p id="section-7.1.9-1.1.1">Claim Name: sps<a href="#section-7.1.9-1.1.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.9-1.1.1">Claim Name: tpr<a href="#section-7.1.9-1.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.9-1.2">
-              <p id="section-7.1.9-1.2.1">Claim Description: Seller pricing scheme, which represents a way for the seller list how it charges for its service or content<a href="#section-7.1.9-1.2.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.9-1.2.1">Claim Description: JSON string representing target service price in currency units<a href="#section-7.1.9-1.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.9-1.3">
               <p id="section-7.1.9-1.3.1">Change Controller: Michael B. Jones - michael_b_jones@hotmail.com<a href="#section-7.1.9-1.3.1" class="pilcrow">¶</a></p>
@@ -2504,17 +2531,17 @@ established by <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.<
           </ul>
 </section>
 </div>
-<div id="amt-claim">
+<div id="tps-claim">
 <section id="section-7.1.10">
-          <h4 id="name-amt-claim">
-<a href="#section-7.1.10" class="section-number selfRef">7.1.10. </a><a href="#name-amt-claim" class="section-name selfRef">"amt" Claim</a>
+          <h4 id="name-tps-claim">
+<a href="#section-7.1.10" class="section-number selfRef">7.1.10. </a><a href="#name-tps-claim" class="section-name selfRef">"tps" Claim</a>
           </h4>
 <ul class="normal">
 <li class="normal" id="section-7.1.10-1.1">
-              <p id="section-7.1.10-1.1.1">Claim Name: amt<a href="#section-7.1.10-1.1.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.10-1.1.1">Claim Name: tps<a href="#section-7.1.10-1.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.10-1.2">
-              <p id="section-7.1.10-1.2.1">Claim Description: JSON string representing token amount in currency units<a href="#section-7.1.10-1.2.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.10-1.2.1">Claim Description: Target pricing scheme, which represents a way for the target list how it charges for its service or content<a href="#section-7.1.10-1.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.10-1.3">
               <p id="section-7.1.10-1.3.1">Change Controller: Michael B. Jones - michael_b_jones@hotmail.com<a href="#section-7.1.10-1.3.1" class="pilcrow">¶</a></p>
@@ -2525,17 +2552,17 @@ established by <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.<
           </ul>
 </section>
 </div>
-<div id="cur-claim">
+<div id="amt-claim">
 <section id="section-7.1.11">
-          <h4 id="name-cur-claim">
-<a href="#section-7.1.11" class="section-number selfRef">7.1.11. </a><a href="#name-cur-claim" class="section-name selfRef">"cur" Claim</a>
+          <h4 id="name-amt-claim">
+<a href="#section-7.1.11" class="section-number selfRef">7.1.11. </a><a href="#name-amt-claim" class="section-name selfRef">"amt" Claim</a>
           </h4>
 <ul class="normal">
 <li class="normal" id="section-7.1.11-1.1">
-              <p id="section-7.1.11-1.1.1">Claim Name: cur<a href="#section-7.1.11-1.1.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.11-1.1.1">Claim Name: amt<a href="#section-7.1.11-1.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.11-1.2">
-              <p id="section-7.1.11-1.2.1">Claim Description: Currency unit, represented as an ISO 4217 three letter code, such as "EUR"<a href="#section-7.1.11-1.2.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.11-1.2.1">Claim Description: JSON string representing token amount in currency units<a href="#section-7.1.11-1.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.11-1.3">
               <p id="section-7.1.11-1.3.1">Change Controller: Michael B. Jones - michael_b_jones@hotmail.com<a href="#section-7.1.11-1.3.1" class="pilcrow">¶</a></p>
@@ -2546,17 +2573,17 @@ established by <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.<
           </ul>
 </section>
 </div>
-<div id="val-claim">
+<div id="cur-claim">
 <section id="section-7.1.12">
-          <h4 id="name-val-claim">
-<a href="#section-7.1.12" class="section-number selfRef">7.1.12. </a><a href="#name-val-claim" class="section-name selfRef">"val" Claim</a>
+          <h4 id="name-cur-claim">
+<a href="#section-7.1.12" class="section-number selfRef">7.1.12. </a><a href="#name-cur-claim" class="section-name selfRef">"cur" Claim</a>
           </h4>
 <ul class="normal">
 <li class="normal" id="section-7.1.12-1.1">
-              <p id="section-7.1.12-1.1.1">Claim Name: val<a href="#section-7.1.12-1.1.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.12-1.1.1">Claim Name: cur<a href="#section-7.1.12-1.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.12-1.2">
-              <p id="section-7.1.12-1.2.1">Claim Description: JSON string representing token amount in settlement network's units<a href="#section-7.1.12-1.2.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.12-1.2.1">Claim Description: Currency unit, represented as an ISO 4217 three letter code, such as "EUR"<a href="#section-7.1.12-1.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.12-1.3">
               <p id="section-7.1.12-1.3.1">Change Controller: Michael B. Jones - michael_b_jones@hotmail.com<a href="#section-7.1.12-1.3.1" class="pilcrow">¶</a></p>
@@ -2567,17 +2594,17 @@ established by <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.<
           </ul>
 </section>
 </div>
-<div id="mnr-claim">
+<div id="val-claim">
 <section id="section-7.1.13">
-          <h4 id="name-mnr-claim">
-<a href="#section-7.1.13" class="section-number selfRef">7.1.13. </a><a href="#name-mnr-claim" class="section-name selfRef">"mnr" Claim</a>
+          <h4 id="name-val-claim">
+<a href="#section-7.1.13" class="section-number selfRef">7.1.13. </a><a href="#name-val-claim" class="section-name selfRef">"val" Claim</a>
           </h4>
 <ul class="normal">
 <li class="normal" id="section-7.1.13-1.1">
-              <p id="section-7.1.13-1.1.1">Claim Name: mnr<a href="#section-7.1.13-1.1.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.13-1.1.1">Claim Name: val<a href="#section-7.1.13-1.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.13-1.2">
-              <p id="section-7.1.13-1.2.1">Claim Description: JSON number representing maximum number of requests<a href="#section-7.1.13-1.2.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.13-1.2.1">Claim Description: JSON string representing token amount in settlement network's units<a href="#section-7.1.13-1.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.13-1.3">
               <p id="section-7.1.13-1.3.1">Change Controller: Michael B. Jones - michael_b_jones@hotmail.com<a href="#section-7.1.13-1.3.1" class="pilcrow">¶</a></p>
@@ -2588,17 +2615,17 @@ established by <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.<
           </ul>
 </section>
 </div>
-<div id="stp-claim">
+<div id="mnr-claim">
 <section id="section-7.1.14">
-          <h4 id="name-stp-claim">
-<a href="#section-7.1.14" class="section-number selfRef">7.1.14. </a><a href="#name-stp-claim" class="section-name selfRef">"stp" Claim</a>
+          <h4 id="name-mnr-claim">
+<a href="#section-7.1.14" class="section-number selfRef">7.1.14. </a><a href="#name-mnr-claim" class="section-name selfRef">"mnr" Claim</a>
           </h4>
 <ul class="normal">
 <li class="normal" id="section-7.1.14-1.1">
-              <p id="section-7.1.14-1.1.1">Claim Name: stp<a href="#section-7.1.14-1.1.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.14-1.1.1">Claim Name: mnr<a href="#section-7.1.14-1.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.14-1.2">
-              <p id="section-7.1.14-1.2.1">Claim Description: Settlement type<a href="#section-7.1.14-1.2.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.14-1.2.1">Claim Description: JSON number representing maximum number of requests<a href="#section-7.1.14-1.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.14-1.3">
               <p id="section-7.1.14-1.3.1">Change Controller: Michael B. Jones - michael_b_jones@hotmail.com<a href="#section-7.1.14-1.3.1" class="pilcrow">¶</a></p>
@@ -2609,23 +2636,44 @@ established by <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.<
           </ul>
 </section>
 </div>
-<div id="sti-claim">
+<div id="stp-claim">
 <section id="section-7.1.15">
-          <h4 id="name-sti-claim">
-<a href="#section-7.1.15" class="section-number selfRef">7.1.15. </a><a href="#name-sti-claim" class="section-name selfRef">"sti" Claim</a>
+          <h4 id="name-stp-claim">
+<a href="#section-7.1.15" class="section-number selfRef">7.1.15. </a><a href="#name-stp-claim" class="section-name selfRef">"stp" Claim</a>
           </h4>
 <ul class="normal">
 <li class="normal" id="section-7.1.15-1.1">
-              <p id="section-7.1.15-1.1.1">Claim Name: sti<a href="#section-7.1.15-1.1.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.15-1.1.1">Claim Name: stp<a href="#section-7.1.15-1.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.15-1.2">
-              <p id="section-7.1.15-1.2.1">Claim Description: Meta information for payment settlement, depending on settlement<a href="#section-7.1.15-1.2.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.15-1.2.1">Claim Description: Settlement type<a href="#section-7.1.15-1.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.15-1.3">
               <p id="section-7.1.15-1.3.1">Change Controller: Michael B. Jones - michael_b_jones@hotmail.com<a href="#section-7.1.15-1.3.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.15-1.4">
               <p id="section-7.1.15-1.4.1">Reference: (#pay-token) of this specification<a href="#section-7.1.15-1.4.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+</section>
+</div>
+<div id="sti-claim">
+<section id="section-7.1.16">
+          <h4 id="name-sti-claim">
+<a href="#section-7.1.16" class="section-number selfRef">7.1.16. </a><a href="#name-sti-claim" class="section-name selfRef">"sti" Claim</a>
+          </h4>
+<ul class="normal">
+<li class="normal" id="section-7.1.16-1.1">
+              <p id="section-7.1.16-1.1.1">Claim Name: sti<a href="#section-7.1.16-1.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-7.1.16-1.2">
+              <p id="section-7.1.16-1.2.1">Claim Description: Meta information for payment settlement, depending on settlement<a href="#section-7.1.16-1.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-7.1.16-1.3">
+              <p id="section-7.1.16-1.3.1">Change Controller: Michael B. Jones - michael_b_jones@hotmail.com<a href="#section-7.1.16-1.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-7.1.16-1.4">
+              <p id="section-7.1.16-1.4.1">Reference: (#pay-token) of this specification<a href="#section-7.1.16-1.4.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
@@ -2918,16 +2966,32 @@ in the manner described in <span>[<a href="#RFC6838" class="cite xref">RFC6838</
 <a href="#name-document-history" class="section-name selfRef">Document History</a>
       </h2>
 <p id="appendix-A-1">[[ to be removed by the RFC Editor before publication as an RFC ]]<a href="#appendix-A-1" class="pilcrow">¶</a></p>
-<p id="appendix-A-2">-01<a href="#appendix-A-2" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="appendix-A-3.1">
-          <p id="appendix-A-3.1.1">Removed "srl" (Seller Resource Locator) claim.<a href="#appendix-A-3.1.1" class="pilcrow">¶</a></p>
-</li>
-      </ul>
-<p id="appendix-A-4">-00<a href="#appendix-A-4" class="pilcrow">¶</a></p>
+<p id="appendix-A-2">-00<a href="#appendix-A-2" class="pilcrow">¶</a></p>
+<p id="appendix-A-3">Renamed draft-skyfire-kyapayprofile to draft-skyfire-oauth-kyapay-token.<a href="#appendix-A-3" class="pilcrow">¶</a></p>
+<p id="appendix-A-4">draft-skyfire-kyapayprofile-02<a href="#appendix-A-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-A-5.1">
-          <p id="appendix-A-5.1.1">Initial Internet Draft.<a href="#appendix-A-5.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-5.1.1">Changed terms buyer and seller to initiator and target to generalize applicability.
+These claim names were changed: "sdm" to "tdm", "ssi" to "tsi", "btg" to "itg",
+"spr" to "tpr", and "sps" to "tps".<a href="#appendix-A-5.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-5.2">
+          <p id="appendix-A-5.2.1">Updated Settlement Information sti Sub-Claims.<a href="#appendix-A-5.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-5.3">
+          <p id="appendix-A-5.3.1">Changed specification type from Informative to Proposed Standard.<a href="#appendix-A-5.3.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="appendix-A-6">draft-skyfire-kyapayprofile-01<a href="#appendix-A-6" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-A-7.1">
+          <p id="appendix-A-7.1.1">Removed "srl" (Seller Resource Locator) claim.<a href="#appendix-A-7.1.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="appendix-A-8">draft-skyfire-kyapayprofile-00<a href="#appendix-A-8" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-A-9.1">
+          <p id="appendix-A-9.1.1">Initial Internet Draft.<a href="#appendix-A-9.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 </section>
@@ -2937,6 +3001,9 @@ in the manner described in <span>[<a href="#RFC6838" class="cite xref">RFC6838</
       <h2 id="name-contributors">
 <a href="#name-contributors" class="section-name selfRef">Contributors</a>
       </h2>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Andrew Stitt</span></div>
+</address>
 <address class="vcard">
         <div dir="auto" class="left"><span class="fn nameRole">Dmitri Zagidulin</span></div>
 </address>
@@ -2949,10 +3016,14 @@ in the manner described in <span>[<a href="#RFC6838" class="cite xref">RFC6838</
       </h2>
 <address class="vcard">
         <div dir="auto" class="left"><span class="fn nameRole">Ankit Agarwal</span></div>
-<div dir="auto" class="left"><span class="org">Skyfire</span></div>
+<div dir="auto" class="left"><span class="org">Skyfire Systems Inc.</span></div>
 <div class="email">
 <span>Email:</span>
-<a href="mailto:ankit@skyfire.xyz" class="email">ankit@skyfire.xyz</a>
+<a href="mailto:ankit_agarwal@yahoo.com" class="email">ankit_agarwal@yahoo.com</a>
+</div>
+<div class="url">
+<span>URI:</span>
+<a href="https://skyfire.xyz" class="url">https://skyfire.xyz</a>
 </div>
 </address>
 <address class="vcard">
