@@ -1,19 +1,19 @@
 <!-- regenerate: on (set to off if you edit this file) -->
 
-# KYAPay Profile
+# KYAPay Token
 
-This is the working area for the individual Internet-Draft, "KYAPay Profile".
+This is the working area for the individual Internet-Draft, "KYAPay Token".
 
-* [Editor's Copy](https://skyfire-xyz.github.io/kyapay-ietf-draft/#go.draft-skyfire-kyapayprofile.html)
-* [Datatracker Page](https://datatracker.ietf.org/doc/draft-skyfire-kyapayprofile)
-* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-skyfire-kyapayprofile)
-* [Compare Editor's Copy to Individual Draft](https://skyfire-xyz.github.io/kyapay-ietf-draft/#go.draft-skyfire-kyapayprofile.diff)
+* [Editor's Copy](https://skyfire-xyz.github.io/draft-skyfire-oauth-kyapay-token/#go.draft-skyfire-oauth-kyapay-token.html)
+* [Datatracker Page](https://datatracker.ietf.org/doc/draft-skyfire-oauth-kyapay-token)
+* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-kyapay-token)
+* [Compare Editor's Copy to Individual Draft](https://skyfire-xyz.github.io/draft-skyfire-oauth-kyapay-token/#go.draft-skyfire-oauth-kyapay-token.diff)
 
 
 ## Contributing
 
 See the
-[guidelines for contributions](https://github.com/skyfire-xyz/kyapay-ietf-draft/blob/main/CONTRIBUTING.md).
+[guidelines for contributions](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/blob/main/CONTRIBUTING.md).
 
 The contributing file also has tips on how to make contributions, if you
 don't already know how to do that.
