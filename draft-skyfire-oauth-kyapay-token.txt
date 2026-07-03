@@ -5,31 +5,33 @@
 Network Working Group                                         A. Agarwal
 Internet-Draft                                      Skyfire Systems Inc.
 Intended status: Standards Track                                M. Jones
-Expires: 22 December 2026                         Self-Issued Consulting
-                                                            20 June 2026
+Expires: 4 January 2027                           Self-Issued Consulting
+                                                             3 July 2026
 
 
-                             KYAPay Profile
-                   draft-skyfire-kyapayprofile-latest
+                              KYAPay Token
+                draft-skyfire-oauth-kyapay-token-latest
 
 Abstract
 
-   This document defines a profile for agent identity and payment tokens
-   in JSON web token (JWT) format.  Authorization servers and resource
-   servers from different vendors can leverage this profile to consume
-   identity and payment tokens in an interoperable manner.
+   This document defines a token format for agent identity and payment
+   tokens in JSON Web Token (JWT) format.  Authorization servers and
+   resource servers from different vendors can leverage this token
+   format to consume identity and payment tokens in an interoperable
+   manner.
 
 About This Document
 
    This note is to be removed before publishing as an RFC.
 
    The latest revision of this draft can be found at https://skyfire-
-   xyz.github.io/kyapay-ietf-draft/draft-skyfire-kyapayprofile.html.
-   Status information for this document may be found at
-   https://datatracker.ietf.org/doc/draft-skyfire-kyapayprofile/.
+   xyz.github.io/draft-skyfire-oauth-kyapay-token/draft-skyfire-oauth-
+   kyapay-token.html.  Status information for this document may be found
+   at https://datatracker.ietf.org/doc/draft-skyfire-oauth-kyapay-
+   token/.
 
    Source for this draft and an issue tracker can be found at
-   https://github.com/skyfire-xyz/kyapay-ietf-draft.
+   https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token.
 
 Status of This Memo
 
@@ -46,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 22 December 2026.
+   This Internet-Draft will expire on 4 January 2027.
 
 Copyright Notice
 
@@ -136,12 +138,12 @@ Table of Contents
    interaction.
 
    KYAPay does not aim to define agentic identity in its entirety.
-   Rather, it specifies a standard and extensible JWT profile for a
-   token that can be used to securely share human principal and agent
-   identity information with websites and APIs.  KYAPay tokens provide a
-   strong signal of human presence behind agentic requests that are
-   otherwise indistinguishable from programmatic and potentially
-   malicious bot requests.
+   Rather, it specifies a standard and extensible JSON Web Token (JWT)
+   [RFC7519] that can be used to securely share human principal and
+   agent identity information with websites and APIs.  KYAPay tokens
+   provide a strong signal of human presence behind agentic requests
+   that are otherwise indistinguishable from programmatic and
+   potentially malicious bot requests.
 
    Note that, in the future, the payment token functionality could be
    split into a separate specification, if desired by a working group
@@ -1146,7 +1148,12 @@ Document History
 
    [[ to be removed by the RFC Editor before publication as an RFC ]]
 
-   -02
+   -00
+
+   Renamed draft-skyfire-kyapayprofile to draft-skyfire-oauth-kyapay-
+   token.
+
+   draft-skyfire-kyapayprofile-02
 
    *  Changed terms buyer and seller to initiator and target to
       generalize applicability.  These claim names were changed: "sdm"
@@ -1157,11 +1164,11 @@ Document History
 
    *  Changed specification type from Informative to Proposed Standard.
 
-   -01
+   draft-skyfire-kyapayprofile-01
 
    *  Removed "srl" (Seller Resource Locator) claim.
 
-   -00
+   draft-skyfire-kyapayprofile-00
 
    *  Initial Internet Draft.
 
