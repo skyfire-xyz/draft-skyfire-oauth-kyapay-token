@@ -2,11 +2,11 @@
 
 
 
-Network Working Group                                         A. Agarwal
+Web Authorization Protocol                                    A. Agarwal
 Internet-Draft                                      Skyfire Systems Inc.
 Intended status: Standards Track                                M. Jones
-Expires: 4 January 2027                           Self-Issued Consulting
-                                                             3 July 2026
+Expires: 7 January 2027                           Self-Issued Consulting
+                                                             6 July 2026
 
 
                               KYAPay Token
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 4 January 2027.
+   This Internet-Draft will expire on 7 January 2027.
 
 Copyright Notice
 
@@ -1150,8 +1150,8 @@ Document History
 
    -00
 
-   Renamed draft-skyfire-kyapayprofile to draft-skyfire-oauth-kyapay-
-   token.
+   *  Renamed draft-skyfire-kyapayprofile to draft-skyfire-oauth-kyapay-
+      token.
 
    draft-skyfire-kyapayprofile-02
 
