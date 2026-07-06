@@ -9,8 +9,8 @@ submissiontype: IETF  # also: "independent", "editorial", "IAB", or "IRTF"
 date:
 consensus: true
 v: 3
-# area: AREA
-# workgroup: TODO
+area: Security
+workgroup: Web Authorization Protocol
 keyword:
  - agent
  - identity
@@ -927,7 +927,7 @@ in the manner described in {{RFC6838}}.
 
 -00
 
-Renamed draft-skyfire-kyapayprofile to draft-skyfire-oauth-kyapay-token.
+* Renamed draft-skyfire-kyapayprofile to draft-skyfire-oauth-kyapay-token.
 
 draft-skyfire-kyapayprofile-02
 
