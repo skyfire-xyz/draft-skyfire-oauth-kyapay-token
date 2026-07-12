@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-07-07T00:25:59.112997+00:00",
+  "timestamp": "2026-07-12T00:21:44.412989+00:00",
   "repo": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
   "labels": [
     {
@@ -2151,6 +2151,48 @@
           "body": "",
           "createdAt": "2026-07-06T22:47:53Z",
           "updatedAt": "2026-07-06T22:47:53Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 38,
+      "id": "PR_kwDOQZxkd87v5Mtd",
+      "title": "Correct link in LICENSE.md",
+      "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/38",
+      "state": "MERGED",
+      "author": "selfissued",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-07-09T20:09:46Z",
+      "updatedAt": "2026-07-10T02:11:11Z",
+      "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "baseRefName": "main",
+      "baseRefOid": "05ea79771c3f411ba12f50822069db3733b06aeb",
+      "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "headRefName": "mbj-correct-link-in-license",
+      "headRefOid": "f8f577dc169c445fef0f959081cfcd80597b51c7",
+      "closedAt": "2026-07-10T02:11:10Z",
+      "mergedAt": "2026-07-10T02:11:10Z",
+      "mergedBy": "selfissued",
+      "mergeCommit": {
+        "oid": "5aeb22a92989e54681c94b93d70be285fdfffd34"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd88AAAABFjSACg",
+          "commit": {
+            "abbreviatedOid": "f8f577d"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-07-09T23:40:03Z",
+          "updatedAt": "2026-07-09T23:40:03Z",
           "comments": []
         }
       ]
