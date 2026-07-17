@@ -741,112 +741,112 @@ established by {{RFC7519}}.
 * Claim Name: tdm
 * Claim Description: Target domain the token is intended for
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
-* Reference: (#common-claims) of this specification
+* Reference: {{common-claims}} of this specification
 
 ### "tsi" Claim
 
 * Claim Name: tsi
 * Claim Description: Target Service ID that this token was created for
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
-* Reference: (#common-claims) of this specification
+* Reference: {{common-claims}} of this specification
 
 ### "ori" Claim
 
 * Claim Name: ori
 * Claim Description: URL of the token's originator
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
-* Reference: (#common-claims) of this specification
+* Reference: {{common-claims}} of this specification
 
 ### "env" Claim
 
 * Claim Name: env
 * Claim Description: Issuer environment (such as "production" or "sandbox")
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
-* Reference: (#common-claims) of this specification
+* Reference: {{common-claims}} of this specification
 
 ### "itg" Claim
 
 * Claim Name: itg
 * Claim Description: Initiator tag, an opaque reference ID internal to the initiator
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
-* Reference: (#common-claims) of this specification
+* Reference: {{common-claims}} of this specification
 
 ### "hid" Claim
 
 * Claim Name: hid
 * Claim Description: JSON structure containing human identity claims
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
-* Reference: (#kya-token) of this specification
+* Reference: {{kya-token}} of this specification
 
 ### "apd" Claim
 
 * Claim Name: apd
 * Claim Description: JSON structure containing agent platform identity claims
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
-* Reference: (#kya-token) of this specification
+* Reference: {{kya-token}} of this specification
 
 ### "aid" Claim
 
 * Claim Name: aid
 * Claim Description: JSON structure containing agent identity claims
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
-* Reference: (#kya-token) of this specification
+* Reference: {{kya-token}} of this specification
 
 ### "tpr" Claim
 
 * Claim Name: tpr
 * Claim Description: JSON string representing target service price in currency units
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
-* Reference: (#pay-token) of this specification
+* Reference: {{pay-token}} of this specification
 
 ### "tps" Claim
 
 * Claim Name: tps
 * Claim Description: Target pricing scheme, which represents a way for the target list how it charges for its service or content
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
-* Reference: (#pay-token) of this specification
+* Reference: {{pay-token}} of this specification
 
 ### "amt" Claim
 
 * Claim Name: amt
 * Claim Description: JSON string representing token amount in currency units
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
-* Reference: (#pay-token) of this specification
+* Reference: {{pay-token}} of this specification
 
 ### "cur" Claim
 
 * Claim Name: cur
 * Claim Description: Currency unit, represented as an ISO 4217 three letter code, such as "EUR"
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
-* Reference: (#pay-token) of this specification
+* Reference: {{pay-token}} of this specification
 
 ### "val" Claim
 
 * Claim Name: val
 * Claim Description: JSON string representing token amount in settlement network's units
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
-* Reference: (#pay-token) of this specification
+* Reference: {{pay-token}} of this specification
 
 ### "mnr" Claim
 
 * Claim Name: mnr
 * Claim Description: JSON number representing maximum number of requests
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
-* Reference: (#pay-token) of this specification
+* Reference: {{pay-token}} of this specification
 
 ### "stp" Claim
 
 * Claim Name: stp
 * Claim Description: Settlement type
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
-* Reference: (#pay-token) of this specification
+* Reference: {{pay-token}} of this specification
 
 ### "sti" Claim
 
 * Claim Name: sti
 * Claim Description: Meta information for payment settlement, depending on settlement
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
-* Reference: (#pay-token) of this specification
+* Reference: {{pay-token}} of this specification
 
 
 ## Media Types Registration
@@ -864,7 +864,7 @@ in the manner described in {{RFC6838}}.
 * Encoding considerations: Uses JWS Compact Serialization as defined in {{RFC7515}}
 * Security considerations: See Security Considerations in in {{RFC7519}}
 * Interoperability considerations: n/a
-* Published specification: (#kya-token) of this specification
+* Published specification: {{kya-token}} of this specification
 * Applications that use this media type: Applications using Know Your Agent tokens
 * Additional information:
   - Magic number(s): n/a
@@ -885,7 +885,7 @@ in the manner described in {{RFC6838}}.
 * Encoding considerations: Uses JWS Compact Serialization as defined in {{RFC7515}}
 * Security considerations: See Security Considerations in in {{RFC7519}}
 * Interoperability considerations: n/a
-* Published specification: (#pay-token) of this specification
+* Published specification: {{pay-token}} of this specification
 * Applications that use this media type: Applications using Pay tokens
 * Additional information:
   - Magic number(s): n/a
@@ -906,7 +906,7 @@ in the manner described in {{RFC6838}}.
 * Encoding considerations: Uses JWS Compact Serialization as defined in {{RFC7515}}
 * Security considerations: See Security Considerations in in {{RFC7519}}
 * Interoperability considerations: n/a
-* Published specification: (#kya-pay-token) of this specification
+* Published specification: {{kya-pay-token}} of this specification
 * Applications that use this media type: Applications using KYA-Pay tokens
 * Additional information:
   - Magic number(s): n/a
