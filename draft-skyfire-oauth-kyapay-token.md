@@ -69,6 +69,11 @@ informative:
     target: https://www.iana.org/assignments/media-types
     title: Media Types
     date: false
+  I-D.skyfire-oauth-using-kyapay-tokens:
+  I-D.skyfire-oauth-kyapay-token-exchange:
+  I-D.skyfire-oauth-amr-values:
+  I-D.skyfire-oauth-id-verification:
+  I-D.skyfire-oauth-aml-methods:
 
 ...
 
@@ -922,10 +927,24 @@ in the manner described in {{RFC6838}}.
 
 --- back
 
+# Related Specifications
+
+The following specifications are related to and designed to be used with this specification:
+
+* {{I-D.skyfire-oauth-using-kyapay-tokens}} describes how security intermediaries -- bot managers, fraud managers, account-takeover (ATO) protection systems, and customer identity and access management (CIAM) systems -- consume KYAPay tokens to answer a question that traditional bot detection cannot: "Did a verified human authorize this agent?".
+* {{I-D.skyfire-oauth-kyapay-token-exchange}} describes how KYAPay tokens can be exchanged for OAuth access tokens to dynamically grant agents access to resources they need to accomplish their mission.
+* {{I-D.skyfire-oauth-amr-values}} defines additional "amr" (Authentication Method Reference) values to represent additional authentication methods in use today.
+* {{I-D.skyfire-oauth-id-verification}} defines the "ivm" (Identity Verification Methods) claim and values for declaring how the person's identity was verified.
+* {{I-D.skyfire-oauth-aml-methods}} defines the "aml" (Anti-Money Laundering Methods) claim and values for declaring what AML/CFT methods were employed.
+
 # Document History
 {: numbered="false"}
 
 [[ to be removed by the RFC Editor before publication as an RFC ]]
+
+-01
+
+* Added appendix referencing related specifications.
 
 -00
 
