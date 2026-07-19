@@ -59,14 +59,16 @@ informative:
   RFC8725:
   IANA.JWT.Claims:
     author:
-    - name: IANA
+    - org: IANA
     target: https://www.iana.org/assignments/jwt
     title: JSON Web Token Claims
+    date: false
   IANA.MediaTypes:
     author:
-    - name: IANA
+    - org: IANA
     target: https://www.iana.org/assignments/media-types
     title: Media Types
+    date: false
 
 ...
 
