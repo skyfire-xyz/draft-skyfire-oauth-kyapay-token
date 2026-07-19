@@ -115,6 +115,7 @@ Table of Contents
    8.  References
      8.1.  Normative References
      8.2.  Informative References
+   Appendix A.  Related Specifications
    Document History
    Contributors
    Authors' Addresses
@@ -1121,6 +1122,42 @@ Table of Contents
 
 8.2.  Informative References
 
+   [I-D.skyfire-oauth-aml-methods]
+              Agarwal, A., Jones, M. B., and N. Ali, "Anti-Money
+              Laundering Methods Values", Work in Progress, Internet-
+              Draft, draft-skyfire-oauth-aml-methods-00, 18 July 2026,
+              <https://datatracker.ietf.org/doc/html/draft-skyfire-
+              oauth-aml-methods-00>.
+
+   [I-D.skyfire-oauth-amr-values]
+              Agarwal, A., Jones, M. B., Ali, N., and Srinivasa,
+              "Additional Authentication Method Reference Values", Work
+              in Progress, Internet-Draft, draft-skyfire-oauth-amr-
+              values-01, 19 July 2026,
+              <https://datatracker.ietf.org/doc/html/draft-skyfire-
+              oauth-amr-values-01>.
+
+   [I-D.skyfire-oauth-id-verification]
+              Agarwal, A., Jones, M. B., Ali, N., and Srinivasa,
+              "Identity Verification Methods Values", Work in Progress,
+              Internet-Draft, draft-skyfire-oauth-id-verification-01, 19
+              July 2026, <https://datatracker.ietf.org/doc/html/draft-
+              skyfire-oauth-id-verification-01>.
+
+   [I-D.skyfire-oauth-kyapay-token-exchange]
+              Agarwal, A., Jones, M. B., Hingnikar, A., and J. Hickman,
+              "KYAPay Token Exchange", Work in Progress, Internet-Draft,
+              draft-skyfire-oauth-kyapay-token-exchange-01, 19 July
+              2026, <https://datatracker.ietf.org/doc/html/draft-
+              skyfire-oauth-kyapay-token-exchange-01>.
+
+   [I-D.skyfire-oauth-using-kyapay-tokens]
+              Agarwal, A., Jones, M. B., and Srinivasa, "Using KYAPay
+              Tokens", Work in Progress, Internet-Draft, draft-skyfire-
+              oauth-using-kyapay-tokens-00, 19 July 2026,
+              <https://datatracker.ietf.org/doc/html/draft-skyfire-
+              oauth-using-kyapay-tokens-00>.
+
    [IANA.JWT.Claims]
               IANA, "JSON Web Token Claims",
               <https://www.iana.org/assignments/jwt>.
@@ -1144,9 +1181,42 @@ Table of Contents
               DOI 10.17487/RFC8725, February 2020,
               <https://www.rfc-editor.org/rfc/rfc8725>.
 
+Appendix A.  Related Specifications
+
+   The following specifications are related to and designed to be used
+   with this specification:
+
+   *  [I-D.skyfire-oauth-using-kyapay-tokens] describes how security
+      intermediaries -- bot managers, fraud managers, account-takeover
+      (ATO) protection systems, and customer identity and access
+      management (CIAM) systems -- consume KYAPay tokens to answer a
+      question that traditional bot detection cannot: "Did a verified
+      human authorize this agent?".
+
+   *  [I-D.skyfire-oauth-kyapay-token-exchange] describes how KYAPay
+      tokens can be exchanged for OAuth access tokens to dynamically
+      grant agents access to resources they need to accomplish their
+      mission.
+
+   *  [I-D.skyfire-oauth-amr-values] defines additional "amr"
+      (Authentication Method Reference) values to represent additional
+      authentication methods in use today.
+
+   *  [I-D.skyfire-oauth-id-verification] defines the "ivm" (Identity
+      Verification Methods) claim and values for declaring how the
+      person's identity was verified.
+
+   *  [I-D.skyfire-oauth-aml-methods] defines the "aml" (Anti-Money
+      Laundering Methods) claim and values for declaring what AML/CFT
+      methods were employed.
+
 Document History
 
    [[ to be removed by the RFC Editor before publication as an RFC ]]
+
+   -01
+
+   *  Added appendix referencing related specifications.
 
    -00
 
