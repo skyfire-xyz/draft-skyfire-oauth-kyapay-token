@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-07-19T00:19:50.986171+00:00",
+  "timestamp": "2026-07-21T00:20:56.960252+00:00",
   "repo": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
   "labels": [
     {
@@ -2235,6 +2235,61 @@
           "body": "",
           "createdAt": "2026-07-17T04:21:08Z",
           "updatedAt": "2026-07-17T04:21:08Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 40,
+      "id": "PR_kwDOQZxkd87zddJC",
+      "title": "Branch for IETF 126 release",
+      "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/40",
+      "state": "MERGED",
+      "author": "selfissued",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "@skyfire-ankit please approve this branch.  I'll push some more non-normative changes and cleanups into it, especially an appendix referencing all the other specs before publishing.  But I'll probably publish while you're asleep so an approval now would be useful.  Thanks.",
+      "createdAt": "2026-07-19T03:36:55Z",
+      "updatedAt": "2026-07-19T14:01:31Z",
+      "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "baseRefName": "main",
+      "baseRefOid": "a4b3b4e1956262207797b1e16fcce50e41beb77c",
+      "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "headRefName": "mbj-ietf-126",
+      "headRefOid": "fca83aaad3575f404f79faa60228c9e4316fdce0",
+      "closedAt": "2026-07-19T14:01:31Z",
+      "mergedAt": "2026-07-19T14:01:31Z",
+      "mergedBy": "selfissued",
+      "mergeCommit": {
+        "oid": "f987433b540c508b9fb28725c21308b976ca6396"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd88AAAABGeucPw",
+          "commit": {
+            "abbreviatedOid": "c96f6d7"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "DISMISSED",
+          "body": "",
+          "createdAt": "2026-07-19T03:40:53Z",
+          "updatedAt": "2026-07-19T13:51:48Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABGftkVA",
+          "commit": {
+            "abbreviatedOid": "fca83aa"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-07-19T14:00:55Z",
+          "updatedAt": "2026-07-19T14:00:55Z",
           "comments": []
         }
       ]
