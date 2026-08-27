@@ -5,8 +5,8 @@
 Web Authorization Protocol                                    A. Agarwal
 Internet-Draft                                      Skyfire Systems Inc.
 Intended status: Standards Track                                M. Jones
-Expires: 7 January 2027                           Self-Issued Consulting
-                                                             6 July 2026
+Expires: 28 February 2027                         Self-Issued Consulting
+                                                          27 August 2026
 
 
                               KYAPay Token
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 January 2027.
+   This Internet-Draft will expire on 28 February 2027.
 
 Copyright Notice
 
@@ -115,6 +115,7 @@ Table of Contents
    8.  References
      8.1.  Normative References
      8.2.  Informative References
+   Appendix A.  Related Specifications
    Document History
    Contributors
    Authors' Addresses
@@ -774,7 +775,7 @@ Table of Contents
    integrity are being violated.
 
    The principle of minimal disclosure should be employed.  Only the
-   infomation needed to facilitate the intended interactions should be
+   information needed to facilitate the intended interactions should be
    placed in the tokens and conveyed to participants.
 
 7.  IANA Considerations
@@ -793,7 +794,7 @@ Table of Contents
 
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
-   *  Reference: (#common-claims) of this specification
+   *  Reference: Section 3.1 of this specification
 
 7.1.2.  "tsi" Claim
 
@@ -804,7 +805,7 @@ Table of Contents
 
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
-   *  Reference: (#common-claims) of this specification
+   *  Reference: Section 3.1 of this specification
 
 7.1.3.  "ori" Claim
 
@@ -814,7 +815,7 @@ Table of Contents
 
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
-   *  Reference: (#common-claims) of this specification
+   *  Reference: Section 3.1 of this specification
 
 7.1.4.  "env" Claim
 
@@ -825,7 +826,7 @@ Table of Contents
 
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
-   *  Reference: (#common-claims) of this specification
+   *  Reference: Section 3.1 of this specification
 
 7.1.5.  "itg" Claim
 
@@ -836,7 +837,7 @@ Table of Contents
 
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
-   *  Reference: (#common-claims) of this specification
+   *  Reference: Section 3.1 of this specification
 
 7.1.6.  "hid" Claim
 
@@ -846,7 +847,7 @@ Table of Contents
 
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
-   *  Reference: (#kya-token) of this specification
+   *  Reference: Section 3.2 of this specification
 
 7.1.7.  "apd" Claim
 
@@ -857,7 +858,7 @@ Table of Contents
 
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
-   *  Reference: (#kya-token) of this specification
+   *  Reference: Section 3.2 of this specification
 
 7.1.8.  "aid" Claim
 
@@ -867,7 +868,7 @@ Table of Contents
 
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
-   *  Reference: (#kya-token) of this specification
+   *  Reference: Section 3.2 of this specification
 
 7.1.9.  "tpr" Claim
 
@@ -878,7 +879,7 @@ Table of Contents
 
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
-   *  Reference: (#pay-token) of this specification
+   *  Reference: Section 3.3 of this specification
 
 7.1.10.  "tps" Claim
 
@@ -889,7 +890,7 @@ Table of Contents
 
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
-   *  Reference: (#pay-token) of this specification
+   *  Reference: Section 3.3 of this specification
 
 7.1.11.  "amt" Claim
 
@@ -900,7 +901,7 @@ Table of Contents
 
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
-   *  Reference: (#pay-token) of this specification
+   *  Reference: Section 3.3 of this specification
 
 7.1.12.  "cur" Claim
 
@@ -911,7 +912,7 @@ Table of Contents
 
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
-   *  Reference: (#pay-token) of this specification
+   *  Reference: Section 3.3 of this specification
 
 7.1.13.  "val" Claim
 
@@ -922,7 +923,7 @@ Table of Contents
 
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
-   *  Reference: (#pay-token) of this specification
+   *  Reference: Section 3.3 of this specification
 
 7.1.14.  "mnr" Claim
 
@@ -933,7 +934,7 @@ Table of Contents
 
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
-   *  Reference: (#pay-token) of this specification
+   *  Reference: Section 3.3 of this specification
 
 7.1.15.  "stp" Claim
 
@@ -943,7 +944,7 @@ Table of Contents
 
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
-   *  Reference: (#pay-token) of this specification
+   *  Reference: Section 3.3 of this specification
 
 7.1.16.  "sti" Claim
 
@@ -954,7 +955,7 @@ Table of Contents
 
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
-   *  Reference: (#pay-token) of this specification
+   *  Reference: Section 3.3 of this specification
 
 7.2.  Media Types Registration
 
@@ -980,7 +981,7 @@ Table of Contents
 
    *  Interoperability considerations: n/a
 
-   *  Published specification: (#kya-token) of this specification
+   *  Published specification: Section 3.2 of this specification
 
    *  Applications that use this media type: Applications using Know
       Your Agent tokens
@@ -1021,7 +1022,7 @@ Table of Contents
 
    *  Interoperability considerations: n/a
 
-   *  Published specification: (#pay-token) of this specification
+   *  Published specification: Section 3.3 of this specification
 
    *  Applications that use this media type: Applications using Pay
       tokens
@@ -1062,7 +1063,7 @@ Table of Contents
 
    *  Interoperability considerations: n/a
 
-   *  Published specification: (#kya-pay-token) of this specification
+   *  Published specification: Section 3.4 of this specification
 
    *  Applications that use this media type: Applications using KYA-Pay
       tokens
@@ -1121,12 +1122,48 @@ Table of Contents
 
 8.2.  Informative References
 
+   [I-D.skyfire-oauth-aml-methods]
+              Agarwal, A., Jones, M. B., and N. Ali, "Anti-Money
+              Laundering Methods Values", Work in Progress, Internet-
+              Draft, draft-skyfire-oauth-aml-methods-00, 18 July 2026,
+              <https://datatracker.ietf.org/doc/html/draft-skyfire-
+              oauth-aml-methods-00>.
+
+   [I-D.skyfire-oauth-amr-values]
+              Agarwal, A., Jones, M. B., Ali, N., and Srinivasa,
+              "Additional Authentication Method Reference Values", Work
+              in Progress, Internet-Draft, draft-skyfire-oauth-amr-
+              values-01, 19 July 2026,
+              <https://datatracker.ietf.org/doc/html/draft-skyfire-
+              oauth-amr-values-01>.
+
+   [I-D.skyfire-oauth-id-verification]
+              Agarwal, A., Jones, M. B., Ali, N., and Srinivasa,
+              "Identity Verification Methods Values", Work in Progress,
+              Internet-Draft, draft-skyfire-oauth-id-verification-01, 19
+              July 2026, <https://datatracker.ietf.org/doc/html/draft-
+              skyfire-oauth-id-verification-01>.
+
+   [I-D.skyfire-oauth-kyapay-token-exchange]
+              Agarwal, A., Jones, M. B., Hingnikar, A., and J. Hickman,
+              "KYAPay Token Exchange", Work in Progress, Internet-Draft,
+              draft-skyfire-oauth-kyapay-token-exchange-01, 19 July
+              2026, <https://datatracker.ietf.org/doc/html/draft-
+              skyfire-oauth-kyapay-token-exchange-01>.
+
+   [I-D.skyfire-oauth-using-kyapay-tokens]
+              Agarwal, A., Jones, M. B., and Srinivasa, "Using KYAPay
+              Tokens", Work in Progress, Internet-Draft, draft-skyfire-
+              oauth-using-kyapay-tokens-00, 19 July 2026,
+              <https://datatracker.ietf.org/doc/html/draft-skyfire-
+              oauth-using-kyapay-tokens-00>.
+
    [IANA.JWT.Claims]
-              IANA, "JSON Web Token Claims", n.d.,
+              IANA, "JSON Web Token Claims",
               <https://www.iana.org/assignments/jwt>.
 
    [IANA.MediaTypes]
-              IANA, "Media Types", n.d.,
+              IANA, "Media Types",
               <https://www.iana.org/assignments/media-types>.
 
    [RFC2046]  Freed, N. and N. Borenstein, "Multipurpose Internet Mail
@@ -1144,9 +1181,42 @@ Table of Contents
               DOI 10.17487/RFC8725, February 2020,
               <https://www.rfc-editor.org/rfc/rfc8725>.
 
+Appendix A.  Related Specifications
+
+   The following specifications are related to and designed to be used
+   with this specification:
+
+   *  [I-D.skyfire-oauth-using-kyapay-tokens] describes how security
+      intermediaries -- bot managers, fraud managers, account-takeover
+      (ATO) protection systems, and customer identity and access
+      management (CIAM) systems -- consume KYAPay tokens to answer a
+      question that traditional bot detection cannot: "Did a verified
+      human authorize this agent?".
+
+   *  [I-D.skyfire-oauth-kyapay-token-exchange] describes how KYAPay
+      tokens can be exchanged for OAuth access tokens to dynamically
+      grant agents access to resources they need to accomplish their
+      mission.
+
+   *  [I-D.skyfire-oauth-amr-values] defines additional "amr"
+      (Authentication Method Reference) values to represent additional
+      authentication methods in use today.
+
+   *  [I-D.skyfire-oauth-id-verification] defines the "ivm" (Identity
+      Verification Methods) claim and values for declaring how the
+      person's identity was verified.
+
+   *  [I-D.skyfire-oauth-aml-methods] defines the "aml" (Anti-Money
+      Laundering Methods) claim and values for declaring what AML/CFT
+      methods were employed.
+
 Document History
 
    [[ to be removed by the RFC Editor before publication as an RFC ]]
+
+   -01
+
+   *  Added appendix referencing related specifications.
 
    -00
 
