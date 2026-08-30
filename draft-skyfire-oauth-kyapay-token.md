@@ -527,8 +527,8 @@ The following payment related claims are used within PAY and KYA-PAY type tokens
 
 ### Settlement Information `sti` Sub-Claims
 
-The `sti` claim is optional. If present, it MAY contain the following sub-claims,
-all of which are OPTIONAL.
+The `sti` claim is REQUIRED. It contains the following sub-claims,
+with the requirement levels marked below.
 
 `type`:
 : REQUIRED - "type" is dependent on the "stp" value; for "coin" - "usdc";
