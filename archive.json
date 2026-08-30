@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-07-21T00:20:56.960252+00:00",
+  "timestamp": "2026-08-30T00:08:47.114852+00:00",
   "repo": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
   "labels": [
     {
@@ -2293,6 +2293,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 41,
+      "id": "PR_kwDOQZxkd88AAAABBPSA5g",
+      "title": "Fix typo: \"infomation\" -> \"information\" in Privacy Considerations",
+      "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/41",
+      "state": "OPEN",
+      "author": "skyfire-ankit",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Single-character typo in the Privacy Considerations section: \"infomation\" -> \"information\". No normative change. This sentence states the minimal-disclosure principle and is quoted externally, so it is worth having clean.",
+      "createdAt": "2026-08-27T17:23:14Z",
+      "updatedAt": "2026-08-27T17:23:14Z",
+      "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "baseRefName": "main",
+      "baseRefOid": "f987433b540c508b9fb28725c21308b976ca6396",
+      "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "headRefName": "fix/typo-infomation",
+      "headRefOid": "2f063cf2ada9d4b6b6402fe66723977f1cb43e42",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
