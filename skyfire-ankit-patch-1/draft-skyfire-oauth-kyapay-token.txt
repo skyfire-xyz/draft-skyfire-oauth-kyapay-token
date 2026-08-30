@@ -81,7 +81,8 @@ Table of Contents
        3.2.3.  Agent Identity aid Sub-Claims
      3.3.  PAY Token
        3.3.1.  Settlement Information sti Sub-Claims
-       3.3.2.  PAY Token Example
+       3.3.2.  Scope of Card Settlement
+       3.3.3.  PAY Token Example
      3.4.  KYA-PAY Token
    4.  Token Validation
      4.1.  Validating KYA and PAY Tokens
@@ -89,6 +90,11 @@ Table of Contents
        4.1.2.  JWT Payload Validation
      4.2.  Validating PAY Tokens
    5.  Security Considerations
+     5.1.  General JWT Practices
+     5.2.  Confidentiality of Token Contents
+     5.3.  Settlement Credential Handling
+     5.4.  Token Lifetime
+     5.5.  Bearer Semantics and Proof of Possession
    6.  Privacy Considerations
    7.  IANA Considerations
      7.1.  JSON Web Token Claims Registration
@@ -375,6 +381,19 @@ Table of Contents
    itg:  OPTIONAL - Initiator tag - an opaque reference ID internal to
       the initiator.
 
+   cnf:  OPTIONAL - Confirmation claim, as defined in [RFC7800], binding
+      the token to a key held by the agent identified in the aid claim.
+      When present, it MUST contain the jwk member: the agent's public
+      key represented as a JWK [RFC7517].  The JWK MUST contain only
+      public key material; a cnf containing private key material MUST be
+      rejected.  Other confirmation members MAY additionally be present,
+      but a verifier MUST NOT be required to obtain the key by any means
+      other than reading cnf.jwk.  A token carrying cnf is sender-
+      constrained rather than bearer: the presenter is required to
+      demonstrate possession of the confirmation key.  Verifier
+      processing is specified in
+      [I-D.skyfire-oauth-using-kyapay-tokens].
+
    Additional claims MAY be defined and used in these tokens.  The
    recipient MUST ignore any unrecognized claims.
 
@@ -402,7 +421,7 @@ Table of Contents
 }.{
   "iss": "https://example.com/issuer", // Issuer URL
   "iat": 1742245254,
-  "exp": 1773867654,
+  "exp": 1742245554,
   "jti": "b9821893-7699-4d24-af06-803a6a16476b",
   "sub": "bb713104-c14e-460f-9b7c-f8140fa9bea4", // Initiator Agent Account ID
   "aud": "7434230d-0861-46f2-9c2c-a6ee33d07f17", // Target Agent Account ID
@@ -415,7 +434,7 @@ Table of Contents
     "email": "initiator@initiator.com"
   },
   "apd": {
-    "id": "d3306fc0-602b-47e6-9fe2-3d55d028fbd2"
+    "id": "d3306fc0-602b-47e6-9fe2-3d55d028fbd2",
     "name": "Acme Shopping Agents", // Agent platform name
     "email": "platform@acme.com", // Email address for the agent platform
     "phone_number": "+12345677890", // Phone number for the agent platform
@@ -603,7 +622,23 @@ Table of Contents
    Additional sub-claims MAY be defined and used.  The recipient MUST
    ignore any unrecognized sub-claims.
 
-3.3.2.  PAY Token Example
+3.3.2.  Scope of Card Settlement
+
+   This specification supports card settlement only through payment-
+   network agentic-commerce programmes that issue transaction-scoped,
+   PCI-exempt credentials.
+
+   A PAY or KYA-PAY token MUST NOT carry a Primary Account Number, or
+   the static verification value associated with one.
+
+   Settlement instruments that fall within PCI DSS scope require
+   mechanisms this specification does not define -- including
+   confidentiality protection of the token contents and a defined
+   cardholder-data-environment boundary.  Support for such instruments
+   is left to future work, and implementers requiring it should not
+   attempt to carry them in the claims defined here.
+
+3.3.3.  PAY Token Example
 
    The following informative example displays a decoded PAY type token.
 
@@ -614,7 +649,7 @@ Table of Contents
 }.{
   "iss": "https://example.net/pay_token_issuer", // Issuer URL
   "iat": 1742245254,
-  "exp": 1773867654,
+  "exp": 1742245554,
   "jti": "b9821893-7699-4d24-af06-803a6a16476b",
   "sub": "8b810549-7443-494f-b4ad-5bc65871e32b", // Initiator Agent Account ID
   "aud": "37888095-2721-48d9-a2df-bfe4075f223a", // Target Agent Account ID
@@ -656,7 +691,7 @@ Table of Contents
 }.{
   "iss": "kya-pay.example.org", // Issuer URL
   "iat": 1742245254,
-  "exp": 1773867654,
+  "exp": 1742245554,
   "jti": "b9821893-7699-4d24-af06-803a6a16476b",
   "sub": "f24a431d-108c-46e6-9357-b428c528210e", // Initiator Agent Account ID
   "aud": "5e00177d-ff7f-424b-8c83-2756e15efbed", // Target Agent Account ID
@@ -715,8 +750,28 @@ Table of Contents
 
 4.1.1.  JWT Header Validation
 
-   1.  alg - JWTs MUST be signed using allowed JWA algorithms
-       (currently, ES256).
+   1.  alg - The alg header parameter MUST be present and its value MUST
+       be ES256 [RFC7518].  Verifiers MUST reject any token whose alg
+       value is anything else, including none [RFC7515].
+
+       Verifiers MUST NOT select the verification algorithm from the
+       token.  The algorithm is fixed by this specification, and the key
+       is obtained from the issuer's JWK Set (item 2); a token is
+       verified with that algorithm and that key, or rejected.  In
+       particular, a verifier MUST NOT accept a token that would require
+       interpreting an Elliptic Curve public key as a symmetric key.
+
+       Where the key retrieved from the issuer's JWK Set carries an alg
+       or use parameter, the verifier MUST confirm it is consistent with
+       ES256 and with signature verification, and reject the token
+       otherwise.
+
+       Future revisions of this specification may permit additional
+       algorithms.  Implementations MUST treat any algorithm not listed
+       in this section as unsupported and reject tokens that use it.
+       Implementations MUST NOT accept an algorithm merely because it
+       appears in the JSON Web Signature and Encryption Algorithms
+       registry.
 
    2.  kid - The kid claim MUST be present, and set to a valid Key ID
        discoverable via the issuer's (payload iss claim) JWK Set.
@@ -772,9 +827,109 @@ Table of Contents
 
 5.  Security Considerations
 
+5.1.  General JWT Practices
+
    When validating the JWTs described in this specification,
    implementers SHOULD follow the best practices and guidelines
    described in [RFC8725].
+
+5.2.  Confidentiality of Token Contents
+
+   The tokens defined in this specification are signed using JWS Compact
+   Serialization.  Signing provides integrity protection, not
+   confidentiality.  The claims in a token are encoded, not encrypted,
+   and are readable by any party that obtains the token.
+
+   Tokens defined in this specification carry identity claims about a
+   human principal and, in the case of PAY and KYA-PAY tokens, payment
+   settlement information.  Accordingly:
+
+   *  Tokens MUST be transmitted over a channel providing
+      confidentiality, integrity and server authentication, such as TLS
+      [RFC8446].
+
+   *  Tokens MUST NOT be written to logs, analytics pipelines, or other
+      persistent stores that are not required to process the
+      transaction.
+
+   *  Tokens MUST NOT be forwarded to parties other than those necessary
+      to complete the interaction for which they were issued.
+
+   *  Issuers SHOULD include only those claims necessary for the
+      interaction for which the token is issued.  Confidentiality risk
+      is reduced most reliably by not carrying a claim at all.
+
+   This specification does not define encryption of the token itself.
+   Tokens are intended to be read by multiple independent parties along
+   a single request path -- bot management and fraud systems at the
+   edge, identity providers, and the target service -- none of which is
+   known to the issuer at the time the token is minted, and between
+   which no key-distribution relationship is assumed.  Encrypting the
+   token to a single recipient would both require pre-established key
+   exchange with that recipient and withhold the token's contents from
+   the intermediaries that are its intended consumers.  Confidentiality
+   is therefore provided at the transport layer and by minimising token
+   contents, not at the token layer.
+
+   The settlement information carried in a PAY or KYA-PAY token is
+   additionally protected by its own construction rather than by
+   encryption: the credential is transaction-scoped and its accompanying
+   cryptogram is single-use, so a captured token yields no reusable
+   payment instrument.
+
+5.3.  Settlement Credential Handling
+
+   The sti claim of a PAY or KYA-PAY token carries a settlement
+   instrument.  When stp is card, that instrument is a network-issued
+   agentic payment credential provisioned for a single transaction,
+   accompanied by a single-use dynamic cryptogram.  Such credentials are
+   issued outside the scope of PCI DSS and cannot be used to derive the
+   underlying account number.
+
+   Implementations MUST NOT place a Primary Account Number, or a static
+   Card Verification Value, in the sti claim.  Doing so would place the
+   token, and every system that processes it, within PCI DSS scope, for
+   which this specification provides no confidentiality mechanism.
+
+5.4.  Token Lifetime
+
+   The exp claim of a token carrying a settlement instrument SHOULD NOT
+   extend beyond the validity period of that instrument.  Agentic
+   payment credentials and their associated token cryptograms are
+   single-use and short-lived; their validity period is determined and
+   enforced by the payment network.  Issuing a long-lived token around a
+   short-lived credential provides no benefit and widens the window in
+   which a captured token can be replayed.
+
+   More generally, issuers SHOULD set exp to the shortest value
+   compatible with the intended interaction.
+
+5.5.  Bearer Semantics and Proof of Possession
+
+   Tokens defined in this specification are bearer tokens unless they
+   carry a confirmation method: any party in possession of such a token
+   can present it.  For bearer tokens, the protections above --
+   transport confidentiality, restricted forwarding, short lifetimes,
+   and audience restriction via the aud claim -- are the primary
+   defences against capture and replay.
+
+   A token MAY carry a cnf claim [RFC7800] binding it to a public key
+   held by the agent.  A token carrying cnf is sender-constrained rather
+   than bearer: possession of the token alone is insufficient, and a
+   verifier requires the presenter to demonstrate possession of the
+   confirmation key on each request.
+
+   Verifier behaviour for tokens carrying cnf -- including the
+   requirement to verify an HTTP Message Signature [RFC9421] over the
+   confirmation key, and to reject requests where that signature is
+   absent or invalid -- is specified in
+   [I-D.skyfire-oauth-using-kyapay-tokens].
+
+   Issuers SHOULD include cnf where the agent holds a suitable key and
+   the target is expected to enforce it.  Issuers MUST NOT rely on cnf
+   as a substitute for the bearer-token protections above, since a token
+   carrying cnf may still be presented to a verifier that does not
+   enforce it.
 
 6.  Privacy Considerations
 
@@ -1123,6 +1278,10 @@ Table of Contents
               Signature (JWS)", RFC 7515, DOI 10.17487/RFC7515, May
               2015, <https://www.rfc-editor.org/rfc/rfc7515>.
 
+   [RFC7517]  Jones, M., "JSON Web Key (JWK)", RFC 7517,
+              DOI 10.17487/RFC7517, May 2015,
+              <https://www.rfc-editor.org/rfc/rfc7517>.
+
    [RFC7518]  Jones, M., "JSON Web Algorithms (JWA)", RFC 7518,
               DOI 10.17487/RFC7518, May 2015,
               <https://www.rfc-editor.org/rfc/rfc7518>.
@@ -1130,6 +1289,11 @@ Table of Contents
    [RFC7519]  Jones, M., Bradley, J., and N. Sakimura, "JSON Web Token
               (JWT)", RFC 7519, DOI 10.17487/RFC7519, May 2015,
               <https://www.rfc-editor.org/rfc/rfc7519>.
+
+   [RFC7800]  Jones, M., Bradley, J., and H. Tschofenig, "Proof-of-
+              Possession Key Semantics for JSON Web Tokens (JWTs)",
+              RFC 7800, DOI 10.17487/RFC7800, April 2016,
+              <https://www.rfc-editor.org/rfc/rfc7800>.
 
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
@@ -1139,6 +1303,11 @@ Table of Contents
               and C. Mortimore, "OAuth 2.0 Token Exchange", RFC 8693,
               DOI 10.17487/RFC8693, January 2020,
               <https://www.rfc-editor.org/rfc/rfc8693>.
+
+   [RFC8725]  Sheffer, Y., Hardt, D., and M. Jones, "JSON Web Token Best
+              Current Practices", BCP 225, RFC 8725,
+              DOI 10.17487/RFC8725, February 2020,
+              <https://www.rfc-editor.org/rfc/rfc8725>.
 
 8.2.  Informative References
 
@@ -1196,10 +1365,13 @@ Table of Contents
               RFC 6838, DOI 10.17487/RFC6838, January 2013,
               <https://www.rfc-editor.org/rfc/rfc6838>.
 
-   [RFC8725]  Sheffer, Y., Hardt, D., and M. Jones, "JSON Web Token Best
-              Current Practices", BCP 225, RFC 8725,
-              DOI 10.17487/RFC8725, February 2020,
-              <https://www.rfc-editor.org/rfc/rfc8725>.
+   [RFC8446]  Rescorla, E., "The Transport Layer Security (TLS) Protocol
+              Version 1.3", RFC 8446, DOI 10.17487/RFC8446, August 2018,
+              <https://www.rfc-editor.org/rfc/rfc8446>.
+
+   [RFC9421]  Backman, A., Ed., Richer, J., Ed., and M. Sporny, "HTTP
+              Message Signatures", RFC 9421, DOI 10.17487/RFC9421,
+              February 2024, <https://www.rfc-editor.org/rfc/rfc9421>.
 
 Appendix A.  Related Specifications
 
@@ -1248,6 +1420,24 @@ Document History
 
    *  Made the aid and sti claims REQUIRED, and marked the sti sub-claim
       requirement levels individually.
+
+   *  Added the cnf (confirmation) claim, binding a token to a key held
+      by the agent, and described the resulting sender-constrained
+      semantics.
+
+   *  Added a Scope of Card Settlement section prohibiting Primary
+      Account Numbers and static card verification values.
+
+   *  Expanded Security Considerations to cover confidentiality of token
+      contents, settlement credential handling, token lifetime, and
+      bearer versus sender-constrained semantics.
+
+   *  Tightened JWT header validation: alg MUST be ES256, none and
+      algorithm substitution are rejected, and the verification
+      algorithm is not taken from the token.
+
+   *  Corrected a missing comma in the KYA token example, and shortened
+      the example token lifetimes, which had exceeded a year.
 
    -01
 
