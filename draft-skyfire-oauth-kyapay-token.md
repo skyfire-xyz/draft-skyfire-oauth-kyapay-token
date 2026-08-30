@@ -472,7 +472,7 @@ The recipient MUST ignore any unrecognized sub-claims.
 
 ### Agent Identity `aid` Sub-Claims
 
-The `aid` claim is optional. If present, it contains the following sub-claims.
+The `aid` claim is REQUIRED. It contains the following sub-claims.
 
 `name`:
 : REQUIRED - Agent name. The name should reflect the business purpose of the agent.
