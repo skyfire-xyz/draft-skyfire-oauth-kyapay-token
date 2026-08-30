@@ -2011,59 +2011,79 @@ type.<a href="#section-3.3-2.16.1" class="pilcrow">¶</a></p>
           </h4>
 <p id="section-3.3.1-1">The <code>sti</code> claim is <span class="bcp14">REQUIRED</span>. It contains the following sub-claims,
 with the requirement levels marked below.<a href="#section-3.3.1-1" class="pilcrow">¶</a></p>
-<span class="break"></span><dl class="dlParallel" id="section-3.3.1-2">
-            <dt id="section-3.3.1-2.1">
+<p id="section-3.3.1-2">The <code>sti</code> claim carries the settlement instrument, and its contents depend on
+the value of <code>stp</code>.<a href="#section-3.3.1-2" class="pilcrow">¶</a></p>
+<p id="section-3.3.1-3">When <code>stp</code> is <code>card</code>, the settlement instrument is an agentic payment credential
+issued by a payment network under an agentic-commerce programme -- for example
+Visa Intelligent Commerce (<code>visa_vic</code>) or Mastercard Agent Pay, using Secure Card
+on File (<code>mastercard_scof</code>). Such a credential is provisioned for a single
+transaction and is scoped to one initiator, one target and one amount. It is not
+a Primary Account Number (PAN), and it cannot be used to derive the underlying
+PAN or the network's agentic token.<a href="#section-3.3.1-3" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-3.3.1-4">
+            <dt id="section-3.3.1-4.1">
 <code>type</code>:</dt>
-            <dd style="margin-left: 1.5em" id="section-3.3.1-2.2">
-              <p id="section-3.3.1-2.2.1"><span class="bcp14">REQUIRED</span> - "type" is dependent on the "stp" value; for "coin" - "usdc";
-for "card" - "visa_vic" or "mastercard_scof".  Additional values may be defined and used.<a href="#section-3.3.1-2.2.1" class="pilcrow">¶</a></p>
+            <dd style="margin-left: 1.5em" id="section-3.3.1-4.2">
+              <p id="section-3.3.1-4.2.1"><span class="bcp14">REQUIRED</span> - "type" is dependent on the "stp" value; for "coin" - "usdc";
+for "card" - "visa_vic" or "mastercard_scof".  Additional values may be defined and used.<a href="#section-3.3.1-4.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-3.3.1-2.3">
+<dt id="section-3.3.1-4.3">
 <code>payment_token</code>:</dt>
-            <dd style="margin-left: 1.5em" id="section-3.3.1-2.4">
-              <p id="section-3.3.1-2.4.1"><span class="bcp14">OPTIONAL</span> - String containing Virtual Payment Card Number in ISO/IEC 7812 format. 12-19 characters.<a href="#section-3.3.1-2.4.1" class="pilcrow">¶</a></p>
+            <dd style="margin-left: 1.5em" id="section-3.3.1-4.4">
+              <p id="section-3.3.1-4.4.1"><span class="bcp14">REQUIRED</span> when <code>stp</code> is <code>card</code>; otherwise <span class="bcp14">OPTIONAL</span> - String containing the
+network-issued agentic payment credential, formatted per ISO/IEC 7812,
+12-19 characters. This value <span class="bcp14">MUST</span> be a payment-network-issued agentic or
+tokenized credential. It <span class="bcp14">MUST NOT</span> be a Primary Account Number (PAN).<a href="#section-3.3.1-4.4.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-3.3.1-2.5">
+<dt id="section-3.3.1-4.5">
 <code>token_expiration_month</code>:</dt>
-            <dd style="margin-left: 1.5em" id="section-3.3.1-2.6">
-              <p id="section-3.3.1-2.6.1"><span class="bcp14">OPTIONAL</span> - String containing two-digit Expiration Month Number.<a href="#section-3.3.1-2.6.1" class="pilcrow">¶</a></p>
+            <dd style="margin-left: 1.5em" id="section-3.3.1-4.6">
+              <p id="section-3.3.1-4.6.1"><span class="bcp14">REQUIRED</span> when <code>payment_token</code> is present - String containing two-digit
+Expiration Month Number.<a href="#section-3.3.1-4.6.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-3.3.1-2.7">
+<dt id="section-3.3.1-4.7">
 <code>token_expiration_year</code>:</dt>
-            <dd style="margin-left: 1.5em" id="section-3.3.1-2.8">
-              <p id="section-3.3.1-2.8.1"><span class="bcp14">OPTIONAL</span> - String containing four-digit Expiration Year.<a href="#section-3.3.1-2.8.1" class="pilcrow">¶</a></p>
+            <dd style="margin-left: 1.5em" id="section-3.3.1-4.8">
+              <p id="section-3.3.1-4.8.1"><span class="bcp14">REQUIRED</span> when <code>payment_token</code> is present - String containing four-digit
+Expiration Year.<a href="#section-3.3.1-4.8.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-3.3.1-2.9">
+<dt id="section-3.3.1-4.9">
 <code>token_security_code</code>:</dt>
-            <dd style="margin-left: 1.5em" id="section-3.3.1-2.10">
-              <p id="section-3.3.1-2.10.1"><span class="bcp14">OPTIONAL</span> - String containing 3 or 4 digit CVV code.<a href="#section-3.3.1-2.10.1" class="pilcrow">¶</a></p>
+            <dd style="margin-left: 1.5em" id="section-3.3.1-4.10">
+              <p id="section-3.3.1-4.10.1"><span class="bcp14">REQUIRED</span> when <code>payment_token</code> is present - String containing the single-use
+token cryptogram accompanying the credential in <code>payment_token</code> -- a Dynamic
+Token Verification Value (DTVV) or Token Authentication Verification Value
+(TAVV), depending on the network. 3 or 4 digits. This value is generated per
+transaction and is short-lived; its validity period is determined and enforced
+by the payment network. It <span class="bcp14">MUST NOT</span> be a static Card Verification Value
+(CVV, CVC2 or CVV2).<a href="#section-3.3.1-4.10.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-3.3.1-2.11">
+<dt id="section-3.3.1-4.11">
 <code>verifier</code>:</dt>
-            <dd style="margin-left: 1.5em" id="section-3.3.1-2.12">
-              <p id="section-3.3.1-2.12.1"><span class="bcp14">OPTIONAL</span> - URL of the Payment Verifier<a href="#section-3.3.1-2.12.1" class="pilcrow">¶</a></p>
+            <dd style="margin-left: 1.5em" id="section-3.3.1-4.12">
+              <p id="section-3.3.1-4.12.1"><span class="bcp14">OPTIONAL</span> - URL of the Payment Verifier<a href="#section-3.3.1-4.12.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-3.3.1-2.13">
+<dt id="section-3.3.1-4.13">
 <code>verified</code>:</dt>
-            <dd style="margin-left: 1.5em" id="section-3.3.1-2.14">
-              <p id="section-3.3.1-2.14.1"><span class="bcp14">OPTIONAL</span> - Boolean Verification status.  True if verified, otherwise false.<a href="#section-3.3.1-2.14.1" class="pilcrow">¶</a></p>
+            <dd style="margin-left: 1.5em" id="section-3.3.1-4.14">
+              <p id="section-3.3.1-4.14.1"><span class="bcp14">OPTIONAL</span> - Boolean Verification status.  True if verified, otherwise false.<a href="#section-3.3.1-4.14.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-3.3.1-2.15">
+<dt id="section-3.3.1-4.15">
 <code>verification_id</code>:</dt>
-            <dd style="margin-left: 1.5em" id="section-3.3.1-2.16">
-              <p id="section-3.3.1-2.16.1"><span class="bcp14">OPTIONAL</span> - Verification identifier. Identifier for the verification performed, such as a GUID.<a href="#section-3.3.1-2.16.1" class="pilcrow">¶</a></p>
+            <dd style="margin-left: 1.5em" id="section-3.3.1-4.16">
+              <p id="section-3.3.1-4.16.1"><span class="bcp14">OPTIONAL</span> - Verification identifier. Identifier for the verification performed, such as a GUID.<a href="#section-3.3.1-4.16.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 </dl>
-<p id="section-3.3.1-3">Additional sub-claims <span class="bcp14">MAY</span> be defined and used.
-The recipient <span class="bcp14">MUST</span> ignore any unrecognized sub-claims.<a href="#section-3.3.1-3" class="pilcrow">¶</a></p>
+<p id="section-3.3.1-5">Additional sub-claims <span class="bcp14">MAY</span> be defined and used.
+The recipient <span class="bcp14">MUST</span> ignore any unrecognized sub-claims.<a href="#section-3.3.1-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="pay">
@@ -2101,10 +2121,10 @@ The recipient <span class="bcp14">MUST</span> ignore any unrecognized sub-claims
   "stp": "card",
   "sti": {
     "type": "visa_vic",
-    "paymentToken": "1234567890123456",
-    "tokenExpirationMonth": "03",
-    "tokenExpirationYear": "2030",
-    "tokenSecurityCode": "123",
+    "payment_token": "1234567890123456",
+    "token_expiration_month": "03",
+    "token_expiration_year": "2030",
+    "token_security_code": "123",
     "verifier": "https://verifier.example.info", // URL of payment method verifier
     "verified": true, // Outcome of the verifier's payment method verification
     "verification_id": "3a6e1b76-8f78-4c24-b1bd-dc78a8cc3711" // Identifier for the verification performed, such as a GUID.
@@ -2182,10 +2202,10 @@ The recipient <span class="bcp14">MUST</span> ignore any unrecognized sub-claims
   "stp": "card",
   "sti": {
     "type": "visa_vic",
-    "paymentToken": "1234567890123456",
-    "tokenExpirationMonth": "03",
-    "tokenExpirationYear": "2030",
-    "tokenSecurityCode": "123"
+    "payment_token": "1234567890123456",
+    "token_expiration_month": "03",
+    "token_expiration_year": "2030",
+    "token_security_code": "123"
   }
 }
 
@@ -3011,42 +3031,60 @@ in the manner described in <span>[<a href="#RFC6838" class="cite xref">RFC6838</
 <a href="#name-document-history" class="section-name selfRef">Document History</a>
       </h2>
 <p id="appendix-B-1">[[ to be removed by the RFC Editor before publication as an RFC ]]<a href="#appendix-B-1" class="pilcrow">¶</a></p>
-<p id="appendix-B-2">-01<a href="#appendix-B-2" class="pilcrow">¶</a></p>
+<p id="appendix-B-2">-02<a href="#appendix-B-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-B-3.1">
-          <p id="appendix-B-3.1.1">Added appendix referencing related specifications.<a href="#appendix-B-3.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-B-3.1.1">Corrected the <code>sti</code> sub-claim names in the PAY and KYA-PAY examples to match
+the normative names in the Settlement Information section (<code>payment_token</code>,
+<code>token_expiration_month</code>, <code>token_expiration_year</code>, <code>token_security_code</code>).
+The examples had retained the pre-rename camelCase forms.<a href="#appendix-B-3.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-B-3.2">
+          <p id="appendix-B-3.2.1">Clarified that the card settlement instrument is a network-issued agentic
+payment credential and that <code>token_security_code</code> carries a single-use token
+cryptogram, not a static CVV.<a href="#appendix-B-3.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-B-3.3">
+          <p id="appendix-B-3.3.1">Made the <code>aid</code> and <code>sti</code> claims <span class="bcp14">REQUIRED</span>, and marked the <code>sti</code> sub-claim
+requirement levels individually.<a href="#appendix-B-3.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-B-4">-00<a href="#appendix-B-4" class="pilcrow">¶</a></p>
+<p id="appendix-B-4">-01<a href="#appendix-B-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-B-5.1">
-          <p id="appendix-B-5.1.1">Renamed draft-skyfire-kyapayprofile to draft-skyfire-oauth-kyapay-token.<a href="#appendix-B-5.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-B-5.1.1">Added appendix referencing related specifications.<a href="#appendix-B-5.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-B-6">draft-skyfire-kyapayprofile-02<a href="#appendix-B-6" class="pilcrow">¶</a></p>
+<p id="appendix-B-6">-00<a href="#appendix-B-6" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-B-7.1">
-          <p id="appendix-B-7.1.1">Changed terms buyer and seller to initiator and target to generalize applicability.
-These claim names were changed: "sdm" to "tdm", "ssi" to "tsi", "btg" to "itg",
-"spr" to "tpr", and "sps" to "tps".<a href="#appendix-B-7.1.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-B-7.2">
-          <p id="appendix-B-7.2.1">Updated Settlement Information sti Sub-Claims.<a href="#appendix-B-7.2.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-B-7.3">
-          <p id="appendix-B-7.3.1">Changed specification type from Informative to Proposed Standard.<a href="#appendix-B-7.3.1" class="pilcrow">¶</a></p>
+          <p id="appendix-B-7.1.1">Renamed draft-skyfire-kyapayprofile to draft-skyfire-oauth-kyapay-token.<a href="#appendix-B-7.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-B-8">draft-skyfire-kyapayprofile-01<a href="#appendix-B-8" class="pilcrow">¶</a></p>
+<p id="appendix-B-8">draft-skyfire-kyapayprofile-02<a href="#appendix-B-8" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-B-9.1">
-          <p id="appendix-B-9.1.1">Removed "srl" (Seller Resource Locator) claim.<a href="#appendix-B-9.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-B-9.1.1">Changed terms buyer and seller to initiator and target to generalize applicability.
+These claim names were changed: "sdm" to "tdm", "ssi" to "tsi", "btg" to "itg",
+"spr" to "tpr", and "sps" to "tps".<a href="#appendix-B-9.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-B-9.2">
+          <p id="appendix-B-9.2.1">Updated Settlement Information sti Sub-Claims.<a href="#appendix-B-9.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-B-9.3">
+          <p id="appendix-B-9.3.1">Changed specification type from Informative to Proposed Standard.<a href="#appendix-B-9.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-B-10">draft-skyfire-kyapayprofile-00<a href="#appendix-B-10" class="pilcrow">¶</a></p>
+<p id="appendix-B-10">draft-skyfire-kyapayprofile-01<a href="#appendix-B-10" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-B-11.1">
-          <p id="appendix-B-11.1.1">Initial Internet Draft.<a href="#appendix-B-11.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-B-11.1.1">Removed "srl" (Seller Resource Locator) claim.<a href="#appendix-B-11.1.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="appendix-B-12">draft-skyfire-kyapayprofile-00<a href="#appendix-B-12" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-B-13.1">
+          <p id="appendix-B-13.1.1">Initial Internet Draft.<a href="#appendix-B-13.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 </section>

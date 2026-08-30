@@ -555,21 +555,42 @@ Table of Contents
    The sti claim is REQUIRED.  It contains the following sub-claims,
    with the requirement levels marked below.
 
+   The sti claim carries the settlement instrument, and its contents
+   depend on the value of stp.
+
+   When stp is card, the settlement instrument is an agentic payment
+   credential issued by a payment network under an agentic-commerce
+   programme -- for example Visa Intelligent Commerce (visa_vic) or
+   Mastercard Agent Pay, using Secure Card on File (mastercard_scof).
+   Such a credential is provisioned for a single transaction and is
+   scoped to one initiator, one target and one amount.  It is not a
+   Primary Account Number (PAN), and it cannot be used to derive the
+   underlying PAN or the network's agentic token.
+
    type:  REQUIRED - "type" is dependent on the "stp" value; for "coin"
       - "usdc"; for "card" - "visa_vic" or "mastercard_scof".
       Additional values may be defined and used.
 
-   payment_token:  OPTIONAL - String containing Virtual Payment Card
-      Number in ISO/IEC 7812 format. 12-19 characters.
+   payment_token:  REQUIRED when stp is card; otherwise OPTIONAL -
+      String containing the network-issued agentic payment credential,
+      formatted per ISO/IEC 7812, 12-19 characters.  This value MUST be
+      a payment-network-issued agentic or tokenized credential.  It MUST
+      NOT be a Primary Account Number (PAN).
 
-   token_expiration_month:  OPTIONAL - String containing two-digit
-      Expiration Month Number.
+   token_expiration_month:  REQUIRED when payment_token is present -
+      String containing two-digit Expiration Month Number.
 
-   token_expiration_year:  OPTIONAL - String containing four-digit
-      Expiration Year.
+   token_expiration_year:  REQUIRED when payment_token is present -
+      String containing four-digit Expiration Year.
 
-   token_security_code:  OPTIONAL - String containing 3 or 4 digit CVV
-      code.
+   token_security_code:  REQUIRED when payment_token is present - String
+      containing the single-use token cryptogram accompanying the
+      credential in payment_token -- a Dynamic Token Verification Value
+      (DTVV) or Token Authentication Verification Value (TAVV),
+      depending on the network. 3 or 4 digits.  This value is generated
+      per transaction and is short-lived; its validity period is
+      determined and enforced by the payment network.  It MUST NOT be a
+      static Card Verification Value (CVV, CVC2 or CVV2).
 
    verifier:  OPTIONAL - URL of the Payment Verifier
 
@@ -611,10 +632,10 @@ Table of Contents
   "stp": "card",
   "sti": {
     "type": "visa_vic",
-    "paymentToken": "1234567890123456",
-    "tokenExpirationMonth": "03",
-    "tokenExpirationYear": "2030",
-    "tokenSecurityCode": "123",
+    "payment_token": "1234567890123456",
+    "token_expiration_month": "03",
+    "token_expiration_year": "2030",
+    "token_security_code": "123",
     "verifier": "https://verifier.example.info", // URL of payment method verifier
     "verified": true, // Outcome of the verifier's payment method verification
     "verification_id": "3a6e1b76-8f78-4c24-b1bd-dc78a8cc3711" // Identifier for the verification performed, such as a GUID.
@@ -679,10 +700,10 @@ Table of Contents
   "stp": "card",
   "sti": {
     "type": "visa_vic",
-    "paymentToken": "1234567890123456",
-    "tokenExpirationMonth": "03",
-    "tokenExpirationYear": "2030",
-    "tokenSecurityCode": "123"
+    "payment_token": "1234567890123456",
+    "token_expiration_month": "03",
+    "token_expiration_year": "2030",
+    "token_security_code": "123"
   }
 }
 
@@ -1212,6 +1233,21 @@ Appendix A.  Related Specifications
 Document History
 
    [[ to be removed by the RFC Editor before publication as an RFC ]]
+
+   -02
+
+   *  Corrected the sti sub-claim names in the PAY and KYA-PAY examples
+      to match the normative names in the Settlement Information section
+      (payment_token, token_expiration_month, token_expiration_year,
+      token_security_code).  The examples had retained the pre-rename
+      camelCase forms.
+
+   *  Clarified that the card settlement instrument is a network-issued
+      agentic payment credential and that token_security_code carries a
+      single-use token cryptogram, not a static CVV.
+
+   *  Made the aid and sti claims REQUIRED, and marked the sti sub-claim
+      requirement levels individually.
 
    -01
 
