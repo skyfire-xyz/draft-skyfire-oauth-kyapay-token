@@ -47,16 +47,18 @@ contributor:
 # see https://github.com/cabo/kramdown-rfc/wiki/Syntax2#authors-contributors
 
 normative:
+  RFC6454:
   RFC7515:
+  RFC7517:
   RFC7518:
   RFC7519:
   RFC6749:
+  RFC8615:
   RFC8693:
 
 informative:
   RFC2046:
   RFC6838:
-  RFC8615:
   RFC8725:
   IANA.JWT.Claims:
     author:
@@ -69,6 +71,12 @@ informative:
     - org: IANA
     target: https://www.iana.org/assignments/media-types
     title: Media Types
+    date: false
+  IANA.WellKnownURIs:
+    author:
+    - org: IANA
+    target: https://www.iana.org/assignments/well-known-uris
+    title: Well-Known URIs
     date: false
   I-D.skyfire-oauth-using-kyapay-tokens:
   I-D.skyfire-oauth-kyapay-token-exchange:
@@ -298,9 +306,10 @@ The following are claims in common, used within the KYA (Know Your Agent),
 PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
 
 `iss`:
-: REQUIRED - URL of the token's issuer, including scheme.
-  Used for locating the JWK Set for token signature verification, as described
-  in {{key-discovery}}.
+: REQUIRED - URL of the token's issuer. The value MUST be an origin as defined
+  in {{Section 4 of RFC6454}}: a scheme, a host, and an optional port, with no
+  path, query or fragment component. Used for locating the JWK Set for token
+  signature verification, as described in {{key-discovery}}.
 
 `sub`:
 : REQUIRED - Subject Identifier. Must be pairwise unique within
@@ -345,39 +354,24 @@ The recipient MUST ignore any unrecognized claims.
 
 ## Issuer Key Discovery {#key-discovery}
 
-The JWK Set used to verify a token signature is located from the `iss` claim by
-removing any trailing slash from the `iss` value and appending
-`/.well-known/jwks.json`. For example, an `iss` value of
-`https://example.com/issuer` yields
-`https://example.com/issuer/.well-known/jwks.json`.
+The JWK Set used to verify a token signature is located at the well-known URI
+{{RFC8615}} formed from the `iss` claim with the URI suffix `jwks.json`.
+Because `iss` is an origin, this is the well-known URI construction described
+in {{Section 3 of RFC8615}} applied to that origin. For example, an `iss` value
+of `https://issuer.example.com` yields
+`https://issuer.example.com/.well-known/jwks.json`.
 
-Because the suffix is appended to the whole `iss` value rather than to its
-origin, this is a path-relative convention and is not a well-known URI as
-defined by {{RFC8615}}, which scopes such URIs to an origin. It is specified
-here because it is what deployed implementations serve today. Verifiers MUST
-form the URL exactly as described above and MUST NOT apply the construction
-defined in {{Section 3 of RFC8615}} to it.
+The `jwks.json` URI suffix is registered in {{well-known-registration}}.
 
 JWK Sets SHOULD be cached and refreshed according to standard JWK Set practice.
 Retrieval per request is neither required nor expected; because KYAPay tokens
 are self-contained, signature verification is intended to be performed locally.
 
-### Planned Issuer Metadata Document
-
-The convention above carries no way for an issuer to advertise anything beyond
-the location of its keys, and it does not follow {{RFC8615}}.
-
-A future revision of this specification is expected to define a KYAPay issuer
-metadata document, retrieved from a path registered under {{RFC8615}} and
-carrying at least an `issuer` value, which MUST match the `iss` claim, and a
-`jwks_uri` value locating the JWK Set. Such a document also gives an issuer
-somewhere to declare capabilities, such as the identity verification methods it
-supports.
-
-When that document is defined, verifiers are expected to attempt to retrieve it
-first and to fall back to the convention above when it is absent, so that
-issuers and verifiers may migrate independently and neither is blocked on the
-other.
+A future revision of this specification may additionally define an issuer
+metadata document, giving an issuer somewhere to advertise capabilities beyond
+the location of its keys, such as the identity verification methods it supports.
+Such a document would supplement the mechanism described here rather than
+replace it.
 
 ## KYA Token {#kya-token}
 
@@ -404,7 +398,7 @@ The following informative example displays a decoded KYA type token.
   "alg": "ES256",
   "typ": "kya+jwt"
 }.{
-  "iss": "https://example.com/issuer", // Issuer URL
+  "iss": "https://issuer.example.com", // Issuer URL
   "iat": 1742245254,
   "exp": 1773867654,
   "jti": "b9821893-7699-4d24-af06-803a6a16476b",
@@ -606,7 +600,7 @@ The following informative example displays a decoded PAY type token.
   "alg": "ES256",
   "typ": "pay+jwt"
 }.{
-  "iss": "https://example.net/pay_token_issuer", // Issuer URL
+  "iss": "https://pay-issuer.example.net", // Issuer URL
   "iat": 1742245254,
   "exp": 1773867654,
   "jti": "b9821893-7699-4d24-af06-803a6a16476b",
@@ -962,6 +956,19 @@ in the manner described in {{RFC6838}}.
 * Restrictions on usage: none
 * Author: Michael B. Jones - michael_b_jones@hotmail.com
 * Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
+
+## Well-Known URI Registration {#well-known-registration}
+
+This specification registers the following URI suffix in the IANA
+"Well-Known URIs" registry {{IANA.WellKnownURIs}} established by {{RFC8615}}.
+
+* URI Suffix: jwks.json
+* Change Controller: IETF
+* Specification Document: {{key-discovery}} of this specification
+* Status: permanent
+* Related Information: The resource is a JWK Set {{RFC7517}} containing the
+  keys with which the origin signs KYAPay tokens.
+
 
 --- back
 
