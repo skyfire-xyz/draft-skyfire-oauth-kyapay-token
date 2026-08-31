@@ -1187,11 +1187,6 @@ tokens in an interoperable manner.<a href="#section-abstract-1" class="pilcrow">
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2">
                 <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-issuer-key-discovery" class="internal xref">Issuer Key Discovery</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2.2.1">
-                    <p id="section-toc.1-1.3.2.2.2.1.1"><a href="#section-3.2.1" class="auto internal xref">3.2.1</a>.  <a href="#name-planned-issuer-metadata-doc" class="internal xref">Planned Issuer Metadata Document</a></p>
-</li>
-                </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3">
                 <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-kya-token" class="internal xref">KYA Token</a></p>
@@ -1317,6 +1312,9 @@ tokens in an interoperable manner.<a href="#section-abstract-1" class="pilcrow">
                     <p id="section-toc.1-1.7.2.2.2.3.1"><a href="#section-7.2.3" class="auto internal xref">7.2.3</a>.  <a href="#name-application-kya-payjwt" class="internal xref">application/kya-pay+jwt</a></p>
 </li>
                 </ul>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.3">
+                <p id="section-toc.1-1.7.2.3.1"><a href="#section-7.3" class="auto internal xref">7.3</a>.  <a href="#name-well-known-uri-registration" class="internal xref">Well-Known URI Registration</a></p>
 </li>
             </ul>
 </li>
@@ -1627,9 +1625,10 @@ PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.<a href
           <dt id="section-3.1-2.1">
 <code>iss</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-3.1-2.2">
-            <p id="section-3.1-2.2.1"><span class="bcp14">REQUIRED</span> - URL of the token's issuer, including scheme.
-Used for locating the JWK Set for token signature verification, as described
-in <a href="#key-discovery" class="auto internal xref">Section 3.2</a>.<a href="#section-3.1-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-3.1-2.2.1"><span class="bcp14">REQUIRED</span> - URL of the token's issuer. The value <span class="bcp14">MUST</span> be an origin as defined
+in <span><a href="https://rfc-editor.org/rfc/rfc6454#section-4" class="relref">Section 4</a> of [<a href="#RFC6454" class="cite xref">RFC6454</a>]</span>: a scheme, a host, and an optional port, with no
+path, query or fragment component. Used for locating the JWK Set for token
+signature verification, as described in <a href="#key-discovery" class="auto internal xref">Section 3.2</a>.<a href="#section-3.1-2.2.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-3.1-2.3">
@@ -1709,39 +1708,21 @@ The recipient <span class="bcp14">MUST</span> ignore any unrecognized claims.<a 
         <h3 id="name-issuer-key-discovery">
 <a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-issuer-key-discovery" class="section-name selfRef">Issuer Key Discovery</a>
         </h3>
-<p id="section-3.2-1">The JWK Set used to verify a token signature is located from the <code>iss</code> claim by
-removing any trailing slash from the <code>iss</code> value and appending
-<code>/.well-known/jwks.json</code>. For example, an <code>iss</code> value of
-<code>https://example.com/issuer</code> yields
-<code>https://example.com/issuer/.well-known/jwks.json</code>.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
-<p id="section-3.2-2">Because the suffix is appended to the whole <code>iss</code> value rather than to its
-origin, this is a path-relative convention and is not a well-known URI as
-defined by <span>[<a href="#RFC8615" class="cite xref">RFC8615</a>]</span>, which scopes such URIs to an origin. It is specified
-here because it is what deployed implementations serve today. Verifiers <span class="bcp14">MUST</span>
-form the URL exactly as described above and <span class="bcp14">MUST NOT</span> apply the construction
-defined in <span><a href="https://rfc-editor.org/rfc/rfc8615#section-3" class="relref">Section 3</a> of [<a href="#RFC8615" class="cite xref">RFC8615</a>]</span> to it.<a href="#section-3.2-2" class="pilcrow">¶</a></p>
+<p id="section-3.2-1">The JWK Set used to verify a token signature is located at the well-known URI
+<span>[<a href="#RFC8615" class="cite xref">RFC8615</a>]</span> formed from the <code>iss</code> claim with the URI suffix <code>jwks.json</code>.
+Because <code>iss</code> is an origin, this is the well-known URI construction described
+in <span><a href="https://rfc-editor.org/rfc/rfc8615#section-3" class="relref">Section 3</a> of [<a href="#RFC8615" class="cite xref">RFC8615</a>]</span> applied to that origin. For example, an <code>iss</code> value
+of <code>https://issuer.example.com</code> yields
+<code>https://issuer.example.com/.well-known/jwks.json</code>.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+<p id="section-3.2-2">The <code>jwks.json</code> URI suffix is registered in <a href="#well-known-registration" class="auto internal xref">Section 7.3</a>.<a href="#section-3.2-2" class="pilcrow">¶</a></p>
 <p id="section-3.2-3">JWK Sets <span class="bcp14">SHOULD</span> be cached and refreshed according to standard JWK Set practice.
 Retrieval per request is neither required nor expected; because KYAPay tokens
 are self-contained, signature verification is intended to be performed locally.<a href="#section-3.2-3" class="pilcrow">¶</a></p>
-<div id="planned-issuer-metadata-document">
-<section id="section-3.2.1">
-          <h4 id="name-planned-issuer-metadata-doc">
-<a href="#section-3.2.1" class="section-number selfRef">3.2.1. </a><a href="#name-planned-issuer-metadata-doc" class="section-name selfRef">Planned Issuer Metadata Document</a>
-          </h4>
-<p id="section-3.2.1-1">The convention above carries no way for an issuer to advertise anything beyond
-the location of its keys, and it does not follow <span>[<a href="#RFC8615" class="cite xref">RFC8615</a>]</span>.<a href="#section-3.2.1-1" class="pilcrow">¶</a></p>
-<p id="section-3.2.1-2">A future revision of this specification is expected to define a KYAPay issuer
-metadata document, retrieved from a path registered under <span>[<a href="#RFC8615" class="cite xref">RFC8615</a>]</span> and
-carrying at least an <code>issuer</code> value, which <span class="bcp14">MUST</span> match the <code>iss</code> claim, and a
-<code>jwks_uri</code> value locating the JWK Set. Such a document also gives an issuer
-somewhere to declare capabilities, such as the identity verification methods it
-supports.<a href="#section-3.2.1-2" class="pilcrow">¶</a></p>
-<p id="section-3.2.1-3">When that document is defined, verifiers are expected to attempt to retrieve it
-first and to fall back to the convention above when it is absent, so that
-issuers and verifiers may migrate independently and neither is blocked on the
-other.<a href="#section-3.2.1-3" class="pilcrow">¶</a></p>
-</section>
-</div>
+<p id="section-3.2-4">A future revision of this specification may additionally define an issuer
+metadata document, giving an issuer somewhere to advertise capabilities beyond
+the location of its keys, such as the identity verification methods it supports.
+Such a document would supplement the mechanism described here rather than
+replace it.<a href="#section-3.2-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="kya-token">
@@ -1786,7 +1767,7 @@ claims (individual or organization).<a href="#section-3.3-2.2.1" class="pilcrow"
   "alg": "ES256",
   "typ": "kya+jwt"
 }.{
-  "iss": "https://example.com/issuer", // Issuer URL
+  "iss": "https://issuer.example.com", // Issuer URL
   "iat": 1742245254,
   "exp": 1773867654,
   "jti": "b9821893-7699-4d24-af06-803a6a16476b",
@@ -2130,7 +2111,7 @@ The recipient <span class="bcp14">MUST</span> ignore any unrecognized sub-claims
   "alg": "ES256",
   "typ": "pay+jwt"
 }.{
-  "iss": "https://example.net/pay_token_issuer", // Issuer URL
+  "iss": "https://pay-issuer.example.net", // Issuer URL
   "iat": 1742245254,
   "exp": 1773867654,
   "jti": "b9821893-7699-4d24-af06-803a6a16476b",
@@ -2934,6 +2915,33 @@ in the manner described in <span>[<a href="#RFC6838" class="cite xref">RFC6838</
 </div>
 </section>
 </div>
+<div id="well-known-registration">
+<section id="section-7.3">
+        <h3 id="name-well-known-uri-registration">
+<a href="#section-7.3" class="section-number selfRef">7.3. </a><a href="#name-well-known-uri-registration" class="section-name selfRef">Well-Known URI Registration</a>
+        </h3>
+<p id="section-7.3-1">This specification registers the following URI suffix in the IANA
+"Well-Known URIs" registry <span>[<a href="#IANA.WellKnownURIs" class="cite xref">IANA.WellKnownURIs</a>]</span> established by <span>[<a href="#RFC8615" class="cite xref">RFC8615</a>]</span>.<a href="#section-7.3-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.3-2.1">
+            <p id="section-7.3-2.1.1">URI Suffix: jwks.json<a href="#section-7.3-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.3-2.2">
+            <p id="section-7.3-2.2.1">Change Controller: IETF<a href="#section-7.3-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.3-2.3">
+            <p id="section-7.3-2.3.1">Specification Document: <a href="#key-discovery" class="auto internal xref">Section 3.2</a> of this specification<a href="#section-7.3-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.3-2.4">
+            <p id="section-7.3-2.4.1">Status: permanent<a href="#section-7.3-2.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.3-2.5">
+            <p id="section-7.3-2.5.1">Related Information: The resource is a JWK Set <span>[<a href="#RFC7517" class="cite xref">RFC7517</a>]</span> containing the
+keys with which the origin signs KYAPay tokens.<a href="#section-7.3-2.5.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+</section>
+</div>
 </section>
 </div>
 <div id="sec-combined-references">
@@ -2951,6 +2959,10 @@ in the manner described in <span>[<a href="#RFC6838" class="cite xref">RFC6838</
         <dd>
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC6454">[RFC6454]</dt>
+        <dd>
+<span class="refAuthor">Barth, A.</span>, <span class="refTitle">"The Web Origin Concept"</span>, <span class="seriesInfo">RFC 6454</span>, <span class="seriesInfo">DOI 10.17487/RFC6454</span>, <time datetime="2011-12" class="refDate">December 2011</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6454">https://www.rfc-editor.org/rfc/rfc6454</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC6749">[RFC6749]</dt>
         <dd>
 <span class="refAuthor">Hardt, D., Ed.</span>, <span class="refTitle">"The OAuth 2.0 Authorization Framework"</span>, <span class="seriesInfo">RFC 6749</span>, <span class="seriesInfo">DOI 10.17487/RFC6749</span>, <time datetime="2012-10" class="refDate">October 2012</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6749">https://www.rfc-editor.org/rfc/rfc6749</a>&gt;</span>. </dd>
@@ -2958,6 +2970,10 @@ in the manner described in <span>[<a href="#RFC6838" class="cite xref">RFC6838</
 <dt id="RFC7515">[RFC7515]</dt>
         <dd>
 <span class="refAuthor">Jones, M.</span>, <span class="refAuthor">Bradley, J.</span>, and <span class="refAuthor">N. Sakimura</span>, <span class="refTitle">"JSON Web Signature (JWS)"</span>, <span class="seriesInfo">RFC 7515</span>, <span class="seriesInfo">DOI 10.17487/RFC7515</span>, <time datetime="2015-05" class="refDate">May 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7515">https://www.rfc-editor.org/rfc/rfc7515</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC7517">[RFC7517]</dt>
+        <dd>
+<span class="refAuthor">Jones, M.</span>, <span class="refTitle">"JSON Web Key (JWK)"</span>, <span class="seriesInfo">RFC 7517</span>, <span class="seriesInfo">DOI 10.17487/RFC7517</span>, <time datetime="2015-05" class="refDate">May 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7517">https://www.rfc-editor.org/rfc/rfc7517</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC7518">[RFC7518]</dt>
         <dd>
@@ -2970,6 +2986,10 @@ in the manner described in <span>[<a href="#RFC6838" class="cite xref">RFC6838</
 <dt id="RFC8174">[RFC8174]</dt>
         <dd>
 <span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8615">[RFC8615]</dt>
+        <dd>
+<span class="refAuthor">Nottingham, M.</span>, <span class="refTitle">"Well-Known Uniform Resource Identifiers (URIs)"</span>, <span class="seriesInfo">RFC 8615</span>, <span class="seriesInfo">DOI 10.17487/RFC8615</span>, <time datetime="2019-05" class="refDate">May 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8615">https://www.rfc-editor.org/rfc/rfc8615</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8693">[RFC8693]</dt>
       <dd>
@@ -3012,6 +3032,10 @@ in the manner described in <span>[<a href="#RFC6838" class="cite xref">RFC6838</
         <dd>
 <span class="refAuthor">IANA</span>, <span class="refTitle">"Media Types"</span>, <span>&lt;<a href="https://www.iana.org/assignments/media-types">https://www.iana.org/assignments/media-types</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="IANA.WellKnownURIs">[IANA.WellKnownURIs]</dt>
+        <dd>
+<span class="refAuthor">IANA</span>, <span class="refTitle">"Well-Known URIs"</span>, <span>&lt;<a href="https://www.iana.org/assignments/well-known-uris">https://www.iana.org/assignments/well-known-uris</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC2046">[RFC2046]</dt>
         <dd>
 <span class="refAuthor">Freed, N.</span> and <span class="refAuthor">N. Borenstein</span>, <span class="refTitle">"Multipurpose Internet Mail Extensions (MIME) Part Two: Media Types"</span>, <span class="seriesInfo">RFC 2046</span>, <span class="seriesInfo">DOI 10.17487/RFC2046</span>, <time datetime="1996-11" class="refDate">November 1996</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2046">https://www.rfc-editor.org/rfc/rfc2046</a>&gt;</span>. </dd>
@@ -3019,10 +3043,6 @@ in the manner described in <span>[<a href="#RFC6838" class="cite xref">RFC6838</
 <dt id="RFC6838">[RFC6838]</dt>
         <dd>
 <span class="refAuthor">Freed, N.</span>, <span class="refAuthor">Klensin, J.</span>, and <span class="refAuthor">T. Hansen</span>, <span class="refTitle">"Media Type Specifications and Registration Procedures"</span>, <span class="seriesInfo">BCP 13</span>, <span class="seriesInfo">RFC 6838</span>, <span class="seriesInfo">DOI 10.17487/RFC6838</span>, <time datetime="2013-01" class="refDate">January 2013</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6838">https://www.rfc-editor.org/rfc/rfc6838</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC8615">[RFC8615]</dt>
-        <dd>
-<span class="refAuthor">Nottingham, M.</span>, <span class="refTitle">"Well-Known Uniform Resource Identifiers (URIs)"</span>, <span class="seriesInfo">RFC 8615</span>, <span class="seriesInfo">DOI 10.17487/RFC8615</span>, <time datetime="2019-05" class="refDate">May 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8615">https://www.rfc-editor.org/rfc/rfc8615</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8725">[RFC8725]</dt>
       <dd>
