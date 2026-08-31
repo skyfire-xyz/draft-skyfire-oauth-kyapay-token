@@ -238,98 +238,109 @@ Table of Contents
 
 2.1.  Roles
 
-   Agent:  An application, service, or specific software process,
-      executing on behalf of a Principal.
+   Agent:
+      An application, service, or specific software process, executing
+      on behalf of a Principal.
 
-   Agent Identity:  A unique identifier and a set of claims describing
-      an agent.  Grouped into the aid claim for convenience.  Because an
-      agent can be public or confidential (as described in Section 2.1
-      of [RFC6749]), the level of assurance for these claims varies
+   Agent Identity:
+      A unique identifier and a set of claims describing an agent.
+      Grouped into the aid claim for convenience.  Because an agent can
+      be public or confidential (as described in Section 2.1 of
+      [RFC6749]), the level of assurance for these claims varies
       dramatically.  Agents also vary in terms of longevity -- they can
       have stable long-running identities (such as those of a server-
       side confidential client), or they can be transient and ephemeral,
       and correspond to individual API calls or compute workloads.
 
-   Agent Platform:  The service provider and runtime environment hosting
-      the Agent, such as a cloud compute provider or AI operator
-      service.  Assertions about the agent platform are grouped into the
-      apd claim, and are primarily used to identify the Principal entity
+   Agent Platform:
+      The service provider and runtime environment hosting the Agent,
+      such as a cloud compute provider or AI operator service.
+      Assertions about the agent platform are grouped into the apd
+      claim, and are primarily used to identify the Principal entity
       operating the platform, allowing consumers of the token to apply
       reputation-based logic or offer platform-specific services.
 
-   Principal:  A legal entity (human or organization) on whose behalf /
-      in whose authority an agent or service is operating.
+   Principal:
+      A legal entity (human or organization) on whose behalf / in whose
+      authority an agent or service is operating.
 
 2.1.1.  Initiator Roles
 
-   Initiator Agent:  An Agent performing tasks on behalf of an Initiator
-      Principal, that has its own Agent Identity, grouped into the aid
-      claim.
+   Initiator Agent:
+      An Agent performing tasks on behalf of an Initiator Principal,
+      that has its own Agent Identity, grouped into the aid claim.
 
-   Initiator Agent Platform:  The Agent Platform hosting the Initiator
-      Agent.  Some use cases require the Platform to have its own
-      verified identity assertions, grouped into the apd claim.
+   Initiator Agent Platform:
+      The Agent Platform hosting the Initiator Agent.  Some use cases
+      require the Platform to have its own verified identity assertions,
+      grouped into the apd claim.
 
-   Initiator Principal:  A legal entity (human or organization) behind
-      the purchase / consumption of a product or service.  In buyer/
-      seller transactions, the Initiator is the buyer.  The Principal
-      typically interacts with the target via an Initiator Agent.  Many
-      targets are required to be able to determine the Initiator
-      Identity in order to comply with KYC/AML regulations, accounting
-      standards, and to maintain a direct customer relationships.  The
-      initiator principal's identity is grouped into the hid claim.
+   Initiator Principal:
+      A legal entity (human or organization) behind the purchase /
+      consumption of a product or service.  In buyer/seller
+      transactions, the Initiator is the buyer.  The Principal typically
+      interacts with the target via an Initiator Agent.  Many targets
+      are required to be able to determine the Initiator Identity in
+      order to comply with KYC/AML regulations, accounting standards,
+      and to maintain a direct customer relationships.  The initiator
+      principal's identity is grouped into the hid claim.
 
-   Initiator Identity:  The aggregate verified identity assertions of
-      the initiator entities, typically encompassing the Initiator
-      Principal, the Initiator Agent Platform, and the Initiator Agent
-      itself.  This composite identity is conveyed via the KYA token,
-      allowing the target to verify the entire chain of responsibility
-      behind a request.  The initiator identity utilizes the hid, apd,
-      and aid claims.
+   Initiator Identity:
+      The aggregate verified identity assertions of the initiator
+      entities, typically encompassing the Initiator Principal, the
+      Initiator Agent Platform, and the Initiator Agent itself.  This
+      composite identity is conveyed via the KYA token, allowing the
+      target to verify the entire chain of responsibility behind a
+      request.  The initiator identity utilizes the hid, apd, and aid
+      claims.
 
 2.1.2.  Target Roles
 
-   Target Agent:  An Agent performing tasks on behalf of a Target
-      Principal, directly interacting with Initiator Agents to
-      facilitate discovery and purchase.  Typically runs on Internet-
-      connected infrastructure, and discoverable via service
-      directories.  Target agent identity claims are also grouped into
-      the aid claim if KYA tokens are generated for the targets.
+   Target Agent:
+      An Agent performing tasks on behalf of a Target Principal,
+      directly interacting with Initiator Agents to facilitate discovery
+      and purchase.  Typically runs on Internet-connected
+      infrastructure, and discoverable via service directories.  Target
+      agent identity claims are also grouped into the aid claim if KYA
+      tokens are generated for the targets.
 
-   Target Agent Platform:  The Agent Platform that hosts Target Agents.
-      Some use cases require the Platform to have its own verified
-      identity assertions, grouped into the apd claim.
+   Target Agent Platform:
+      The Agent Platform that hosts Target Agents.  Some use cases
+      require the Platform to have its own verified identity assertions,
+      grouped into the apd claim.
 
-   Target Principal:  A human principal (individual or organization)
-      that that owns the product, service, API, website, or content
-      being consumed or sold, and serves as the ultimate beneficiary of
-      a transaction.  In buyer/seller transactions, the Target is the
-      seller.  The target principal's identity is grouped into the hid
-      claim.
+   Target Principal:
+      A human principal (individual or organization) that that owns the
+      product, service, API, website, or content being consumed or sold,
+      and serves as the ultimate beneficiary of a transaction.  In
+      buyer/seller transactions, the Target is the seller.  The target
+      principal's identity is grouped into the hid claim.
 
-   Target Identity:  The aggregate verified identity assertions of the
-      target entities, typically encompassing the Target Principal, the
-      Target Agent Platform, as well as the Target Agent Identity.
-      These various aspects of Target Identity allow Initiators and
-      Initiator Agents to perform reputation-based logic, to verify that
-      they are interacting with the authorized (and expected) counter-
-      party, and to fulfill KYC/AML regulation requirements.  The target
-      identity utilizes the hid, apd, and aid claims.
+   Target Identity:
+      The aggregate verified identity assertions of the target entities,
+      typically encompassing the Target Principal, the Target Agent
+      Platform, as well as the Target Agent Identity.  These various
+      aspects of Target Identity allow Initiators and Initiator Agents
+      to perform reputation-based logic, to verify that they are
+      interacting with the authorized (and expected) counter-party, and
+      to fulfill KYC/AML regulation requirements.  The target identity
+      utilizes the hid, apd, and aid claims.
 
 2.1.3.  Ecosystem Infrastructure Roles
 
-   Identity Token Issuer:  A trusted neutral entity that conducts Know
-      Your Customer (KYC) and Know Your Business (KYB) (for
-      organizations) verifications.  It is responsible for issuing
-      cryptographically signed kya tokens that attest to the identity of
-      the Principal, Agent, and Agent Platform, for both Initiators and
-      Targets.
+   Identity Token Issuer:
+      A trusted neutral entity that conducts Know Your Customer (KYC)
+      and Know Your Business (KYB) (for organizations) verifications.
+      It is responsible for issuing cryptographically signed kya tokens
+      that attest to the identity of the Principal, Agent, and Agent
+      Platform, for both Initiators and Targets.
 
-   Payment Token Issuer:  A trusted entity responsible for facilitating
-      the exchange of payments and credentials between the Initiator and
-      Target.  It issues signed pay tokens that enable settlement via
-      various schemes (Cards, Banks, Cryptocurrency), without exposing
-      raw credentials or secrets.
+   Payment Token Issuer:
+      A trusted entity responsible for facilitating the exchange of
+      payments and credentials between the Initiator and Target.  It
+      issues signed pay tokens that enable settlement via various
+      schemes (Cards, Banks, Cryptocurrency), without exposing raw
+      credentials or secrets.
 
 3.  KYAPay Token Schemas
 
@@ -339,41 +350,51 @@ Table of Contents
    Agent), PAY (Payment), and KYA-PAY (combined Know Your Agent and
    Payment) Tokens.
 
-   iss:  REQUIRED - URL of the token's issuer.  Used for discovering JWK
+   iss:
+      REQUIRED - URL of the token's issuer.  Used for discovering JWK
       Sets for token signature verification, via the /.well-known/
       jwks.json suffix mechanism.
 
-   sub:  REQUIRED - Subject Identifier.  Must be pairwise unique within
-      a given issuer.
+   sub:
+      REQUIRED - Subject Identifier.  Must be pairwise unique within a
+      given issuer.
 
-   aud:  REQUIRED - Audience (used for audience binding and replay
-      attack mitigation), uniquely identifying the target agent.  A
-      single string value.
+   aud:
+      REQUIRED - Audience (used for audience binding and replay attack
+      mitigation), uniquely identifying the target agent.  A single
+      string value.
 
-   iat:  REQUIRED - as defined in Section 4.1.6 of [RFC7519].
-      Identifies the time at which the JWT was issued.  This claim must
-      have a value in the past and can be used to determine the age of
-      the JWT.
+   iat:
+      REQUIRED - as defined in Section 4.1.6 of [RFC7519].  Identifies
+      the time at which the JWT was issued.  This claim must have a
+      value in the past and can be used to determine the age of the JWT.
 
-   jti:  REQUIRED - Unique ID of this JWT as defined in Section 4.1.7 of
+   jti:
+      REQUIRED - Unique ID of this JWT as defined in Section 4.1.7 of
       [RFC7519].
 
-   exp:  REQUIRED - as defined in Section 4.1.4 of [RFC7519].
-      Identifies the expiration time on or after which the JWT MUST NOT
-      be accepted for processing.
+   exp:
+      REQUIRED - as defined in Section 4.1.4 of [RFC7519].  Identifies
+      the expiration time on or after which the JWT MUST NOT be accepted
+      for processing.
 
-   tdm:  OPTIONAL - Target domain, associated with the audience claim,
-      the token is intended for.
+   tdm:
+      OPTIONAL - Target domain, associated with the audience claim, the
+      token is intended for.
 
-   ori:  OPTIONAL - URL of the token's originator.
+   ori:
+      OPTIONAL - URL of the token's originator.
 
-   env:  OPTIONAL - Issuer environment (such as "production" or
-      "sandbox").  Additional values may be defined and used.
+   env:
+      OPTIONAL - Issuer environment (such as "production" or "sandbox").
+      Additional values may be defined and used.
 
-   tsi:  OPTIONAL - Target Service ID that this token was created for.
+   tsi:
+      OPTIONAL - Target Service ID that this token was created for.
 
-   itg:  OPTIONAL - Initiator tag - an opaque reference ID internal to
-      the initiator.
+   itg:
+      OPTIONAL - Initiator tag - an opaque reference ID internal to the
+      initiator.
 
    Additional claims MAY be defined and used in these tokens.  The
    recipient MUST ignore any unrecognized claims.
@@ -383,15 +404,18 @@ Table of Contents
    The following identity related claims are used within KYA and KYA-PAY
    tokens:
 
-   hid:  REQUIRED (Required for human identity use cases) - A map of
-      human identity claims (individual or organization).
+   hid:
+      REQUIRED (Required for human identity use cases) - A map of human
+      identity claims (individual or organization).
 
-   apd:  OPTIONAL - Agent Platform identity claims.
+   apd:
+      OPTIONAL - Agent Platform identity claims.
 
-   aid:  REQUIRED - Agent identity claims.
+   aid:
+      REQUIRED - Agent identity claims.
 
-   scope  OPTIONAL - String with space-separated scope values, per
-      [RFC8693]
+   scope
+      OPTIONAL - String with space-separated scope values, per [RFC8693]
 
    The following informative example displays a decoded KYA type token.
 
@@ -440,30 +464,39 @@ Table of Contents
    The Human Identity (hid) claim contains sub-claims identifying the
    human principal (individual or organization) as follows.
 
-   email:  REQUIRED - Email address associated with the human individual
-      or organization
+   email:
+      REQUIRED - Email address associated with the human individual or
+      organization
 
-   given_name:  OPTIONAL - Given name(s) or first name(s) of the human
-      principal if they are an individual.
+   given_name:
+      OPTIONAL - Given name(s) or first name(s) of the human principal
+      if they are an individual.
 
-   middle_name:  OPTIONAL - Middle name(s) of the human principal if
+   middle_name:
+      OPTIONAL - Middle name(s) of the human principal if they are an
+      individual.
+
+   family_name:
+      OPTIONAL - Surname(s) or last name(s) of the human principal if
       they are an individual.
 
-   family_name:  OPTIONAL - Surname(s) or last name(s) of the human
-      principal if they are an individual.
+   phone_number:
+      OPTIONAL - Phone number associated with the human individual or
+      organization.
 
-   phone_number:  OPTIONAL - Phone number associated with the human
-      individual or organization.
+   organization_name:
+      OPTIONAL - Name of the organization.
 
-   organization_name:  OPTIONAL - Name of the organization.
+   verifier:
+      OPTIONAL - URL of the Identity Verifier
 
-   verifier:  OPTIONAL - URL of the Identity Verifier
-
-   verified:  OPTIONAL - Boolean Verification status.  True if verified,
+   verified:
+      OPTIONAL - Boolean Verification status.  True if verified,
       otherwise false.
 
-   verification_id:  OPTIONAL - Verification identifier.  Identifier for
-      the verification performed, such as a GUID.
+   verification_id:
+      OPTIONAL - Verification identifier.  Identifier for the
+      verification performed, such as a GUID.
 
    Additional sub-claims MAY be defined and used.  The recipient MUST
    ignore any unrecognized sub-claims.
@@ -473,25 +506,31 @@ Table of Contents
    The apd claim is optional.  If present, it contains the following
    sub-claims.
 
-   id:  REQUIRED - Agent Platform identifier.
+   id:
+      REQUIRED - Agent Platform identifier.
 
-   name:  REQUIRED - Agent Platform name.
+   name:
+      REQUIRED - Agent Platform name.
 
-   email:  OPTIONAL - Email associated with agent platform.
+   email:
+      OPTIONAL - Email associated with agent platform.
 
-   phone_number:  OPTIONAL - Phone number associated with agent
-      platform.
+   phone_number:
+      OPTIONAL - Phone number associated with agent platform.
 
-   organization_name:  OPTIONAL - Legal name associated with agent
-      platform.
+   organization_name:
+      OPTIONAL - Legal name associated with agent platform.
 
-   verifier:  OPTIONAL - URL of the Identity Verifier
+   verifier:
+      OPTIONAL - URL of the Identity Verifier
 
-   verified:  OPTIONAL - Boolean Verification status.  True if verified,
+   verified:
+      OPTIONAL - Boolean Verification status.  True if verified,
       otherwise false.
 
-   verification_id:  OPTIONAL - Verification identifier.  Identifier for
-      the verification performed, such as a GUID.
+   verification_id:
+      OPTIONAL - Verification identifier.  Identifier for the
+      verification performed, such as a GUID.
 
    Additional sub-claims MAY be defined and used.  The recipient MUST
    ignore any unrecognized sub-claims.
@@ -501,21 +540,24 @@ Table of Contents
    The aid claim is optional.  If present, it contains the following
    sub-claims.
 
-   name:  REQUIRED - Agent name.  The name should reflect the business
+   name:
+      REQUIRED - Agent name.  The name should reflect the business
       purpose of the agent.
 
-   creation_ip:  REQUIRED - The public IP address of the system / agent
-      that requested the token.  Its value is a string containing the
-      public IPv4 or IPv6 address from where the token request
-      originated.  It MUST be captured directly from the token request.
+   creation_ip:
+      REQUIRED - The public IP address of the system / agent that
+      requested the token.  Its value is a string containing the public
+      IPv4 or IPv6 address from where the token request originated.  It
+      MUST be captured directly from the token request.
 
-   source_ips:  OPTIONAL - Valid public IP address, or range of public
-      IP addresses, from where the system / agent's requests to
-      merchants / services will originate.  Array of comma-separated
-      IPv4 addresses or ranges, IPv6 addresses or ranges, or domain
-      names resolvable to an IP address via DNS.  IPv4 and IPv6
-      addresses can be a single IPv4 or IPv6 address or a range of IPv4
-      or IPv6 addresses in CIDR notation or start-and-end IP pairs.
+   source_ips:
+      OPTIONAL - Valid public IP address, or range of public IP
+      addresses, from where the system / agent's requests to merchants /
+      services will originate.  Array of comma-separated IPv4 addresses
+      or ranges, IPv6 addresses or ranges, or domain names resolvable to
+      an IP address via DNS.  IPv4 and IPv6 addresses can be a single
+      IPv4 or IPv6 address or a range of IPv4 or IPv6 addresses in CIDR
+      notation or start-and-end IP pairs.
 
    Additional sub-claims MAY be defined and used.  The recipient MUST
    ignore any unrecognized sub-claims.
@@ -525,60 +567,73 @@ Table of Contents
    The following payment related claims are used within PAY and KYA-PAY
    type tokens:
 
-   tpr:  OPTIONAL - JSON string representing target service price in
+   tpr:
+      OPTIONAL - JSON string representing target service price in
       currency units.
 
-   tps:  OPTIONAL - Target pricing scheme, which represents a way for
-      the target list how it charges for its service or content.  One of
+   tps:
+      OPTIONAL - Target pricing scheme, which represents a way for the
+      target list how it charges for its service or content.  One of
       pay_per_use, subscription, pay_per_mb, or custom.  Additional
       values may be defined and used.
 
-   amt:  REQUIRED - JSON string representing token amount in currency
+   amt:
+      REQUIRED - JSON string representing token amount in currency
       units.
 
-   cur:  REQUIRED - Currency unit, represented as an ISO 4217 three
-      letter code, such as "EUR".
+   cur:
+      REQUIRED - Currency unit, represented as an ISO 4217 three letter
+      code, such as "EUR".
 
-   val:  REQUIRED - JSON string representing token amount in settlement
+   val:
+      REQUIRED - JSON string representing token amount in settlement
       network's units.
 
-   mnr:  OPTIONAL - JSON number representing maximum number of requests
+   mnr:
+      OPTIONAL - JSON number representing maximum number of requests
       when tps is pay_per_use.
 
-   stp:  REQUIRED - Settlement type (one of coin or card).  Additional
+   stp:
+      REQUIRED - Settlement type (one of coin or card).  Additional
       values may be defined and used.
 
-   sti:  REQUIRED - Meta information for payment settlement, depending
-      on settlement. type.
+   sti:
+      REQUIRED - Meta information for payment settlement, depending on
+      settlement. type.
 
 3.3.1.  Settlement Information sti Sub-Claims
 
    The sti claim is optional.  If present, it MAY contain the following
    sub-claims, all of which are OPTIONAL.
 
-   type:  REQUIRED - "type" is dependent on the "stp" value; for "coin"
-      - "usdc"; for "card" - "visa_vic" or "mastercard_scof".
-      Additional values may be defined and used.
+   type:
+      REQUIRED - "type" is dependent on the "stp" value; for "coin" -
+      "usdc"; for "card" - "visa_vic" or "mastercard_scof".  Additional
+      values may be defined and used.
 
-   payment_token:  OPTIONAL - String containing Virtual Payment Card
-      Number in ISO/IEC 7812 format. 12-19 characters.
+   payment_token:
+      OPTIONAL - String containing Virtual Payment Card Number in ISO/
+      IEC 7812 format. 12-19 characters.
 
-   token_expiration_month:  OPTIONAL - String containing two-digit
-      Expiration Month Number.
+   token_expiration_month:
+      OPTIONAL - String containing two-digit Expiration Month Number.
 
-   token_expiration_year:  OPTIONAL - String containing four-digit
-      Expiration Year.
+   token_expiration_year:
+      OPTIONAL - String containing four-digit Expiration Year.
 
-   token_security_code:  OPTIONAL - String containing 3 or 4 digit CVV
-      code.
+   token_security_code:
+      OPTIONAL - String containing 3 or 4 digit CVV code.
 
-   verifier:  OPTIONAL - URL of the Payment Verifier
+   verifier:
+      OPTIONAL - URL of the Payment Verifier
 
-   verified:  OPTIONAL - Boolean Verification status.  True if verified,
+   verified:
+      OPTIONAL - Boolean Verification status.  True if verified,
       otherwise false.
 
-   verification_id:  OPTIONAL - Verification identifier.  Identifier for
-      the verification performed, such as a GUID.
+   verification_id:
+      OPTIONAL - Verification identifier.  Identifier for the
+      verification performed, such as a GUID.
 
    Additional sub-claims MAY be defined and used.  The recipient MUST
    ignore any unrecognized sub-claims.
@@ -1213,6 +1268,10 @@ Appendix A.  Related Specifications
 Document History
 
    [[ to be removed by the RFC Editor before publication as an RFC ]]
+
+   -02
+
+   *  Added {:vspace} syntax to definition list entries.
 
    -01
 
