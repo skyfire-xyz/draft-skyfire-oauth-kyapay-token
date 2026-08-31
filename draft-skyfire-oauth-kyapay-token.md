@@ -553,7 +553,7 @@ When the `stp` is value `card`, the settlement instrument is an agentic payment 
 issued by a payment network under an agentic-commerce programme -- for example
 Visa Intelligent Commerce (`visa_vic`) or Mastercard Agent Pay, using Secure Card
 on File (`mastercard_scof`). Such a credential is provisioned for a single
-transaction and is scoped to one initiator, one target and one amount. It is not
+transaction and is scoped to one initiator, one target, and one amount. It is not
 a Primary Account Number (PAN), and it cannot be used to derive the underlying
 PAN or the network's agentic token.
 
