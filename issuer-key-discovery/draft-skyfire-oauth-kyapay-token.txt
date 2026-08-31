@@ -1121,7 +1121,7 @@ Table of Contents
 
    *  URI Suffix: jwks.json
 
-   *  Change Controller: IETF
+   *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
    *  Specification Document: Section 3.2 of this specification
 
