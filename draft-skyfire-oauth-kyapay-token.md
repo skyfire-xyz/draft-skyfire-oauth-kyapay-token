@@ -562,7 +562,7 @@ PAN or the network's agentic token.
   for "card" - "visa_vic" or "mastercard_scof".  Additional values may be defined and used.
 
 `payment_token`:
-: REQUIRED when `stp` is `card`; otherwise OPTIONAL - String containing the
+: REQUIRED when the `stp` value is `card`; otherwise OPTIONAL - String containing the
   network-issued agentic payment credential, formatted per ISO/IEC 7812,
   12-19 characters. This value MUST be a payment-network-issued agentic or
   tokenized credential. It MUST NOT be a Primary Account Number (PAN).
