@@ -549,7 +549,7 @@ with the requirement levels marked below.
 The `sti` claim carries the settlement instrument, and its contents depend on
 the value of `stp`.
 
-When `stp` is `card`, the settlement instrument is an agentic payment credential
+When the `stp` is value `card`, the settlement instrument is an agentic payment credential
 issued by a payment network under an agentic-commerce programme -- for example
 Visa Intelligent Commerce (`visa_vic`) or Mastercard Agent Pay, using Secure Card
 on File (`mastercard_scof`). Such a credential is provisioned for a single
