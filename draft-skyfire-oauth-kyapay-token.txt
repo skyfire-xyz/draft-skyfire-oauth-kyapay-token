@@ -5,8 +5,8 @@
 Web Authorization Protocol                                    A. Agarwal
 Internet-Draft                                      Skyfire Systems Inc.
 Intended status: Standards Track                                M. Jones
-Expires: 20 January 2027                          Self-Issued Consulting
-                                                            19 July 2026
+Expires: 4 March 2027                             Self-Issued Consulting
+                                                          31 August 2026
 
 
                               KYAPay Token
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 20 January 2027.
+   This Internet-Draft will expire on 4 March 2027.
 
 Copyright Notice
 
@@ -775,7 +775,7 @@ Table of Contents
    integrity are being violated.
 
    The principle of minimal disclosure should be employed.  Only the
-   infomation needed to facilitate the intended interactions should be
+   information needed to facilitate the intended interactions should be
    placed in the tokens and conveyed to participants.
 
 7.  IANA Considerations
