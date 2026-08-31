@@ -51,6 +51,7 @@ normative:
   RFC7518:
   RFC7519:
   RFC6749:
+  RFC8414:
   RFC8693:
 
 informative:
@@ -194,12 +195,10 @@ The `alg` value `ES256` is a digital signature algorithm defined in
 
 ## Roles
 
-{:vspace}
 Agent:
 : An application, service, or specific software process, executing on behalf
   of a Principal.
 
-{:vspace}
 Agent Identity:
 : A unique identifier and a set of claims describing an agent. Grouped into the
   `aid` claim for convenience. Because an agent can be public or confidential
@@ -209,7 +208,6 @@ Agent Identity:
   client), or they can be transient and ephemeral, and correspond to individual
   API calls or compute workloads.
 
-{:vspace}
 Agent Platform:
 : The service provider and runtime environment hosting the Agent, such as a
   cloud compute provider or AI operator service. Assertions about the agent
@@ -217,24 +215,20 @@ Agent Platform:
   the Principal entity operating the platform, allowing consumers of the token to
   apply reputation-based logic or offer platform-specific services.
 
-{:vspace}
 Principal:
 : A legal entity (human or organization) on whose behalf / in whose authority
 an agent or service is operating.
 
 ### Initiator Roles
 
-{:vspace}
 Initiator Agent:
 : An Agent performing tasks on behalf of an Initiator Principal, that has its own
   Agent Identity, grouped into the `aid` claim.
 
-{:vspace}
 Initiator Agent Platform:
 : The Agent Platform hosting the Initiator Agent. Some use cases require the Platform
   to have its own verified identity assertions, grouped into the `apd` claim.
 
-{:vspace}
 Initiator Principal:
 : A legal entity (human or organization) behind the purchase / consumption of a
   product or service.
@@ -245,7 +239,6 @@ Initiator Principal:
   and to maintain a direct customer relationships. The initiator principal's
   identity is grouped into the `hid` claim.
 
-{:vspace}
 Initiator Identity:
 : The aggregate verified identity assertions of the initiator entities, typically
   encompassing the Initiator Principal, the Initiator Agent Platform, and the Initiator Agent
@@ -255,7 +248,6 @@ Initiator Identity:
 
 ### Target Roles
 
-{:vspace}
 Target Agent:
 : An Agent performing tasks on behalf of a Target Principal, directly interacting
   with Initiator Agents to facilitate discovery and purchase. Typically runs on
@@ -263,12 +255,10 @@ Target Agent:
   Target agent identity claims are also grouped into the `aid` claim
   if KYA tokens are generated for the targets.
 
-{:vspace}
 Target Agent Platform:
 : The Agent Platform that hosts Target Agents. Some use cases require the Platform
   to have its own verified identity assertions, grouped into the `apd` claim.
 
-{:vspace}
 Target Principal:
 : A human principal (individual or organization) that that owns the product,
   service, API, website, or content being consumed or sold, and serves as the
@@ -276,7 +266,6 @@ Target Principal:
   In buyer/seller transactions, the Target is the seller.
   The target principal's identity is grouped into the `hid` claim.
 
-{:vspace}
 Target Identity:
 : The aggregate verified identity assertions of the target entities, typically
   encompassing the Target Principal, the Target Agent Platform, as well as the
@@ -289,14 +278,12 @@ Target Identity:
 
 ### Ecosystem Infrastructure Roles
 
-{:vspace}
 Identity Token Issuer:
 : A trusted neutral entity that conducts Know Your Customer (KYC) and Know Your
   Business (KYB) (for organizations) verifications. It is responsible for issuing
   cryptographically signed `kya` tokens that attest to the identity of the
   Principal, Agent, and Agent Platform, for both Initiators and Targets.
 
-{:vspace}
 Payment Token Issuer:
 : A trusted entity responsible for facilitating the exchange of payments and
   credentials between the Initiator and Target. It issues signed `pay` tokens that
@@ -310,55 +297,49 @@ Payment Token Issuer:
 The following are claims in common, used within the KYA (Know Your Agent),
 PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
 
-{:vspace}
 `iss`:
-: REQUIRED - URL of the token's issuer. Used for discovering JWK Sets for token
-  signature verification, via the `/.well-known/jwks.json` suffix mechanism.
+: REQUIRED - URL of the token's issuer.
+  The JWK Set used to verify the token signature is located via the issuer's
+  authorization server metadata, retrieved as described in
+  {{Section 3 of RFC8414}} and read from the `jwks_uri` metadata value.
+  Verifiers MUST NOT construct the JWK Set URL by appending a path to `iss`.
+  Issuer metadata and JWK Sets SHOULD be cached and refreshed according to
+  standard practice; retrieval per request is neither required nor expected.
 
-{:vspace}
 `sub`:
 : REQUIRED - Subject Identifier. Must be pairwise unique within
   a given issuer.
 
-{:vspace}
 `aud`:
 : REQUIRED - Audience (used for audience binding and replay attack mitigation),
   uniquely identifying the target agent.
   A single string value.
 
-{:vspace}
 `iat`:
 : REQUIRED - as defined in {{Section 4.1.6 of RFC7519}}.  Identifies the time
   at which the JWT was issued.  This claim must have a value in the past and can
   be used to determine the age of the JWT.
 
-{:vspace}
 `jti`:
 : REQUIRED - Unique ID of this JWT as defined in {{Section 4.1.7 of RFC7519}}.
 
-{:vspace}
 `exp`:
 : REQUIRED - as defined in {{Section 4.1.4 of RFC7519}}.  Identifies the expiration
   time on or after which the JWT MUST NOT be accepted for processing.
 
-{:vspace}
 `tdm`:
 : OPTIONAL - Target domain, associated with the audience claim, the token is intended for.
 
-{:vspace}
 `ori`:
 : OPTIONAL - URL of the token's originator.
 
-{:vspace}
 `env`:
 : OPTIONAL - Issuer environment (such as "production" or "sandbox").  Additional values
   may be defined and used.
 
-{:vspace}
 `tsi`:
 : OPTIONAL - Target Service ID that this token was created for.
 
-{:vspace}
 `itg`:
 : OPTIONAL - Initiator tag - an opaque reference ID internal to the initiator.
 
@@ -370,20 +351,16 @@ The recipient MUST ignore any unrecognized claims.
 
 The following identity related claims are used within KYA and KYA-PAY tokens:
 
-{:vspace}
 `hid`:
 : REQUIRED (Required for human identity use cases) - A map of human identity
   claims (individual or organization).
 
-{:vspace}
 `apd`:
 : OPTIONAL - Agent Platform identity claims.
 
-{:vspace}
 `aid`:
 : REQUIRED - Agent identity claims.
 
-{:vspace}
 `scope`
 : OPTIONAL - String with space-separated scope values, per {{RFC8693}}
 
@@ -435,41 +412,32 @@ The following informative example displays a decoded KYA type token.
 The Human Identity (`hid`) claim contains sub-claims identifying the human
 principal (individual or organization) as follows.
 
-{:vspace}
 `email`:
 : REQUIRED - Email address associated with the human individual or organization
 
-{:vspace}
 `given_name`:
 : OPTIONAL - Given name(s) or first name(s) of the human principal if they
   are an individual.
 
-{:vspace}
 `middle_name`:
 : OPTIONAL - Middle name(s) of the human principal if they are an individual.
 
-{:vspace}
 `family_name`:
 : OPTIONAL - Surname(s) or last name(s) of the human principal if they are an
   individual.
 
-{:vspace}
 `phone_number`:
 : OPTIONAL - Phone number associated with the human individual or organization.
 
-{:vspace}
 `organization_name`:
 : OPTIONAL - Name of the organization.
 
-{:vspace}
 `verifier`:
 : OPTIONAL - URL of the Identity Verifier
 
-{:vspace}
 `verified`:
 : OPTIONAL - Boolean Verification status.  True if verified, otherwise false.
 
-{:vspace}
 `verification_id`:
 : OPTIONAL - Verification identifier. Identifier for the verification performed,
   such as a GUID.
@@ -481,35 +449,27 @@ The recipient MUST ignore any unrecognized sub-claims.
 
 The `apd` claim is optional. If present, it contains the following sub-claims.
 
-{:vspace}
 `id`:
 : REQUIRED - Agent Platform identifier.
 
-{:vspace}
 `name`:
 : REQUIRED - Agent Platform name.
 
-{:vspace}
 `email`:
 : OPTIONAL - Email associated with agent platform.
 
-{:vspace}
 `phone_number`:
 : OPTIONAL - Phone number associated with agent platform.
 
-{:vspace}
 `organization_name`:
 : OPTIONAL - Legal name associated with agent platform.
 
-{:vspace}
 `verifier`:
 : OPTIONAL - URL of the Identity Verifier
 
-{:vspace}
 `verified`:
 : OPTIONAL - Boolean Verification status.  True if verified, otherwise false.
 
-{:vspace}
 `verification_id`:
 : OPTIONAL - Verification identifier. Identifier for the verification performed, such as a GUID.
 
@@ -520,17 +480,14 @@ The recipient MUST ignore any unrecognized sub-claims.
 
 The `aid` claim is optional. If present, it contains the following sub-claims.
 
-{:vspace}
 `name`:
 : REQUIRED - Agent name. The name should reflect the business purpose of the agent.
 
-{:vspace}
 `creation_ip`:
 : REQUIRED - The public IP address of the system / agent that requested the token.
   Its value is a string containing the public IPv4 or IPv6 address from where the
   token request originated. It MUST be captured directly from the token request.
 
-{:vspace}
 `source_ips`:
 : OPTIONAL - Valid public IP address, or range of public IP addresses, from where
   the system / agent's requests to merchants / services will originate. Array of
@@ -546,38 +503,30 @@ The recipient MUST ignore any unrecognized sub-claims.
 
 The following payment related claims are used within PAY and KYA-PAY type tokens:
 
-{:vspace}
 `tpr`:
 : OPTIONAL - JSON string representing target service price in currency units.
 
-{:vspace}
 `tps`:
 : OPTIONAL - Target pricing scheme, which represents a way for the target list
   how it charges for its service or content. One of `pay_per_use`,
   `subscription`, `pay_per_mb`, or `custom`.  Additional values may be defined
   and used.
 
-{:vspace}
 `amt`:
 : REQUIRED - JSON string representing token amount in currency units.
 
-{:vspace}
 `cur`:
 : REQUIRED - Currency unit, represented as an ISO 4217 three letter code, such as "EUR".
 
-{:vspace}
 `val`:
 : REQUIRED - JSON string representing token amount in settlement network's units.
 
-{:vspace}
 `mnr`:
 : OPTIONAL - JSON number representing maximum number of requests when `tps` is `pay_per_use`.
 
-{:vspace}
 `stp`:
 : REQUIRED - Settlement type (one of `coin` or `card`).  Additional values may be defined and used.
 
-{:vspace}
 `sti`:
 : REQUIRED - Meta information for payment settlement, depending on settlement.
   type.
@@ -587,36 +536,28 @@ The following payment related claims are used within PAY and KYA-PAY type tokens
 The `sti` claim is optional. If present, it MAY contain the following sub-claims,
 all of which are OPTIONAL.
 
-{:vspace}
 `type`:
 : REQUIRED - "type" is dependent on the "stp" value; for "coin" - "usdc";
   for "card" - "visa_vic" or "mastercard_scof".  Additional values may be defined and used.
 
-{:vspace}
 `payment_token`:
 : OPTIONAL - String containing Virtual Payment Card Number in ISO/IEC 7812 format. 12-19 characters.
 
-{:vspace}
 `token_expiration_month`:
 : OPTIONAL - String containing two-digit Expiration Month Number.
 
-{:vspace}
 `token_expiration_year`:
 : OPTIONAL - String containing four-digit Expiration Year.
 
-{:vspace}
 `token_security_code`:
 : OPTIONAL - String containing 3 or 4 digit CVV code.
 
-{:vspace}
 `verifier`:
 : OPTIONAL - URL of the Payment Verifier
 
-{:vspace}
 `verified`:
 : OPTIONAL - Boolean Verification status.  True if verified, otherwise false.
 
-{:vspace}
 `verification_id`:
 : OPTIONAL - Verification identifier. Identifier for the verification performed, such as a GUID.
 
@@ -676,7 +617,7 @@ The following informative example displays a decoded KYA-PAY type token.
   "alg": "ES256",
   "typ": "kya-pay+jwt"
 }.{
-  "iss": "kya-pay.example.org", // Issuer URL
+  "iss": "https://kya-pay.example.org", // Issuer URL
   "iat": 1742245254,
   "exp": 1773867654,
   "jti": "b9821893-7699-4d24-af06-803a6a16476b",
@@ -739,8 +680,9 @@ The following informative example displays a decoded KYA-PAY type token.
 ### JWT Header Validation
 
 1. `alg` - JWTs MUST be signed using allowed JWA algorithms (currently, `ES256`).
-2. `kid` - The `kid` claim MUST be present, and set to a valid Key ID discoverable
-   via the issuer's (payload `iss` claim) JWK Set.
+2. `kid` - The `kid` claim MUST be present, and set to a valid Key ID present in
+   the issuer's JWK Set, located as described for the `iss` claim in
+   {{common-claims}}.
 3. `typ` - The `typ` header parameter value MUST be one of: `kya+jwt`, `pay+jwt`, or `kya-pay+jwt`.
 
 ### JWT Payload Validation
@@ -1006,10 +948,6 @@ The following specifications are related to and designed to be used with this sp
 {: numbered="false"}
 
 [[ to be removed by the RFC Editor before publication as an RFC ]]
-
--02
-
-* Added {:vspace} syntax to definition list entries.
 
 -01
 
