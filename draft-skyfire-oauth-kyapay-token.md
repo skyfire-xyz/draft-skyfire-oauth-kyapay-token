@@ -963,7 +963,7 @@ This specification registers the following URI suffix in the IANA
 "Well-Known URIs" registry {{IANA.WellKnownURIs}} established by {{RFC8615}}.
 
 * URI Suffix: jwks.json
-* Change Controller: IETF
+* Change Controller: Michael B. Jones - michael_b_jones@hotmail.com
 * Specification Document: {{key-discovery}} of this specification
 * Status: permanent
 * Related Information: The resource is a JWK Set {{RFC7517}} containing the
