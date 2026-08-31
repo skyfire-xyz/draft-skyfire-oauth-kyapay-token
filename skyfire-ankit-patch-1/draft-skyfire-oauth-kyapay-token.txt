@@ -5,8 +5,8 @@
 Web Authorization Protocol                                    A. Agarwal
 Internet-Draft                                      Skyfire Systems Inc.
 Intended status: Standards Track                                M. Jones
-Expires: 3 March 2027                             Self-Issued Consulting
-                                                          30 August 2026
+Expires: 4 March 2027                             Self-Issued Consulting
+                                                          31 August 2026
 
 
                               KYAPay Token
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 3 March 2027.
+   This Internet-Draft will expire on 4 March 2027.
 
 Copyright Notice
 
@@ -577,14 +577,14 @@ Table of Contents
    The sti claim carries the settlement instrument, and its contents
    depend on the value of stp.
 
-   When stp is card, the settlement instrument is an agentic payment
-   credential issued by a payment network under an agentic-commerce
-   programme -- for example Visa Intelligent Commerce (visa_vic) or
-   Mastercard Agent Pay, using Secure Card on File (mastercard_scof).
-   Such a credential is provisioned for a single transaction and is
-   scoped to one initiator, one target and one amount.  It is not a
-   Primary Account Number (PAN), and it cannot be used to derive the
-   underlying PAN or the network's agentic token.
+   When the stp is value card, the settlement instrument is an agentic
+   payment credential issued by a payment network under an agentic-
+   commerce programme -- for example Visa Intelligent Commerce
+   (visa_vic) or Mastercard Agent Pay, using Secure Card on File
+   (mastercard_scof).  Such a credential is provisioned for a single
+   transaction and is scoped to one initiator, one target and one
+   amount.  It is not a Primary Account Number (PAN), and it cannot be
+   used to derive the underlying PAN or the network's agentic token.
 
    type:  REQUIRED - "type" is dependent on the "stp" value; for "coin"
       - "usdc"; for "card" - "visa_vic" or "mastercard_scof".
