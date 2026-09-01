@@ -1520,6 +1520,10 @@ Document History
 
    *  Added {:vspace} syntax to definition list entries.
 
+   *  Added a Clock Skew section bounding the tolerance applied to the
+      "iat" and "exp" claims, and requiring senders to correct skew they
+      can observe.
+
    -01
 
    *  Added appendix referencing related specifications.
