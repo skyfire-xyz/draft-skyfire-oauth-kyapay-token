@@ -1207,6 +1207,8 @@ The following specifications are related to and designed to be used with this sp
 * Corrected a missing comma in the KYA token example, and shortened the example
   token lifetimes, which had exceeded a year.
 * Added {:vspace} syntax to definition list entries.
+* Added a Clock Skew section bounding the tolerance applied to the "iat" and
+  "exp" claims, and requiring senders to correct skew they can observe.
 
 -01
 
