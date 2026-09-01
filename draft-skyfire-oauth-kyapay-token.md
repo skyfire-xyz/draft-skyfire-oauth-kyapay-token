@@ -1229,6 +1229,12 @@ The following specifications are related to and designed to be used with this sp
 * Corrected a missing comma in the KYA token example, and shortened the example
   token lifetimes, which had exceeded a year.
 * Added {:vspace} syntax to definition list entries.
+* Required the `iss` claim to be an origin, with no path, query or fragment
+  component, and corrected the example `iss` values accordingly; one had lacked
+  a scheme.
+* Added an Issuer Key Discovery section specifying that the issuer's JWK Set is
+  located at the `jwks.json` well-known URI formed from `iss`, and registered
+  that URI suffix with IANA.
 
 -01
 
