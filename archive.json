@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-08-30T00:08:47.114852+00:00",
+  "timestamp": "2026-09-01T00:09:31.321230+00:00",
   "repo": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
   "labels": [
     {
@@ -2299,20 +2299,518 @@
       "id": "PR_kwDOQZxkd88AAAABBPSA5g",
       "title": "Fix typo: \"infomation\" -> \"information\" in Privacy Considerations",
       "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/41",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "skyfire-ankit",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Single-character typo in the Privacy Considerations section: \"infomation\" -> \"information\". No normative change. This sentence states the minimal-disclosure principle and is quoted externally, so it is worth having clean.",
       "createdAt": "2026-08-27T17:23:14Z",
-      "updatedAt": "2026-08-27T17:23:14Z",
+      "updatedAt": "2026-08-31T08:58:23Z",
       "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
       "baseRefName": "main",
       "baseRefOid": "f987433b540c508b9fb28725c21308b976ca6396",
       "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
       "headRefName": "fix/typo-infomation",
       "headRefOid": "2f063cf2ada9d4b6b6402fe66723977f1cb43e42",
+      "closedAt": "2026-08-31T08:58:23Z",
+      "mergedAt": "2026-08-31T08:58:23Z",
+      "mergedBy": "selfissued",
+      "mergeCommit": {
+        "oid": "c73f1ac6a7ac672ad7a13e6c7af21fa72b2ed57e"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd88AAAABLeFySw",
+          "commit": {
+            "abbreviatedOid": "2f063cf"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-08-31T08:58:11Z",
+          "updatedAt": "2026-08-31T08:58:11Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 42,
+      "id": "PR_kwDOQZxkd88AAAABBflsFw",
+      "title": "Section 3.2.3: aid is REQUIRED, matching the claim table",
+      "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/42",
+      "state": "OPEN",
+      "author": "skyfire-ankit",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Correcting the presence of the aid claim",
+      "createdAt": "2026-08-30T09:15:06Z",
+      "updatedAt": "2026-08-31T21:00:53Z",
+      "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "baseRefName": "main",
+      "baseRefOid": "0998b399491033f9380cd7e04679dcf0a9700381",
+      "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "headRefName": "skyfire-ankit-patch-1",
+      "headRefOid": "2e94b77f81ec3d45cfd91f2e28e030df2d67a3db",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "> We will generate significant pushback on the spec if it does not support cryptographic agility. In particular, requiring that \"alg\" be \"ES256\" is a non-starter in the IETF.\r\n> \r\n> Please accept my change suggestions, then I will approve and merge.\r\n\r\n@selfissued - https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/42#discussion_r3895628139 - WDYT? If you token size is a non-issue, then I am okay with the changes.",
+          "createdAt": "2026-08-31T15:01:30Z",
+          "updatedAt": "2026-08-31T15:01:30Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd88AAAABLeI92w",
+          "commit": {
+            "abbreviatedOid": "c8238da"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-08-31T09:05:20Z",
+          "updatedAt": "2026-08-31T09:05:20Z",
+          "comments": [
+            {
+              "originalPosition": 79,
+              "body": "```suggestion\nWhen the `stp` is value `card`, the settlement instrument is an agentic payment credential\n```",
+              "createdAt": "2026-08-31T09:05:20Z",
+              "updatedAt": "2026-08-31T09:05:20Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABLeJaqQ",
+          "commit": {
+            "abbreviatedOid": "c8238da"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-08-31T09:06:16Z",
+          "updatedAt": "2026-08-31T09:06:16Z",
+          "comments": [
+            {
+              "originalPosition": 83,
+              "body": "```suggestion\ntransaction and is scoped to one initiator, one target, and one amount. It is not\n```",
+              "createdAt": "2026-08-31T09:06:16Z",
+              "updatedAt": "2026-08-31T09:06:16Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABLeJ8Ow",
+          "commit": {
+            "abbreviatedOid": "c8238da"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-08-31T09:07:23Z",
+          "updatedAt": "2026-08-31T09:07:23Z",
+          "comments": [
+            {
+              "originalPosition": 93,
+              "body": "```suggestion\n: REQUIRED when the `stp` value is `card`; otherwise OPTIONAL - String containing the\n```",
+              "createdAt": "2026-08-31T09:07:23Z",
+              "updatedAt": "2026-08-31T09:07:23Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABLeNsag",
+          "commit": {
+            "abbreviatedOid": "c8238da"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-08-31T09:15:23Z",
+          "updatedAt": "2026-08-31T09:15:23Z",
+          "comments": [
+            {
+              "originalPosition": 197,
+              "body": "```suggestion\n1. `alg` - The `alg` header parameter MUST be present and, to enable interoperability, it is RECOMMENDED that its value be\n   `ES256` {{RFC7518}}. Verifiers MUST reject any token whose `alg` value is\n   not supported by both parties, including `none` {{RFC7515}}.\n```\n\nGiven the need to soon transition to use of post-quantum algorithms, the previously proposed wording wouldn't survive IETF review.",
+              "createdAt": "2026-08-31T09:15:23Z",
+              "updatedAt": "2026-08-31T09:15:23Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABLeO40A",
+          "commit": {
+            "abbreviatedOid": "c8238da"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-08-31T09:17:55Z",
+          "updatedAt": "2026-08-31T09:17:56Z",
+          "comments": [
+            {
+              "originalPosition": 203,
+              "body": "```suggestion\n   Verifiers MUST use the verification algorithm in the token.\n   The key is obtained from the\n   issuer's JWK Set (item 2); a token is verified with that algorithm and that\n   key, or rejected. In particular, a verifier MUST NOT accept a token that\n   would require interpreting an Elliptic Curve public key as a symmetric key.\n```\n\nAgain, cryptographic agility is required for IETF specifications.",
+              "createdAt": "2026-08-31T09:17:55Z",
+              "updatedAt": "2026-08-31T09:17:56Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABLePt1A",
+          "commit": {
+            "abbreviatedOid": "c8238da"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-08-31T09:19:47Z",
+          "updatedAt": "2026-08-31T09:19:47Z",
+          "comments": [
+            {
+              "originalPosition": 207,
+              "body": "```suggestion\n   parameter, the verifier MUST confirm it is consistent with\n   the parameters of the issued token, and reject the token otherwise.\n```\n\nCryptographic agility again.",
+              "createdAt": "2026-08-31T09:19:47Z",
+              "updatedAt": "2026-08-31T09:19:47Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABLeP_kA",
+          "commit": {
+            "abbreviatedOid": "c8238da"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-08-31T09:20:24Z",
+          "updatedAt": "2026-08-31T09:20:25Z",
+          "comments": [
+            {
+              "originalPosition": 213,
+              "body": "```suggestion\n```\n\nCryptographic agility",
+              "createdAt": "2026-08-31T09:20:25Z",
+              "updatedAt": "2026-08-31T09:20:25Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABLeUuxQ",
+          "commit": {
+            "abbreviatedOid": "c8238da"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-08-31T09:30:54Z",
+          "updatedAt": "2026-08-31T09:30:54Z",
+          "comments": [
+            {
+              "originalPosition": 338,
+              "body": "```suggestion\n* Tightened JWT header validation: an `alg` value of `none` and algorithm\n  substitution are rejected.\n```\n\nCryptographic agility is required by the IETF.",
+              "createdAt": "2026-08-31T09:30:54Z",
+              "updatedAt": "2026-08-31T09:30:54Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABLeVhlw",
+          "commit": {
+            "abbreviatedOid": "c8238da"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "We will generate significant pushback on the spec if it does not support cryptographic agility.  In particular, requiring that \"alg\" be \"ES256\" is a non-starter in the IETF.\n\nPlease accept my change suggestions, then I will approve and merge.",
+          "createdAt": "2026-08-31T09:32:44Z",
+          "updatedAt": "2026-08-31T09:32:44Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABLeWY3g",
+          "commit": {
+            "abbreviatedOid": "c8238da"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-08-31T09:34:05Z",
+          "updatedAt": "2026-08-31T09:34:05Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABLeXczQ",
+          "commit": {
+            "abbreviatedOid": "c8238da"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "We will generate significant pushback on the spec if it does not support cryptographic agility. In particular, requiring that \"alg\" be \"ES256\" is a non-starter in the IETF.\n\nPlease accept my change suggestions, then I will approve and merge.",
+          "createdAt": "2026-08-31T09:35:29Z",
+          "updatedAt": "2026-08-31T09:35:29Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABLf8oAQ",
+          "commit": {
+            "abbreviatedOid": "c8238da"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-08-31T12:51:56Z",
+          "updatedAt": "2026-08-31T12:51:57Z",
+          "comments": [
+            {
+              "originalPosition": 25,
+              "body": "```suggestion\n{:vspace}\n`cnf`:\n```\n\nCorrect definition list syntax.",
+              "createdAt": "2026-08-31T12:51:57Z",
+              "updatedAt": "2026-08-31T12:51:57Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABLhJ7wQ",
+          "commit": {
+            "abbreviatedOid": "c8238da"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-08-31T14:57:55Z",
+          "updatedAt": "2026-08-31T14:57:55Z",
+          "comments": [
+            {
+              "originalPosition": 197,
+              "body": "@selfissued Lets discuss this. The reason I did this is to keep ES256 as the signing algorithm for both the token and the HTTP message signature. The HTTP message signature's public key must ride in the cnf.jwk claim of the token and the using other algorithms generates much larger public keys. I thought it best for both to use the same algorithm vs. requiring the HTTP message signature to use the ES256 algorithm so that its public key doesn't make the token too large. PQ algorithms will almost certainly explode the token size but I'm not sure what we can do about that now. WDYT?",
+              "createdAt": "2026-08-31T14:57:55Z",
+              "updatedAt": "2026-08-31T14:57:55Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABLhK5mg",
+          "commit": {
+            "abbreviatedOid": "c8238da"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-08-31T14:59:34Z",
+          "updatedAt": "2026-08-31T14:59:34Z",
+          "comments": [
+            {
+              "originalPosition": 203,
+              "body": "@selfissued see the previous comment - https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/42#discussion_r3895614688 - WDYT? We can make it generic but there could be a problem with token sizes if people use a different algorithm for the HTTP message signature.",
+              "createdAt": "2026-08-31T14:59:34Z",
+              "updatedAt": "2026-08-31T14:59:34Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABLhLJrg",
+          "commit": {
+            "abbreviatedOid": "c8238da"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-08-31T14:59:58Z",
+          "updatedAt": "2026-08-31T14:59:59Z",
+          "comments": [
+            {
+              "originalPosition": 207,
+              "body": "@selfissued - https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/42#discussion_r3895628139 - WDYT?",
+              "createdAt": "2026-08-31T14:59:58Z",
+              "updatedAt": "2026-08-31T14:59:59Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABLhLhdg",
+          "commit": {
+            "abbreviatedOid": "c8238da"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-08-31T15:00:34Z",
+          "updatedAt": "2026-08-31T15:00:35Z",
+          "comments": [
+            {
+              "originalPosition": 213,
+              "body": "@selfissued - https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/42#discussion_r3895628139 - WDYT?",
+              "createdAt": "2026-08-31T15:00:34Z",
+              "updatedAt": "2026-08-31T15:00:35Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABLhLtUw",
+          "commit": {
+            "abbreviatedOid": "c8238da"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-08-31T15:00:54Z",
+          "updatedAt": "2026-08-31T15:00:55Z",
+          "comments": [
+            {
+              "originalPosition": 338,
+              "body": "@selfissued - https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/42#discussion_r3895628139 - WDYT?",
+              "createdAt": "2026-08-31T15:00:54Z",
+              "updatedAt": "2026-08-31T15:00:55Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 43,
+      "id": "PR_kwDOQZxkd88AAAABBmk-lw",
+      "title": "Add {:vspace} syntax to definition list entries",
+      "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/43",
+      "state": "MERGED",
+      "author": "selfissued",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-08-31T13:00:08Z",
+      "updatedAt": "2026-08-31T14:52:20Z",
+      "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "baseRefName": "main",
+      "baseRefOid": "c73f1ac6a7ac672ad7a13e6c7af21fa72b2ed57e",
+      "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "headRefName": "mbj-vspace",
+      "headRefOid": "f967b25a336fcba419227a779e46147a9fa55f04",
+      "closedAt": "2026-08-31T14:52:09Z",
+      "mergedAt": "2026-08-31T14:52:09Z",
+      "mergedBy": "skyfire-ankit",
+      "mergeCommit": {
+        "oid": "0998b399491033f9380cd7e04679dcf0a9700381"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd88AAAABLhGbeg",
+          "commit": {
+            "abbreviatedOid": "f967b25"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "lgtm",
+          "createdAt": "2026-08-31T14:51:39Z",
+          "updatedAt": "2026-08-31T14:51:39Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 44,
+      "id": "PR_kwDOQZxkd88AAAABBnfg6w",
+      "title": "Define the clock skew tolerance that Section 4.1.2 already relies on",
+      "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/44",
+      "state": "OPEN",
+      "author": "skyfire-ankit",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Steps 3 and 4 of JWT Payload Validation both require validation \"within the verifier's clock drift tolerance\", but no value, floor or ceiling appears anywhere in the document, and the companion specification does not mention clocks at all. The concept is invoked and left entirely to the implementer, so two conformant verifiers will choose different allowances and a token one accepts the other rejects -- indistinguishable, from the sender's side, from an attack.\r\n\r\nAdds a Clock Skew subsection and points both steps at it.\r\n\r\nThe bounds: MUST support at least 5 seconds, so nobody ships zero tolerance; SHOULD NOT exceed 60 seconds, with 30 RECOMMENDED. The ceiling is derived rather than picked -- a captured token is acceptable for its lifetime plus twice the tolerance, so a tolerance near the lifetime doubles the exposure that exp exists to bound. This is deliberately stricter than the 5 minutes common in Kerberos, AWS SigV4 and typical OpenID Connect deployments, because the token lifetimes here are short enough that 5 minutes of slack would dominate them.\r\n\r\nAlso places the burden on the sender, where it can actually be met: a party generating timestamps can compare the Date header of any response from the recipient against its own clock and correct subsequent timestamps. Skew is detectable at the sender and invisible at the verifier, so correcting there is more effective than asking every verifier to be generous.",
+      "createdAt": "2026-08-31T14:52:41Z",
+      "updatedAt": "2026-08-31T20:51:32Z",
+      "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "baseRefName": "main",
+      "baseRefOid": "0998b399491033f9380cd7e04679dcf0a9700381",
+      "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "headRefName": "clock-skew-tolerance",
+      "headRefOid": "d3398600de7288df50cb0d7dc94019ca0d97d907",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 45,
+      "id": "PR_kwDOQZxkd88AAAABBngYDw",
+      "title": "Locate the issuer JWK Set via RFC 8414 metadata, not by suffix constr\u2026",
+      "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/45",
+      "state": "CLOSED",
+      "author": "skyfire-ankit",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "\u2026uction\r\n\r\nThe iss claim currently says the JWK Set is discovered \"via the /.well-known/jwks.json suffix mechanism\". Three problems with that:\r\n\r\n- It is not the construction RFC 8414 defines, which inserts the well-known segment before the path component rather than appending it. An iss with a path component yields a different URL under each reading.\r\n- jwks.json is not a registered well-known URI under RFC 8615.\r\n- RFC 8414 is never cited, so there is nothing to disambiguate against. Two implementers building from this text will construct two different URLs.\r\n\r\nRather than fix the construction and register a new well-known URI, this reads jwks_uri from the issuer's RFC 8414 authorization server metadata, and forbids constructing the URL from iss at all.\r\n\r\nWhy this way:\r\n\r\n- Nothing to register. /.well-known/oauth-authorization-server already exists.\r\n- The issuers in this ecosystem already serve it -- anything built on a standard OAuth AS does, including Okta, Auth0 and Ory.\r\n- Key rotation stops being welded to the issuer identifier. jwks_uri can point at a CDN or a different host without iss changing.\r\n- It is the same discovery the KYA-to-OAuth flow already performs after a 401, so implementers meet it once rather than twice.\r\n- One well-known path per issuer is a smaller surface than an attacker-influenced constructed path.\r\n\r\nCost: one additional fetch per issuer, cached. For an edge verifier that is a cold-start cost amortised across every subsequent request from that issuer.\r\n\r\nAlso updates the kid validation step to point at the same mechanism instead of restating it, and adds the missing scheme to the KYA-PAY example's iss value -- \"kya-pay.example.org\" with no scheme leaves retrieval undefined.\r\n\r\nNOTE FOR REVIEW: this changes behaviour for anything that implemented the suffix construction, so it wants a look from the co-authors before merging rather than being treated as editorial.",
+      "createdAt": "2026-08-31T14:54:26Z",
+      "updatedAt": "2026-08-31T15:31:36Z",
+      "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "baseRefName": "main",
+      "baseRefOid": "0998b399491033f9380cd7e04679dcf0a9700381",
+      "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "headRefName": "issuer-jwks-via-rfc8414",
+      "headRefOid": "8a0f3c7bae2703ac7b5af3ed80d744d2f1032455",
+      "closedAt": "2026-08-31T15:31:35Z",
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Closing in favour of #46.\r\n\r\nThis proposed reading `jwks_uri` from the issuer's RFC 8414 OAuth authorization server metadata. That is the wrong document type. A KYA issuer is not an authorization server \u2014 an issuer performing only identity attestation has no `token_endpoint` and no grant types \u2014 so the general case breaks even where our own deployment happens to fit. It also put an OAuth normative dependency inside a JWT profile, aimed at verifiers (bot managers, CDNs) that have no OAuth machinery and no reason to acquire any.\r\n\r\n#46 takes the better route: keep the deployed `<iss>/.well-known/jwks.json` convention, state the construction exactly so two implementers cannot derive different URLs, say plainly that it is a path-relative convention rather than an RFC 8615 well-known URI, and record the migration to a registered KYAPay issuer metadata document as a subsection. Nothing that works today stops working, and the direction is on the record.",
+          "createdAt": "2026-08-31T15:31:36Z",
+          "updatedAt": "2026-08-31T15:31:36Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 46,
+      "id": "PR_kwDOQZxkd88AAAABBnybRQ",
+      "title": "Specify issuer key discovery precisely, and record the migration path",
+      "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/46",
+      "state": "OPEN",
+      "author": "skyfire-ankit",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "The iss claim says the JWK Set is discovered \"via the /.well-known/jwks.json suffix mechanism\", which is under-specified in a way that produces different URLs from the same token:\r\n\r\n- The construction is not stated. Appending to an iss with a path component is not the same as the construction RFC 8615 defines, which scopes well-known URIs to an origin. Two implementers reading this build two different URLs and one of them 404s.\r\n- Trailing-slash handling is undefined.\r\n- jwks.json is not registered under RFC 8615.\r\n- One example iss has no scheme at all, leaving retrieval undefined.\r\n\r\nThis keeps the deployed mechanism and makes it exact, rather than changing it. Adds an Issuer Key Discovery section stating the construction unambiguously (strip any trailing slash, append /.well-known/jwks.json), with a worked example. Nothing that works today stops working.\r\n\r\nIt also says out loud that this is a path-relative convention and NOT an RFC 8615 well-known URI. That non-conformance is real, a reviewer will spot it, and naming it is better than implying conformance we do not have. Verifiers are told explicitly not to apply the RFC 8615 construction instead.\r\n\r\nA subsection records the migration: a future revision defines a KYAPay issuer metadata document at a path registered under RFC 8615, carrying issuer and jwks_uri, which also gives an issuer somewhere to advertise capabilities such as supported identity verification methods. Verifiers will try the metadata document first and fall back to the convention here, so issuers and verifiers migrate independently and neither blocks the other.\r\n\r\nSupersedes #45, which proposed reading jwks_uri from RFC 8414 OAuth authorization server metadata. That was the wrong document type: a KYA issuer is not an authorization server -- an issuer performing only identity attestation has no token_endpoint -- and it put an OAuth normative dependency inside a JWT profile, aimed at verifiers (bot managers, CDNs) with no OAuth machinery.",
+      "createdAt": "2026-08-31T15:30:45Z",
+      "updatedAt": "2026-08-31T20:56:41Z",
+      "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "baseRefName": "main",
+      "baseRefOid": "0998b399491033f9380cd7e04679dcf0a9700381",
+      "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "headRefName": "issuer-key-discovery",
+      "headRefOid": "cc5d6fd928d8274658bdb4fcb6aff1f8934e1195",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
