@@ -791,9 +791,9 @@ The following informative example displays a decoded KYA-PAY type token.
 
 ### JWT Header Validation
 
-1. `alg` - The `alg` header parameter MUST be present and its value MUST be
+1. `alg` - The `alg` header parameter MUST be present and, to enable interoperability, it is RECOMMENDED that its value be
    `ES256` {{RFC7518}}. Verifiers MUST reject any token whose `alg` value is
-   anything else, including `none` {{RFC7515}}.
+   not supported by both parties, including `none` {{RFC7515}}.
 
    Verifiers MUST NOT select the verification algorithm from the token. The
    algorithm is fixed by this specification, and the key is obtained from the
