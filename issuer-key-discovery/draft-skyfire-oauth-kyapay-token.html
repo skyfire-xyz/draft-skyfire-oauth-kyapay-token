@@ -3331,6 +3331,16 @@ token lifetimes, which had exceeded a year.<a href="#appendix-B-3.8.1" class="pi
         <li class="normal" id="appendix-B-3.9">
           <p id="appendix-B-3.9.1">Added {:vspace} syntax to definition list entries.<a href="#appendix-B-3.9.1" class="pilcrow">¶</a></p>
 </li>
+        <li class="normal" id="appendix-B-3.10">
+          <p id="appendix-B-3.10.1">Required the <code>iss</code> claim to be an origin, with no path, query or fragment
+component, and corrected the example <code>iss</code> values accordingly; one had lacked
+a scheme.<a href="#appendix-B-3.10.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-B-3.11">
+          <p id="appendix-B-3.11.1">Added an Issuer Key Discovery section specifying that the issuer's JWK Set is
+located at the <code>jwks.json</code> well-known URI formed from <code>iss</code>, and registered
+that URI suffix with IANA.<a href="#appendix-B-3.11.1" class="pilcrow">¶</a></p>
+</li>
       </ul>
 <p id="appendix-B-4">-01<a href="#appendix-B-4" class="pilcrow">¶</a></p>
 <ul class="normal">
