@@ -366,6 +366,7 @@ PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
 `itg`:
 : OPTIONAL - Initiator tag - an opaque reference ID internal to the initiator.
 
+{:vspace}
 `cnf`:
 : OPTIONAL - Confirmation claim, as defined in {{RFC7800}}, binding the token to
   a key held by the agent identified in the `aid` claim.
