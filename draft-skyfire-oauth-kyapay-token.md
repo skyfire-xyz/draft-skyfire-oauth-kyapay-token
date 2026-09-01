@@ -795,8 +795,8 @@ The following informative example displays a decoded KYA-PAY type token.
    `ES256` {{RFC7518}}. Verifiers MUST reject any token whose `alg` value is
    not supported by both parties, including `none` {{RFC7515}}.
 
-   Verifiers MUST NOT select the verification algorithm from the token. The
-   algorithm is fixed by this specification, and the key is obtained from the
+   Verifiers MUST use the verification algorithm in the token.
+   The key is obtained from the
    issuer's JWK Set (item 2); a token is verified with that algorithm and that
    key, or rejected. In particular, a verifier MUST NOT accept a token that
    would require interpreting an Elliptic Curve public key as a symmetric key.
