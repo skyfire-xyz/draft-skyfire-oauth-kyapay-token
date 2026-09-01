@@ -802,8 +802,8 @@ The following informative example displays a decoded KYA-PAY type token.
    would require interpreting an Elliptic Curve public key as a symmetric key.
 
    Where the key retrieved from the issuer's JWK Set carries an `alg` or `use`
-   parameter, the verifier MUST confirm it is consistent with `ES256` and with
-   signature verification, and reject the token otherwise.
+   parameter, the verifier MUST confirm it is consistent with
+   the parameters of the issued token, and reject the token otherwise.
 
    Future revisions of this specification may permit additional algorithms.
    Implementations MUST treat any algorithm not listed in this section as
