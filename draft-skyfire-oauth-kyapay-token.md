@@ -48,16 +48,20 @@ contributor:
 
 normative:
   RFC7515:
+  RFC7517:
   RFC7518:
   RFC7519:
   RFC6749:
+  RFC7800:
   RFC8693:
+  RFC8725:
 
 informative:
   RFC2046:
   RFC6838:
-  RFC8725:
+  RFC8446:
   RFC9110:
+  RFC9421:
   IANA.JWT.Claims:
     author:
     - org: IANA
@@ -195,10 +199,12 @@ The `alg` value `ES256` is a digital signature algorithm defined in
 
 ## Roles
 
+{:vspace}
 Agent:
 : An application, service, or specific software process, executing on behalf
   of a Principal.
 
+{:vspace}
 Agent Identity:
 : A unique identifier and a set of claims describing an agent. Grouped into the
   `aid` claim for convenience. Because an agent can be public or confidential
@@ -208,6 +214,7 @@ Agent Identity:
   client), or they can be transient and ephemeral, and correspond to individual
   API calls or compute workloads.
 
+{:vspace}
 Agent Platform:
 : The service provider and runtime environment hosting the Agent, such as a
   cloud compute provider or AI operator service. Assertions about the agent
@@ -215,20 +222,24 @@ Agent Platform:
   the Principal entity operating the platform, allowing consumers of the token to
   apply reputation-based logic or offer platform-specific services.
 
+{:vspace}
 Principal:
 : A legal entity (human or organization) on whose behalf / in whose authority
 an agent or service is operating.
 
 ### Initiator Roles
 
+{:vspace}
 Initiator Agent:
 : An Agent performing tasks on behalf of an Initiator Principal, that has its own
   Agent Identity, grouped into the `aid` claim.
 
+{:vspace}
 Initiator Agent Platform:
 : The Agent Platform hosting the Initiator Agent. Some use cases require the Platform
   to have its own verified identity assertions, grouped into the `apd` claim.
 
+{:vspace}
 Initiator Principal:
 : A legal entity (human or organization) behind the purchase / consumption of a
   product or service.
@@ -239,6 +250,7 @@ Initiator Principal:
   and to maintain a direct customer relationships. The initiator principal's
   identity is grouped into the `hid` claim.
 
+{:vspace}
 Initiator Identity:
 : The aggregate verified identity assertions of the initiator entities, typically
   encompassing the Initiator Principal, the Initiator Agent Platform, and the Initiator Agent
@@ -248,6 +260,7 @@ Initiator Identity:
 
 ### Target Roles
 
+{:vspace}
 Target Agent:
 : An Agent performing tasks on behalf of a Target Principal, directly interacting
   with Initiator Agents to facilitate discovery and purchase. Typically runs on
@@ -255,10 +268,12 @@ Target Agent:
   Target agent identity claims are also grouped into the `aid` claim
   if KYA tokens are generated for the targets.
 
+{:vspace}
 Target Agent Platform:
 : The Agent Platform that hosts Target Agents. Some use cases require the Platform
   to have its own verified identity assertions, grouped into the `apd` claim.
 
+{:vspace}
 Target Principal:
 : A human principal (individual or organization) that that owns the product,
   service, API, website, or content being consumed or sold, and serves as the
@@ -266,6 +281,7 @@ Target Principal:
   In buyer/seller transactions, the Target is the seller.
   The target principal's identity is grouped into the `hid` claim.
 
+{:vspace}
 Target Identity:
 : The aggregate verified identity assertions of the target entities, typically
   encompassing the Target Principal, the Target Agent Platform, as well as the
@@ -278,12 +294,14 @@ Target Identity:
 
 ### Ecosystem Infrastructure Roles
 
+{:vspace}
 Identity Token Issuer:
 : A trusted neutral entity that conducts Know Your Customer (KYC) and Know Your
   Business (KYB) (for organizations) verifications. It is responsible for issuing
   cryptographically signed `kya` tokens that attest to the identity of the
   Principal, Agent, and Agent Platform, for both Initiators and Targets.
 
+{:vspace}
 Payment Token Issuer:
 : A trusted entity responsible for facilitating the exchange of payments and
   credentials between the Initiator and Target. It issues signed `pay` tokens that
@@ -297,46 +315,70 @@ Payment Token Issuer:
 The following are claims in common, used within the KYA (Know Your Agent),
 PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
 
+{:vspace}
 `iss`:
 : REQUIRED - URL of the token's issuer. Used for discovering JWK Sets for token
   signature verification, via the `/.well-known/jwks.json` suffix mechanism.
 
+{:vspace}
 `sub`:
 : REQUIRED - Subject Identifier. Must be pairwise unique within
   a given issuer.
 
+{:vspace}
 `aud`:
 : REQUIRED - Audience (used for audience binding and replay attack mitigation),
   uniquely identifying the target agent.
   A single string value.
 
+{:vspace}
 `iat`:
 : REQUIRED - as defined in {{Section 4.1.6 of RFC7519}}.  Identifies the time
   at which the JWT was issued.  This claim must have a value in the past and can
   be used to determine the age of the JWT.
 
+{:vspace}
 `jti`:
 : REQUIRED - Unique ID of this JWT as defined in {{Section 4.1.7 of RFC7519}}.
 
+{:vspace}
 `exp`:
 : REQUIRED - as defined in {{Section 4.1.4 of RFC7519}}.  Identifies the expiration
   time on or after which the JWT MUST NOT be accepted for processing.
 
+{:vspace}
 `tdm`:
 : OPTIONAL - Target domain, associated with the audience claim, the token is intended for.
 
+{:vspace}
 `ori`:
 : OPTIONAL - URL of the token's originator.
 
+{:vspace}
 `env`:
 : OPTIONAL - Issuer environment (such as "production" or "sandbox").  Additional values
   may be defined and used.
 
+{:vspace}
 `tsi`:
 : OPTIONAL - Target Service ID that this token was created for.
 
+{:vspace}
 `itg`:
 : OPTIONAL - Initiator tag - an opaque reference ID internal to the initiator.
+
+{:vspace}
+`cnf`:
+: OPTIONAL - Confirmation claim, as defined in {{RFC7800}}, binding the token to
+  a key held by the agent identified in the `aid` claim.
+  When present, it MUST contain the `jwk` member: the agent's public key
+  represented as a JWK {{RFC7517}}. The JWK MUST contain only public key
+  material; a `cnf` containing private key material MUST be rejected.
+  Other confirmation members MAY additionally be present, but a verifier MUST NOT
+  be required to obtain the key by any means other than reading `cnf.jwk`.
+  A token carrying `cnf` is sender-constrained rather than bearer: the presenter
+  is required to demonstrate possession of the confirmation key. Verifier
+  processing is specified in {{I-D.skyfire-oauth-using-kyapay-tokens}}.
 
 Additional claims MAY be defined and used in these tokens.
 The recipient MUST ignore any unrecognized claims.
@@ -346,16 +388,20 @@ The recipient MUST ignore any unrecognized claims.
 
 The following identity related claims are used within KYA and KYA-PAY tokens:
 
+{:vspace}
 `hid`:
 : REQUIRED (Required for human identity use cases) - A map of human identity
   claims (individual or organization).
 
+{:vspace}
 `apd`:
 : OPTIONAL - Agent Platform identity claims.
 
+{:vspace}
 `aid`:
 : REQUIRED - Agent identity claims.
 
+{:vspace}
 `scope`
 : OPTIONAL - String with space-separated scope values, per {{RFC8693}}
 
@@ -369,7 +415,7 @@ The following informative example displays a decoded KYA type token.
 }.{
   "iss": "https://example.com/issuer", // Issuer URL
   "iat": 1742245254,
-  "exp": 1773867654,
+  "exp": 1742245554,
   "jti": "b9821893-7699-4d24-af06-803a6a16476b",
   "sub": "bb713104-c14e-460f-9b7c-f8140fa9bea4", // Initiator Agent Account ID
   "aud": "7434230d-0861-46f2-9c2c-a6ee33d07f17", // Target Agent Account ID
@@ -382,7 +428,7 @@ The following informative example displays a decoded KYA type token.
     "email": "initiator@initiator.com"
   },
   "apd": {
-    "id": "d3306fc0-602b-47e6-9fe2-3d55d028fbd2"
+    "id": "d3306fc0-602b-47e6-9fe2-3d55d028fbd2",
     "name": "Acme Shopping Agents", // Agent platform name
     "email": "platform@acme.com", // Email address for the agent platform
     "phone_number": "+12345677890", // Phone number for the agent platform
@@ -407,32 +453,41 @@ The following informative example displays a decoded KYA type token.
 The Human Identity (`hid`) claim contains sub-claims identifying the human
 principal (individual or organization) as follows.
 
+{:vspace}
 `email`:
 : REQUIRED - Email address associated with the human individual or organization
 
+{:vspace}
 `given_name`:
 : OPTIONAL - Given name(s) or first name(s) of the human principal if they
   are an individual.
 
+{:vspace}
 `middle_name`:
 : OPTIONAL - Middle name(s) of the human principal if they are an individual.
 
+{:vspace}
 `family_name`:
 : OPTIONAL - Surname(s) or last name(s) of the human principal if they are an
   individual.
 
+{:vspace}
 `phone_number`:
 : OPTIONAL - Phone number associated with the human individual or organization.
 
+{:vspace}
 `organization_name`:
 : OPTIONAL - Name of the organization.
 
+{:vspace}
 `verifier`:
 : OPTIONAL - URL of the Identity Verifier
 
+{:vspace}
 `verified`:
 : OPTIONAL - Boolean Verification status.  True if verified, otherwise false.
 
+{:vspace}
 `verification_id`:
 : OPTIONAL - Verification identifier. Identifier for the verification performed,
   such as a GUID.
@@ -444,27 +499,35 @@ The recipient MUST ignore any unrecognized sub-claims.
 
 The `apd` claim is optional. If present, it contains the following sub-claims.
 
+{:vspace}
 `id`:
 : REQUIRED - Agent Platform identifier.
 
+{:vspace}
 `name`:
 : REQUIRED - Agent Platform name.
 
+{:vspace}
 `email`:
 : OPTIONAL - Email associated with agent platform.
 
+{:vspace}
 `phone_number`:
 : OPTIONAL - Phone number associated with agent platform.
 
+{:vspace}
 `organization_name`:
 : OPTIONAL - Legal name associated with agent platform.
 
+{:vspace}
 `verifier`:
 : OPTIONAL - URL of the Identity Verifier
 
+{:vspace}
 `verified`:
 : OPTIONAL - Boolean Verification status.  True if verified, otherwise false.
 
+{:vspace}
 `verification_id`:
 : OPTIONAL - Verification identifier. Identifier for the verification performed, such as a GUID.
 
@@ -473,16 +536,19 @@ The recipient MUST ignore any unrecognized sub-claims.
 
 ### Agent Identity `aid` Sub-Claims
 
-The `aid` claim is optional. If present, it contains the following sub-claims.
+The `aid` claim is REQUIRED. It contains the following sub-claims.
 
+{:vspace}
 `name`:
 : REQUIRED - Agent name. The name should reflect the business purpose of the agent.
 
+{:vspace}
 `creation_ip`:
 : REQUIRED - The public IP address of the system / agent that requested the token.
   Its value is a string containing the public IPv4 or IPv6 address from where the
   token request originated. It MUST be captured directly from the token request.
 
+{:vspace}
 `source_ips`:
 : OPTIONAL - Valid public IP address, or range of public IP addresses, from where
   the system / agent's requests to merchants / services will originate. Array of
@@ -498,66 +564,119 @@ The recipient MUST ignore any unrecognized sub-claims.
 
 The following payment related claims are used within PAY and KYA-PAY type tokens:
 
+{:vspace}
 `tpr`:
 : OPTIONAL - JSON string representing target service price in currency units.
 
+{:vspace}
 `tps`:
 : OPTIONAL - Target pricing scheme, which represents a way for the target list
   how it charges for its service or content. One of `pay_per_use`,
   `subscription`, `pay_per_mb`, or `custom`.  Additional values may be defined
   and used.
 
+{:vspace}
 `amt`:
 : REQUIRED - JSON string representing token amount in currency units.
 
+{:vspace}
 `cur`:
 : REQUIRED - Currency unit, represented as an ISO 4217 three letter code, such as "EUR".
 
+{:vspace}
 `val`:
 : REQUIRED - JSON string representing token amount in settlement network's units.
 
+{:vspace}
 `mnr`:
 : OPTIONAL - JSON number representing maximum number of requests when `tps` is `pay_per_use`.
 
+{:vspace}
 `stp`:
 : REQUIRED - Settlement type (one of `coin` or `card`).  Additional values may be defined and used.
 
+{:vspace}
 `sti`:
 : REQUIRED - Meta information for payment settlement, depending on settlement.
   type.
 
 ### Settlement Information `sti` Sub-Claims
 
-The `sti` claim is optional. If present, it MAY contain the following sub-claims,
-all of which are OPTIONAL.
+The `sti` claim is REQUIRED. It contains the following sub-claims,
+with the requirement levels marked below.
 
+The `sti` claim carries the settlement instrument, and its contents depend on
+the value of `stp`.
+
+When the `stp` is value `card`, the settlement instrument is an agentic payment credential
+issued by a payment network under an agentic-commerce programme -- for example
+Visa Intelligent Commerce (`visa_vic`) or Mastercard Agent Pay, using Secure Card
+on File (`mastercard_scof`). Such a credential is provisioned for a single
+transaction and is scoped to one initiator, one target, and one amount. It is not
+a Primary Account Number (PAN), and it cannot be used to derive the underlying
+PAN or the network's agentic token.
+
+{:vspace}
 `type`:
 : REQUIRED - "type" is dependent on the "stp" value; for "coin" - "usdc";
   for "card" - "visa_vic" or "mastercard_scof".  Additional values may be defined and used.
 
+{:vspace}
 `payment_token`:
-: OPTIONAL - String containing Virtual Payment Card Number in ISO/IEC 7812 format. 12-19 characters.
+: REQUIRED when the `stp` value is `card`; otherwise OPTIONAL - String containing the
+  network-issued agentic payment credential, formatted per ISO/IEC 7812,
+  12-19 characters. This value MUST be a payment-network-issued agentic or
+  tokenized credential. It MUST NOT be a Primary Account Number (PAN).
 
+{:vspace}
 `token_expiration_month`:
-: OPTIONAL - String containing two-digit Expiration Month Number.
+: REQUIRED when `payment_token` is present - String containing two-digit
+  Expiration Month Number.
 
+{:vspace}
 `token_expiration_year`:
-: OPTIONAL - String containing four-digit Expiration Year.
+: REQUIRED when `payment_token` is present - String containing four-digit
+  Expiration Year.
 
+{:vspace}
 `token_security_code`:
-: OPTIONAL - String containing 3 or 4 digit CVV code.
+: REQUIRED when `payment_token` is present - String containing the single-use
+  token cryptogram accompanying the credential in `payment_token` -- a Dynamic
+  Token Verification Value (DTVV) or Token Authentication Verification Value
+  (TAVV), depending on the network. 3 or 4 digits. This value is generated per
+  transaction and is short-lived; its validity period is determined and enforced
+  by the payment network. It MUST NOT be a static Card Verification Value
+  (CVV, CVC2 or CVV2).
 
+{:vspace}
 `verifier`:
 : OPTIONAL - URL of the Payment Verifier
 
+{:vspace}
 `verified`:
 : OPTIONAL - Boolean Verification status.  True if verified, otherwise false.
 
+{:vspace}
 `verification_id`:
 : OPTIONAL - Verification identifier. Identifier for the verification performed, such as a GUID.
 
 Additional sub-claims MAY be defined and used.
 The recipient MUST ignore any unrecognized sub-claims.
+
+### Scope of Card Settlement
+
+This specification supports card settlement only through payment-network
+agentic-commerce programmes that issue transaction-scoped, PCI-exempt
+credentials.
+
+A PAY or KYA-PAY token MUST NOT carry a Primary Account Number, or the static
+verification value associated with one.
+
+Settlement instruments that fall within PCI DSS scope require mechanisms this
+specification does not define -- including confidentiality protection of the
+token contents and a defined cardholder-data-environment boundary. Support for
+such instruments is left to future work, and implementers requiring it should
+not attempt to carry them in the claims defined here.
 
 ### PAY Token Example {#pay}
 
@@ -571,7 +690,7 @@ The following informative example displays a decoded PAY type token.
 }.{
   "iss": "https://example.net/pay_token_issuer", // Issuer URL
   "iat": 1742245254,
-  "exp": 1773867654,
+  "exp": 1742245554,
   "jti": "b9821893-7699-4d24-af06-803a6a16476b",
   "sub": "8b810549-7443-494f-b4ad-5bc65871e32b", // Initiator Agent Account ID
   "aud": "37888095-2721-48d9-a2df-bfe4075f223a", // Target Agent Account ID
@@ -589,10 +708,10 @@ The following informative example displays a decoded PAY type token.
   "stp": "card",
   "sti": {
     "type": "visa_vic",
-    "paymentToken": "1234567890123456",
-    "tokenExpirationMonth": "03",
-    "tokenExpirationYear": "2030",
-    "tokenSecurityCode": "123",
+    "payment_token": "1234567890123456",
+    "token_expiration_month": "03",
+    "token_expiration_year": "2030",
+    "token_security_code": "123",
     "verifier": "https://verifier.example.info", // URL of payment method verifier
     "verified": true, // Outcome of the verifier's payment method verification
     "verification_id": "3a6e1b76-8f78-4c24-b1bd-dc78a8cc3711" // Identifier for the verification performed, such as a GUID.
@@ -614,7 +733,7 @@ The following informative example displays a decoded KYA-PAY type token.
 }.{
   "iss": "kya-pay.example.org", // Issuer URL
   "iat": 1742245254,
-  "exp": 1773867654,
+  "exp": 1742245554,
   "jti": "b9821893-7699-4d24-af06-803a6a16476b",
   "sub": "f24a431d-108c-46e6-9357-b428c528210e", // Initiator Agent Account ID
   "aud": "5e00177d-ff7f-424b-8c83-2756e15efbed", // Target Agent Account ID
@@ -658,10 +777,10 @@ The following informative example displays a decoded KYA-PAY type token.
   "stp": "card",
   "sti": {
     "type": "visa_vic",
-    "paymentToken": "1234567890123456",
-    "tokenExpirationMonth": "03",
-    "tokenExpirationYear": "2030",
-    "tokenSecurityCode": "123"
+    "payment_token": "1234567890123456",
+    "token_expiration_month": "03",
+    "token_expiration_year": "2030",
+    "token_security_code": "123"
   }
 }
 
@@ -674,7 +793,20 @@ The following informative example displays a decoded KYA-PAY type token.
 
 ### JWT Header Validation
 
-1. `alg` - JWTs MUST be signed using allowed JWA algorithms (currently, `ES256`).
+1. `alg` - The `alg` header parameter MUST be present and, to enable interoperability, it is RECOMMENDED that its value be
+   `ES256` {{RFC7518}}. Verifiers MUST reject any token whose `alg` value is
+   not supported by both parties, including `none` {{RFC7515}}.
+
+   Verifiers MUST use the verification algorithm in the token.
+   The key is obtained from the
+   issuer's JWK Set (item 2); a token is verified with that algorithm and that
+   key, or rejected. In particular, a verifier MUST NOT accept a token that
+   would require interpreting an Elliptic Curve public key as a symmetric key.
+
+   Where the key retrieved from the issuer's JWK Set carries an `alg` or `use`
+   parameter, the verifier MUST confirm it is consistent with
+   the parameters of the issued token, and reject the token otherwise.
+
 2. `kid` - The `kid` claim MUST be present, and set to a valid Key ID discoverable
    via the issuer's (payload `iss` claim) JWK Set.
 3. `typ` - The `typ` header parameter value MUST be one of: `kya+jwt`, `pay+jwt`, or `kya-pay+jwt`.
@@ -734,8 +866,95 @@ In addition, perform the following steps.
 
 # Security Considerations
 
+## General JWT Practices
+
 When validating the JWTs described in this specification, implementers SHOULD
 follow the best practices and guidelines described in {{RFC8725}}.
+
+## Confidentiality of Token Contents
+
+The tokens defined in this specification are signed using JWS Compact
+Serialization. Signing provides integrity protection, not confidentiality. The
+claims in a token are encoded, not encrypted, and are readable by any party that
+obtains the token.
+
+Tokens defined in this specification carry identity claims about a human
+principal and, in the case of PAY and KYA-PAY tokens, payment settlement
+information. Accordingly:
+
+* Tokens MUST be transmitted over a channel providing confidentiality, integrity
+  and server authentication, such as TLS {{RFC8446}}.
+* Tokens MUST NOT be written to logs, analytics pipelines, or other persistent
+  stores that are not required to process the transaction.
+* Tokens MUST NOT be forwarded to parties other than those necessary to complete
+  the interaction for which they were issued.
+* Issuers SHOULD include only those claims necessary for the interaction for
+  which the token is issued. Confidentiality risk is reduced most reliably by not
+  carrying a claim at all.
+
+This specification does not define encryption of the token itself. Tokens are
+intended to be read by multiple independent parties along a single request path
+-- bot management and fraud systems at the edge, identity providers, and the
+target service -- none of which is known to the issuer at the time the token is
+minted, and between which no key-distribution relationship is assumed.
+Encrypting the token to a single recipient would both require pre-established
+key exchange with that recipient and withhold the token's contents from the
+intermediaries that are its intended consumers. Confidentiality is therefore
+provided at the transport layer and by minimising token contents, not at the
+token layer.
+
+The settlement information carried in a PAY or KYA-PAY token is additionally
+protected by its own construction rather than by encryption: the credential is
+transaction-scoped and its accompanying cryptogram is single-use, so a captured
+token yields no reusable payment instrument.
+
+## Settlement Credential Handling
+
+The `sti` claim of a PAY or KYA-PAY token carries a settlement instrument. When
+`stp` is `card`, that instrument is a network-issued agentic payment credential
+provisioned for a single transaction, accompanied by a single-use dynamic
+cryptogram. Such credentials are issued outside the scope of PCI DSS and cannot
+be used to derive the underlying account number.
+
+Implementations MUST NOT place a Primary Account Number, or a static Card
+Verification Value, in the `sti` claim. Doing so would place the token, and
+every system that processes it, within PCI DSS scope, for which this
+specification provides no confidentiality mechanism.
+
+## Token Lifetime
+
+The `exp` claim of a token carrying a settlement instrument SHOULD NOT extend
+beyond the validity period of that instrument. Agentic payment credentials and
+their associated token cryptograms are single-use and short-lived; their
+validity period is determined and enforced by the payment network. Issuing a
+long-lived token around a short-lived credential provides no benefit and widens
+the window in which a captured token can be replayed.
+
+More generally, issuers SHOULD set `exp` to the shortest value compatible with
+the intended interaction.
+
+## Bearer Semantics and Proof of Possession
+
+Tokens defined in this specification are bearer tokens unless they carry a
+confirmation method: any party in possession of such a token can present it. For
+bearer tokens, the protections above -- transport confidentiality, restricted
+forwarding, short lifetimes, and audience restriction via the `aud` claim -- are
+the primary defences against capture and replay.
+
+A token MAY carry a `cnf` claim {{RFC7800}} binding it to a public key held by
+the agent. A token carrying `cnf` is sender-constrained rather than bearer:
+possession of the token alone is insufficient, and a verifier requires the
+presenter to demonstrate possession of the confirmation key on each request.
+
+Verifier behaviour for tokens carrying `cnf` -- including the requirement to
+verify an HTTP Message Signature {{RFC9421}} over the confirmation key, and to
+reject requests where that signature is absent or invalid -- is specified in
+{{I-D.skyfire-oauth-using-kyapay-tokens}}.
+
+Issuers SHOULD include `cnf` where the agent holds a suitable key and the target
+is expected to enforce it. Issuers MUST NOT rely on `cnf` as a substitute for
+the bearer-token protections above, since a token carrying `cnf` may still be
+presented to a verifier that does not enforce it.
 
 # Privacy Considerations
 
@@ -964,6 +1183,30 @@ The following specifications are related to and designed to be used with this sp
 {: numbered="false"}
 
 [[ to be removed by the RFC Editor before publication as an RFC ]]
+
+-02
+
+* Corrected the `sti` sub-claim names in the PAY and KYA-PAY examples to match
+  the normative names in the Settlement Information section (`payment_token`,
+  `token_expiration_month`, `token_expiration_year`, `token_security_code`).
+  The examples had retained the pre-rename camelCase forms.
+* Clarified that the card settlement instrument is a network-issued agentic
+  payment credential and that `token_security_code` carries a single-use token
+  cryptogram, not a static CVV.
+* Made the `aid` and `sti` claims REQUIRED, and marked the `sti` sub-claim
+  requirement levels individually.
+* Added the `cnf` (confirmation) claim, binding a token to a key held by the
+  agent, and described the resulting sender-constrained semantics.
+* Added a Scope of Card Settlement section prohibiting Primary Account Numbers
+  and static card verification values.
+* Expanded Security Considerations to cover confidentiality of token contents,
+  settlement credential handling, token lifetime, and bearer versus
+  sender-constrained semantics.
+* Tightened JWT header validation: an `alg` value of `none` and algorithm
+  substitution are rejected.
+* Corrected a missing comma in the KYA token example, and shortened the example
+  token lifetimes, which had exceeded a year.
+* Added {:vspace} syntax to definition list entries.
 
 -01
 
