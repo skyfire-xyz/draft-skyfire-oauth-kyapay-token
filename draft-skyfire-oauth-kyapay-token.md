@@ -1178,9 +1178,8 @@ The following specifications are related to and designed to be used with this sp
 * Expanded Security Considerations to cover confidentiality of token contents,
   settlement credential handling, token lifetime, and bearer versus
   sender-constrained semantics.
-* Tightened JWT header validation: `alg` MUST be `ES256`, `none` and algorithm
-  substitution are rejected, and the verification algorithm is not taken from
-  the token.
+* Tightened JWT header validation: an `alg` value of `none` and algorithm
+  substitution are rejected.
 * Corrected a missing comma in the KYA token example, and shortened the example
   token lifetimes, which had exceeded a year.
 * Added {:vspace} syntax to definition list entries.
