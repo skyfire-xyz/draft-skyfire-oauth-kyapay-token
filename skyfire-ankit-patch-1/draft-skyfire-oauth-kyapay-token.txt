@@ -822,7 +822,7 @@ Table of Contents
 
        Where the key retrieved from the issuer's JWK Set carries an alg
        or use parameter, the verifier MUST confirm it is consistent with
-       ES256 and with signature verification, and reject the token
+       the parameters of the issued token, and reject the token
        otherwise.
 
        Future revisions of this specification may permit additional
