@@ -805,11 +805,6 @@ The following informative example displays a decoded KYA-PAY type token.
    parameter, the verifier MUST confirm it is consistent with
    the parameters of the issued token, and reject the token otherwise.
 
-   Future revisions of this specification may permit additional algorithms.
-   Implementations MUST treat any algorithm not listed in this section as
-   unsupported and reject tokens that use it. Implementations MUST NOT accept an
-   algorithm merely because it appears in the JSON Web Signature and Encryption
-   Algorithms registry.
 2. `kid` - The `kid` claim MUST be present, and set to a valid Key ID discoverable
    via the issuer's (payload `iss` claim) JWK Set.
 3. `typ` - The `typ` header parameter value MUST be one of: `kya+jwt`, `pay+jwt`, or `kya-pay+jwt`.
