@@ -1233,6 +1233,9 @@ tokens in an interoperable manner.<a href="#section-abstract-1" class="pilcrow">
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1.2.2">
                     <p id="section-toc.1-1.4.2.1.2.2.1"><a href="#section-4.1.2" class="auto internal xref">4.1.2</a>.  <a href="#name-jwt-payload-validation" class="internal xref">JWT Payload Validation</a></p>
 </li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1.2.3">
+                    <p id="section-toc.1-1.4.2.1.2.3.1"><a href="#section-4.1.3" class="auto internal xref">4.1.3</a>.  <a href="#name-clock-skew" class="internal xref">Clock Skew</a></p>
+</li>
                 </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2">
@@ -2359,11 +2362,11 @@ the issuer's JWK Set, located as described in <a href="#key-discovery" class="au
 </li>
             <li id="section-4.1.2-1.3">
               <p id="section-4.1.2-1.3.1"><strong>Validate the <code>exp</code> Claim</strong> - The verifier <span class="bcp14">MUST</span> validate that the token has
-  not expired, within the verifier's clock drift tolerance.<a href="#section-4.1.2-1.3.1" class="pilcrow">¶</a></p>
+  not expired, within the clock skew tolerance described in <a href="#clock-skew" class="auto internal xref">Section 4.1.3</a>.<a href="#section-4.1.2-1.3.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-4.1.2-1.4">
               <p id="section-4.1.2-1.4.1"><strong>Validate the <code>iat</code> Claim</strong> - The verifier <span class="bcp14">MUST</span> validate that the token was
-  issued in the past, within the verifier's clock drift tolerance.<a href="#section-4.1.2-1.4.1" class="pilcrow">¶</a></p>
+  issued in the past, within the clock skew tolerance described in <a href="#clock-skew" class="auto internal xref">Section 4.1.3</a>.<a href="#section-4.1.2-1.4.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-4.1.2-1.5">
               <p id="section-4.1.2-1.5.1"><strong>Validate the <code>jti</code> Claim</strong> - Ensure that the <code>jti</code> claim is present, and is
@@ -2377,6 +2380,29 @@ the issuer's JWK Set, located as described in <a href="#key-discovery" class="au
   an expected and use case appropriate value (such as <code>production</code> or <code>sandbox</code>)<a href="#section-4.1.2-1.7.1" class="pilcrow">¶</a></p>
 </li>
           </ol>
+</section>
+</div>
+<div id="clock-skew">
+<section id="section-4.1.3">
+          <h4 id="name-clock-skew">
+<a href="#section-4.1.3" class="section-number selfRef">4.1.3. </a><a href="#name-clock-skew" class="section-name selfRef">Clock Skew</a>
+          </h4>
+<p id="section-4.1.3-1">The <code>iat</code> and <code>exp</code> claims are set from the issuer's clock and evaluated against
+the verifier's. These are never precisely synchronized, so a verifier applies a
+tolerance when evaluating them.<a href="#section-4.1.3-1" class="pilcrow">¶</a></p>
+<p id="section-4.1.3-2">A verifier <span class="bcp14">MUST</span> accept a token whose <code>iat</code> is up to the tolerance in the future,
+and <span class="bcp14">MUST</span> accept a token up to the tolerance beyond its <code>exp</code>.<a href="#section-4.1.3-2" class="pilcrow">¶</a></p>
+<p id="section-4.1.3-3">A verifier <span class="bcp14">MUST</span> support a tolerance of at least 5 seconds.
+A verifier <span class="bcp14">SHOULD NOT</span> apply a tolerance greater than 60 seconds;
+30 seconds is <span class="bcp14">RECOMMENDED</span>.
+A tolerance approaching the token's own lifetime defeats the purpose of <code>exp</code>:
+the effective window in which a captured token is accepted is its lifetime plus
+twice the tolerance.<a href="#section-4.1.3-3" class="pilcrow">¶</a></p>
+<p id="section-4.1.3-4">Where a party generating these timestamps can observe the <code>Date</code> header field
+(<span><a href="https://rfc-editor.org/rfc/rfc9110#section-6.6.1" class="relref">Section 6.6.1</a> of [<a href="#RFC9110" class="cite xref">RFC9110</a>]</span>) of a response from the intended recipient, it
+<span class="bcp14">SHOULD</span> use that value to correct subsequent timestamps rather than relying on
+the recipient's tolerance. Correcting at the sender resolves skew at the only
+party positioned to detect it.<a href="#section-4.1.3-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -3250,6 +3276,10 @@ keys with which the origin signs KYAPay tokens.<a href="#section-7.3-2.5.1" clas
         <dd>
 <span class="refAuthor">Rescorla, E.</span>, <span class="refTitle">"The Transport Layer Security (TLS) Protocol Version 1.3"</span>, <span class="seriesInfo">RFC 8446</span>, <span class="seriesInfo">DOI 10.17487/RFC8446</span>, <time datetime="2018-08" class="refDate">August 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8446">https://www.rfc-editor.org/rfc/rfc8446</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC9110">[RFC9110]</dt>
+        <dd>
+<span class="refAuthor">Fielding, R., Ed.</span>, <span class="refAuthor">Nottingham, M., Ed.</span>, and <span class="refAuthor">J. Reschke, Ed.</span>, <span class="refTitle">"HTTP Semantics"</span>, <span class="seriesInfo">STD 97</span>, <span class="seriesInfo">RFC 9110</span>, <span class="seriesInfo">DOI 10.17487/RFC9110</span>, <time datetime="2022-06" class="refDate">June 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9110">https://www.rfc-editor.org/rfc/rfc9110</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC9421">[RFC9421]</dt>
       <dd>
 <span class="refAuthor">Backman, A., Ed.</span>, <span class="refAuthor">Richer, J., Ed.</span>, and <span class="refAuthor">M. Sporny</span>, <span class="refTitle">"HTTP Message Signatures"</span>, <span class="seriesInfo">RFC 9421</span>, <span class="seriesInfo">DOI 10.17487/RFC9421</span>, <time datetime="2024-02" class="refDate">February 2024</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9421">https://www.rfc-editor.org/rfc/rfc9421</a>&gt;</span>. </dd>
@@ -3340,6 +3370,10 @@ a scheme.<a href="#appendix-B-3.10.1" class="pilcrow">¶</a></p>
           <p id="appendix-B-3.11.1">Added an Issuer Key Discovery section specifying that the issuer's JWK Set is
 located at the <code>jwks.json</code> well-known URI formed from <code>iss</code>, and registered
 that URI suffix with IANA.<a href="#appendix-B-3.11.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-B-3.12">
+          <p id="appendix-B-3.12.1">Added a Clock Skew section bounding the tolerance applied to the "iat" and
+"exp" claims, and requiring senders to correct skew they can observe.<a href="#appendix-B-3.12.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="appendix-B-4">-01<a href="#appendix-B-4" class="pilcrow">¶</a></p>
