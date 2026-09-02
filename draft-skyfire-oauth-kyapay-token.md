@@ -62,6 +62,7 @@ informative:
   RFC2046:
   RFC6838:
   RFC8446:
+  RFC9110:
   RFC9421:
   IANA.JWT.Claims:
     author:
@@ -849,14 +850,36 @@ The following informative example displays a decoded KYA-PAY type token.
 2. **Validate `iss` Claim** - Ensure that the token is signed by the expected
   valid issuer.
 3. **Validate the `exp` Claim** - The verifier MUST validate that the token has
-  not expired, within the verifier's clock drift tolerance.
+  not expired, within the clock skew tolerance described in {{clock-skew}}.
 4. **Validate the `iat` Claim** - The verifier MUST validate that the token was
-  issued in the past, within the verifier's clock drift tolerance.
+  issued in the past, within the clock skew tolerance described in {{clock-skew}}.
 5. **Validate the `jti` Claim** - Ensure that the `jti` claim is present, and is
   a UUID.
 6. **Validate the `aud` Claim** - Ensure that the `aud` identifies the recipient as the intended audience.
 7. **Validate the `env` Claim** - Ensure that the Environment claim is set to
   an expected and use case appropriate value (such as `production` or `sandbox`)
+
+### Clock Skew {#clock-skew}
+
+The `iat` and `exp` claims are set from the issuer's clock and evaluated against
+the verifier's. These are never precisely synchronized, so a verifier applies a
+tolerance when evaluating them.
+
+A verifier MUST accept a token whose `iat` is up to the tolerance in the future,
+and MUST accept a token up to the tolerance beyond its `exp`.
+
+A verifier MUST support a tolerance of at least 5 seconds.
+A verifier SHOULD NOT apply a tolerance greater than 60 seconds;
+30 seconds is RECOMMENDED.
+A tolerance approaching the token's own lifetime defeats the purpose of `exp`:
+the effective window in which a captured token is accepted is its lifetime plus
+twice the tolerance.
+
+Where a party generating these timestamps can observe the `Date` header field
+({{Section 6.6.1 of RFC9110}}) of a response from the intended recipient, it
+SHOULD use that value to correct subsequent timestamps rather than relying on
+the recipient's tolerance. Correcting at the sender resolves skew at the only
+party positioned to detect it.
 
 ## Validating PAY Tokens
 
@@ -1235,6 +1258,8 @@ The following specifications are related to and designed to be used with this sp
 * Added an Issuer Key Discovery section specifying that the issuer's JWK Set is
   located at the `jwks.json` well-known URI formed from `iss`, and registered
   that URI suffix with IANA.
+* Added a Clock Skew section bounding the tolerance applied to the "iat" and
+  "exp" claims, and requiring senders to correct skew they can observe.
 
 -01
 
