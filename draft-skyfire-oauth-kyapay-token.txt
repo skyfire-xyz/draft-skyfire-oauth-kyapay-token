@@ -5,8 +5,8 @@
 Web Authorization Protocol                                    A. Agarwal
 Internet-Draft                                      Skyfire Systems Inc.
 Intended status: Standards Track                                M. Jones
-Expires: 5 March 2027                             Self-Issued Consulting
-                                                        1 September 2026
+Expires: 6 March 2027                             Self-Issued Consulting
+                                                        2 September 2026
 
 
                               KYAPay Token
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 5 March 2027.
+   This Internet-Draft will expire on 6 March 2027.
 
 Copyright Notice
 
@@ -75,15 +75,16 @@ Table of Contents
        2.1.3.  Ecosystem Infrastructure Roles
    3.  KYAPay Token Schemas
      3.1.  Common Token Claims
-     3.2.  KYA Token
-       3.2.1.  hid - Human Identity Sub-Claims
-       3.2.2.  Agent Platform Identity apd Sub-Claims
-       3.2.3.  Agent Identity aid Sub-Claims
-     3.3.  PAY Token
-       3.3.1.  Settlement Information sti Sub-Claims
-       3.3.2.  Scope of Card Settlement
-       3.3.3.  PAY Token Example
-     3.4.  KYA-PAY Token
+     3.2.  Issuer Key Discovery
+     3.3.  KYA Token
+       3.3.1.  hid - Human Identity Sub-Claims
+       3.3.2.  Agent Platform Identity apd Sub-Claims
+       3.3.3.  Agent Identity aid Sub-Claims
+     3.4.  PAY Token
+       3.4.1.  Settlement Information sti Sub-Claims
+       3.4.2.  Scope of Card Settlement
+       3.4.3.  PAY Token Example
+     3.5.  KYA-PAY Token
    4.  Token Validation
      4.1.  Validating KYA and PAY Tokens
        4.1.1.  JWT Header Validation
@@ -118,6 +119,7 @@ Table of Contents
        7.2.1.  application/kya+jwt
        7.2.2.  application/pay+jwt
        7.2.3.  application/kya-pay+jwt
+     7.3.  Well-Known URI Registration
    8.  References
      8.1.  Normative References
      8.2.  Informative References
@@ -357,9 +359,11 @@ Table of Contents
    Payment) Tokens.
 
    iss:
-      REQUIRED - URL of the token's issuer.  Used for discovering JWK
-      Sets for token signature verification, via the /.well-known/
-      jwks.json suffix mechanism.
+      REQUIRED - URL of the token's issuer.  The value MUST be an origin
+      as defined in Section 4 of [RFC6454]: a scheme, a host, and an
+      optional port, with no path, query or fragment component.  Used
+      for locating the JWK Set for token signature verification, as
+      described in Section 3.2.
 
    sub:
       REQUIRED - Subject Identifier.  Must be pairwise unique within a
@@ -419,7 +423,29 @@ Table of Contents
    Additional claims MAY be defined and used in these tokens.  The
    recipient MUST ignore any unrecognized claims.
 
-3.2.  KYA Token
+3.2.  Issuer Key Discovery
+
+   The JWK Set used to verify a token signature is located at the well-
+   known URI [RFC8615] formed from the iss claim with the URI suffix
+   jwks.json.  Because iss is an origin, this is the well-known URI
+   construction described in Section 3 of [RFC8615] applied to that
+   origin.  For example, an iss value of https://issuer.example.com
+   yields https://issuer.example.com/.well-known/jwks.json.
+
+   The jwks.json URI suffix is registered in Section 7.3.
+
+   JWK Sets SHOULD be cached and refreshed according to standard JWK Set
+   practice.  Retrieval per request is neither required nor expected;
+   because KYAPay tokens are self-contained, signature verification is
+   intended to be performed locally.
+
+   A future revision of this specification may additionally define an
+   issuer metadata document, giving an issuer somewhere to advertise
+   capabilities beyond the location of its keys, such as the identity
+   verification methods it supports.  Such a document would supplement
+   the mechanism described here rather than replace it.
+
+3.3.  KYA Token
 
    The following identity related claims are used within KYA and KYA-PAY
    tokens:
@@ -444,7 +470,7 @@ Table of Contents
   "alg": "ES256",
   "typ": "kya+jwt"
 }.{
-  "iss": "https://example.com/issuer", // Issuer URL
+  "iss": "https://issuer.example.com", // Issuer URL
   "iat": 1742245254,
   "exp": 1742245554,
   "jti": "b9821893-7699-4d24-af06-803a6a16476b",
@@ -479,7 +505,7 @@ Table of Contents
 
                       Figure 1: A KYA type token
 
-3.2.1.  hid - Human Identity Sub-Claims
+3.3.1.  hid - Human Identity Sub-Claims
 
    The Human Identity (hid) claim contains sub-claims identifying the
    human principal (individual or organization) as follows.
@@ -521,7 +547,7 @@ Table of Contents
    Additional sub-claims MAY be defined and used.  The recipient MUST
    ignore any unrecognized sub-claims.
 
-3.2.2.  Agent Platform Identity apd Sub-Claims
+3.3.2.  Agent Platform Identity apd Sub-Claims
 
    The apd claim is optional.  If present, it contains the following
    sub-claims.
@@ -555,7 +581,7 @@ Table of Contents
    Additional sub-claims MAY be defined and used.  The recipient MUST
    ignore any unrecognized sub-claims.
 
-3.2.3.  Agent Identity aid Sub-Claims
+3.3.3.  Agent Identity aid Sub-Claims
 
    The aid claim is REQUIRED.  It contains the following sub-claims.
 
@@ -581,7 +607,7 @@ Table of Contents
    Additional sub-claims MAY be defined and used.  The recipient MUST
    ignore any unrecognized sub-claims.
 
-3.3.  PAY Token
+3.4.  PAY Token
 
    The following payment related claims are used within PAY and KYA-PAY
    type tokens:
@@ -620,7 +646,7 @@ Table of Contents
       REQUIRED - Meta information for payment settlement, depending on
       settlement. type.
 
-3.3.1.  Settlement Information sti Sub-Claims
+3.4.1.  Settlement Information sti Sub-Claims
 
    The sti claim is REQUIRED.  It contains the following sub-claims,
    with the requirement levels marked below.
@@ -681,7 +707,7 @@ Table of Contents
    Additional sub-claims MAY be defined and used.  The recipient MUST
    ignore any unrecognized sub-claims.
 
-3.3.2.  Scope of Card Settlement
+3.4.2.  Scope of Card Settlement
 
    This specification supports card settlement only through payment-
    network agentic-commerce programmes that issue transaction-scoped,
@@ -697,7 +723,7 @@ Table of Contents
    is left to future work, and implementers requiring it should not
    attempt to carry them in the claims defined here.
 
-3.3.3.  PAY Token Example
+3.4.3.  PAY Token Example
 
    The following informative example displays a decoded PAY type token.
 
@@ -706,7 +732,7 @@ Table of Contents
   "alg": "ES256",
   "typ": "pay+jwt"
 }.{
-  "iss": "https://example.net/pay_token_issuer", // Issuer URL
+  "iss": "https://pay-issuer.example.net", // Issuer URL
   "iat": 1742245254,
   "exp": 1742245554,
   "jti": "b9821893-7699-4d24-af06-803a6a16476b",
@@ -738,7 +764,7 @@ Table of Contents
 
                       Figure 2: A PAY type token
 
-3.4.  KYA-PAY Token
+3.5.  KYA-PAY Token
 
    The following informative example displays a decoded KYA-PAY type
    token.
@@ -748,7 +774,7 @@ Table of Contents
   "alg": "ES256",
   "typ": "kya-pay+jwt"
 }.{
-  "iss": "kya-pay.example.org", // Issuer URL
+  "iss": "https://kya-pay.example.org", // Issuer URL
   "iat": 1742245254,
   "exp": 1742245554,
   "jti": "b9821893-7699-4d24-af06-803a6a16476b",
@@ -826,7 +852,8 @@ Table of Contents
        otherwise.
 
    2.  kid - The kid claim MUST be present, and set to a valid Key ID
-       discoverable via the issuer's (payload iss claim) JWK Set.
+       present in the issuer's JWK Set, located as described in
+       Section 3.2.
 
    3.  typ - The typ header parameter value MUST be one of: kya+jwt,
        pay+jwt, or kya-pay+jwt.
@@ -1074,7 +1101,7 @@ Table of Contents
 
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
-   *  Reference: Section 3.2 of this specification
+   *  Reference: Section 3.3 of this specification
 
 7.1.7.  "apd" Claim
 
@@ -1085,7 +1112,7 @@ Table of Contents
 
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
-   *  Reference: Section 3.2 of this specification
+   *  Reference: Section 3.3 of this specification
 
 7.1.8.  "aid" Claim
 
@@ -1095,7 +1122,7 @@ Table of Contents
 
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
-   *  Reference: Section 3.2 of this specification
+   *  Reference: Section 3.3 of this specification
 
 7.1.9.  "tpr" Claim
 
@@ -1106,7 +1133,7 @@ Table of Contents
 
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
-   *  Reference: Section 3.3 of this specification
+   *  Reference: Section 3.4 of this specification
 
 7.1.10.  "tps" Claim
 
@@ -1117,7 +1144,7 @@ Table of Contents
 
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
-   *  Reference: Section 3.3 of this specification
+   *  Reference: Section 3.4 of this specification
 
 7.1.11.  "amt" Claim
 
@@ -1128,7 +1155,7 @@ Table of Contents
 
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
-   *  Reference: Section 3.3 of this specification
+   *  Reference: Section 3.4 of this specification
 
 7.1.12.  "cur" Claim
 
@@ -1139,7 +1166,7 @@ Table of Contents
 
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
-   *  Reference: Section 3.3 of this specification
+   *  Reference: Section 3.4 of this specification
 
 7.1.13.  "val" Claim
 
@@ -1150,7 +1177,7 @@ Table of Contents
 
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
-   *  Reference: Section 3.3 of this specification
+   *  Reference: Section 3.4 of this specification
 
 7.1.14.  "mnr" Claim
 
@@ -1161,7 +1188,7 @@ Table of Contents
 
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
-   *  Reference: Section 3.3 of this specification
+   *  Reference: Section 3.4 of this specification
 
 7.1.15.  "stp" Claim
 
@@ -1171,7 +1198,7 @@ Table of Contents
 
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
-   *  Reference: Section 3.3 of this specification
+   *  Reference: Section 3.4 of this specification
 
 7.1.16.  "sti" Claim
 
@@ -1182,7 +1209,7 @@ Table of Contents
 
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
-   *  Reference: Section 3.3 of this specification
+   *  Reference: Section 3.4 of this specification
 
 7.2.  Media Types Registration
 
@@ -1208,7 +1235,7 @@ Table of Contents
 
    *  Interoperability considerations: n/a
 
-   *  Published specification: Section 3.2 of this specification
+   *  Published specification: Section 3.3 of this specification
 
    *  Applications that use this media type: Applications using Know
       Your Agent tokens
@@ -1249,7 +1276,7 @@ Table of Contents
 
    *  Interoperability considerations: n/a
 
-   *  Published specification: Section 3.3 of this specification
+   *  Published specification: Section 3.4 of this specification
 
    *  Applications that use this media type: Applications using Pay
       tokens
@@ -1290,7 +1317,7 @@ Table of Contents
 
    *  Interoperability considerations: n/a
 
-   *  Published specification: Section 3.4 of this specification
+   *  Published specification: Section 3.5 of this specification
 
    *  Applications that use this media type: Applications using KYA-Pay
       tokens
@@ -1313,6 +1340,23 @@ Table of Contents
 
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
+7.3.  Well-Known URI Registration
+
+   This specification registers the following URI suffix in the IANA
+   "Well-Known URIs" registry [IANA.WellKnownURIs] established by
+   [RFC8615].
+
+   *  URI Suffix: jwks.json
+
+   *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
+
+   *  Specification Document: Section 3.2 of this specification
+
+   *  Status: permanent
+
+   *  Related Information: The resource is a JWK Set [RFC7517]
+      containing the keys with which the origin signs KYAPay tokens.
+
 8.  References
 
 8.1.  Normative References
@@ -1321,6 +1365,10 @@ Table of Contents
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/rfc/rfc2119>.
+
+   [RFC6454]  Barth, A., "The Web Origin Concept", RFC 6454,
+              DOI 10.17487/RFC6454, December 2011,
+              <https://www.rfc-editor.org/rfc/rfc6454>.
 
    [RFC6749]  Hardt, D., Ed., "The OAuth 2.0 Authorization Framework",
               RFC 6749, DOI 10.17487/RFC6749, October 2012,
@@ -1350,6 +1398,10 @@ Table of Contents
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
+
+   [RFC8615]  Nottingham, M., "Well-Known Uniform Resource Identifiers
+              (URIs)", RFC 8615, DOI 10.17487/RFC8615, May 2019,
+              <https://www.rfc-editor.org/rfc/rfc8615>.
 
    [RFC8693]  Jones, M., Nadalin, A., Campbell, B., Ed., Bradley, J.,
               and C. Mortimore, "OAuth 2.0 Token Exchange", RFC 8693,
@@ -1406,6 +1458,10 @@ Table of Contents
    [IANA.MediaTypes]
               IANA, "Media Types",
               <https://www.iana.org/assignments/media-types>.
+
+   [IANA.WellKnownURIs]
+              IANA, "Well-Known URIs",
+              <https://www.iana.org/assignments/well-known-uris>.
 
    [RFC2046]  Freed, N. and N. Borenstein, "Multipurpose Internet Mail
               Extensions (MIME) Part Two: Media Types", RFC 2046,
@@ -1491,6 +1547,14 @@ Document History
       the example token lifetimes, which had exceeded a year.
 
    *  Added {:vspace} syntax to definition list entries.
+
+   *  Required the iss claim to be an origin, with no path, query or
+      fragment component, and corrected the example iss values
+      accordingly; one had lacked a scheme.
+
+   *  Added an Issuer Key Discovery section specifying that the issuer's
+      JWK Set is located at the jwks.json well-known URI formed from
+      iss, and registered that URI suffix with IANA.
 
    -01
 
