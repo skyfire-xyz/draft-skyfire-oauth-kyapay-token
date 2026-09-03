@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-09-01T00:09:31.321230+00:00",
+  "timestamp": "2026-09-03T00:08:52.099531+00:00",
   "repo": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
   "labels": [
     {
@@ -2341,24 +2341,26 @@
       "id": "PR_kwDOQZxkd88AAAABBflsFw",
       "title": "Section 3.2.3: aid is REQUIRED, matching the claim table",
       "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/42",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "skyfire-ankit",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Correcting the presence of the aid claim",
       "createdAt": "2026-08-30T09:15:06Z",
-      "updatedAt": "2026-08-31T21:00:53Z",
+      "updatedAt": "2026-09-01T14:56:45Z",
       "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
       "baseRefName": "main",
       "baseRefOid": "0998b399491033f9380cd7e04679dcf0a9700381",
       "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
       "headRefName": "skyfire-ankit-patch-1",
-      "headRefOid": "2e94b77f81ec3d45cfd91f2e28e030df2d67a3db",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "8306e1511296c462b8123ca8c6592dd813047677",
+      "closedAt": "2026-09-01T14:56:45Z",
+      "mergedAt": "2026-09-01T14:56:45Z",
+      "mergedBy": "skyfire-ankit",
+      "mergeCommit": {
+        "oid": "01613ba1036efe4c54078a9c2a593d511e6223d8"
+      },
       "comments": [
         {
           "author": "skyfire-ankit",
@@ -2687,6 +2689,19 @@
               "updatedAt": "2026-08-31T15:00:55Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABLoPihA",
+          "commit": {
+            "abbreviatedOid": "8306e15"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-09-01T07:47:33Z",
+          "updatedAt": "2026-09-01T07:47:33Z",
+          "comments": []
         }
       ]
     },
@@ -2737,26 +2752,68 @@
       "id": "PR_kwDOQZxkd88AAAABBnfg6w",
       "title": "Define the clock skew tolerance that Section 4.1.2 already relies on",
       "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/44",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "skyfire-ankit",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Steps 3 and 4 of JWT Payload Validation both require validation \"within the verifier's clock drift tolerance\", but no value, floor or ceiling appears anywhere in the document, and the companion specification does not mention clocks at all. The concept is invoked and left entirely to the implementer, so two conformant verifiers will choose different allowances and a token one accepts the other rejects -- indistinguishable, from the sender's side, from an attack.\r\n\r\nAdds a Clock Skew subsection and points both steps at it.\r\n\r\nThe bounds: MUST support at least 5 seconds, so nobody ships zero tolerance; SHOULD NOT exceed 60 seconds, with 30 RECOMMENDED. The ceiling is derived rather than picked -- a captured token is acceptable for its lifetime plus twice the tolerance, so a tolerance near the lifetime doubles the exposure that exp exists to bound. This is deliberately stricter than the 5 minutes common in Kerberos, AWS SigV4 and typical OpenID Connect deployments, because the token lifetimes here are short enough that 5 minutes of slack would dominate them.\r\n\r\nAlso places the burden on the sender, where it can actually be met: a party generating timestamps can compare the Date header of any response from the recipient against its own clock and correct subsequent timestamps. Skew is detectable at the sender and invisible at the verifier, so correcting there is more effective than asking every verifier to be generous.",
       "createdAt": "2026-08-31T14:52:41Z",
-      "updatedAt": "2026-08-31T20:51:32Z",
+      "updatedAt": "2026-09-02T21:23:43Z",
       "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
       "baseRefName": "main",
-      "baseRefOid": "0998b399491033f9380cd7e04679dcf0a9700381",
+      "baseRefOid": "35b8a43113719e57f527e29a86014cf5b8095f6f",
       "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
       "headRefName": "clock-skew-tolerance",
-      "headRefOid": "d3398600de7288df50cb0d7dc94019ca0d97d907",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "cb03747ea00490c3a90b45a410219b09d1ab16fb",
+      "closedAt": "2026-09-02T21:13:48Z",
+      "mergedAt": "2026-09-02T21:13:48Z",
+      "mergedBy": "skyfire-ankit",
+      "mergeCommit": {
+        "oid": "4bdf4ec155107dee28dd008957f6b2f09f45027f"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd88AAAABLoQ0rQ",
+          "commit": {
+            "abbreviatedOid": "d339860"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-09-01T07:50:12Z",
+          "updatedAt": "2026-09-01T07:50:12Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABLoRNbg",
+          "commit": {
+            "abbreviatedOid": "d339860"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "DISMISSED",
+          "body": "Please add a history entry for this addition.",
+          "createdAt": "2026-09-01T07:50:52Z",
+          "updatedAt": "2026-09-01T15:12:35Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABL0Gndg",
+          "commit": {
+            "abbreviatedOid": "386e951"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-09-02T09:17:48Z",
+          "updatedAt": "2026-09-02T09:17:48Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 45,
@@ -2795,28 +2852,57 @@
     {
       "number": 46,
       "id": "PR_kwDOQZxkd88AAAABBnybRQ",
-      "title": "Specify issuer key discovery precisely, and record the migration path",
+      "title": "Specify issuer key discovery precisely and make it RFC 8615 conformant",
       "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/46",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "skyfire-ankit",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
-      "body": "The iss claim says the JWK Set is discovered \"via the /.well-known/jwks.json suffix mechanism\", which is under-specified in a way that produces different URLs from the same token:\r\n\r\n- The construction is not stated. Appending to an iss with a path component is not the same as the construction RFC 8615 defines, which scopes well-known URIs to an origin. Two implementers reading this build two different URLs and one of them 404s.\r\n- Trailing-slash handling is undefined.\r\n- jwks.json is not registered under RFC 8615.\r\n- One example iss has no scheme at all, leaving retrieval undefined.\r\n\r\nThis keeps the deployed mechanism and makes it exact, rather than changing it. Adds an Issuer Key Discovery section stating the construction unambiguously (strip any trailing slash, append /.well-known/jwks.json), with a worked example. Nothing that works today stops working.\r\n\r\nIt also says out loud that this is a path-relative convention and NOT an RFC 8615 well-known URI. That non-conformance is real, a reviewer will spot it, and naming it is better than implying conformance we do not have. Verifiers are told explicitly not to apply the RFC 8615 construction instead.\r\n\r\nA subsection records the migration: a future revision defines a KYAPay issuer metadata document at a path registered under RFC 8615, carrying issuer and jwks_uri, which also gives an issuer somewhere to advertise capabilities such as supported identity verification methods. Verifiers will try the metadata document first and fall back to the convention here, so issuers and verifiers migrate independently and neither blocks the other.\r\n\r\nSupersedes #45, which proposed reading jwks_uri from RFC 8414 OAuth authorization server metadata. That was the wrong document type: a KYA issuer is not an authorization server -- an issuer performing only identity attestation has no token_endpoint -- and it put an OAuth normative dependency inside a JWT profile, aimed at verifiers (bot managers, CDNs) with no OAuth machinery.",
+      "body": "The iss claim says the JWK Set is discovered \"via the /.well-known/jwks.json suffix mechanism\", which is under-specified in a way that produces different URLs from the same token:\r\n\r\n- The construction is not stated. Appending to an iss with a path component is not the same as the construction RFC 8615 defines, which scopes well-known URIs to an origin. Two implementers reading this build two different URLs and one of them 404s.\r\n- Trailing-slash handling is undefined.\r\n- jwks.json is not registered under RFC 8615.\r\n- One example iss has no scheme at all, leaving retrieval undefined.\r\n\r\nThis makes the mechanism exact and RFC 8615 conformant. iss is now REQUIRED to be an origin as defined in Section 4 of RFC 6454 -- a scheme, a host, and an optional port, with no path, query or fragment component. That one restriction settles the first two problems together: with no path there is nothing to append to but the origin, and no trailing slash to handle.\r\n\r\nAdds an Issuer Key Discovery section stating that the JWK Set is located at the well-known URI formed from iss with the URI suffix jwks.json -- the construction in Section 3 of RFC 8615 applied to that origin -- with a worked example. The example iss values are corrected to origins; one had lacked a scheme entirely.\r\n\r\nAdds a Well-Known URI Registration section registering the jwks.json suffix in the IANA \"Well-Known URIs\" registry, so the mechanism is conformant rather than merely conventional.\r\n\r\nA closing paragraph records that a future revision may additionally define an issuer metadata document, giving an issuer somewhere to advertise capabilities beyond the location of its keys, such as the identity verification methods it supports. Such a document would supplement the mechanism described here rather than replace it.\r\n\r\nSupersedes #45, which proposed reading jwks_uri from RFC 8414 OAuth authorization server metadata. That was the wrong document type: a KYA issuer is not an authorization server -- an issuer performing only identity attestation has no token_endpoint -- and it put an OAuth normative dependency inside a JWT profile, aimed at verifiers (bot managers, CDNs) with no OAuth machinery.",
       "createdAt": "2026-08-31T15:30:45Z",
-      "updatedAt": "2026-08-31T20:56:41Z",
+      "updatedAt": "2026-09-02T20:50:19Z",
       "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
       "baseRefName": "main",
-      "baseRefOid": "0998b399491033f9380cd7e04679dcf0a9700381",
+      "baseRefOid": "01613ba1036efe4c54078a9c2a593d511e6223d8",
       "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
       "headRefName": "issuer-key-discovery",
-      "headRefOid": "cc5d6fd928d8274658bdb4fcb6aff1f8934e1195",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "d779d4e775e9ea2bdf8468fa6aecaa5612f4ac4c",
+      "closedAt": "2026-09-02T20:50:19Z",
+      "mergedAt": "2026-09-02T20:50:19Z",
+      "mergedBy": "skyfire-ankit",
+      "mergeCommit": {
+        "oid": "35b8a43113719e57f527e29a86014cf5b8095f6f"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd88AAAABLoSIIg",
+          "commit": {
+            "abbreviatedOid": "cc5d6fd"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "DISMISSED",
+          "body": "Please add a history entry for this change.",
+          "createdAt": "2026-09-01T07:52:19Z",
+          "updatedAt": "2026-09-01T15:40:24Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABL0HZ8g",
+          "commit": {
+            "abbreviatedOid": "d779d4e"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-09-02T09:19:16Z",
+          "updatedAt": "2026-09-02T09:19:16Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
