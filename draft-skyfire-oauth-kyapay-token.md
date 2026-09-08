@@ -283,7 +283,7 @@ Target Agent Platform:
 
 {:vspace}
 Target Principal:
-: A human principal (individual or organization) that that owns the product,
+: A human principal (individual or organization) that owns the product,
   service, API, website, or content being consumed or sold, and serves as the
   ultimate beneficiary of a transaction.
   In buyer/seller transactions, the Target is the seller.
@@ -332,7 +332,7 @@ PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
 
 {:vspace}
 `sub`:
-: REQUIRED - Subject Identifier. Must be pairwise unique within
+: REQUIRED - Subject Identifier. MUST be pairwise unique within
   a given issuer.
 
 {:vspace}
@@ -528,7 +528,7 @@ The recipient MUST ignore any unrecognized sub-claims.
 
 ### Agent Platform Identity `apd` Sub-Claims
 
-The `apd` claim is optional. If present, it contains the following sub-claims.
+The `apd` claim is OPTIONAL. If present, it contains the following sub-claims.
 
 {:vspace}
 `id`:
@@ -582,8 +582,8 @@ The `aid` claim is REQUIRED. It contains the following sub-claims.
 {:vspace}
 `source_ips`:
 : OPTIONAL - Valid public IP address, or range of public IP addresses, from where
-  the system / agent's requests to merchants / services will originate. Array of
-  comma-separated IPv4 addresses or ranges, IPv6 addresses or ranges, or domain
+  the system / agent's requests to merchants / services will originate. A JSON
+  array of IPv4 addresses or ranges, IPv6 addresses or ranges, or domain
   names resolvable to an IP address via DNS. IPv4 and IPv6 addresses can be a
   single IPv4 or IPv6 address or a range of IPv4 or IPv6 addresses in CIDR notation
   or start-and-end IP pairs.
@@ -628,8 +628,8 @@ The following payment related claims are used within PAY and KYA-PAY type tokens
 
 {:vspace}
 `sti`:
-: REQUIRED - Meta information for payment settlement, depending on settlement.
-  type.
+: REQUIRED - Meta information for payment settlement, depending on the `stp`
+  value.
 
 ### Settlement Information `sti` Sub-Claims
 
@@ -639,7 +639,7 @@ with the requirement levels marked below.
 The `sti` claim carries the settlement instrument, and its contents depend on
 the value of `stp`.
 
-When the `stp` is value `card`, the settlement instrument is an agentic payment credential
+When the `stp` value is `card`, the settlement instrument is an agentic payment credential
 issued by a payment network under an agentic-commerce programme -- for example
 Visa Intelligent Commerce (`visa_vic`) or Mastercard Agent Pay, using Secure Card
 on File (`mastercard_scof`). Such a credential is provisioned for a single
@@ -846,7 +846,7 @@ The following informative example displays a decoded KYA-PAY type token.
 ### JWT Payload Validation
 
 1. **Verify JWT Signature** - Valid JWTs MUST be signed with a valid key belonging
-  To the token's issuer (`iss` claim)
+  to the token's issuer (`iss` claim)
 2. **Validate `iss` Claim** - Ensure that the token is signed by the expected
   valid issuer.
 3. **Validate the `exp` Claim** - The verifier MUST validate that the token has
@@ -1143,7 +1143,7 @@ in the manner described in {{RFC6838}}.
 * Required parameters: n/a
 * Optional parameters: n/a
 * Encoding considerations: Uses JWS Compact Serialization as defined in {{RFC7515}}
-* Security considerations: See Security Considerations in in {{RFC7519}}
+* Security considerations: See Security Considerations in {{RFC7519}}
 * Interoperability considerations: n/a
 * Published specification: {{kya-token}} of this specification
 * Applications that use this media type: Applications using Know Your Agent tokens
@@ -1164,7 +1164,7 @@ in the manner described in {{RFC6838}}.
 * Required parameters: n/a
 * Optional parameters: n/a
 * Encoding considerations: Uses JWS Compact Serialization as defined in {{RFC7515}}
-* Security considerations: See Security Considerations in in {{RFC7519}}
+* Security considerations: See Security Considerations in {{RFC7519}}
 * Interoperability considerations: n/a
 * Published specification: {{pay-token}} of this specification
 * Applications that use this media type: Applications using Pay tokens
@@ -1185,7 +1185,7 @@ in the manner described in {{RFC6838}}.
 * Required parameters: n/a
 * Optional parameters: n/a
 * Encoding considerations: Uses JWS Compact Serialization as defined in {{RFC7515}}
-* Security considerations: See Security Considerations in in {{RFC7519}}
+* Security considerations: See Security Considerations in {{RFC7519}}
 * Interoperability considerations: n/a
 * Published specification: {{kya-pay-token}} of this specification
 * Applications that use this media type: Applications using KYA-Pay tokens
