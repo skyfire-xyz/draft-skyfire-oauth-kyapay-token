@@ -415,6 +415,52 @@ the location of its keys, such as the identity verification methods it supports.
 Such a document would supplement the mechanism described here rather than
 replace it.
 
+## Token Size {#token-size}
+
+A KYAPay token is carried in a single HTTP header field value
+({{I-D.skyfire-oauth-using-kyapay-tokens}}). Header field size limits are set by
+deployment configuration and enforced by the origin web server; they are neither
+negotiated nor announced. A token that exceeds the recipient's limit is not
+rejected on its merits -- the request fails before any claim is read.
+
+This specification defines no maximum token size. An issuer is not required to
+omit or truncate claims to satisfy a numeric limit, and a verifier MUST NOT
+assume one; the size a recipient is required to accept is specified in
+{{I-D.skyfire-oauth-using-kyapay-tokens}}.
+
+A serialized token is `header.payload.signature`, each component
+base64url-encoded without padding. Claim JSON of N octets encodes to 4N/3
+characters, rounded up; an ES256 signature is 86 characters; and a typical JOSE
+header encodes to 112 to 120 characters. An implementation sizing its own claims
+may therefore estimate the serialized length as 1.34 N + 140 characters.
+
+An issuer:
+
+* SHOULD NOT emit a claim or sub-claim name longer than 32 octets;
+* SHOULD NOT emit a string-valued claim or sub-claim longer than 256 octets;
+* SHOULD NOT include more than 8 elements in the `source_ips` sub-claim of `aid`;
+* SHOULD NOT emit claims registered by this specification totalling more than
+  3072 octets of JSON; and
+* SHOULD NOT emit claims not registered by this specification totalling more
+  than 1024 octets of JSON.
+
+A verifier MAY reject a token whose `source_ips` array exceeds 8 elements, but
+MUST NOT silently evaluate only a prefix of it.
+
+An issuer observing all of these limits emits a token that fits the size a
+recipient is required to accept: 3072 plus 1024 octets of claim JSON serializes
+to approximately 5670 characters, within 6144. The claims registered by this
+specification, all present at once at realistic maximum lengths, total 2995
+octets, so the 3072-octet limit constrains no conformant token; it bounds the
+tail. `source_ips` is the only structure defined here with no inherent bound,
+and it alone can carry an otherwise conformant token past that size.
+
+Where a single interaction would otherwise convey a KYA token and a PAY token in
+the same request, an issuer SHOULD instead issue one `kya-pay+jwt` token. Two
+tokens each sized to the limits above exceed a single header field value at a
+typical origin, whereas the combined token does not. Combining resolves the
+constraint at the only party that controls how many tokens exist.
+
 ## KYA Token {#kya-token}
 
 The following identity related claims are used within KYA and KYA-PAY tokens:
@@ -1260,6 +1306,9 @@ The following specifications are related to and designed to be used with this sp
   that URI suffix with IANA.
 * Added a Clock Skew section bounding the tolerance applied to the "iat" and
   "exp" claims, and requiring senders to correct skew they can observe.
+* Added a Token Size section: no maximum token size, per-claim and aggregate
+  size guidance for issuers, and the guarantee that a token observing that
+  guidance fits the minimum recipients are required to accept.
 
 -01
 
