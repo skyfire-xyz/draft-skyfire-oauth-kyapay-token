@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-09-03T00:08:52.099531+00:00",
+  "timestamp": "2026-09-10T00:07:39.367787+00:00",
   "repo": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
   "labels": [
     {
@@ -2903,6 +2903,58 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 47,
+      "id": "PR_kwDOQZxkd88AAAABCpBwEQ",
+      "title": "Editorial: fix ten typographic and consistency defects",
+      "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/47",
+      "state": "OPEN",
+      "author": "skyfire-ankit",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Ten editorial fixes found while reading `main` end to end. No normative change, with one exception called out below.\r\n\r\n1. **Target Principal** \u2014 \"a human principal (individual or organization) that **that** owns the product\". Doubled word.\r\n2. **`sub`** \u2014 \"**Must** be pairwise unique\" \u2192 `MUST`. See the note below.\r\n3. **`apd` sub-claims** \u2014 \"The `apd` claim is **optional**. If present\u2026\" \u2192 `OPTIONAL`, matching the claim table. The same wording was corrected for `aid` and `sti` recently; `apd` was left behind.\r\n4. **`aid.source_ips`** \u2014 \"**Array of comma-separated** IPv4 addresses or ranges\u2026\" \u2192 \"**A JSON array of** IPv4 addresses or ranges\u2026\".\r\n5. **`sti`** \u2014 \"Meta information for payment settlement, depending on **settlement.** / **type.**\" \u2192 \"\u2026depending on the `stp` **value.**\"\r\n6. **`sti` prose** \u2014 \"When the `stp` **is value** `card`\" \u2192 \"When the `stp` **value is** `card`\".\r\n7. **JWT Payload Validation** \u2014 \"signed with a valid key belonging **To** the token's issuer\" \u2192 lowercase `to`.\r\n8\u201310. **Media type registrations, all three** \u2014 \"See Security Considerations **in in** {{RFC7519}}\" \u2192 a single \"in\".\r\n\r\n### Two that are more than typos\r\n\r\n**Item 5** loses its final word. It currently reads *\"Meta information for payment settlement, depending on settlement. type.\"* \u2014 a stray full stop has orphaned \"type\" onto its own line. What the contents actually depend on is the `stp` value, which is what the paragraph immediately below already says, so this brings the summary line into agreement with it.\r\n\r\n**Item 4** matters beyond tidiness: `source_ips` is a JSON array, so \"comma-separated\" reads as a statement about the element format rather than about JSON syntax.\r\n\r\n### Flagged as arguably normative\r\n\r\nItem 2 promotes a lowercase \"Must\" to BCP 14 \"MUST\" in the definition of a REQUIRED claim. The intent is already clearly normative and every sibling claim uses the keyword, but it is conformance-visible rather than a pure typo. Happy to split it into its own pull request if you would rather keep this one strictly editorial.\r\n\r\nOpened as a draft for review.",
+      "createdAt": "2026-09-08T08:38:10Z",
+      "updatedAt": "2026-09-08T08:38:10Z",
+      "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "baseRefName": "main",
+      "baseRefOid": "4bdf4ec155107dee28dd008957f6b2f09f45027f",
+      "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "headRefName": "editorial-ten-fixes",
+      "headRefOid": "16f12674962d2558659831c301f58abe40b3af84",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 48,
+      "id": "PR_kwDOQZxkd88AAAABCvd-fw",
+      "title": "Add a Token Size section bounding what an issuer emits",
+      "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/48",
+      "state": "OPEN",
+      "author": "skyfire-ankit",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Addresses the token-size gap: this specification currently says nothing about how large a token may be, and a token is carried in a single HTTP header field whose size limit is set by deployment configuration and enforced at the origin. A token that exceeds it fails before any claim is read.\r\n\r\n**This is the issuer half.** The recipient half \u2014 the minimum a verifier must accept \u2014 belongs in `using-kyapay-tokens`, alongside the header field it defines, and is a separate pull request. Neither is much use without the other, so please read them together.\r\n\r\n### What it says\r\n\r\n- **No maximum token size.** An issuer is not required to omit or truncate claims to hit a number, and a verifier MUST NOT assume a maximum.\r\n- **Five `SHOULD NOT` limits for issuers**: 32 octets for a claim or sub-claim name, 256 octets for a string value, 8 elements in `aid.source_ips`, 3072 octets of JSON for the registered claim set, and 1024 octets for everything outside this specification.\r\n- **A `MUST NOT` for verifiers**: do not silently evaluate a prefix of an over-length `source_ips`. Rejecting it is fine; truncating it silently is not.\r\n- **The serialization arithmetic**, so an implementer can size claims without guessing: roughly `1.34 N + 140` characters.\r\n\r\n### Why these numbers\r\n\r\nEvery registered claim and sub-claim, present at once at realistic maximum lengths, is **2995 octets** of claim JSON \u2014 so the 3072-octet limit constrains no conformant token. It bounds the tail rather than the median; a realistic `kya-pay+jwt` is about a third of the budget.\r\n\r\n3072 + 1024 octets of claim JSON serializes to roughly **5670 characters**, inside the 6144-octet minimum proposed for recipients \u2014 with 476 octets spare. **That is the point of the section:** an issuer that observes this guidance can rely on any conformant recipient accepting the result. The measurements are reproducible and I am happy to share the script.\r\n\r\n`aid.source_ips` is the only structure defined here with no inherent bound. At 8 elements the maximal token is about 4200 octets serialized; at 64 it is about 6216, which is why it gets an explicit element limit rather than relying on the aggregate.\r\n\r\n### The last paragraph, which is the one worth arguing about\r\n\r\nIt says an issuer **SHOULD** prefer a single `kya-pay+jwt` over a KYA token and a PAY token in the same request. Two tokens each sized to the limits above exceed a single header field value at a typical origin, whereas the combined token does not.\r\n\r\nThe `KYAPay-Token` field is registered as a List and may carry more than one token, and RFC 9110 \u00a75.2 lets a recipient coalesce multiple field lines into one \u2014 so a per-token limit does not bound what arrives at the origin. Halving the budget instead is not workable: 3072 octets per token allows about 2149 octets of claim JSON against a 2995-octet maximum, so a maximal conformant token would not fit in its own half. This also gives the combined token type a stated engineering reason to exist, which I do not think it currently has.\r\n\r\n### Note on construction\r\n\r\nWritten to mirror the Clock Skew section: the physical cause, then what the recipient must accept, then the limits, then the rationale as arithmetic, then a sender-side duty with a one-line justification. Two bounded-parameter rules reading as one pattern seemed better than two.\r\n\r\nOpened as a draft for review.",
+      "createdAt": "2026-09-08T22:02:03Z",
+      "updatedAt": "2026-09-08T22:02:03Z",
+      "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "baseRefName": "main",
+      "baseRefOid": "4bdf4ec155107dee28dd008957f6b2f09f45027f",
+      "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "headRefName": "token-size-issuer-guidance",
+      "headRefOid": "a5503a994216b85c76d96ca93b1d8474e73192d1",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
