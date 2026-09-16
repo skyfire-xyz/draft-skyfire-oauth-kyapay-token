@@ -382,7 +382,7 @@ Table of Contents
 
    jti:
       REQUIRED - Unique ID of this JWT as defined in Section 4.1.7 of
-      [RFC7519].
+      [RFC7519].  This claim can be used to detect replay attempts.
 
    exp:
       REQUIRED - as defined in Section 4.1.4 of [RFC7519].  Identifies
