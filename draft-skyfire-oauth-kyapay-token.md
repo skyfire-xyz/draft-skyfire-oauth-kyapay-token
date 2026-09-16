@@ -138,7 +138,7 @@ on behalf of human principals.
 Because these agents can be hard to distinguish from traditional bots,
 they are often inadvertently blocked,
 creating a need for the web security ecosystem to distinguish between
-legitimate agentic traffic and truly malicious activity.
+legitimate agentic traffic and potentially malicious activity.
 KYAPay tokens are designed to address this challenge by enabling agents to convey
 verified identity and payment credentials.
 These tokens can provide web security systems and merchants with
@@ -633,7 +633,7 @@ The following payment related claims are used within PAY and KYA-PAY type tokens
 
 ### Settlement Information `sti` Sub-Claims
 
-The `sti` claim is REQUIRED. It contains the following sub-claims,
+The `sti` claim is REQUIRED in Pay Tokens. It contains the following sub-claims,
 with the requirement levels marked below.
 
 The `sti` claim carries the settlement instrument, and its contents depend on
