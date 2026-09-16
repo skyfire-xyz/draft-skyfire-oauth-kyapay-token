@@ -350,6 +350,7 @@ PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
 {:vspace}
 `jti`:
 : REQUIRED - Unique ID of this JWT as defined in {{Section 4.1.7 of RFC7519}}.
+  This claim can be used to detect replay attempts.
 
 {:vspace}
 `exp`:
