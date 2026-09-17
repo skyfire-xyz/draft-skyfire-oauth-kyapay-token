@@ -125,6 +125,7 @@ Table of Contents
      8.1.  Normative References
      8.2.  Informative References
    Appendix A.  Related Specifications
+   Acknowledgments
    Document History
    Contributors
    Authors' Addresses
@@ -1538,6 +1539,11 @@ Appendix A.  Related Specifications
       Laundering Methods) claim and values for declaring what AML/CFT
       methods were employed.
 
+Acknowledgments
+
+   We would like to thank Jean Diaconu for his contributions to the
+   specification.
+
 Document History
 
    [[ to be removed by the RFC Editor before publication as an RFC ]]
@@ -1587,6 +1593,8 @@ Document History
    *  Added a Clock Skew section bounding the tolerance applied to the
       "iat" and "exp" claims, and requiring senders to correct skew they
       can observe.
+
+   *  Addressed review comments by Jean Diaconu.
 
    -01
 
