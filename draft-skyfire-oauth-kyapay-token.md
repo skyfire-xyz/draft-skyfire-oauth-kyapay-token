@@ -1225,6 +1225,13 @@ The following specifications are related to and designed to be used with this sp
 * {{I-D.skyfire-oauth-id-verification}} defines the "ivm" (Identity Verification Methods) claim and values for declaring how the person's identity was verified.
 * {{I-D.skyfire-oauth-aml-methods}} defines the "aml" (Anti-Money Laundering Methods) claim and values for declaring what AML/CFT methods were employed.
 
+# Acknowledgments
+{: numbered="false"}
+
+We would like to thank
+Jean Diaconu
+for his contributions to the specification.
+
 # Document History
 {: numbered="false"}
 
@@ -1261,6 +1268,7 @@ The following specifications are related to and designed to be used with this sp
   that URI suffix with IANA.
 * Added a Clock Skew section bounding the tolerance applied to the "iat" and
   "exp" claims, and requiring senders to correct skew they can observe.
+* Addressed review comments by Jean Diaconu.
 
 -01
 
