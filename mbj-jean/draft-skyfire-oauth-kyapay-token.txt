@@ -5,8 +5,8 @@
 Web Authorization Protocol                                    A. Agarwal
 Internet-Draft                                      Skyfire Systems Inc.
 Intended status: Standards Track                                M. Jones
-Expires: 20 March 2027                            Self-Issued Consulting
-                                                       16 September 2026
+Expires: 21 March 2027                            Self-Issued Consulting
+                                                       17 September 2026
 
 
                               KYAPay Token
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 20 March 2027.
+   This Internet-Draft will expire on 21 March 2027.
 
 Copyright Notice
 
@@ -84,7 +84,7 @@ Table of Contents
        3.4.1.  Settlement Information sti Sub-Claims
        3.4.2.  Scope of Card Settlement
        3.4.3.  PAY Token Example
-     3.5.  KYA-PAY Token
+     3.5.  KYA-PAY Token Example
    4.  Token Validation
      4.1.  Validating KYA and PAY Tokens
        4.1.1.  JWT Header Validation
@@ -765,7 +765,7 @@ Table of Contents
 
                       Figure 2: A PAY type token
 
-3.5.  KYA-PAY Token
+3.5.  KYA-PAY Token Example
 
    The following informative example displays a decoded KYA-PAY type
    token.
