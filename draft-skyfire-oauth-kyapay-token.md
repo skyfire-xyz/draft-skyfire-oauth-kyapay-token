@@ -753,7 +753,7 @@ The following informative example displays a decoded PAY type token.
 ~~~
 {: #example-decoded-pay-token align="left" title="A PAY type token"}
 
-## KYA-PAY Token {#kya-pay-token}
+## KYA-PAY Token Example {#kya-pay-token}
 
 The following informative example displays a decoded KYA-PAY type token.
 
