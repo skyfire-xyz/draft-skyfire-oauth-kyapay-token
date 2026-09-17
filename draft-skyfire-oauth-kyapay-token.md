@@ -138,7 +138,7 @@ on behalf of human principals.
 Because these agents can be hard to distinguish from traditional bots,
 they are often inadvertently blocked,
 creating a need for the web security ecosystem to distinguish between
-legitimate agentic traffic and truly malicious activity.
+legitimate agentic traffic and potentially malicious activity.
 KYAPay tokens are designed to address this challenge by enabling agents to convey
 verified identity and payment credentials.
 These tokens can provide web security systems and merchants with
@@ -350,6 +350,7 @@ PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
 {:vspace}
 `jti`:
 : REQUIRED - Unique ID of this JWT as defined in {{Section 4.1.7 of RFC7519}}.
+  This claim can be used to detect replay attempts.
 
 {:vspace}
 `exp`:
@@ -633,7 +634,7 @@ The following payment related claims are used within PAY and KYA-PAY type tokens
 
 ### Settlement Information `sti` Sub-Claims
 
-The `sti` claim is REQUIRED. It contains the following sub-claims,
+The `sti` claim is REQUIRED in Pay Tokens. It contains the following sub-claims,
 with the requirement levels marked below.
 
 The `sti` claim carries the settlement instrument, and its contents depend on
@@ -752,7 +753,7 @@ The following informative example displays a decoded PAY type token.
 ~~~
 {: #example-decoded-pay-token align="left" title="A PAY type token"}
 
-## KYA-PAY Token {#kya-pay-token}
+## KYA-PAY Token Example {#kya-pay-token}
 
 The following informative example displays a decoded KYA-PAY type token.
 
@@ -1224,6 +1225,13 @@ The following specifications are related to and designed to be used with this sp
 * {{I-D.skyfire-oauth-id-verification}} defines the "ivm" (Identity Verification Methods) claim and values for declaring how the person's identity was verified.
 * {{I-D.skyfire-oauth-aml-methods}} defines the "aml" (Anti-Money Laundering Methods) claim and values for declaring what AML/CFT methods were employed.
 
+# Acknowledgments
+{: numbered="false"}
+
+We would like to thank
+Jean Diaconu
+for his contributions to the specification.
+
 # Document History
 {: numbered="false"}
 
@@ -1260,6 +1268,7 @@ The following specifications are related to and designed to be used with this sp
   that URI suffix with IANA.
 * Added a Clock Skew section bounding the tolerance applied to the "iat" and
   "exp" claims, and requiring senders to correct skew they can observe.
+* Addressed review comments by Jean Diaconu.
 
 -01
 
