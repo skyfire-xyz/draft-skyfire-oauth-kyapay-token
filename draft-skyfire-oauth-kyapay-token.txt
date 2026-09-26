@@ -320,7 +320,7 @@ Table of Contents
       grouped into the apd claim.
 
    Target Principal:
-      A human principal (individual or organization) that that owns the
+      A human principal (individual or organization) that owns the
       product, service, API, website, or content being consumed or sold,
       and serves as the ultimate beneficiary of a transaction.  In
       buyer/seller transactions, the Target is the seller.  The target
@@ -368,7 +368,7 @@ Table of Contents
       described in Section 3.2.
 
    sub:
-      REQUIRED - Subject Identifier.  Must be pairwise unique within a
+      REQUIRED - Subject Identifier.  MUST be pairwise unique within a
       given issuer.
 
    aud:
@@ -551,7 +551,7 @@ Table of Contents
 
 3.3.2.  Agent Platform Identity apd Sub-Claims
 
-   The apd claim is optional.  If present, it contains the following
+   The apd claim is OPTIONAL.  If present, it contains the following
    sub-claims.
 
    id:
@@ -600,10 +600,10 @@ Table of Contents
    source_ips:
       OPTIONAL - Valid public IP address, or range of public IP
       addresses, from where the system / agent's requests to merchants /
-      services will originate.  Array of comma-separated IPv4 addresses
-      or ranges, IPv6 addresses or ranges, or domain names resolvable to
-      an IP address via DNS.  IPv4 and IPv6 addresses can be a single
-      IPv4 or IPv6 address or a range of IPv4 or IPv6 addresses in CIDR
+      services will originate.  A JSON array of IPv4 addresses or
+      ranges, IPv6 addresses or ranges, or domain names resolvable to an
+      IP address via DNS.  IPv4 and IPv6 addresses can be a single IPv4
+      or IPv6 address or a range of IPv4 or IPv6 addresses in CIDR
       notation or start-and-end IP pairs.
 
    Additional sub-claims MAY be defined and used.  The recipient MUST
@@ -646,7 +646,7 @@ Table of Contents
 
    sti:
       REQUIRED - Meta information for payment settlement, depending on
-      settlement. type.
+      the stp value.
 
 3.4.1.  Settlement Information sti Sub-Claims
 
@@ -656,7 +656,7 @@ Table of Contents
    The sti claim carries the settlement instrument, and its contents
    depend on the value of stp.
 
-   When the stp is value card, the settlement instrument is an agentic
+   When the stp value is card, the settlement instrument is an agentic
    payment credential issued by a payment network under an agentic-
    commerce programme -- for example Visa Intelligent Commerce
    (visa_vic) or Mastercard Agent Pay, using Secure Card on File
@@ -863,7 +863,7 @@ Table of Contents
 4.1.2.  JWT Payload Validation
 
    1.  *Verify JWT Signature* - Valid JWTs MUST be signed with a valid
-       key belonging To the token's issuer (iss claim)
+       key belonging to the token's issuer (iss claim)
 
    2.  *Validate iss Claim* - Ensure that the token is signed by the
        expected valid issuer.
@@ -1254,8 +1254,7 @@ Table of Contents
    *  Encoding considerations: Uses JWS Compact Serialization as defined
       in [RFC7515]
 
-   *  Security considerations: See Security Considerations in in
-      [RFC7519]
+   *  Security considerations: See Security Considerations in [RFC7519]
 
    *  Interoperability considerations: n/a
 
@@ -1295,8 +1294,7 @@ Table of Contents
    *  Encoding considerations: Uses JWS Compact Serialization as defined
       in [RFC7515]
 
-   *  Security considerations: See Security Considerations in in
-      [RFC7519]
+   *  Security considerations: See Security Considerations in [RFC7519]
 
    *  Interoperability considerations: n/a
 
@@ -1336,8 +1334,7 @@ Table of Contents
    *  Encoding considerations: Uses JWS Compact Serialization as defined
       in [RFC7515]
 
-   *  Security considerations: See Security Considerations in in
-      [RFC7519]
+   *  Security considerations: See Security Considerations in [RFC7519]
 
    *  Interoperability considerations: n/a
 

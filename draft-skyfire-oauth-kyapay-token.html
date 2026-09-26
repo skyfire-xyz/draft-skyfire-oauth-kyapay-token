@@ -1584,7 +1584,7 @@ to have its own verified identity assertions, grouped into the <code>apd</code> 
             <dd class="break"></dd>
 <dt id="section-2.1.2-1.5">Target Principal:</dt>
             <dd style="margin-left: 1.5em" id="section-2.1.2-1.6">
-              <p id="section-2.1.2-1.6.1">A human principal (individual or organization) that that owns the product,
+              <p id="section-2.1.2-1.6.1">A human principal (individual or organization) that owns the product,
 service, API, website, or content being consumed or sold, and serves as the
 ultimate beneficiary of a transaction.
 In buyer/seller transactions, the Target is the seller.
@@ -1660,7 +1660,7 @@ signature verification, as described in <a href="#key-discovery" class="auto int
 <dt id="section-3.1-2.3">
 <code>sub</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-3.1-2.4">
-            <p id="section-3.1-2.4.1"><span class="bcp14">REQUIRED</span> - Subject Identifier. Must be pairwise unique within
+            <p id="section-3.1-2.4.1"><span class="bcp14">REQUIRED</span> - Subject Identifier. <span class="bcp14">MUST</span> be pairwise unique within
 a given issuer.<a href="#section-3.1-2.4.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
@@ -1922,7 +1922,7 @@ The recipient <span class="bcp14">MUST</span> ignore any unrecognized sub-claims
           <h4 id="name-agent-platform-identity-apd">
 <a href="#section-3.3.2" class="section-number selfRef">3.3.2. </a><a href="#name-agent-platform-identity-apd" class="section-name selfRef">Agent Platform Identity <code>apd</code> Sub-Claims</a>
           </h4>
-<p id="section-3.3.2-1">The <code>apd</code> claim is optional. If present, it contains the following sub-claims.<a href="#section-3.3.2-1" class="pilcrow">¶</a></p>
+<p id="section-3.3.2-1">The <code>apd</code> claim is <span class="bcp14">OPTIONAL</span>. If present, it contains the following sub-claims.<a href="#section-3.3.2-1" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlNewline" id="section-3.3.2-2">
             <dt id="section-3.3.2-2.1">
 <code>id</code>:</dt>
@@ -2002,8 +2002,8 @@ token request originated. It <span class="bcp14">MUST</span> be captured directl
 <code>source_ips</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.3.3-2.6">
               <p id="section-3.3.3-2.6.1"><span class="bcp14">OPTIONAL</span> - Valid public IP address, or range of public IP addresses, from where
-the system / agent's requests to merchants / services will originate. Array of
-comma-separated IPv4 addresses or ranges, IPv6 addresses or ranges, or domain
+the system / agent's requests to merchants / services will originate. A JSON
+array of IPv4 addresses or ranges, IPv6 addresses or ranges, or domain
 names resolvable to an IP address via DNS. IPv4 and IPv6 addresses can be a
 single IPv4 or IPv6 address or a range of IPv4 or IPv6 addresses in CIDR notation
 or start-and-end IP pairs.<a href="#section-3.3.3-2.6.1" class="pilcrow">¶</a></p>
@@ -2071,8 +2071,8 @@ and used.<a href="#section-3.4-2.4.1" class="pilcrow">¶</a></p>
 <dt id="section-3.4-2.15">
 <code>sti</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-3.4-2.16">
-            <p id="section-3.4-2.16.1"><span class="bcp14">REQUIRED</span> - Meta information for payment settlement, depending on settlement.
-type.<a href="#section-3.4-2.16.1" class="pilcrow">¶</a></p>
+            <p id="section-3.4-2.16.1"><span class="bcp14">REQUIRED</span> - Meta information for payment settlement, depending on the <code>stp</code>
+value.<a href="#section-3.4-2.16.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 </dl>
@@ -2085,7 +2085,7 @@ type.<a href="#section-3.4-2.16.1" class="pilcrow">¶</a></p>
 with the requirement levels marked below.<a href="#section-3.4.1-1" class="pilcrow">¶</a></p>
 <p id="section-3.4.1-2">The <code>sti</code> claim carries the settlement instrument, and its contents depend on
 the value of <code>stp</code>.<a href="#section-3.4.1-2" class="pilcrow">¶</a></p>
-<p id="section-3.4.1-3">When the <code>stp</code> is value <code>card</code>, the settlement instrument is an agentic payment credential
+<p id="section-3.4.1-3">When the <code>stp</code> value is <code>card</code>, the settlement instrument is an agentic payment credential
 issued by a payment network under an agentic-commerce programme -- for example
 Visa Intelligent Commerce (<code>visa_vic</code>) or Mastercard Agent Pay, using Secure Card
 on File (<code>mastercard_scof</code>). Such a credential is provisioned for a single
@@ -2358,7 +2358,7 @@ the issuer's JWK Set, located as described in <a href="#key-discovery" class="au
 <ol start="1" type="1" class="normal type-1" id="section-4.1.2-1">
 <li id="section-4.1.2-1.1">
               <p id="section-4.1.2-1.1.1"><strong>Verify JWT Signature</strong> - Valid JWTs <span class="bcp14">MUST</span> be signed with a valid key belonging
-  To the token's issuer (<code>iss</code> claim)<a href="#section-4.1.2-1.1.1" class="pilcrow">¶</a></p>
+  to the token's issuer (<code>iss</code> claim)<a href="#section-4.1.2-1.1.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-4.1.2-1.2">
               <p id="section-4.1.2-1.2.1"><strong>Validate <code>iss</code> Claim</strong> - Ensure that the token is signed by the expected
@@ -2964,7 +2964,7 @@ in the manner described in <span>[<a href="#RFC6838" class="cite xref">RFC6838</
               <p id="section-7.2.1-1.5.1">Encoding considerations: Uses JWS Compact Serialization as defined in <span>[<a href="#RFC7515" class="cite xref">RFC7515</a>]</span><a href="#section-7.2.1-1.5.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.2.1-1.6">
-              <p id="section-7.2.1-1.6.1">Security considerations: See Security Considerations in in <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span><a href="#section-7.2.1-1.6.1" class="pilcrow">¶</a></p>
+              <p id="section-7.2.1-1.6.1">Security considerations: See Security Considerations in <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span><a href="#section-7.2.1-1.6.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.2.1-1.7">
               <p id="section-7.2.1-1.7.1">Interoperability considerations: n/a<a href="#section-7.2.1-1.7.1" class="pilcrow">¶</a></p>
@@ -3029,7 +3029,7 @@ in the manner described in <span>[<a href="#RFC6838" class="cite xref">RFC6838</
               <p id="section-7.2.2-1.5.1">Encoding considerations: Uses JWS Compact Serialization as defined in <span>[<a href="#RFC7515" class="cite xref">RFC7515</a>]</span><a href="#section-7.2.2-1.5.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.2.2-1.6">
-              <p id="section-7.2.2-1.6.1">Security considerations: See Security Considerations in in <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span><a href="#section-7.2.2-1.6.1" class="pilcrow">¶</a></p>
+              <p id="section-7.2.2-1.6.1">Security considerations: See Security Considerations in <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span><a href="#section-7.2.2-1.6.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.2.2-1.7">
               <p id="section-7.2.2-1.7.1">Interoperability considerations: n/a<a href="#section-7.2.2-1.7.1" class="pilcrow">¶</a></p>
@@ -3094,7 +3094,7 @@ in the manner described in <span>[<a href="#RFC6838" class="cite xref">RFC6838</
               <p id="section-7.2.3-1.5.1">Encoding considerations: Uses JWS Compact Serialization as defined in <span>[<a href="#RFC7515" class="cite xref">RFC7515</a>]</span><a href="#section-7.2.3-1.5.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.2.3-1.6">
-              <p id="section-7.2.3-1.6.1">Security considerations: See Security Considerations in in <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span><a href="#section-7.2.3-1.6.1" class="pilcrow">¶</a></p>
+              <p id="section-7.2.3-1.6.1">Security considerations: See Security Considerations in <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span><a href="#section-7.2.3-1.6.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.2.3-1.7">
               <p id="section-7.2.3-1.7.1">Interoperability considerations: n/a<a href="#section-7.2.3-1.7.1" class="pilcrow">¶</a></p>
