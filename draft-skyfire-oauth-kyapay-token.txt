@@ -5,8 +5,8 @@
 Web Authorization Protocol                                    A. Agarwal
 Internet-Draft                                      Skyfire Systems Inc.
 Intended status: Standards Track                                M. Jones
-Expires: 6 March 2027                             Self-Issued Consulting
-                                                        2 September 2026
+Expires: 30 March 2027                            Self-Issued Consulting
+                                                       26 September 2026
 
 
                               KYAPay Token
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 6 March 2027.
+   This Internet-Draft will expire on 30 March 2027.
 
 Copyright Notice
 
@@ -84,7 +84,7 @@ Table of Contents
        3.4.1.  Settlement Information sti Sub-Claims
        3.4.2.  Scope of Card Settlement
        3.4.3.  PAY Token Example
-     3.5.  KYA-PAY Token
+     3.5.  KYA-PAY Token Example
    4.  Token Validation
      4.1.  Validating KYA and PAY Tokens
        4.1.1.  JWT Header Validation
@@ -125,6 +125,7 @@ Table of Contents
      8.1.  Normative References
      8.2.  Informative References
    Appendix A.  Related Specifications
+   Acknowledgments
    Document History
    Contributors
    Authors' Addresses
@@ -171,13 +172,13 @@ Table of Contents
    APIs on behalf of human principals.  Because these agents can be hard
    to distinguish from traditional bots, they are often inadvertently
    blocked, creating a need for the web security ecosystem to
-   distinguish between legitimate agentic traffic and truly malicious
-   activity.  KYAPay tokens are designed to address this challenge by
-   enabling agents to convey verified identity and payment credentials.
-   These tokens can provide web security systems and merchants with a
-   strong signal that the requests are authorized by a human, allowing
-   them to safely permit legitimate programmatic transactions while
-   aggressively blocking undesired traffic.
+   distinguish between legitimate agentic traffic and potentially
+   malicious activity.  KYAPay tokens are designed to address this
+   challenge by enabling agents to convey verified identity and payment
+   credentials.  These tokens can provide web security systems and
+   merchants with a strong signal that the requests are authorized by a
+   human, allowing them to safely permit legitimate programmatic
+   transactions while aggressively blocking undesired traffic.
 
    Enabling agents to create accounts and/or log in to accounts on
    behalf of their human principals is a related design goal.  To
@@ -382,7 +383,7 @@ Table of Contents
 
    jti:
       REQUIRED - Unique ID of this JWT as defined in Section 4.1.7 of
-      [RFC7519].
+      [RFC7519].  This claim can be used to detect replay attempts.
 
    exp:
       REQUIRED - as defined in Section 4.1.4 of [RFC7519].  Identifies
@@ -649,8 +650,8 @@ Table of Contents
 
 3.4.1.  Settlement Information sti Sub-Claims
 
-   The sti claim is REQUIRED.  It contains the following sub-claims,
-   with the requirement levels marked below.
+   The sti claim is REQUIRED in Pay Tokens.  It contains the following
+   sub-claims, with the requirement levels marked below.
 
    The sti claim carries the settlement instrument, and its contents
    depend on the value of stp.
@@ -765,7 +766,7 @@ Table of Contents
 
                       Figure 2: A PAY type token
 
-3.5.  KYA-PAY Token
+3.5.  KYA-PAY Token Example
 
    The following informative example displays a decoded KYA-PAY type
    token.
@@ -1538,6 +1539,11 @@ Appendix A.  Related Specifications
       Laundering Methods) claim and values for declaring what AML/CFT
       methods were employed.
 
+Acknowledgments
+
+   We would like to thank Jean Diaconu for his contributions to the
+   specification.
+
 Document History
 
    [[ to be removed by the RFC Editor before publication as an RFC ]]
@@ -1587,6 +1593,8 @@ Document History
    *  Added a Clock Skew section bounding the tolerance applied to the
       "iat" and "exp" claims, and requiring senders to correct skew they
       can observe.
+
+   *  Addressed review comments by Jean Diaconu.
 
    -01
 
