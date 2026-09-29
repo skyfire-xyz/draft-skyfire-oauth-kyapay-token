@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-09-27T00:09:12.341239+00:00",
+  "timestamp": "2026-09-29T00:08:52.850005+00:00",
   "repo": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
   "labels": [
     {
@@ -78,9 +78,17 @@
       "labels": [],
       "body": "In his review, @jadiaconu wrote:\n\n> 3.2.1 What is an example of verifier below ? Is some \"method\" also needed ?\n>\n> verifier:\n> OPTIONAL - URL of the Identity Verifier\n> verified:\n> OPTIONAL - Boolean Verification status. True if verified, otherwise false.\n> verification_id:\n> OPTIONAL - Verification identifier. Identifier for the verification performed, such as a GUID.\n",
       "createdAt": "2026-09-18T18:22:11Z",
-      "updatedAt": "2026-09-18T18:22:11Z",
+      "updatedAt": "2026-09-28T18:08:01Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Verifier is a party that is verifying the identity and/or payment information shared in KYAPay tokens. For example, an agent platform / provider using Experian to verify its own identity (`apd`) and the identity of its end users (`hid`). In that case, `verifier` would for example be `https://experian.com/`. So as an example:\n- `verifier`: `https://experian.com/`\n- `verified`: `true`\n- `verification_id`: `f01b3256-8a46-4a9c-9dfb-598526edf948`\n\nThe `verification_id` is the verifier's ID for that particular identity or payment verification. This could be useful for auditing and dispute resolution.\n\nThe method etc. would be specified across the `ivm`, `amr` and `aml` claims.",
+          "createdAt": "2026-09-28T18:08:01Z",
+          "updatedAt": "2026-09-28T18:08:01Z"
+        }
+      ]
     }
   ],
   "pulls": [
