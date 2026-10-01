@@ -1049,11 +1049,11 @@ svg {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">KYAPay Token</td>
-<td class="right">September 2026</td>
+<td class="right">October 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Agarwal &amp; Jones</td>
-<td class="center">Expires 30 March 2027</td>
+<td class="center">Expires 4 April 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1066,12 +1066,12 @@ svg {
 <dd class="internet-draft">draft-skyfire-oauth-kyapay-token-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-09-26" class="published">26 September 2026</time>
+<time datetime="2026-10-01" class="published">1 October 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-03-30">30 March 2027</time></dd>
+<dd class="expires"><time datetime="2027-04-04">4 April 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1123,7 +1123,7 @@ tokens in an interoperable manner.<a href="#section-abstract-1" class="pilcrow">
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 30 March 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 4 April 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1612,11 +1612,11 @@ The target identity utilizes the <code>hid</code>, <code>apd</code>, and <code>a
 <a href="#section-2.1.3" class="section-number selfRef">2.1.3. </a><a href="#name-ecosystem-infrastructure-ro" class="section-name selfRef">Ecosystem Infrastructure Roles</a>
           </h4>
 <span class="break"></span><dl class="dlNewline" id="section-2.1.3-1">
-            <dt id="section-2.1.3-1.1">Identity Token Issuer:</dt>
+            <dt id="section-2.1.3-1.1">KYA Token Issuer:</dt>
             <dd style="margin-left: 1.5em" id="section-2.1.3-1.2">
               <p id="section-2.1.3-1.2.1">A trusted neutral entity that conducts Know Your Customer (KYC) and Know Your
 Business (KYB) (for organizations) verifications. It is responsible for issuing
-cryptographically signed <code>kya</code> tokens that attest to the identity of the
+cryptographically signed Know Your Agent (KYA) tokens that attest to the identity of the
 Principal, Agent, and Agent Platform, for both Initiators and Targets.<a href="#section-2.1.3-1.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
@@ -1626,6 +1626,14 @@ Principal, Agent, and Agent Platform, for both Initiators and Targets.<a href="#
 credentials between the Initiator and Target. It issues signed <code>pay</code> tokens that
 enable settlement via various schemes (Cards, Banks, Cryptocurrency), without
 exposing raw credentials or secrets.<a href="#section-2.1.3-1.4.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-2.1.3-1.5">Verifier:</dt>
+            <dd style="margin-left: 1.5em" id="section-2.1.3-1.6">
+              <p id="section-2.1.3-1.6.1">The party used by the KYA Token Issuer
+to verify the identity of the human, organization, or agent
+or the party used by the Payment Token Issuer
+to verify the payment method.<a href="#section-2.1.3-1.6.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 </dl>
@@ -1733,10 +1741,10 @@ a key held by the agent identified in the <code>aid</code> claim.
 When present, it <span class="bcp14">MUST</span> contain the <code>jwk</code> member: the agent's public key
 represented as a JWK <span>[<a href="#RFC7517" class="cite xref">RFC7517</a>]</span>. The JWK <span class="bcp14">MUST</span> contain only public key
 material; a <code>cnf</code> containing private key material <span class="bcp14">MUST</span> be rejected.
-Other confirmation members <span class="bcp14">MAY</span> additionally be present, but a verifier <span class="bcp14">MUST NOT</span>
+Other confirmation members <span class="bcp14">MAY</span> additionally be present, but a recipient <span class="bcp14">MUST NOT</span>
 be required to obtain the key by any means other than reading <code>cnf.jwk</code>.
 A token carrying <code>cnf</code> is sender-constrained rather than bearer: the presenter
-is required to demonstrate possession of the confirmation key. Verifier
+is required to demonstrate possession of the confirmation key. Recipient
 processing is specified in <span>[<a href="#I-D.skyfire-oauth-using-kyapay-tokens" class="cite xref">I-D.skyfire-oauth-using-kyapay-tokens</a>]</span>.<a href="#section-3.1-2.24.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
@@ -1829,9 +1837,9 @@ claims (individual or organization).<a href="#section-3.3-2.2.1" class="pilcrow"
     "email": "platform@acme.com", // Email address for the agent platform
     "phone_number": "+12345677890", // Phone number for the agent platform
     "organization_name": "Acme Shopping Inc.", // Legal name of the agent platform
-    "verifier": "https://www.verifier.com/", // URL of the Identity verifier
+    "verifier": "https://www.verifier.com/", // URL of the KYA verifier
     "verified": true, // Outcome of the verifier's KYA verification
-    "verification_id": "a23c1fe4-a4b7-442d-8bca-3c8fad5ec3a6" // Verifier's verification ID
+    "verification_id": "a23c1fe4-a4b7-442d-8bca-3c8fad5ec3a6" // Verifier's ID for the KYA verification performed
   },
   "aid": {
     "name": "Acme Agent Extraordinaire",
@@ -1896,20 +1904,21 @@ individual.<a href="#section-3.3.1-2.8.1" class="pilcrow">¶</a></p>
 <dt id="section-3.3.1-2.13">
 <code>verifier</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.3.1-2.14">
-              <p id="section-3.3.1-2.14.1"><span class="bcp14">OPTIONAL</span> - URL of the Identity Verifier<a href="#section-3.3.1-2.14.1" class="pilcrow">¶</a></p>
+              <p id="section-3.3.1-2.14.1"><span class="bcp14">OPTIONAL</span> - URL of the party that performed the identity verification<a href="#section-3.3.1-2.14.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.3.1-2.15">
 <code>verified</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.3.1-2.16">
-              <p id="section-3.3.1-2.16.1"><span class="bcp14">OPTIONAL</span> - Boolean Verification status.  True if verified, otherwise false.<a href="#section-3.3.1-2.16.1" class="pilcrow">¶</a></p>
+              <p id="section-3.3.1-2.16.1"><span class="bcp14">OPTIONAL</span> - Boolean Verification status.  True if identity verified, otherwise false.<a href="#section-3.3.1-2.16.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.3.1-2.17">
 <code>verification_id</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.3.1-2.18">
-              <p id="section-3.3.1-2.18.1"><span class="bcp14">OPTIONAL</span> - Verification identifier. Identifier for the verification performed,
-such as a GUID.<a href="#section-3.3.1-2.18.1" class="pilcrow">¶</a></p>
+              <p id="section-3.3.1-2.18.1"><span class="bcp14">OPTIONAL</span> - Verification identifier.
+This is the verifier's identifier for the identity verification performed.
+This could be used during auditing and dispute resolution.<a href="#section-3.3.1-2.18.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 </dl>
@@ -1957,19 +1966,21 @@ The recipient <span class="bcp14">MUST</span> ignore any unrecognized sub-claims
 <dt id="section-3.3.2-2.11">
 <code>verifier</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.3.2-2.12">
-              <p id="section-3.3.2-2.12.1"><span class="bcp14">OPTIONAL</span> - URL of the Identity Verifier<a href="#section-3.3.2-2.12.1" class="pilcrow">¶</a></p>
+              <p id="section-3.3.2-2.12.1"><span class="bcp14">OPTIONAL</span> - URL of the party that verified the agent identity (KYA)<a href="#section-3.3.2-2.12.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.3.2-2.13">
 <code>verified</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.3.2-2.14">
-              <p id="section-3.3.2-2.14.1"><span class="bcp14">OPTIONAL</span> - Boolean Verification status.  True if verified, otherwise false.<a href="#section-3.3.2-2.14.1" class="pilcrow">¶</a></p>
+              <p id="section-3.3.2-2.14.1"><span class="bcp14">OPTIONAL</span> - Boolean Verification status.  True if KYA verified, otherwise false.<a href="#section-3.3.2-2.14.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.3.2-2.15">
 <code>verification_id</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.3.2-2.16">
-              <p id="section-3.3.2-2.16.1"><span class="bcp14">OPTIONAL</span> - Verification identifier. Identifier for the verification performed, such as a GUID.<a href="#section-3.3.2-2.16.1" class="pilcrow">¶</a></p>
+              <p id="section-3.3.2-2.16.1"><span class="bcp14">OPTIONAL</span> - Verification identifier.
+This is the verifier's identifier for the KYA verification performed.
+This could be used during auditing and dispute resolution.<a href="#section-3.3.2-2.16.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 </dl>
@@ -2138,7 +2149,7 @@ by the payment network. It <span class="bcp14">MUST NOT</span> be a static Card 
 <dt id="section-3.4.1-4.11">
 <code>verifier</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.4.1-4.12">
-              <p id="section-3.4.1-4.12.1"><span class="bcp14">OPTIONAL</span> - URL of the Payment Verifier<a href="#section-3.4.1-4.12.1" class="pilcrow">¶</a></p>
+              <p id="section-3.4.1-4.12.1"><span class="bcp14">OPTIONAL</span> - URL of the party that performed the payment method verification<a href="#section-3.4.1-4.12.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.4.1-4.13">
@@ -2150,7 +2161,9 @@ by the payment network. It <span class="bcp14">MUST NOT</span> be a static Card 
 <dt id="section-3.4.1-4.15">
 <code>verification_id</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.4.1-4.16">
-              <p id="section-3.4.1-4.16.1"><span class="bcp14">OPTIONAL</span> - Verification identifier. Identifier for the verification performed, such as a GUID.<a href="#section-3.4.1-4.16.1" class="pilcrow">¶</a></p>
+              <p id="section-3.4.1-4.16.1"><span class="bcp14">OPTIONAL</span> - Verification identifier.
+This is the verifier's identifier for the payment method verification performed.
+This could be used during auditing and dispute resolution.<a href="#section-3.4.1-4.16.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 </dl>
@@ -2216,7 +2229,7 @@ not attempt to carry them in the claims defined here.<a href="#section-3.4.2-3" 
     "token_security_code": "123",
     "verifier": "https://verifier.example.info", // URL of payment method verifier
     "verified": true, // Outcome of the verifier's payment method verification
-    "verification_id": "3a6e1b76-8f78-4c24-b1bd-dc78a8cc3711" // Identifier for the verification performed, such as a GUID.
+    "verification_id": "3a6e1b76-8f78-4c24-b1bd-dc78a8cc3711" // Verifier's ID for the payment method verification performed
   }
 }
 
@@ -2270,9 +2283,9 @@ not attempt to carry them in the claims defined here.<a href="#section-3.4.2-3" 
     "email": "platform@acme.com", // Email address for the agent platform
     "phone_number": "+12345677890", // Phone number for the agent platform
     "organization_name": "Acme Shopping Inc.", // Legal name of the agent platform
-    "verifier": "https://www.verifier.com/", // URL of the Identity verifier
+    "verifier": "https://www.verifier.com/", // URL of the KYA verifier
     "verified": true, // Outcome of the verifier's KYA verification
-    "verification_id": "a23c1fe4-a4b7-442d-8bca-3c8fad5ec3a6" // Verifier's verification ID
+    "verification_id": "a23c1fe4-a4b7-442d-8bca-3c8fad5ec3a6" // Verifier's ID for the KYA verification performed
   },
   "aid": {
     "name": "Agentic Excellence Я Us",
@@ -2327,17 +2340,17 @@ not attempt to carry them in the claims defined here.<a href="#section-3.4.2-3" 
 <li id="section-4.1.1-1.1">
               <p id="section-4.1.1-1.1.1"><code>alg</code> - The <code>alg</code> header parameter <span class="bcp14">MUST</span> be present and, to enable
 interoperability, it is <span class="bcp14">RECOMMENDED</span> that its value be <code>ES256</code> <span>[<a href="#RFC7518" class="cite xref">RFC7518</a>]</span>.
-Verifiers <span class="bcp14">MUST</span> reject any token whose <code>alg</code> value is not supported by both
+Recipients <span class="bcp14">MUST</span> reject any token whose <code>alg</code> value is not supported by both
 parties, including <code>none</code> <span>[<a href="#RFC7515" class="cite xref">RFC7515</a>]</span>.<a href="#section-4.1.1-1.1.1" class="pilcrow">¶</a></p>
 <p id="section-4.1.1-1.1.2">
-Verifiers <span class="bcp14">MUST</span> use the verification algorithm in the token.
+Recipients <span class="bcp14">MUST</span> use the signature algorithm in the token.
 The key is obtained from the
 issuer's JWK Set (item 2); a token is verified with that algorithm and that
-key, or rejected. In particular, a verifier <span class="bcp14">MUST NOT</span> accept a token that
+key, or rejected. In particular, a recipient <span class="bcp14">MUST NOT</span> accept a token that
 would require interpreting an Elliptic Curve public key as a symmetric key.<a href="#section-4.1.1-1.1.2" class="pilcrow">¶</a></p>
 <p id="section-4.1.1-1.1.3">
 Where the key retrieved from the issuer's JWK Set carries an <code>alg</code> or <code>use</code>
-parameter, the verifier <span class="bcp14">MUST</span> confirm it is consistent with
+parameter, the recipient <span class="bcp14">MUST</span> confirm it is consistent with
 the parameters of the issued token, and reject the token otherwise.<a href="#section-4.1.1-1.1.3" class="pilcrow">¶</a></p>
 </li>
             <li id="section-4.1.1-1.2">
@@ -2365,11 +2378,11 @@ the issuer's JWK Set, located as described in <a href="#key-discovery" class="au
   valid issuer.<a href="#section-4.1.2-1.2.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-4.1.2-1.3">
-              <p id="section-4.1.2-1.3.1"><strong>Validate the <code>exp</code> Claim</strong> - The verifier <span class="bcp14">MUST</span> validate that the token has
+              <p id="section-4.1.2-1.3.1"><strong>Validate the <code>exp</code> Claim</strong> - The recipient <span class="bcp14">MUST</span> validate that the token has
   not expired, within the clock skew tolerance described in <a href="#clock-skew" class="auto internal xref">Section 4.1.3</a>.<a href="#section-4.1.2-1.3.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-4.1.2-1.4">
-              <p id="section-4.1.2-1.4.1"><strong>Validate the <code>iat</code> Claim</strong> - The verifier <span class="bcp14">MUST</span> validate that the token was
+              <p id="section-4.1.2-1.4.1"><strong>Validate the <code>iat</code> Claim</strong> - The recipient <span class="bcp14">MUST</span> validate that the token was
   issued in the past, within the clock skew tolerance described in <a href="#clock-skew" class="auto internal xref">Section 4.1.3</a>.<a href="#section-4.1.2-1.4.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-4.1.2-1.5">
@@ -2392,12 +2405,12 @@ the issuer's JWK Set, located as described in <a href="#key-discovery" class="au
 <a href="#section-4.1.3" class="section-number selfRef">4.1.3. </a><a href="#name-clock-skew" class="section-name selfRef">Clock Skew</a>
           </h4>
 <p id="section-4.1.3-1">The <code>iat</code> and <code>exp</code> claims are set from the issuer's clock and evaluated against
-the verifier's. These are never precisely synchronized, so a verifier applies a
+the recipient's. These are never precisely synchronized, so a recipient applies a
 tolerance when evaluating them.<a href="#section-4.1.3-1" class="pilcrow">¶</a></p>
-<p id="section-4.1.3-2">A verifier <span class="bcp14">MUST</span> accept a token whose <code>iat</code> is up to the tolerance in the future,
+<p id="section-4.1.3-2">A recipient <span class="bcp14">MUST</span> accept a token whose <code>iat</code> is up to the tolerance in the future,
 and <span class="bcp14">MUST</span> accept a token up to the tolerance beyond its <code>exp</code>.<a href="#section-4.1.3-2" class="pilcrow">¶</a></p>
-<p id="section-4.1.3-3">A verifier <span class="bcp14">MUST</span> support a tolerance of at least 5 seconds.
-A verifier <span class="bcp14">SHOULD NOT</span> apply a tolerance greater than 60 seconds;
+<p id="section-4.1.3-3">A recipient <span class="bcp14">MUST</span> support a tolerance of at least 5 seconds.
+A recipient <span class="bcp14">SHOULD NOT</span> apply a tolerance greater than 60 seconds;
 30 seconds is <span class="bcp14">RECOMMENDED</span>.
 A tolerance approaching the token's own lifetime defeats the purpose of <code>exp</code>:
 the effective window in which a captured token is accepted is its lifetime plus
@@ -2546,16 +2559,16 @@ forwarding, short lifetimes, and audience restriction via the <code>aud</code> c
 the primary defences against capture and replay.<a href="#section-5.5-1" class="pilcrow">¶</a></p>
 <p id="section-5.5-2">A token <span class="bcp14">MAY</span> carry a <code>cnf</code> claim <span>[<a href="#RFC7800" class="cite xref">RFC7800</a>]</span> binding it to a public key held by
 the agent. A token carrying <code>cnf</code> is sender-constrained rather than bearer:
-possession of the token alone is insufficient, and a verifier requires the
+possession of the token alone is insufficient, and a recipient requires the
 presenter to demonstrate possession of the confirmation key on each request.<a href="#section-5.5-2" class="pilcrow">¶</a></p>
-<p id="section-5.5-3">Verifier behaviour for tokens carrying <code>cnf</code> -- including the requirement to
+<p id="section-5.5-3">Recipient behaviour for tokens carrying <code>cnf</code> -- including the requirement to
 verify an HTTP Message Signature <span>[<a href="#RFC9421" class="cite xref">RFC9421</a>]</span> over the confirmation key, and to
 reject requests where that signature is absent or invalid -- is specified in
 <span>[<a href="#I-D.skyfire-oauth-using-kyapay-tokens" class="cite xref">I-D.skyfire-oauth-using-kyapay-tokens</a>]</span>.<a href="#section-5.5-3" class="pilcrow">¶</a></p>
 <p id="section-5.5-4">Issuers <span class="bcp14">SHOULD</span> include <code>cnf</code> where the agent holds a suitable key and the target
 is expected to enforce it. Issuers <span class="bcp14">MUST NOT</span> rely on <code>cnf</code> as a substitute for
 the bearer-token protections above, since a token carrying <code>cnf</code> may still be
-presented to a verifier that does not enforce it.<a href="#section-5.5-4" class="pilcrow">¶</a></p>
+presented to a recipient that does not enforce it.<a href="#section-5.5-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -3391,6 +3404,9 @@ that URI suffix with IANA.<a href="#appendix-C-3.11.1" class="pilcrow">¶</a></p
 </li>
         <li class="normal" id="appendix-C-3.13">
           <p id="appendix-C-3.13.1">Addressed review comments by Jean Diaconu.<a href="#appendix-C-3.13.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-3.14">
+          <p id="appendix-C-3.14.1">Clarified the meaning of Verifier and differentiated from Recipient.<a href="#appendix-C-3.14.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="appendix-C-4">-01<a href="#appendix-C-4" class="pilcrow">¶</a></p>
