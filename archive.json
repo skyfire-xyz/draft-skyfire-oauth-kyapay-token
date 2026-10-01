@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-09-29T00:08:52.850005+00:00",
+  "timestamp": "2026-10-01T00:09:34.670321+00:00",
   "repo": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
   "labels": [
     {
@@ -3108,6 +3108,46 @@
           "body": "lgtm",
           "createdAt": "2026-09-25T18:15:58Z",
           "updatedAt": "2026-09-25T18:15:58Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 51,
+      "id": "PR_kwDOQZxkd88AAAABFzxOAA",
+      "title": "Clarify the meaning of Verifier",
+      "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/51",
+      "state": "OPEN",
+      "author": "selfissued",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Improve definitions and uses of \"verifier\", \"verified\", and \"verification_id\", and differentiate Verifier from Recipient.\r\n\r\nFixes #50 \r\n\r\nCc: @jadiaconu",
+      "createdAt": "2026-09-30T02:03:41Z",
+      "updatedAt": "2026-09-30T10:31:35Z",
+      "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "baseRefName": "main",
+      "baseRefOid": "c4482fbcdb72b031715901241589c986753e98e5",
+      "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "headRefName": "mbj-verifier",
+      "headRefOid": "29a299f8666273e57e59030628361d6acb209f32",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd88AAAABP8dbCA",
+          "commit": {
+            "abbreviatedOid": "29a299f"
+          },
+          "author": "jadiaconu",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-09-30T10:31:35Z",
+          "updatedAt": "2026-09-30T10:31:35Z",
           "comments": []
         }
       ]
