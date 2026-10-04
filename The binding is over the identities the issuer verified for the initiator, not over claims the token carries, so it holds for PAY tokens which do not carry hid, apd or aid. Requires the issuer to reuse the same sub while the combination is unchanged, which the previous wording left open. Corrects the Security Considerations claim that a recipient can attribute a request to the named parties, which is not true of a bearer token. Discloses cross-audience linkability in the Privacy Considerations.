@@ -340,11 +340,17 @@ PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
 {:vspace}
 `sub`:
 : REQUIRED - Subject Identifier. MUST be unique within a given issuer.
-  The subject identifies the combination of identities the token asserts:
-  the human principal (`hid`) when present, the agent platform (`apd`) when
-  present, and the agent (`aid`). An issuer MUST NOT use the same `sub`
-  value for two different combinations of these identities, and MUST assign
-  a new `sub` when any of them changes.
+  The subject identifies the combination of identities the issuer has verified
+  for the initiator: the human principal, the agent platform and the agent.
+  An issuer MUST use the same `sub` value while that combination remains
+  unchanged, MUST NOT use that value for a different combination, and MUST
+  assign a new `sub` when any of those identities changes. KYA and KYA-PAY
+  tokens carry these identities as the `hid`, `apd` and `aid` claims. PAY
+  tokens do not carry them, but the subject identifies the same combination,
+  since an issuer does not issue a token without having verified the
+  initiator. Tokens of different types issued for the same initiator therefore
+  carry the same `sub`, and a recipient MAY use it to associate a PAY token
+  with a KYA token from the same issuer.
 
 {:vspace}
 `aud`:
@@ -1013,14 +1019,20 @@ presented to a recipient that does not enforce it.
 
 The subject binds the human principal, the agent platform and the agent
 together, and the issuer's signature covers all of them. A recipient can
-therefore attribute a request to all of the parties the token names, and no
-party can combine one token's identity claims with another's without the
-issuer. Because the subject changes when any of the bound identities changes,
+therefore verify that the issuer associated the parties named by the token;
+altering or combining identity claims from different tokens invalidates the
+signature. This does not authenticate the presenter unless sender constraint
+is enforced. Because the subject is stable while the bound identities are
+unchanged,
 a recipient MAY use `sub` as a stable key for that combination, for example to
 rate-limit or isolate a particular agent without affecting other agents acting
 for the same principal.
 
 # Privacy Considerations
+
+The subject identifier is stable for a given combination of identities across
+audiences. Recipients that compare tokens can therefore recognize the same
+human principal, agent platform and agent combination at different targets.
 
 KYAPay tokens are designed to convey the information that
 an agent is acting on behalf of a principal - a person or organization.
@@ -1270,8 +1282,13 @@ for his contributions to the specification.
 
 -03
 
-* Stated that the subject identifies the combination of identities the token
-  asserts, and that a change to any of them gives a new subject.
+* Stated that the subject identifies the combination of identities the issuer
+  has verified for the initiator, that it is stable while those identities are
+  unchanged, and that a change to any of them gives a new subject. The
+  identities are carried as claims in KYA and KYA-PAY tokens and not in PAY
+  tokens, but the subject identifies the same combination in all three.
+* Disclosed in the Privacy Considerations that a stable subject is
+  correlatable across audiences.
 * Described `sub` as unique rather than pairwise unique. The subject is stable
   for a given combination across audiences, so the OpenID Connect sense of
   pairwise did not apply.
