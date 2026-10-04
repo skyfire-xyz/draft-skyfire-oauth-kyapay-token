@@ -1677,12 +1677,14 @@ for the initiator: the human principal, the agent platform and the agent.
 An issuer <span class="bcp14">MUST</span> use the same <code>sub</code> value while that combination remains
 unchanged, <span class="bcp14">MUST NOT</span> use that value for a different combination, and <span class="bcp14">MUST</span>
 assign a new <code>sub</code> when any of those identities changes. KYA and KYA-PAY
-tokens carry these identities as the <code>hid</code>, <code>apd</code> and <code>aid</code> claims. PAY
-tokens do not carry them, but the subject identifies the same combination,
-since an issuer does not issue a token without having verified the
-initiator. Tokens of different types issued for the same initiator therefore
-carry the same <code>sub</code>, and a recipient <span class="bcp14">MAY</span> use it to associate a PAY token
-with a KYA token from the same issuer.<a href="#section-3.1-2.4.1" class="pilcrow">¶</a></p>
+tokens carry the human principal and the agent as the <code>hid</code> and <code>aid</code>
+claims, and carry the agent platform as the <code>apd</code> claim where it is
+identified. PAY tokens carry none of them. The subject identifies the same
+combination in either case, since an issuer does not issue a token without
+having verified the initiator. Tokens of different types issued for the same
+initiator therefore carry the same <code>sub</code>. A recipient <span class="bcp14">MAY</span> associate a PAY
+token with a KYA token on that basis, but <span class="bcp14">MUST</span> treat them as referring to
+the same initiator only when both the <code>iss</code> and the <code>sub</code> values are equal.<a href="#section-3.1-2.4.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-3.1-2.5">
@@ -1798,8 +1800,7 @@ replace it.<a href="#section-3.2-4" class="pilcrow">¶</a></p>
           <dt id="section-3.3-2.1">
 <code>hid</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-3.3-2.2">
-            <p id="section-3.3-2.2.1"><span class="bcp14">REQUIRED</span> (Required for human identity use cases) - A map of human identity
-claims (individual or organization).<a href="#section-3.3-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-3.3-2.2.1"><span class="bcp14">REQUIRED</span> - A map of human identity claims (individual or organization).<a href="#section-3.3-2.2.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-3.3-2.3">
@@ -2563,7 +2564,7 @@ the window in which a captured token can be replayed.<a href="#section-5.4-1" cl
 the intended interaction.<a href="#section-5.4-2" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="bearer-semantics-and-proof-of-possession">
+<div id="bearer-semantics">
 <section id="section-5.5">
         <h3 id="name-bearer-semantics-and-proof-">
 <a href="#section-5.5" class="section-number selfRef">5.5. </a><a href="#name-bearer-semantics-and-proof-" class="section-name selfRef">Bearer Semantics and Proof of Possession</a>
@@ -2594,11 +2595,13 @@ presented to a recipient that does not enforce it.<a href="#section-5.5-4" class
         </h3>
 <p id="section-5.6-1">The subject binds the human principal, the agent platform and the agent
 together, and the issuer's signature covers all of them. A recipient can
-therefore verify that the issuer associated the parties named by the token;
-altering or combining identity claims from different tokens invalidates the
-signature. This does not authenticate the presenter unless sender constraint
-is enforced. Because the subject is stable while the bound identities are
-unchanged,
+therefore verify that the issuer associated the parties named by the token
+(see <a href="#bearer-semantics" class="auto internal xref">Section 5.5</a>). Modifying any of those claims within a token
+invalidates its signature. Combining claims taken from two separately signed
+tokens does not invalidate either signature, so a recipient that correlates
+tokens <span class="bcp14">MUST</span> check that both carry the same <code>iss</code> and <code>sub</code> values before
+treating them as referring to the same initiator. Because the subject is
+stable while the bound identities are unchanged,
 a recipient <span class="bcp14">MAY</span> use <code>sub</code> as a stable key for that combination, for example to
 rate-limit or isolate a particular agent without affecting other agents acting
 for the same principal.<a href="#section-5.6-1" class="pilcrow">¶</a></p>
@@ -3397,20 +3400,28 @@ tokens, but the subject identifies the same combination in all three.<a href="#a
 correlatable across audiences.<a href="#appendix-C-3.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.3">
-          <p id="appendix-C-3.3.1">Described <code>sub</code> as unique rather than pairwise unique. The subject is stable
-for a given combination across audiences, so the OpenID Connect sense of
-pairwise did not apply.<a href="#appendix-C-3.3.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.3.1">Removed the qualifier on <code>hid</code>, which read as though the claim were required
+only for some use cases.<a href="#appendix-C-3.3.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.4">
-          <p id="appendix-C-3.4.1">Stated that an agent name is unique within an agent platform at a given
-issuer.<a href="#appendix-C-3.4.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.4.1">Required a recipient correlating a PAY token with a KYA token to check that
+both carry the same <code>iss</code> and <code>sub</code>.<a href="#appendix-C-3.4.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.5">
-          <p id="appendix-C-3.5.1">Added Identity Binding to the Security Considerations.<a href="#appendix-C-3.5.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.5.1">Described <code>sub</code> as unique rather than pairwise unique. The subject is stable
+for a given combination across audiences, so the OpenID Connect sense of
+pairwise did not apply.<a href="#appendix-C-3.5.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.6">
-          <p id="appendix-C-3.6.1">Corrected the example comments on <code>sub</code>, which described the subject as an
-agent account identifier.<a href="#appendix-C-3.6.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.6.1">Stated that an agent name is unique within an agent platform at a given
+issuer.<a href="#appendix-C-3.6.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-3.7">
+          <p id="appendix-C-3.7.1">Added Identity Binding to the Security Considerations.<a href="#appendix-C-3.7.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-3.8">
+          <p id="appendix-C-3.8.1">Corrected the example comments on <code>sub</code>, which described the subject as an
+agent account identifier.<a href="#appendix-C-3.8.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="appendix-C-4">-02<a href="#appendix-C-4" class="pilcrow">¶</a></p>
