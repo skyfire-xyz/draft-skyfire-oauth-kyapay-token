@@ -1930,7 +1930,10 @@ individual.<a href="#section-3.3.1-2.8.1" class="pilcrow">¶</a></p>
               <p id="section-3.3.1-2.16.1"><span class="bcp14">OPTIONAL</span> - Boolean verification status. When present, the value <span class="bcp14">MUST</span> be <code>true</code>.
 An issuer does not issue a token carrying unverified identity claims, so a token
 never asserts <code>false</code>. The claim gives a recipient an explicit affirmative signal
-rather than requiring it to infer verification from other claims.<a href="#section-3.3.1-2.16.1" class="pilcrow">¶</a></p>
+rather than requiring it to infer verification from other claims.
+A recipient that receives <code>false</code> <span class="bcp14">MUST</span> treat the claim as not asserting
+verification, and <span class="bcp14">MUST NOT</span> treat the token as carrying a verified identity on
+the strength of the claim's presence.<a href="#section-3.3.1-2.16.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.3.1-2.17">
@@ -1995,7 +1998,10 @@ The recipient <span class="bcp14">MUST</span> ignore any unrecognized sub-claims
               <p id="section-3.3.2-2.14.1"><span class="bcp14">OPTIONAL</span> - Boolean verification status. When present, the value <span class="bcp14">MUST</span> be <code>true</code>.
 An issuer does not issue a token carrying unverified Know Your Agent claims, so a
 token never asserts <code>false</code>. The claim gives a recipient an explicit affirmative
-signal rather than requiring it to infer verification from other claims.<a href="#section-3.3.2-2.14.1" class="pilcrow">¶</a></p>
+signal rather than requiring it to infer verification from other claims.
+A recipient that receives <code>false</code> <span class="bcp14">MUST</span> treat the claim as not asserting
+verification, and <span class="bcp14">MUST NOT</span> treat the token as carrying a verified identity on
+the strength of the claim's presence.<a href="#section-3.3.2-2.14.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.3.2-2.15">
@@ -2184,7 +2190,10 @@ by the payment network. It <span class="bcp14">MUST NOT</span> be a static Card 
               <p id="section-3.4.1-4.14.1"><span class="bcp14">OPTIONAL</span> - Boolean verification status. When present, the value <span class="bcp14">MUST</span> be <code>true</code>.
 An issuer does not issue a token against an unverified payment method, so a token
 never asserts <code>false</code>. The claim gives a recipient an explicit affirmative signal
-rather than requiring it to infer verification from other claims.<a href="#section-3.4.1-4.14.1" class="pilcrow">¶</a></p>
+rather than requiring it to infer verification from other claims.
+A recipient that receives <code>false</code> <span class="bcp14">MUST</span> treat the claim as not asserting
+verification, and <span class="bcp14">MUST NOT</span> treat the token as carrying a verified payment
+method on the strength of the claim's presence.<a href="#section-3.4.1-4.14.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.4.1-4.15">
@@ -3422,7 +3431,10 @@ definition had left to the KYA Token Issuer alone.<a href="#appendix-C-3.4.1" cl
 </li>
         <li class="normal" id="appendix-C-3.5">
           <p id="appendix-C-3.5.1">Stated that a <code>verified</code> claim is only ever <code>true</code>, and corrected a KYA-PAY
-example that asserted <code>false</code>.<a href="#appendix-C-3.5.1" class="pilcrow">¶</a></p>
+example that asserted <code>false</code>. This is a compatibility change: the previous
+definition admitted <code>false</code>, so a token carrying that value conformed to -02
+and does not conform here. Recipient behaviour on receiving <code>false</code> is
+specified alongside each claim.<a href="#appendix-C-3.5.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.6">
           <p id="appendix-C-3.6.1">Required a recipient correlating a PAY token with a KYA token to check that
