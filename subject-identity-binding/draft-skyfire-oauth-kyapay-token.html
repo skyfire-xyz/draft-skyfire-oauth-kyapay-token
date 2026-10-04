@@ -2615,8 +2615,9 @@ for the same principal.<a href="#section-5.6-1" class="pilcrow">¶</a></p>
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-privacy-considerations" class="section-name selfRef">Privacy Considerations</a>
       </h2>
 <p id="section-6-1">The subject identifier is stable for a given combination of identities across
-audiences. Recipients that compare tokens can therefore recognize the same
-human principal, agent platform and agent combination at different targets.<a href="#section-6-1" class="pilcrow">¶</a></p>
+audiences, within the namespace of a single issuer. Recipients that compare
+tokens from the same issuer can therefore recognize the same human principal,
+agent platform and agent combination at different targets.<a href="#section-6-1" class="pilcrow">¶</a></p>
 <p id="section-6-2">KYAPay tokens are designed to convey the information that
 an agent is acting on behalf of a principal - a person or organization.
 To do this, they will necessarily contain information about that principal
