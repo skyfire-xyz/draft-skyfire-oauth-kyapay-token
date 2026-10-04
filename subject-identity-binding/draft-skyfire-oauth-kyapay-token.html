@@ -1628,7 +1628,10 @@ Principal, Agent, and Agent Platform, for both Initiators and Targets.<a href="#
               <p id="section-2.1.3-1.4.1">A trusted entity responsible for facilitating the exchange of payments and
 credentials between the Initiator and Target. It issues signed <code>pay</code> tokens that
 enable settlement via various schemes (Cards, Banks, Cryptocurrency), without
-exposing raw credentials or secrets.<a href="#section-2.1.3-1.4.1" class="pilcrow">¶</a></p>
+exposing raw credentials or secrets. Like a KYA Token Issuer, it conducts Know
+Your Customer (KYC) and Know Your Business (KYB) verifications of the Initiator.
+KYAPay does not provide for anonymous payment, so a Payment Token Issuer does
+not issue a <code>pay</code> token for an Initiator it has not verified.<a href="#section-2.1.3-1.4.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-2.1.3-1.5">Verifier:</dt>
@@ -1681,8 +1684,8 @@ tokens carry the human principal and the agent as the <code>hid</code> and <code
 claims, and carry the agent platform as the <code>apd</code> claim where it is
 identified. PAY tokens carry none of them. The subject identifies the same
 combination in either case, since an issuer does not issue a token without
-having verified the initiator. Tokens of different types issued for the same
-initiator therefore carry the same <code>sub</code>. A recipient <span class="bcp14">MAY</span> associate a PAY
+having verified the initiator. Tokens of different types issued by the same
+issuer for the same initiator therefore carry the same <code>sub</code>. A recipient <span class="bcp14">MAY</span> associate a PAY
 token with a KYA token on that basis, but <span class="bcp14">MUST</span> treat them as referring to
 the same initiator only when both the <code>iss</code> and the <code>sub</code> values are equal.<a href="#section-3.1-2.4.1" class="pilcrow">¶</a></p>
 </dd>
@@ -1924,7 +1927,10 @@ individual.<a href="#section-3.3.1-2.8.1" class="pilcrow">¶</a></p>
 <dt id="section-3.3.1-2.15">
 <code>verified</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.3.1-2.16">
-              <p id="section-3.3.1-2.16.1"><span class="bcp14">OPTIONAL</span> - Boolean Verification status.  True if identity verified, otherwise false.<a href="#section-3.3.1-2.16.1" class="pilcrow">¶</a></p>
+              <p id="section-3.3.1-2.16.1"><span class="bcp14">OPTIONAL</span> - Boolean verification status. When present, the value <span class="bcp14">MUST</span> be <code>true</code>.
+An issuer does not issue a token carrying unverified identity claims, so a token
+never asserts <code>false</code>. The claim gives a recipient an explicit affirmative signal
+rather than requiring it to infer verification from other claims.<a href="#section-3.3.1-2.16.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.3.1-2.17">
@@ -1986,7 +1992,10 @@ The recipient <span class="bcp14">MUST</span> ignore any unrecognized sub-claims
 <dt id="section-3.3.2-2.13">
 <code>verified</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.3.2-2.14">
-              <p id="section-3.3.2-2.14.1"><span class="bcp14">OPTIONAL</span> - Boolean Verification status.  True if KYA verified, otherwise false.<a href="#section-3.3.2-2.14.1" class="pilcrow">¶</a></p>
+              <p id="section-3.3.2-2.14.1"><span class="bcp14">OPTIONAL</span> - Boolean verification status. When present, the value <span class="bcp14">MUST</span> be <code>true</code>.
+An issuer does not issue a token carrying unverified Know Your Agent claims, so a
+token never asserts <code>false</code>. The claim gives a recipient an explicit affirmative
+signal rather than requiring it to infer verification from other claims.<a href="#section-3.3.2-2.14.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.3.2-2.15">
@@ -2172,7 +2181,10 @@ by the payment network. It <span class="bcp14">MUST NOT</span> be a static Card 
 <dt id="section-3.4.1-4.13">
 <code>verified</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.4.1-4.14">
-              <p id="section-3.4.1-4.14.1"><span class="bcp14">OPTIONAL</span> - Boolean Verification status.  True if verified, otherwise false.<a href="#section-3.4.1-4.14.1" class="pilcrow">¶</a></p>
+              <p id="section-3.4.1-4.14.1"><span class="bcp14">OPTIONAL</span> - Boolean verification status. When present, the value <span class="bcp14">MUST</span> be <code>true</code>.
+An issuer does not issue a token against an unverified payment method, so a token
+never asserts <code>false</code>. The claim gives a recipient an explicit affirmative signal
+rather than requiring it to infer verification from other claims.<a href="#section-3.4.1-4.14.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.4.1-4.15">
@@ -2292,7 +2304,7 @@ not attempt to carry them in the claims defined here.<a href="#section-3.4.2-3" 
     "middle_name": "Jane",
     "family_name": "Doe",
     "phone_number": "+1-425-555-1212",
-    "verified": false
+    "verified": true // Outcome of the verifier's KYA verification
   },
   "apd": {
     "id": "4b087db2-b6e5-48b8-8737-1aa8ddf4c4fe", // Agent platform ID
@@ -3405,24 +3417,32 @@ correlatable across audiences.<a href="#appendix-C-3.2.1" class="pilcrow">¶</a>
 only for some use cases.<a href="#appendix-C-3.3.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.4">
-          <p id="appendix-C-3.4.1">Required a recipient correlating a PAY token with a KYA token to check that
-both carry the same <code>iss</code> and <code>sub</code>.<a href="#appendix-C-3.4.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.4.1">Stated that a Payment Token Issuer verifies the Initiator, which the role
+definition had left to the KYA Token Issuer alone.<a href="#appendix-C-3.4.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.5">
-          <p id="appendix-C-3.5.1">Described <code>sub</code> as unique rather than pairwise unique. The subject is stable
-for a given combination across audiences, so the OpenID Connect sense of
-pairwise did not apply.<a href="#appendix-C-3.5.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.5.1">Stated that a <code>verified</code> claim is only ever <code>true</code>, and corrected a KYA-PAY
+example that asserted <code>false</code>.<a href="#appendix-C-3.5.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.6">
-          <p id="appendix-C-3.6.1">Stated that an agent name is unique within an agent platform at a given
-issuer.<a href="#appendix-C-3.6.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.6.1">Required a recipient correlating a PAY token with a KYA token to check that
+both carry the same <code>iss</code> and <code>sub</code>.<a href="#appendix-C-3.6.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.7">
-          <p id="appendix-C-3.7.1">Added Identity Binding to the Security Considerations.<a href="#appendix-C-3.7.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.7.1">Described <code>sub</code> as unique rather than pairwise unique. The subject is stable
+for a given combination across audiences, so the OpenID Connect sense of
+pairwise did not apply.<a href="#appendix-C-3.7.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.8">
-          <p id="appendix-C-3.8.1">Corrected the example comments on <code>sub</code>, which described the subject as an
-agent account identifier.<a href="#appendix-C-3.8.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.8.1">Stated that an agent name is unique within an agent platform at a given
+issuer.<a href="#appendix-C-3.8.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-3.9">
+          <p id="appendix-C-3.9.1">Added Identity Binding to the Security Considerations.<a href="#appendix-C-3.9.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-3.10">
+          <p id="appendix-C-3.10.1">Corrected the example comments on <code>sub</code>, which described the subject as an
+agent account identifier.<a href="#appendix-C-3.10.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="appendix-C-4">-02<a href="#appendix-C-4" class="pilcrow">¶</a></p>
