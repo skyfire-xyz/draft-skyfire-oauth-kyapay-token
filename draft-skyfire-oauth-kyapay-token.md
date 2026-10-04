@@ -314,7 +314,10 @@ Payment Token Issuer:
 : A trusted entity responsible for facilitating the exchange of payments and
   credentials between the Initiator and Target. It issues signed `pay` tokens that
   enable settlement via various schemes (Cards, Banks, Cryptocurrency), without
-  exposing raw credentials or secrets.
+  exposing raw credentials or secrets. Like a KYA Token Issuer, it conducts Know
+  Your Customer (KYC) and Know Your Business (KYB) verifications of the Initiator.
+  KYAPay does not provide for anonymous payment, so a Payment Token Issuer does
+  not issue a `pay` token for an Initiator it has not verified.
 
 {:vspace}
 Verifier:
@@ -349,8 +352,8 @@ PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
   claims, and carry the agent platform as the `apd` claim where it is
   identified. PAY tokens carry none of them. The subject identifies the same
   combination in either case, since an issuer does not issue a token without
-  having verified the initiator. Tokens of different types issued for the same
-  initiator therefore carry the same `sub`. A recipient MAY associate a PAY
+  having verified the initiator. Tokens of different types issued by the same
+  issuer for the same initiator therefore carry the same `sub`. A recipient MAY associate a PAY
   token with a KYA token on that basis, but MUST treat them as referring to
   the same initiator only when both the `iss` and the `sub` values are equal.
 
@@ -535,7 +538,10 @@ principal (individual or organization) as follows.
 
 {:vspace}
 `verified`:
-: OPTIONAL - Boolean Verification status.  True if identity verified, otherwise false.
+: OPTIONAL - Boolean verification status. When present, the value MUST be `true`.
+  An issuer does not issue a token carrying unverified identity claims, so a token
+  never asserts `false`. The claim gives a recipient an explicit affirmative signal
+  rather than requiring it to infer verification from other claims.
 
 {:vspace}
 `verification_id`:
@@ -576,7 +582,10 @@ The `apd` claim is OPTIONAL. If present, it contains the following sub-claims.
 
 {:vspace}
 `verified`:
-: OPTIONAL - Boolean Verification status.  True if KYA verified, otherwise false.
+: OPTIONAL - Boolean verification status. When present, the value MUST be `true`.
+  An issuer does not issue a token carrying unverified Know Your Agent claims, so a
+  token never asserts `false`. The claim gives a recipient an explicit affirmative
+  signal rather than requiring it to infer verification from other claims.
 
 {:vspace}
 `verification_id`:
@@ -711,7 +720,10 @@ PAN or the network's agentic token.
 
 {:vspace}
 `verified`:
-: OPTIONAL - Boolean Verification status.  True if verified, otherwise false.
+: OPTIONAL - Boolean verification status. When present, the value MUST be `true`.
+  An issuer does not issue a token against an unverified payment method, so a token
+  never asserts `false`. The claim gives a recipient an explicit affirmative signal
+  rather than requiring it to infer verification from other claims.
 
 {:vspace}
 `verification_id`:
@@ -807,7 +819,7 @@ The following informative example displays a decoded KYA-PAY type token.
     "middle_name": "Jane",
     "family_name": "Doe",
     "phone_number": "+1-425-555-1212",
-    "verified": false
+    "verified": true // Outcome of the verifier's KYA verification
   },
   "apd": {
     "id": "4b087db2-b6e5-48b8-8737-1aa8ddf4c4fe", // Agent platform ID
@@ -1295,6 +1307,10 @@ for his contributions to the specification.
   correlatable across audiences.
 * Removed the qualifier on `hid`, which read as though the claim were required
   only for some use cases.
+* Stated that a Payment Token Issuer verifies the Initiator, which the role
+  definition had left to the KYA Token Issuer alone.
+* Stated that a `verified` claim is only ever `true`, and corrected a KYA-PAY
+  example that asserted `false`.
 * Required a recipient correlating a PAY token with a KYA token to check that
   both carry the same `iss` and `sub`.
 * Described `sub` as unique rather than pairwise unique. The subject is stable
