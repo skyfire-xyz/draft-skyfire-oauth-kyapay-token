@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-10-01T00:09:34.670321+00:00",
+  "timestamp": "2026-10-04T00:52:33.852838+00:00",
   "repo": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
   "labels": [
     {
@@ -71,15 +71,15 @@
       "id": "I_kwDOQZxkd88AAAABSAO5Rg",
       "title": "Improve verifier description",
       "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/issues/50",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "selfissued",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "In his review, @jadiaconu wrote:\n\n> 3.2.1 What is an example of verifier below ? Is some \"method\" also needed ?\n>\n> verifier:\n> OPTIONAL - URL of the Identity Verifier\n> verified:\n> OPTIONAL - Boolean Verification status. True if verified, otherwise false.\n> verification_id:\n> OPTIONAL - Verification identifier. Identifier for the verification performed, such as a GUID.\n",
       "createdAt": "2026-09-18T18:22:11Z",
-      "updatedAt": "2026-09-28T18:08:01Z",
-      "closedAt": null,
+      "updatedAt": "2026-10-01T21:46:36Z",
+      "closedAt": "2026-10-01T21:46:36Z",
       "comments": [
         {
           "author": "skyfire-ankit",
@@ -3117,24 +3117,26 @@
       "id": "PR_kwDOQZxkd88AAAABFzxOAA",
       "title": "Clarify the meaning of Verifier",
       "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/51",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "selfissued",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Improve definitions and uses of \"verifier\", \"verified\", and \"verification_id\", and differentiate Verifier from Recipient.\r\n\r\nFixes #50 \r\n\r\nCc: @jadiaconu",
       "createdAt": "2026-09-30T02:03:41Z",
-      "updatedAt": "2026-09-30T10:31:35Z",
+      "updatedAt": "2026-10-01T21:46:35Z",
       "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
       "baseRefName": "main",
       "baseRefOid": "c4482fbcdb72b031715901241589c986753e98e5",
       "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
       "headRefName": "mbj-verifier",
       "headRefOid": "29a299f8666273e57e59030628361d6acb209f32",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-10-01T21:46:35Z",
+      "mergedAt": "2026-10-01T21:46:34Z",
+      "mergedBy": "selfissued",
+      "mergeCommit": {
+        "oid": "81da27708198c1533fe1b24968a6f79a989b0181"
+      },
       "comments": [],
       "reviews": [
         {
@@ -3148,6 +3150,19 @@
           "body": "",
           "createdAt": "2026-09-30T10:31:35Z",
           "updatedAt": "2026-09-30T10:31:35Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABQPrYjA",
+          "commit": {
+            "abbreviatedOid": "29a299f"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "lgtm",
+          "createdAt": "2026-10-01T20:32:06Z",
+          "updatedAt": "2026-10-01T20:32:06Z",
           "comments": []
         }
       ]
