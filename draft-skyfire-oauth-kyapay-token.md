@@ -339,8 +339,12 @@ PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
 
 {:vspace}
 `sub`:
-: REQUIRED - Subject Identifier. MUST be pairwise unique within
-  a given issuer.
+: REQUIRED - Subject Identifier. MUST be unique within a given issuer.
+  The subject identifies the combination of identities the token asserts:
+  the human principal (`hid`) when present, the agent platform (`apd`) when
+  present, and the agent (`aid`). An issuer MUST NOT use the same `sub`
+  value for two different combinations of these identities, and MUST assign
+  a new `sub` when any of them changes.
 
 {:vspace}
 `aud`:
@@ -456,7 +460,7 @@ The following informative example displays a decoded KYA type token.
   "iat": 1742245254,
   "exp": 1742245554,
   "jti": "b9821893-7699-4d24-af06-803a6a16476b",
-  "sub": "bb713104-c14e-460f-9b7c-f8140fa9bea4", // Initiator Agent Account ID
+  "sub": "bb713104-c14e-460f-9b7c-f8140fa9bea4", // Bound identity combination: hid + apd + aid
   "aud": "7434230d-0861-46f2-9c2c-a6ee33d07f17", // Target Agent Account ID
 
   "env": "production",
@@ -584,6 +588,9 @@ The `aid` claim is REQUIRED. It contains the following sub-claims.
 {:vspace}
 `name`:
 : REQUIRED - Agent name. The name should reflect the business purpose of the agent.
+  The name MUST be unique among the agents of a given agent platform at a given
+  issuer, so that the issuer, the agent platform and the agent name together
+  identify the agent unambiguously.
 
 {:vspace}
 `creation_ip`:
@@ -737,7 +744,7 @@ The following informative example displays a decoded PAY type token.
   "iat": 1742245254,
   "exp": 1742245554,
   "jti": "b9821893-7699-4d24-af06-803a6a16476b",
-  "sub": "8b810549-7443-494f-b4ad-5bc65871e32b", // Initiator Agent Account ID
+  "sub": "8b810549-7443-494f-b4ad-5bc65871e32b", // Bound identity combination: hid + apd + aid
   "aud": "37888095-2721-48d9-a2df-bfe4075f223a", // Target Agent Account ID
 
   "env": "sandbox",
@@ -780,7 +787,7 @@ The following informative example displays a decoded KYA-PAY type token.
   "iat": 1742245254,
   "exp": 1742245554,
   "jti": "b9821893-7699-4d24-af06-803a6a16476b",
-  "sub": "f24a431d-108c-46e6-9357-b428c528210e", // Initiator Agent Account ID
+  "sub": "f24a431d-108c-46e6-9357-b428c528210e", // Bound identity combination: hid + apd + aid
   "aud": "5e00177d-ff7f-424b-8c83-2756e15efbed", // Target Agent Account ID
 
   "env": "production",
@@ -1001,6 +1008,17 @@ Issuers SHOULD include `cnf` where the agent holds a suitable key and the target
 is expected to enforce it. Issuers MUST NOT rely on `cnf` as a substitute for
 the bearer-token protections above, since a token carrying `cnf` may still be
 presented to a recipient that does not enforce it.
+
+## Identity Binding
+
+The subject binds the human principal, the agent platform and the agent
+together, and the issuer's signature covers all of them. A recipient can
+therefore attribute a request to all of the parties the token names, and no
+party can combine one token's identity claims with another's without the
+issuer. Because the subject changes when any of the bound identities changes,
+a recipient MAY use `sub` as a stable key for that combination, for example to
+rate-limit or isolate a particular agent without affecting other agents acting
+for the same principal.
 
 # Privacy Considerations
 
@@ -1249,6 +1267,19 @@ for his contributions to the specification.
 {: numbered="false"}
 
 [[ to be removed by the RFC Editor before publication as an RFC ]]
+
+-03
+
+* Stated that the subject identifies the combination of identities the token
+  asserts, and that a change to any of them gives a new subject.
+* Described `sub` as unique rather than pairwise unique. The subject is stable
+  for a given combination across audiences, so the OpenID Connect sense of
+  pairwise did not apply.
+* Stated that an agent name is unique within an agent platform at a given
+  issuer.
+* Added Identity Binding to the Security Considerations.
+* Corrected the example comments on `sub`, which described the subject as an
+  agent account identifier.
 
 -02
 
