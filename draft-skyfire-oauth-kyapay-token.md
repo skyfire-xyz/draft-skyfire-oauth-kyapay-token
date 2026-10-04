@@ -345,12 +345,14 @@ PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
   An issuer MUST use the same `sub` value while that combination remains
   unchanged, MUST NOT use that value for a different combination, and MUST
   assign a new `sub` when any of those identities changes. KYA and KYA-PAY
-  tokens carry these identities as the `hid`, `apd` and `aid` claims. PAY
-  tokens do not carry them, but the subject identifies the same combination,
-  since an issuer does not issue a token without having verified the
-  initiator. Tokens of different types issued for the same initiator therefore
-  carry the same `sub`, and a recipient MAY use it to associate a PAY token
-  with a KYA token from the same issuer.
+  tokens carry the human principal and the agent as the `hid` and `aid`
+  claims, and carry the agent platform as the `apd` claim where it is
+  identified. PAY tokens carry none of them. The subject identifies the same
+  combination in either case, since an issuer does not issue a token without
+  having verified the initiator. Tokens of different types issued for the same
+  initiator therefore carry the same `sub`. A recipient MAY associate a PAY
+  token with a KYA token on that basis, but MUST treat them as referring to
+  the same initiator only when both the `iss` and the `sub` values are equal.
 
 {:vspace}
 `aud`:
@@ -439,8 +441,7 @@ The following identity related claims are used within KYA and KYA-PAY tokens:
 
 {:vspace}
 `hid`:
-: REQUIRED (Required for human identity use cases) - A map of human identity
-  claims (individual or organization).
+: REQUIRED - A map of human identity claims (individual or organization).
 
 {:vspace}
 `apd`:
@@ -992,7 +993,7 @@ the window in which a captured token can be replayed.
 More generally, issuers SHOULD set `exp` to the shortest value compatible with
 the intended interaction.
 
-## Bearer Semantics and Proof of Possession
+## Bearer Semantics and Proof of Possession {#bearer-semantics}
 
 Tokens defined in this specification are bearer tokens unless they carry a
 confirmation method: any party in possession of such a token can present it. For
@@ -1019,11 +1020,13 @@ presented to a recipient that does not enforce it.
 
 The subject binds the human principal, the agent platform and the agent
 together, and the issuer's signature covers all of them. A recipient can
-therefore verify that the issuer associated the parties named by the token;
-altering or combining identity claims from different tokens invalidates the
-signature. This does not authenticate the presenter unless sender constraint
-is enforced. Because the subject is stable while the bound identities are
-unchanged,
+therefore verify that the issuer associated the parties named by the token
+(see {{bearer-semantics}}). Modifying any of those claims within a token
+invalidates its signature. Combining claims taken from two separately signed
+tokens does not invalidate either signature, so a recipient that correlates
+tokens MUST check that both carry the same `iss` and `sub` values before
+treating them as referring to the same initiator. Because the subject is
+stable while the bound identities are unchanged,
 a recipient MAY use `sub` as a stable key for that combination, for example to
 rate-limit or isolate a particular agent without affecting other agents acting
 for the same principal.
@@ -1289,6 +1292,10 @@ for his contributions to the specification.
   tokens, but the subject identifies the same combination in all three.
 * Disclosed in the Privacy Considerations that a stable subject is
   correlatable across audiences.
+* Removed the qualifier on `hid`, which read as though the claim were required
+  only for some use cases.
+* Required a recipient correlating a PAY token with a KYA token to check that
+  both carry the same `iss` and `sub`.
 * Described `sub` as unique rather than pairwise unique. The subject is stable
   for a given combination across audiences, so the OpenID Connect sense of
   pairwise did not apply.
