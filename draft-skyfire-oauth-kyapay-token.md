@@ -542,6 +542,9 @@ principal (individual or organization) as follows.
   An issuer does not issue a token carrying unverified identity claims, so a token
   never asserts `false`. The claim gives a recipient an explicit affirmative signal
   rather than requiring it to infer verification from other claims.
+  A recipient that receives `false` MUST treat the claim as not asserting
+  verification, and MUST NOT treat the token as carrying a verified identity on
+  the strength of the claim's presence.
 
 {:vspace}
 `verification_id`:
@@ -586,6 +589,9 @@ The `apd` claim is OPTIONAL. If present, it contains the following sub-claims.
   An issuer does not issue a token carrying unverified Know Your Agent claims, so a
   token never asserts `false`. The claim gives a recipient an explicit affirmative
   signal rather than requiring it to infer verification from other claims.
+  A recipient that receives `false` MUST treat the claim as not asserting
+  verification, and MUST NOT treat the token as carrying a verified identity on
+  the strength of the claim's presence.
 
 {:vspace}
 `verification_id`:
@@ -724,6 +730,9 @@ PAN or the network's agentic token.
   An issuer does not issue a token against an unverified payment method, so a token
   never asserts `false`. The claim gives a recipient an explicit affirmative signal
   rather than requiring it to infer verification from other claims.
+  A recipient that receives `false` MUST treat the claim as not asserting
+  verification, and MUST NOT treat the token as carrying a verified payment
+  method on the strength of the claim's presence.
 
 {:vspace}
 `verification_id`:
@@ -1310,7 +1319,10 @@ for his contributions to the specification.
 * Stated that a Payment Token Issuer verifies the Initiator, which the role
   definition had left to the KYA Token Issuer alone.
 * Stated that a `verified` claim is only ever `true`, and corrected a KYA-PAY
-  example that asserted `false`.
+  example that asserted `false`. This is a compatibility change: the previous
+  definition admitted `false`, so a token carrying that value conformed to -02
+  and does not conform here. Recipient behaviour on receiving `false` is
+  specified alongside each claim.
 * Required a recipient correlating a PAY token with a KYA token to check that
   both carry the same `iss` and `sub`.
 * Described `sub` as unique rather than pairwise unique. The subject is stable
