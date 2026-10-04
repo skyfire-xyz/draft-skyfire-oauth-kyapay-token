@@ -1034,8 +1034,9 @@ for the same principal.
 # Privacy Considerations
 
 The subject identifier is stable for a given combination of identities across
-audiences. Recipients that compare tokens can therefore recognize the same
-human principal, agent platform and agent combination at different targets.
+audiences, within the namespace of a single issuer. Recipients that compare
+tokens from the same issuer can therefore recognize the same human principal,
+agent platform and agent combination at different targets.
 
 KYAPay tokens are designed to convey the information that
 an agent is acting on behalf of a principal - a person or organization.
