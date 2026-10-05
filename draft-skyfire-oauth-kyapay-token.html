@@ -22,18 +22,18 @@ tokens in an interoperable manner.
 <meta content="draft-skyfire-oauth-kyapay-token-latest" name="ietf.draft">
 <!-- Generator version information:
   xml2rfc 3.34.1
-    Python 3.14.7
-    ConfigArgParse 1.7.7
+    Python 3.14.8
+    ConfigArgParse 1.8.0
     google-i18n-address 3.1.1
     intervaltree 3.2.1
     Jinja2 3.1.6
     lxml 6.1.1
     natsort 8.4.0
-    platformdirs 4.11.10
+    platformdirs 4.12.2
     pycountry 24.6.1
     PyYAML 6.0.3
     requests 2.33.1
-    wcwidth 0.8.4
+    wcwidth 0.9.1
 -->
 <link href="draft-skyfire-oauth-kyapay-token.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1053,7 +1053,7 @@ svg {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Agarwal &amp; Jones</td>
-<td class="center">Expires 4 April 2027</td>
+<td class="center">Expires 8 April 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1066,12 +1066,12 @@ svg {
 <dd class="internet-draft">draft-skyfire-oauth-kyapay-token-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-10-01" class="published">1 October 2026</time>
+<time datetime="2026-10-05" class="published">5 October 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-04-04">4 April 2027</time></dd>
+<dd class="expires"><time datetime="2027-04-08">8 April 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1123,7 +1123,7 @@ tokens in an interoperable manner.<a href="#section-abstract-1" class="pilcrow">
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 4 April 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 8 April 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1260,6 +1260,9 @@ tokens in an interoperable manner.<a href="#section-abstract-1" class="pilcrow">
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.5">
                 <p id="section-toc.1-1.5.2.5.1"><a href="#section-5.5" class="auto internal xref">5.5</a>.  <a href="#name-bearer-semantics-and-proof-" class="internal xref">Bearer Semantics and Proof of Possession</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.6">
+                <p id="section-toc.1-1.5.2.6.1"><a href="#section-5.6" class="auto internal xref">5.6</a>.  <a href="#name-identity-binding" class="internal xref">Identity Binding</a></p>
 </li>
             </ul>
 </li>
@@ -1625,7 +1628,10 @@ Principal, Agent, and Agent Platform, for both Initiators and Targets.<a href="#
               <p id="section-2.1.3-1.4.1">A trusted entity responsible for facilitating the exchange of payments and
 credentials between the Initiator and Target. It issues signed <code>pay</code> tokens that
 enable settlement via various schemes (Cards, Banks, Cryptocurrency), without
-exposing raw credentials or secrets.<a href="#section-2.1.3-1.4.1" class="pilcrow">¶</a></p>
+exposing raw credentials or secrets. Like a KYA Token Issuer, it conducts Know
+Your Customer (KYC) and Know Your Business (KYB) verifications of the Initiator.
+KYAPay does not provide for anonymous payment, so a Payment Token Issuer does
+not issue a <code>pay</code> token for an Initiator it has not verified.<a href="#section-2.1.3-1.4.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-2.1.3-1.5">Verifier:</dt>
@@ -1668,8 +1674,20 @@ signature verification, as described in <a href="#key-discovery" class="auto int
 <dt id="section-3.1-2.3">
 <code>sub</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-3.1-2.4">
-            <p id="section-3.1-2.4.1"><span class="bcp14">REQUIRED</span> - Subject Identifier. <span class="bcp14">MUST</span> be pairwise unique within
-a given issuer.<a href="#section-3.1-2.4.1" class="pilcrow">¶</a></p>
+            <p id="section-3.1-2.4.1"><span class="bcp14">REQUIRED</span> - Subject Identifier. <span class="bcp14">MUST</span> be unique within a given issuer.
+The subject identifies the combination of identities the issuer has verified
+for the initiator: the human principal, the agent platform and the agent.
+An issuer <span class="bcp14">MUST</span> use the same <code>sub</code> value while that combination remains
+unchanged, <span class="bcp14">MUST NOT</span> use that value for a different combination, and <span class="bcp14">MUST</span>
+assign a new <code>sub</code> when any of those identities changes. KYA and KYA-PAY
+tokens carry the human principal and the agent as the <code>hid</code> and <code>aid</code>
+claims, and carry the agent platform as the <code>apd</code> claim where it is
+identified. PAY tokens carry none of them. The subject identifies the same
+combination in either case, since an issuer does not issue a token without
+having verified the initiator. Tokens of different types issued by the same
+issuer for the same initiator therefore carry the same <code>sub</code>. A recipient <span class="bcp14">MAY</span> associate a PAY
+token with a KYA token on that basis, but <span class="bcp14">MUST</span> treat them as referring to
+the same initiator only when both the <code>iss</code> and the <code>sub</code> values are equal.<a href="#section-3.1-2.4.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-3.1-2.5">
@@ -1785,8 +1803,7 @@ replace it.<a href="#section-3.2-4" class="pilcrow">¶</a></p>
           <dt id="section-3.3-2.1">
 <code>hid</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-3.3-2.2">
-            <p id="section-3.3-2.2.1"><span class="bcp14">REQUIRED</span> (Required for human identity use cases) - A map of human identity
-claims (individual or organization).<a href="#section-3.3-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-3.3-2.2.1"><span class="bcp14">REQUIRED</span> - A map of human identity claims (individual or organization).<a href="#section-3.3-2.2.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-3.3-2.3">
@@ -1821,7 +1838,7 @@ claims (individual or organization).<a href="#section-3.3-2.2.1" class="pilcrow"
   "iat": 1742245254,
   "exp": 1742245554,
   "jti": "b9821893-7699-4d24-af06-803a6a16476b",
-  "sub": "bb713104-c14e-460f-9b7c-f8140fa9bea4", // Initiator Agent Account ID
+  "sub": "bb713104-c14e-460f-9b7c-f8140fa9bea4", // Bound identity combination: hid + apd + aid
   "aud": "7434230d-0861-46f2-9c2c-a6ee33d07f17", // Target Agent Account ID
 
   "env": "production",
@@ -1910,7 +1927,13 @@ individual.<a href="#section-3.3.1-2.8.1" class="pilcrow">¶</a></p>
 <dt id="section-3.3.1-2.15">
 <code>verified</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.3.1-2.16">
-              <p id="section-3.3.1-2.16.1"><span class="bcp14">OPTIONAL</span> - Boolean Verification status.  True if identity verified, otherwise false.<a href="#section-3.3.1-2.16.1" class="pilcrow">¶</a></p>
+              <p id="section-3.3.1-2.16.1"><span class="bcp14">OPTIONAL</span> - Boolean verification status. When present, the value <span class="bcp14">MUST</span> be <code>true</code>.
+An issuer does not issue a token carrying unverified identity claims, so a token
+never asserts <code>false</code>. The claim gives a recipient an explicit affirmative signal
+rather than requiring it to infer verification from other claims.
+A recipient that receives <code>false</code> <span class="bcp14">MUST</span> treat the claim as not asserting
+verification, and <span class="bcp14">MUST NOT</span> treat the token as carrying a verified identity on
+the strength of the claim's presence.<a href="#section-3.3.1-2.16.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.3.1-2.17">
@@ -1972,7 +1995,13 @@ The recipient <span class="bcp14">MUST</span> ignore any unrecognized sub-claims
 <dt id="section-3.3.2-2.13">
 <code>verified</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.3.2-2.14">
-              <p id="section-3.3.2-2.14.1"><span class="bcp14">OPTIONAL</span> - Boolean Verification status.  True if KYA verified, otherwise false.<a href="#section-3.3.2-2.14.1" class="pilcrow">¶</a></p>
+              <p id="section-3.3.2-2.14.1"><span class="bcp14">OPTIONAL</span> - Boolean verification status. When present, the value <span class="bcp14">MUST</span> be <code>true</code>.
+An issuer does not issue a token carrying unverified Know Your Agent claims, so a
+token never asserts <code>false</code>. The claim gives a recipient an explicit affirmative
+signal rather than requiring it to infer verification from other claims.
+A recipient that receives <code>false</code> <span class="bcp14">MUST</span> treat the claim as not asserting
+verification, and <span class="bcp14">MUST NOT</span> treat the token as carrying a verified identity on
+the strength of the claim's presence.<a href="#section-3.3.2-2.14.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.3.2-2.15">
@@ -1998,7 +2027,10 @@ The recipient <span class="bcp14">MUST</span> ignore any unrecognized sub-claims
             <dt id="section-3.3.3-2.1">
 <code>name</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.3.3-2.2">
-              <p id="section-3.3.3-2.2.1"><span class="bcp14">REQUIRED</span> - Agent name. The name should reflect the business purpose of the agent.<a href="#section-3.3.3-2.2.1" class="pilcrow">¶</a></p>
+              <p id="section-3.3.3-2.2.1"><span class="bcp14">REQUIRED</span> - Agent name. The name should reflect the business purpose of the agent.
+The name <span class="bcp14">MUST</span> be unique among the agents of a given agent platform at a given
+issuer, so that the issuer, the agent platform and the agent name together
+identify the agent unambiguously.<a href="#section-3.3.3-2.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.3.3-2.3">
@@ -2155,7 +2187,13 @@ by the payment network. It <span class="bcp14">MUST NOT</span> be a static Card 
 <dt id="section-3.4.1-4.13">
 <code>verified</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.4.1-4.14">
-              <p id="section-3.4.1-4.14.1"><span class="bcp14">OPTIONAL</span> - Boolean Verification status.  True if verified, otherwise false.<a href="#section-3.4.1-4.14.1" class="pilcrow">¶</a></p>
+              <p id="section-3.4.1-4.14.1"><span class="bcp14">OPTIONAL</span> - Boolean verification status. When present, the value <span class="bcp14">MUST</span> be <code>true</code>.
+An issuer does not issue a token against an unverified payment method, so a token
+never asserts <code>false</code>. The claim gives a recipient an explicit affirmative signal
+rather than requiring it to infer verification from other claims.
+A recipient that receives <code>false</code> <span class="bcp14">MUST</span> treat the claim as not asserting
+verification, and <span class="bcp14">MUST NOT</span> treat the token as carrying a verified payment
+method on the strength of the claim's presence.<a href="#section-3.4.1-4.14.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.4.1-4.15">
@@ -2207,7 +2245,7 @@ not attempt to carry them in the claims defined here.<a href="#section-3.4.2-3" 
   "iat": 1742245254,
   "exp": 1742245554,
   "jti": "b9821893-7699-4d24-af06-803a6a16476b",
-  "sub": "8b810549-7443-494f-b4ad-5bc65871e32b", // Initiator Agent Account ID
+  "sub": "8b810549-7443-494f-b4ad-5bc65871e32b", // Bound identity combination: hid + apd + aid
   "aud": "37888095-2721-48d9-a2df-bfe4075f223a", // Target Agent Account ID
 
   "env": "sandbox",
@@ -2262,7 +2300,7 @@ not attempt to carry them in the claims defined here.<a href="#section-3.4.2-3" 
   "iat": 1742245254,
   "exp": 1742245554,
   "jti": "b9821893-7699-4d24-af06-803a6a16476b",
-  "sub": "f24a431d-108c-46e6-9357-b428c528210e", // Initiator Agent Account ID
+  "sub": "f24a431d-108c-46e6-9357-b428c528210e", // Bound identity combination: hid + apd + aid
   "aud": "5e00177d-ff7f-424b-8c83-2756e15efbed", // Target Agent Account ID
 
   "env": "production",
@@ -2275,7 +2313,7 @@ not attempt to carry them in the claims defined here.<a href="#section-3.4.2-3" 
     "middle_name": "Jane",
     "family_name": "Doe",
     "phone_number": "+1-425-555-1212",
-    "verified": false
+    "verified": true // Outcome of the verifier's KYA verification
   },
   "apd": {
     "id": "4b087db2-b6e5-48b8-8737-1aa8ddf4c4fe", // Agent platform ID
@@ -2547,7 +2585,7 @@ the window in which a captured token can be replayed.<a href="#section-5.4-1" cl
 the intended interaction.<a href="#section-5.4-2" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="bearer-semantics-and-proof-of-possession">
+<div id="bearer-semantics">
 <section id="section-5.5">
         <h3 id="name-bearer-semantics-and-proof-">
 <a href="#section-5.5" class="section-number selfRef">5.5. </a><a href="#name-bearer-semantics-and-proof-" class="section-name selfRef">Bearer Semantics and Proof of Possession</a>
@@ -2571,6 +2609,25 @@ the bearer-token protections above, since a token carrying <code>cnf</code> may 
 presented to a recipient that does not enforce it.<a href="#section-5.5-4" class="pilcrow">¶</a></p>
 </section>
 </div>
+<div id="identity-binding">
+<section id="section-5.6">
+        <h3 id="name-identity-binding">
+<a href="#section-5.6" class="section-number selfRef">5.6. </a><a href="#name-identity-binding" class="section-name selfRef">Identity Binding</a>
+        </h3>
+<p id="section-5.6-1">The subject binds the human principal, the agent platform and the agent
+together, and the issuer's signature covers all of them. A recipient can
+therefore verify that the issuer associated the parties named by the token
+(see <a href="#bearer-semantics" class="auto internal xref">Section 5.5</a>). Modifying any of those claims within a token
+invalidates its signature. Combining claims taken from two separately signed
+tokens does not invalidate either signature, so a recipient that correlates
+tokens <span class="bcp14">MUST</span> check that both carry the same <code>iss</code> and <code>sub</code> values before
+treating them as referring to the same initiator. Because the subject is
+stable while the bound identities are unchanged,
+a recipient <span class="bcp14">MAY</span> use <code>sub</code> as a stable key for that combination, for example to
+rate-limit or isolate a particular agent without affecting other agents acting
+for the same principal.<a href="#section-5.6-1" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="privacy-considerations">
@@ -2578,22 +2635,26 @@ presented to a recipient that does not enforce it.<a href="#section-5.5-4" class
       <h2 id="name-privacy-considerations">
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-privacy-considerations" class="section-name selfRef">Privacy Considerations</a>
       </h2>
-<p id="section-6-1">KYAPay tokens are designed to convey the information that
+<p id="section-6-1">The subject identifier is stable for a given combination of identities across
+audiences, within the namespace of a single issuer. Recipients that compare
+tokens from the same issuer can therefore recognize the same human principal,
+agent platform and agent combination at different targets.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<p id="section-6-2">KYAPay tokens are designed to convey the information that
 an agent is acting on behalf of a principal - a person or organization.
 To do this, they will necessarily contain information about that principal
 that can be verified and utilized by participants in the system.
 Participants should therefore only share these tokens with other legitimate
 participants and not make their contents public or disclose them to
-unknown or untrustworthy parties.<a href="#section-6-1" class="pilcrow">¶</a></p>
-<p id="section-6-2">Consent of the principal represented to participate in the interactions is vital.
+unknown or untrustworthy parties.<a href="#section-6-2" class="pilcrow">¶</a></p>
+<p id="section-6-3">Consent of the principal represented to participate in the interactions is vital.
 If I authorize an agent to shop for a widget at given price,
 it's legitimate for the agent to carry enough information about me
 to the merchant to be able to do this for me.
 Whereas, if an agent claims to be shopping for me but does not have my authorization
-to do so, my privacy and possibly also my financial integrity are being violated.<a href="#section-6-2" class="pilcrow">¶</a></p>
-<p id="section-6-3">The principle of minimal disclosure should be employed.
+to do so, my privacy and possibly also my financial integrity are being violated.<a href="#section-6-3" class="pilcrow">¶</a></p>
+<p id="section-6-4">The principle of minimal disclosure should be employed.
 Only the information needed to facilitate the intended interactions
-should be placed in the tokens and conveyed to participants.<a href="#section-6-3" class="pilcrow">¶</a></p>
+should be placed in the tokens and conveyed to participants.<a href="#section-6-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="iana-considerations">
@@ -3251,15 +3312,15 @@ keys with which the origin signs KYAPay tokens.<a href="#section-7.3-2.5.1" clas
 <dl class="references">
 <dt id="I-D.skyfire-oauth-aml-methods">[I-D.skyfire-oauth-aml-methods]</dt>
         <dd>
-<span class="refAuthor">Agarwal, A.</span>, <span class="refAuthor">Jones, M. B.</span>, and <span class="refAuthor">N. Ali</span>, <span class="refTitle">"Anti-Money Laundering Methods Values"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-skyfire-oauth-aml-methods-00</span>, <time datetime="2026-07-18" class="refDate">18 July 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-aml-methods-00">https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-aml-methods-00</a>&gt;</span>. </dd>
+<span class="refAuthor">Agarwal, A.</span>, <span class="refAuthor">Jones, M. B.</span>, and <span class="refAuthor">N. Ali</span>, <span class="refTitle">"Anti-Money Laundering Methods Values"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-skyfire-oauth-aml-methods-01</span>, <time datetime="2026-10-01" class="refDate">1 October 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-aml-methods-01">https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-aml-methods-01</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.skyfire-oauth-amr-values">[I-D.skyfire-oauth-amr-values]</dt>
         <dd>
-<span class="refAuthor">Agarwal, A.</span>, <span class="refAuthor">Jones, M. B.</span>, <span class="refAuthor">Ali, N.</span>, and <span class="refAuthor">Srinivasa</span>, <span class="refTitle">"Additional Authentication Method Reference Values"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-skyfire-oauth-amr-values-01</span>, <time datetime="2026-07-19" class="refDate">19 July 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-amr-values-01">https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-amr-values-01</a>&gt;</span>. </dd>
+<span class="refAuthor">Agarwal, A.</span>, <span class="refAuthor">Jones, M. B.</span>, <span class="refAuthor">Ali, N.</span>, and <span class="refAuthor">Srinivasa</span>, <span class="refTitle">"Additional Authentication Method Reference Values"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-skyfire-oauth-amr-values-02</span>, <time datetime="2026-10-01" class="refDate">1 October 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-amr-values-02">https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-amr-values-02</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.skyfire-oauth-id-verification">[I-D.skyfire-oauth-id-verification]</dt>
         <dd>
-<span class="refAuthor">Agarwal, A.</span>, <span class="refAuthor">Jones, M. B.</span>, <span class="refAuthor">Ali, N.</span>, and <span class="refAuthor">Srinivasa</span>, <span class="refTitle">"Identity Verification Methods Values"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-skyfire-oauth-id-verification-01</span>, <time datetime="2026-07-19" class="refDate">19 July 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-id-verification-01">https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-id-verification-01</a>&gt;</span>. </dd>
+<span class="refAuthor">Agarwal, A.</span>, <span class="refAuthor">Jones, M. B.</span>, <span class="refAuthor">Ali, N.</span>, and <span class="refAuthor">Srinivasa</span>, <span class="refTitle">"Identity Verification Methods Values"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-skyfire-oauth-id-verification-02</span>, <time datetime="2026-10-01" class="refDate">1 October 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-id-verification-02">https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-id-verification-02</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.skyfire-oauth-kyapay-token-exchange">[I-D.skyfire-oauth-kyapay-token-exchange]</dt>
         <dd>
@@ -3267,7 +3328,7 @@ keys with which the origin signs KYAPay tokens.<a href="#section-7.3-2.5.1" clas
 <dd class="break"></dd>
 <dt id="I-D.skyfire-oauth-using-kyapay-tokens">[I-D.skyfire-oauth-using-kyapay-tokens]</dt>
         <dd>
-<span class="refAuthor">Agarwal, A.</span>, <span class="refAuthor">Jones, M. B.</span>, and <span class="refAuthor">Srinivasa</span>, <span class="refTitle">"Using KYAPay Tokens"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-skyfire-oauth-using-kyapay-tokens-00</span>, <time datetime="2026-07-19" class="refDate">19 July 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-using-kyapay-tokens-00">https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-using-kyapay-tokens-00</a>&gt;</span>. </dd>
+<span class="refAuthor">Agarwal, A.</span>, <span class="refAuthor">Jones, M. B.</span>, and <span class="refAuthor">Srinivasa</span>, <span class="refTitle">"Using KYAPay Tokens"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-skyfire-oauth-using-kyapay-tokens-01</span>, <time datetime="2026-10-01" class="refDate">1 October 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-using-kyapay-tokens-01">https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-using-kyapay-tokens-01</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="IANA.JWT.Claims">[IANA.JWT.Claims]</dt>
         <dd>
@@ -3347,104 +3408,153 @@ for his contributions to the specification.<a href="#appendix-B-1" class="pilcro
 <a href="#name-document-history" class="section-name selfRef">Document History</a>
       </h2>
 <p id="appendix-C-1">[[ to be removed by the RFC Editor before publication as an RFC ]]<a href="#appendix-C-1" class="pilcrow">¶</a></p>
-<p id="appendix-C-2">-02<a href="#appendix-C-2" class="pilcrow">¶</a></p>
+<p id="appendix-C-2">-03<a href="#appendix-C-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-C-3.1">
-          <p id="appendix-C-3.1.1">Corrected the <code>sti</code> sub-claim names in the PAY and KYA-PAY examples to match
-the normative names in the Settlement Information section (<code>payment_token</code>,
-<code>token_expiration_month</code>, <code>token_expiration_year</code>, <code>token_security_code</code>).
-The examples had retained the pre-rename camelCase forms.<a href="#appendix-C-3.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.1.1">Stated that the subject identifies the combination of identities the issuer
+has verified for the initiator, that it is stable while those identities are
+unchanged, and that a change to any of them gives a new subject. The
+identities are carried as claims in KYA and KYA-PAY tokens and not in PAY
+tokens, but the subject identifies the same combination in all three.<a href="#appendix-C-3.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.2">
-          <p id="appendix-C-3.2.1">Clarified that the card settlement instrument is a network-issued agentic
-payment credential and that <code>token_security_code</code> carries a single-use token
-cryptogram, not a static CVV.<a href="#appendix-C-3.2.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.2.1">Disclosed in the Privacy Considerations that a stable subject is
+correlatable across audiences.<a href="#appendix-C-3.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.3">
-          <p id="appendix-C-3.3.1">Made the <code>aid</code> and <code>sti</code> claims <span class="bcp14">REQUIRED</span>, and marked the <code>sti</code> sub-claim
-requirement levels individually.<a href="#appendix-C-3.3.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.3.1">Removed the qualifier on <code>hid</code>, which read as though the claim were required
+only for some use cases.<a href="#appendix-C-3.3.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.4">
-          <p id="appendix-C-3.4.1">Added the <code>cnf</code> (confirmation) claim, binding a token to a key held by the
-agent, and described the resulting sender-constrained semantics.<a href="#appendix-C-3.4.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.4.1">Stated that a Payment Token Issuer verifies the Initiator, which the role
+definition had left to the KYA Token Issuer alone.<a href="#appendix-C-3.4.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.5">
-          <p id="appendix-C-3.5.1">Added a Scope of Card Settlement section prohibiting Primary Account Numbers
-and static card verification values.<a href="#appendix-C-3.5.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.5.1">Stated that a <code>verified</code> claim is only ever <code>true</code>, and corrected a KYA-PAY
+example that asserted <code>false</code>. This is a compatibility change: the previous
+definition admitted <code>false</code>, so a token carrying that value conformed to -02
+and does not conform here. Recipient behaviour on receiving <code>false</code> is
+specified alongside each claim.<a href="#appendix-C-3.5.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.6">
-          <p id="appendix-C-3.6.1">Expanded Security Considerations to cover confidentiality of token contents,
-settlement credential handling, token lifetime, and bearer versus
-sender-constrained semantics.<a href="#appendix-C-3.6.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.6.1">Required a recipient correlating a PAY token with a KYA token to check that
+both carry the same <code>iss</code> and <code>sub</code>.<a href="#appendix-C-3.6.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.7">
-          <p id="appendix-C-3.7.1">Tightened JWT header validation: an <code>alg</code> value of <code>none</code> and algorithm
-substitution are rejected.<a href="#appendix-C-3.7.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.7.1">Described <code>sub</code> as unique rather than pairwise unique. The subject is stable
+for a given combination across audiences, so the OpenID Connect sense of
+pairwise did not apply.<a href="#appendix-C-3.7.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.8">
-          <p id="appendix-C-3.8.1">Corrected a missing comma in the KYA token example, and shortened the example
-token lifetimes, which had exceeded a year.<a href="#appendix-C-3.8.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.8.1">Stated that an agent name is unique within an agent platform at a given
+issuer.<a href="#appendix-C-3.8.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.9">
-          <p id="appendix-C-3.9.1">Added {:vspace} syntax to definition list entries.<a href="#appendix-C-3.9.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.9.1">Added Identity Binding to the Security Considerations.<a href="#appendix-C-3.9.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.10">
-          <p id="appendix-C-3.10.1">Required the <code>iss</code> claim to be an origin, with no path, query or fragment
-component, and corrected the example <code>iss</code> values accordingly; one had lacked
-a scheme.<a href="#appendix-C-3.10.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-C-3.11">
-          <p id="appendix-C-3.11.1">Added an Issuer Key Discovery section specifying that the issuer's JWK Set is
-located at the <code>jwks.json</code> well-known URI formed from <code>iss</code>, and registered
-that URI suffix with IANA.<a href="#appendix-C-3.11.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-C-3.12">
-          <p id="appendix-C-3.12.1">Added a Clock Skew section bounding the tolerance applied to the "iat" and
-"exp" claims, and requiring senders to correct skew they can observe.<a href="#appendix-C-3.12.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-C-3.13">
-          <p id="appendix-C-3.13.1">Addressed review comments by Jean Diaconu.<a href="#appendix-C-3.13.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-C-3.14">
-          <p id="appendix-C-3.14.1">Clarified the meaning of Verifier and differentiated from Recipient.<a href="#appendix-C-3.14.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.10.1">Corrected the example comments on <code>sub</code>, which described the subject as an
+agent account identifier.<a href="#appendix-C-3.10.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-C-4">-01<a href="#appendix-C-4" class="pilcrow">¶</a></p>
+<p id="appendix-C-4">-02<a href="#appendix-C-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-C-5.1">
-          <p id="appendix-C-5.1.1">Added appendix referencing related specifications.<a href="#appendix-C-5.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-5.1.1">Corrected the <code>sti</code> sub-claim names in the PAY and KYA-PAY examples to match
+the normative names in the Settlement Information section (<code>payment_token</code>,
+<code>token_expiration_month</code>, <code>token_expiration_year</code>, <code>token_security_code</code>).
+The examples had retained the pre-rename camelCase forms.<a href="#appendix-C-5.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-5.2">
+          <p id="appendix-C-5.2.1">Clarified that the card settlement instrument is a network-issued agentic
+payment credential and that <code>token_security_code</code> carries a single-use token
+cryptogram, not a static CVV.<a href="#appendix-C-5.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-5.3">
+          <p id="appendix-C-5.3.1">Made the <code>aid</code> and <code>sti</code> claims <span class="bcp14">REQUIRED</span>, and marked the <code>sti</code> sub-claim
+requirement levels individually.<a href="#appendix-C-5.3.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-5.4">
+          <p id="appendix-C-5.4.1">Added the <code>cnf</code> (confirmation) claim, binding a token to a key held by the
+agent, and described the resulting sender-constrained semantics.<a href="#appendix-C-5.4.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-5.5">
+          <p id="appendix-C-5.5.1">Added a Scope of Card Settlement section prohibiting Primary Account Numbers
+and static card verification values.<a href="#appendix-C-5.5.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-5.6">
+          <p id="appendix-C-5.6.1">Expanded Security Considerations to cover confidentiality of token contents,
+settlement credential handling, token lifetime, and bearer versus
+sender-constrained semantics.<a href="#appendix-C-5.6.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-5.7">
+          <p id="appendix-C-5.7.1">Tightened JWT header validation: an <code>alg</code> value of <code>none</code> and algorithm
+substitution are rejected.<a href="#appendix-C-5.7.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-5.8">
+          <p id="appendix-C-5.8.1">Corrected a missing comma in the KYA token example, and shortened the example
+token lifetimes, which had exceeded a year.<a href="#appendix-C-5.8.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-5.9">
+          <p id="appendix-C-5.9.1">Added {:vspace} syntax to definition list entries.<a href="#appendix-C-5.9.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-5.10">
+          <p id="appendix-C-5.10.1">Required the <code>iss</code> claim to be an origin, with no path, query or fragment
+component, and corrected the example <code>iss</code> values accordingly; one had lacked
+a scheme.<a href="#appendix-C-5.10.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-5.11">
+          <p id="appendix-C-5.11.1">Added an Issuer Key Discovery section specifying that the issuer's JWK Set is
+located at the <code>jwks.json</code> well-known URI formed from <code>iss</code>, and registered
+that URI suffix with IANA.<a href="#appendix-C-5.11.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-5.12">
+          <p id="appendix-C-5.12.1">Added a Clock Skew section bounding the tolerance applied to the "iat" and
+"exp" claims, and requiring senders to correct skew they can observe.<a href="#appendix-C-5.12.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-5.13">
+          <p id="appendix-C-5.13.1">Addressed review comments by Jean Diaconu.<a href="#appendix-C-5.13.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-5.14">
+          <p id="appendix-C-5.14.1">Clarified the meaning of Verifier and differentiated from Recipient.<a href="#appendix-C-5.14.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-C-6">-00<a href="#appendix-C-6" class="pilcrow">¶</a></p>
+<p id="appendix-C-6">-01<a href="#appendix-C-6" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-C-7.1">
-          <p id="appendix-C-7.1.1">Renamed draft-skyfire-kyapayprofile to draft-skyfire-oauth-kyapay-token.<a href="#appendix-C-7.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-7.1.1">Added appendix referencing related specifications.<a href="#appendix-C-7.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-C-8">draft-skyfire-kyapayprofile-02<a href="#appendix-C-8" class="pilcrow">¶</a></p>
+<p id="appendix-C-8">-00<a href="#appendix-C-8" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-C-9.1">
-          <p id="appendix-C-9.1.1">Changed terms buyer and seller to initiator and target to generalize applicability.
-These claim names were changed: "sdm" to "tdm", "ssi" to "tsi", "btg" to "itg",
-"spr" to "tpr", and "sps" to "tps".<a href="#appendix-C-9.1.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-C-9.2">
-          <p id="appendix-C-9.2.1">Updated Settlement Information sti Sub-Claims.<a href="#appendix-C-9.2.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-C-9.3">
-          <p id="appendix-C-9.3.1">Changed specification type from Informative to Proposed Standard.<a href="#appendix-C-9.3.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-9.1.1">Renamed draft-skyfire-kyapayprofile to draft-skyfire-oauth-kyapay-token.<a href="#appendix-C-9.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-C-10">draft-skyfire-kyapayprofile-01<a href="#appendix-C-10" class="pilcrow">¶</a></p>
+<p id="appendix-C-10">draft-skyfire-kyapayprofile-02<a href="#appendix-C-10" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-C-11.1">
-          <p id="appendix-C-11.1.1">Removed "srl" (Seller Resource Locator) claim.<a href="#appendix-C-11.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-11.1.1">Changed terms buyer and seller to initiator and target to generalize applicability.
+These claim names were changed: "sdm" to "tdm", "ssi" to "tsi", "btg" to "itg",
+"spr" to "tpr", and "sps" to "tps".<a href="#appendix-C-11.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-11.2">
+          <p id="appendix-C-11.2.1">Updated Settlement Information sti Sub-Claims.<a href="#appendix-C-11.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-11.3">
+          <p id="appendix-C-11.3.1">Changed specification type from Informative to Proposed Standard.<a href="#appendix-C-11.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-C-12">draft-skyfire-kyapayprofile-00<a href="#appendix-C-12" class="pilcrow">¶</a></p>
+<p id="appendix-C-12">draft-skyfire-kyapayprofile-01<a href="#appendix-C-12" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-C-13.1">
-          <p id="appendix-C-13.1.1">Initial Internet Draft.<a href="#appendix-C-13.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-13.1.1">Removed "srl" (Seller Resource Locator) claim.<a href="#appendix-C-13.1.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="appendix-C-14">draft-skyfire-kyapayprofile-00<a href="#appendix-C-14" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-C-15.1">
+          <p id="appendix-C-15.1.1">Initial Internet Draft.<a href="#appendix-C-15.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 </section>
