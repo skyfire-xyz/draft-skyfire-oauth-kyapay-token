@@ -314,7 +314,10 @@ Payment Token Issuer:
 : A trusted entity responsible for facilitating the exchange of payments and
   credentials between the Initiator and Target. It issues signed `pay` tokens that
   enable settlement via various schemes (Cards, Banks, Cryptocurrency), without
-  exposing raw credentials or secrets.
+  exposing raw credentials or secrets. Like a KYA Token Issuer, it conducts Know
+  Your Customer (KYC) and Know Your Business (KYB) verifications of the Initiator.
+  KYAPay does not provide for anonymous payment, so a Payment Token Issuer does
+  not issue a `pay` token for an Initiator it has not verified.
 
 {:vspace}
 Verifier:
@@ -339,8 +342,20 @@ PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
 
 {:vspace}
 `sub`:
-: REQUIRED - Subject Identifier. MUST be pairwise unique within
-  a given issuer.
+: REQUIRED - Subject Identifier. MUST be unique within a given issuer.
+  The subject identifies the combination of identities the issuer has verified
+  for the initiator: the human principal, the agent platform and the agent.
+  An issuer MUST use the same `sub` value while that combination remains
+  unchanged, MUST NOT use that value for a different combination, and MUST
+  assign a new `sub` when any of those identities changes. KYA and KYA-PAY
+  tokens carry the human principal and the agent as the `hid` and `aid`
+  claims, and carry the agent platform as the `apd` claim where it is
+  identified. PAY tokens carry none of them. The subject identifies the same
+  combination in either case, since an issuer does not issue a token without
+  having verified the initiator. Tokens of different types issued by the same
+  issuer for the same initiator therefore carry the same `sub`. A recipient MAY associate a PAY
+  token with a KYA token on that basis, but MUST treat them as referring to
+  the same initiator only when both the `iss` and the `sub` values are equal.
 
 {:vspace}
 `aud`:
@@ -429,8 +444,7 @@ The following identity related claims are used within KYA and KYA-PAY tokens:
 
 {:vspace}
 `hid`:
-: REQUIRED (Required for human identity use cases) - A map of human identity
-  claims (individual or organization).
+: REQUIRED - A map of human identity claims (individual or organization).
 
 {:vspace}
 `apd`:
@@ -456,7 +470,7 @@ The following informative example displays a decoded KYA type token.
   "iat": 1742245254,
   "exp": 1742245554,
   "jti": "b9821893-7699-4d24-af06-803a6a16476b",
-  "sub": "bb713104-c14e-460f-9b7c-f8140fa9bea4", // Initiator Agent Account ID
+  "sub": "bb713104-c14e-460f-9b7c-f8140fa9bea4", // Bound identity combination: hid + apd + aid
   "aud": "7434230d-0861-46f2-9c2c-a6ee33d07f17", // Target Agent Account ID
 
   "env": "production",
@@ -524,7 +538,13 @@ principal (individual or organization) as follows.
 
 {:vspace}
 `verified`:
-: OPTIONAL - Boolean Verification status.  True if identity verified, otherwise false.
+: OPTIONAL - Boolean verification status. When present, the value MUST be `true`.
+  An issuer does not issue a token carrying unverified identity claims, so a token
+  never asserts `false`. The claim gives a recipient an explicit affirmative signal
+  rather than requiring it to infer verification from other claims.
+  A recipient that receives `false` MUST treat the claim as not asserting
+  verification, and MUST NOT treat the token as carrying a verified identity on
+  the strength of the claim's presence.
 
 {:vspace}
 `verification_id`:
@@ -565,7 +585,13 @@ The `apd` claim is OPTIONAL. If present, it contains the following sub-claims.
 
 {:vspace}
 `verified`:
-: OPTIONAL - Boolean Verification status.  True if KYA verified, otherwise false.
+: OPTIONAL - Boolean verification status. When present, the value MUST be `true`.
+  An issuer does not issue a token carrying unverified Know Your Agent claims, so a
+  token never asserts `false`. The claim gives a recipient an explicit affirmative
+  signal rather than requiring it to infer verification from other claims.
+  A recipient that receives `false` MUST treat the claim as not asserting
+  verification, and MUST NOT treat the token as carrying a verified identity on
+  the strength of the claim's presence.
 
 {:vspace}
 `verification_id`:
@@ -584,6 +610,9 @@ The `aid` claim is REQUIRED. It contains the following sub-claims.
 {:vspace}
 `name`:
 : REQUIRED - Agent name. The name should reflect the business purpose of the agent.
+  The name MUST be unique among the agents of a given agent platform at a given
+  issuer, so that the issuer, the agent platform and the agent name together
+  identify the agent unambiguously.
 
 {:vspace}
 `creation_ip`:
@@ -697,7 +726,13 @@ PAN or the network's agentic token.
 
 {:vspace}
 `verified`:
-: OPTIONAL - Boolean Verification status.  True if verified, otherwise false.
+: OPTIONAL - Boolean verification status. When present, the value MUST be `true`.
+  An issuer does not issue a token against an unverified payment method, so a token
+  never asserts `false`. The claim gives a recipient an explicit affirmative signal
+  rather than requiring it to infer verification from other claims.
+  A recipient that receives `false` MUST treat the claim as not asserting
+  verification, and MUST NOT treat the token as carrying a verified payment
+  method on the strength of the claim's presence.
 
 {:vspace}
 `verification_id`:
@@ -737,7 +772,7 @@ The following informative example displays a decoded PAY type token.
   "iat": 1742245254,
   "exp": 1742245554,
   "jti": "b9821893-7699-4d24-af06-803a6a16476b",
-  "sub": "8b810549-7443-494f-b4ad-5bc65871e32b", // Initiator Agent Account ID
+  "sub": "8b810549-7443-494f-b4ad-5bc65871e32b", // Bound identity combination: hid + apd + aid
   "aud": "37888095-2721-48d9-a2df-bfe4075f223a", // Target Agent Account ID
 
   "env": "sandbox",
@@ -780,7 +815,7 @@ The following informative example displays a decoded KYA-PAY type token.
   "iat": 1742245254,
   "exp": 1742245554,
   "jti": "b9821893-7699-4d24-af06-803a6a16476b",
-  "sub": "f24a431d-108c-46e6-9357-b428c528210e", // Initiator Agent Account ID
+  "sub": "f24a431d-108c-46e6-9357-b428c528210e", // Bound identity combination: hid + apd + aid
   "aud": "5e00177d-ff7f-424b-8c83-2756e15efbed", // Target Agent Account ID
 
   "env": "production",
@@ -793,7 +828,7 @@ The following informative example displays a decoded KYA-PAY type token.
     "middle_name": "Jane",
     "family_name": "Doe",
     "phone_number": "+1-425-555-1212",
-    "verified": false
+    "verified": true // Outcome of the verifier's KYA verification
   },
   "apd": {
     "id": "4b087db2-b6e5-48b8-8737-1aa8ddf4c4fe", // Agent platform ID
@@ -979,7 +1014,7 @@ the window in which a captured token can be replayed.
 More generally, issuers SHOULD set `exp` to the shortest value compatible with
 the intended interaction.
 
-## Bearer Semantics and Proof of Possession
+## Bearer Semantics and Proof of Possession {#bearer-semantics}
 
 Tokens defined in this specification are bearer tokens unless they carry a
 confirmation method: any party in possession of such a token can present it. For
@@ -1002,7 +1037,27 @@ is expected to enforce it. Issuers MUST NOT rely on `cnf` as a substitute for
 the bearer-token protections above, since a token carrying `cnf` may still be
 presented to a recipient that does not enforce it.
 
+## Identity Binding
+
+The subject binds the human principal, the agent platform and the agent
+together, and the issuer's signature covers all of them. A recipient can
+therefore verify that the issuer associated the parties named by the token
+(see {{bearer-semantics}}). Modifying any of those claims within a token
+invalidates its signature. Combining claims taken from two separately signed
+tokens does not invalidate either signature, so a recipient that correlates
+tokens MUST check that both carry the same `iss` and `sub` values before
+treating them as referring to the same initiator. Because the subject is
+stable while the bound identities are unchanged,
+a recipient MAY use `sub` as a stable key for that combination, for example to
+rate-limit or isolate a particular agent without affecting other agents acting
+for the same principal.
+
 # Privacy Considerations
+
+The subject identifier is stable for a given combination of identities across
+audiences, within the namespace of a single issuer. Recipients that compare
+tokens from the same issuer can therefore recognize the same human principal,
+agent platform and agent combination at different targets.
 
 KYAPay tokens are designed to convey the information that
 an agent is acting on behalf of a principal - a person or organization.
@@ -1249,6 +1304,35 @@ for his contributions to the specification.
 {: numbered="false"}
 
 [[ to be removed by the RFC Editor before publication as an RFC ]]
+
+-03
+
+* Stated that the subject identifies the combination of identities the issuer
+  has verified for the initiator, that it is stable while those identities are
+  unchanged, and that a change to any of them gives a new subject. The
+  identities are carried as claims in KYA and KYA-PAY tokens and not in PAY
+  tokens, but the subject identifies the same combination in all three.
+* Disclosed in the Privacy Considerations that a stable subject is
+  correlatable across audiences.
+* Removed the qualifier on `hid`, which read as though the claim were required
+  only for some use cases.
+* Stated that a Payment Token Issuer verifies the Initiator, which the role
+  definition had left to the KYA Token Issuer alone.
+* Stated that a `verified` claim is only ever `true`, and corrected a KYA-PAY
+  example that asserted `false`. This is a compatibility change: the previous
+  definition admitted `false`, so a token carrying that value conformed to -02
+  and does not conform here. Recipient behaviour on receiving `false` is
+  specified alongside each claim.
+* Required a recipient correlating a PAY token with a KYA token to check that
+  both carry the same `iss` and `sub`.
+* Described `sub` as unique rather than pairwise unique. The subject is stable
+  for a given combination across audiences, so the OpenID Connect sense of
+  pairwise did not apply.
+* Stated that an agent name is unique within an agent platform at a given
+  issuer.
+* Added Identity Binding to the Security Considerations.
+* Corrected the example comments on `sub`, which described the subject as an
+  agent account identifier.
 
 -02
 
