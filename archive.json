@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-10-04T00:52:33.852838+00:00",
+  "timestamp": "2026-10-06T00:08:14.909035+00:00",
   "repo": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
   "labels": [
     {
@@ -3164,6 +3164,311 @@
           "createdAt": "2026-10-01T20:32:06Z",
           "updatedAt": "2026-10-01T20:32:06Z",
           "comments": []
+        }
+      ]
+    },
+    {
+      "number": 52,
+      "id": "PR_kwDOQZxkd88AAAABGf9YCQ",
+      "title": "State the identity binding on sub",
+      "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/52",
+      "state": "MERGED",
+      "author": "skyfire-ankit",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "The subject identifier already binds the identities a KYAPay token asserts: the human principal (`hid`), the agent platform (`apd`) and the agent (`aid`). Change any one of them and the issuer assigns a new subject, so it is a new token. The specification did not state this, and the `sub` entry left the relationship to the identity claims unstated.\r\n\r\nThis states the existing behaviour, and adds a short Security Considerations subsection on what the binding gives a recipient.\r\n\r\nThree smaller corrections come with it.\r\n\r\n`sub` is now described as unique rather than pairwise unique. In OpenID Connect Core Section 8, pairwise means a distinct value per relying party, so that relying parties cannot correlate a subject. That is not the behaviour here, since the subject is stable for a given combination of identities across audiences. The word asserted a privacy property the format does not provide.\r\n\r\nThe agent name is stated to be unique among the agents of an agent platform at a given issuer. The binding, and the new Security Considerations text, both rely on the agent being identifiable, and `aid.name` is what identifies it. The draft previously described the name only as reflecting the agent's business purpose.\r\n\r\nThe example comments on `sub` are corrected. They described the subject as an agent account identifier, which does not match the binding.\r\n\r\nTwo further changes came out of review.\r\n\r\nThe Payment Token Issuer role described settlement only and said nothing about identity verification, which left the subject binding unsupported for PAY tokens. It now states that the issuer conducts KYC and KYB of the Initiator, since KYAPay does not provide for anonymous payment.\r\n\r\nA `verified` claim is now restricted to `true`. **This is a compatibility change.** The previous definition read \"True if identity verified, otherwise false\", so a token carrying `false` conformed to -02 and does not conform here. An issuer does not issue a token carrying unverified claims, so the value should never have been emitted; a KYA-PAY example in -02 nonetheless asserted `false`, and it is corrected. Recipient behaviour on receiving `false` is specified alongside each claim. No issuer is known to emit it.\r\n\r\nNo new claim, and no change to how tokens are carried.",
+      "createdAt": "2026-10-04T01:40:29Z",
+      "updatedAt": "2026-10-05T15:07:55Z",
+      "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "baseRefName": "main",
+      "baseRefOid": "81da27708198c1533fe1b24968a6f79a989b0181",
+      "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "headRefName": "subject-identity-binding",
+      "headRefOid": "cc03e21245212404f4496432685f019c8cf22284",
+      "closedAt": "2026-10-05T15:07:54Z",
+      "mergedAt": "2026-10-05T15:07:54Z",
+      "mergedBy": "skyfire-ankit",
+      "mergeCommit": {
+        "oid": "7cecb1007ebeb02c9126cca297e50702b9fb1c6a"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd88AAAABQhdrEA",
+          "commit": {
+            "abbreviatedOid": "376ee2c"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n## Copilot review overview\n\n### \ud83d\udfe1 Changes recommended\n\nPAY-token contradictions and security overclaims must be resolved before approval.\n\n**Review effort:** Balanced  \n**Findings:** 2 <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-light.png\" alt=\"High severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> \u00b7 1 <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> \u00b7 1 <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-light.png\" alt=\"Low severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture>\n\n<details open>\n<summary><strong>Open (4)</strong></summary>\n\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-light.png\" alt=\"High severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [PAY tokens lack claims required to define the mandated subject binding](#discussion_r4175722083) \u00b7 New\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-light.png\" alt=\"High severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Bearer tokens do not prove attribution to the named parties](#discussion_r4175722092) \u00b7 New\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Requirements do not ensure subject stability for unchanged identities](#discussion_r4175722095) \u00b7 New\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-light.png\" alt=\"Low severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Stable subjects introduce undisclosed cross-audience linkability](#discussion_r4175722107) \u00b7 New\n</details>\n\n<details>\n<summary><strong>What changed in this PR</strong></summary>\n\nClarifies how `sub` binds identities in KYAPay tokens.\n\n**Changes:**\n- Defines subject and agent-name uniqueness.\n- Updates token examples.\n- Adds identity-binding security guidance and history.\n\n| File | Description |\r\n| ---- | ----------- |\r\n| `draft-skyfire-oauth-kyapay-token.md` | Documents identity binding and updates examples. |\n</details>\n\n---\n\n\ud83d\udca1 <a href=\"/skyfire-xyz/draft-skyfire-oauth-kyapay-token/new/main?filename=.github/skills/code-review/SKILL.md\" class=\"Link--inTextBlock\" target=\"_blank\" rel=\"noopener noreferrer\">Add a `code-review` agent skill</a> or configure MCP servers for context-aware, tailored reviews. <a href=\"https://docs.github.com/copilot/how-tos/use-copilot-agents/request-a-code-review/use-code-review?tool=webui#mcp-servers-and-agent-skills\" class=\"Link--inTextBlock\" target=\"_blank\" rel=\"noopener noreferrer\">Learn more in the docs.</a>",
+          "createdAt": "2026-10-04T01:43:08Z",
+          "updatedAt": "2026-10-04T01:43:09Z",
+          "comments": [
+            {
+              "originalPosition": 9,
+              "body": "This rule is in \u201cCommon Token Claims,\u201d so it also governs `pay+jwt`, but PAY tokens do not carry `hid`, `apd`, or `aid` (the identity claims are limited to KYA and KYA-PAY at lines 432\u2013445, and the PAY example at lines 735\u2013771 contains none). As written, a conforming PAY issuer cannot determine the identity combination that its required `sub` must identify. Either scope this binding to KYA/KYA-PAY and define the PAY subject separately, or add the required identity claims to PAY.\n\nThis issue also appears in the following locations of the same file:\n- line 747\n- line 1014",
+              "createdAt": "2026-10-04T01:43:08Z",
+              "updatedAt": "2026-10-04T01:43:09Z"
+            },
+            {
+              "originalPosition": 62,
+              "body": "A valid issuer signature proves the issuer associated these claims; it does not let the recipient attribute the request to the named parties. As lines 991\u20131000 explain, anyone possessing a bearer token can present it, so a stolen token would make this attribution false unless sender constraint is enforced.",
+              "createdAt": "2026-10-04T01:43:08Z",
+              "updatedAt": "2026-10-04T01:43:09Z"
+            },
+            {
+              "originalPosition": 11,
+              "body": "These requirements do not actually guarantee the stability claimed later at line 1019: they prohibit reusing a value for another combination and require a new value after a change, but still allow a fresh `sub` for every token even when the combination is unchanged. Require reuse while the combination remains unchanged so recipients can safely treat it as a stable key.\n\nThis issue also appears on line 1019 of the same file.",
+              "createdAt": "2026-10-04T01:43:09Z",
+              "updatedAt": "2026-10-04T01:43:09Z"
+            },
+            {
+              "originalPosition": 80,
+              "body": "Stability across audiences creates a correlatable identifier: recipients that compare tokens can recognize the same principal/platform/agent combination. Since this change deliberately removes the previous pairwise privacy implication, the Privacy Considerations should explicitly disclose this cross-audience linkability rather than mentioning it only in document history.",
+              "createdAt": "2026-10-04T01:43:09Z",
+              "updatedAt": "2026-10-04T01:43:09Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABQhk_kg",
+          "commit": {
+            "abbreviatedOid": "f0bac8d"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "Copilot encountered an error and was unable to review this pull request. You can try again by re-requesting a review.",
+          "createdAt": "2026-10-04T02:25:54Z",
+          "updatedAt": "2026-10-04T02:25:54Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABQhlyUQ",
+          "commit": {
+            "abbreviatedOid": "f1a40e8"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n## Copilot review overview\n\n### \ud83d\udfe1 Changes recommended\n\nPAY issuer verification assumptions and cross-token binding security need clarification.\n\n**Review effort:** Balanced  \n**Findings:** 1 <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-light.png\" alt=\"High severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> \u00b7 1 <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture>\n\n<details open>\n<summary><strong>Open (2)</strong></summary>\n\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-light.png\" alt=\"High severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Require issuer and subject matching when correlating tokens](#discussion_r4175840998) \u00b7 New\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Do not require all identity claims in every token](#discussion_r4175841038) \u00b7 New\n</details>\n\n<details>\n<summary><strong>Resolved since last review (4)</strong></summary>\n\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-light.png\" alt=\"High severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Bearer tokens do not prove attribution to the named parties](#discussion_r4175722092)\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-light.png\" alt=\"High severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [PAY tokens lack claims required to define the mandated subject binding](#discussion_r4175722083)\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Requirements do not ensure subject stability for unchanged identities](#discussion_r4175722095)\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-light.png\" alt=\"Low severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Stable subjects introduce undisclosed cross-audience linkability](#discussion_r4175722107)\n</details>",
+          "createdAt": "2026-10-04T02:29:21Z",
+          "updatedAt": "2026-10-04T02:29:22Z",
+          "comments": [
+            {
+              "originalPosition": 68,
+              "body": "Combining claims from two independently signed tokens does not invalidate either signature. This matters because lines 351\u2013353 explicitly permit associating a PAY token with a KYA token: without a mandatory `iss`/`sub` equality check, a recipient can bind one initiator's identity to another initiator's payment token while both signatures remain valid. Distinguish in-token modification from post-verification combination and require the correlation check.",
+              "createdAt": "2026-10-04T02:29:21Z",
+              "updatedAt": "2026-10-04T02:29:22Z"
+            },
+            {
+              "originalPosition": 13,
+              "body": "This overstates the schema: `apd` is OPTIONAL and `hid` is only required for human-identity use cases (lines 441\u2013451), so a conforming KYA or KYA-PAY token does not necessarily carry all three identities. Describe these as the claims used when the identities are disclosed; otherwise implementers may reject valid tokens or assume absent identities were signed as claims.\n\nThis issue also appears on line 348 of the same file.",
+              "createdAt": "2026-10-04T02:29:21Z",
+              "updatedAt": "2026-10-04T02:29:22Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABQho4KA",
+          "commit": {
+            "abbreviatedOid": "0bb7889"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n## Copilot review overview\n\n### \ud83d\udfe1 Changes recommended\n\nThe new binding guarantees conflict with PAY issuer responsibilities and overstate cross-issuer and signature assurances.\n\n**Review effort:** Balanced  \n**Findings:** 1 <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture>\n\n<details open>\n<summary><strong>Open (1)</strong></summary>\n\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Cross-type identity binding lacks issuer support](#discussion_r4175889714) \u00b7 New\n</details>\n\n<details>\n<summary><strong>Resolved since last review (2)</strong></summary>\n\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-light.png\" alt=\"High severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Require issuer and subject matching when correlating tokens](#discussion_r4175840998)\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Do not require all identity claims in every token](#discussion_r4175841038)\n</details>",
+          "createdAt": "2026-10-04T02:49:36Z",
+          "updatedAt": "2026-10-04T02:49:36Z",
+          "comments": [
+            {
+              "originalPosition": 17,
+              "body": "This conclusion is not supported by the issuer model. Payment Token Issuers are only assigned payment-method verification (lines 313\u2013324), PAY tokens carry no identity claims, and the schema even permits `hid.verified` to be false (as in line 810). Also, `sub` is issuer-local, so different KYA and PAY issuers cannot be expected to choose the same value. Please define how a PAY issuer obtains and vouches for this identity binding, or limit cross-type stability to tokens from the same issuer and avoid claiming identity verification where it is not required.\n\nThis issue also appears in the following locations of the same file:\n- line 1021\n- line 1036",
+              "createdAt": "2026-10-04T02:49:36Z",
+              "updatedAt": "2026-10-04T02:49:36Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABQhpYFA",
+          "commit": {
+            "abbreviatedOid": "0bb7889"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n## Copilot review overview\n\n### \ud83d\udfe1 Changes recommended\n\nPAY issuer responsibilities conflict with the new binding guarantee, and privacy guidance omits issuer-scoped comparison.\n\n**Review effort:** Balanced  \n**Findings:** 2 <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture>\n\n<details open>\n<summary><strong>Open (2)</strong></summary>\n\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Privacy statement omits issuer namespace for subject uniqueness](#discussion_r4175897068) \u00b7 New\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Cross-type identity binding lacks issuer support](#discussion_r4175889714)\n</details>",
+          "createdAt": "2026-10-04T02:52:54Z",
+          "updatedAt": "2026-10-04T02:52:54Z",
+          "comments": [
+            {
+              "originalPosition": 102,
+              "body": "This privacy statement omits the issuer namespace, even though `sub` is unique only within one issuer and lines 1026-1028 require matching both `iss` and `sub`. As written, it suggests that equal `sub` values from unrelated issuers identify the same parties. Make the same-issuer condition explicit here as well.",
+              "createdAt": "2026-10-04T02:52:54Z",
+              "updatedAt": "2026-10-04T02:52:54Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABQhr0Pg",
+          "commit": {
+            "abbreviatedOid": "942947f"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n## Copilot review overview\n\n### \ud83d\udd35 Needs a closer look\n\nThe new binding requirements conflict with PAY issuer responsibilities and overstate which identity claims signatures cover.\n\n**Review effort:** Balanced  \n**Findings:** 1 <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture>\n\n<details open>\n<summary><strong>Open (1)</strong></summary>\n\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Cross-type identity binding lacks issuer support](#discussion_r4175889714)\n</details>\n\n<details>\n<summary><strong>Resolved since last review (1)</strong></summary>\n\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Privacy statement omits issuer namespace for subject uniqueness](#discussion_r4175897068)\n</details>",
+          "createdAt": "2026-10-04T03:05:21Z",
+          "updatedAt": "2026-10-04T03:05:21Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABQhvqrA",
+          "commit": {
+            "abbreviatedOid": "2461843"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n## Copilot review overview\n\n### \ud83d\udfe1 Changes recommended\n\nOptional platform identity conflicts with unconditional binding, and the security text overstates signed identity coverage.\n\n**Review effort:** Balanced  \n**Findings:** 1 <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture>\n\n<details open>\n<summary><strong>Open (1)</strong></summary>\n\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Document the breaking change to Boolean value compatibility](#discussion_r4175996144) \u00b7 New\n</details>\n\n<details>\n<summary><strong>Resolved since last review (1)</strong></summary>\n\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Cross-type identity binding lacks issuer support](#discussion_r4175889714)\n</details>\n\n<details>\n<summary><strong>Previously missed (1)</strong></summary>\n\nIn code that hasn't changed since last review\n\n<details>\n<summary><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> Align signature binding requirements with optional identity claims</summary>\n\n`draft-skyfire-oauth-kyapay-token.md:1037`\n\nThe signature does not cover all three identities for every token: PAY tokens carry none of `hid`, `apd`, or `aid`, and KYA/KYA-PAY tokens may omit optional `apd`. The signature covers `sub` and only the identity claims actually present, so the current wording overstates what a recipient can cryptographically verify.\n</details>\n</details>",
+          "createdAt": "2026-10-04T03:34:09Z",
+          "updatedAt": "2026-10-04T03:34:10Z",
+          "comments": [
+            {
+              "originalPosition": 62,
+              "body": "This is a normative compatibility change that the PR description's \u201cNo change to the wire format\u201d statement does not disclose. The previous Boolean definition explicitly allowed `false`; this MUST now makes previously conforming values invalid (as do the analogous `apd` and payment-method edits). Either retain the old value space or document the breaking schema change and required recipient behavior.",
+              "createdAt": "2026-10-04T03:34:09Z",
+              "updatedAt": "2026-10-04T03:34:10Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABQhxu1Q",
+          "commit": {
+            "abbreviatedOid": "cc03e21"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n## Copilot review overview\n\n### \ud83d\udd35 Needs a closer look\n\nPAY issuer responsibilities, signature guarantees, and the undisclosed compatibility change require clarification.\n\n**Review effort:** Balanced  \n**Findings:** None\n\n<details>\n<summary><strong>Resolved since last review (1)</strong></summary>\n\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Document the breaking change to Boolean value compatibility](#discussion_r4175996144)\n</details>",
+          "createdAt": "2026-10-04T03:40:56Z",
+          "updatedAt": "2026-10-04T03:40:56Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABQmCBag",
+          "commit": {
+            "abbreviatedOid": "cc03e21"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-04T22:40:24Z",
+          "updatedAt": "2026-10-04T22:40:24Z",
+          "comments": [
+            {
+              "originalPosition": 62,
+              "body": "Since \"An issuer does not issue a token carrying unverified identity claims\", is there ever a case in which \"verified\" would be false or not present when there's a verifier?  If so, that's a pretty strong case for omitting \"verified\" entirely to make the token a bit smaller.",
+              "createdAt": "2026-10-04T22:40:24Z",
+              "updatedAt": "2026-10-04T22:40:24Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABQmDF9A",
+          "commit": {
+            "abbreviatedOid": "cc03e21"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-04T22:45:53Z",
+          "updatedAt": "2026-10-04T22:45:53Z",
+          "comments": [
+            {
+              "originalPosition": 158,
+              "body": "@jadiaconu, I believe this answers your question about correlating KYA and Pay tokens.  Please review.",
+              "createdAt": "2026-10-04T22:45:53Z",
+              "updatedAt": "2026-10-04T22:45:53Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABQmIyCw",
+          "commit": {
+            "abbreviatedOid": "cc03e21"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-04T23:17:45Z",
+          "updatedAt": "2026-10-04T23:17:45Z",
+          "comments": [
+            {
+              "originalPosition": 62,
+              "body": "@selfissued I added this claim at the explicit request of a Bot Manager who wanted an explicit affirmative signal of verification success. I suggest we keep the claim for now and revisit down the road.",
+              "createdAt": "2026-10-04T23:17:45Z",
+              "updatedAt": "2026-10-04T23:17:45Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABQmJINg",
+          "commit": {
+            "abbreviatedOid": "cc03e21"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-04T23:19:52Z",
+          "updatedAt": "2026-10-04T23:19:52Z",
+          "comments": [
+            {
+              "originalPosition": 62,
+              "body": "That's fine.  There's an argument for keeping it for now for compatibility with existing deployments.  I just thought I'd put the question on the record.",
+              "createdAt": "2026-10-04T23:19:52Z",
+              "updatedAt": "2026-10-04T23:19:52Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABQmJOtg",
+          "commit": {
+            "abbreviatedOid": "cc03e21"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-10-04T23:20:30Z",
+          "updatedAt": "2026-10-04T23:20:30Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABQoQPwA",
+          "commit": {
+            "abbreviatedOid": "cc03e21"
+          },
+          "author": "jadiaconu",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-10-05T06:53:06Z",
+          "updatedAt": "2026-10-05T06:53:30Z",
+          "comments": [
+            {
+              "originalPosition": 158,
+              "body": "@selfissued perfect, thanks Mike",
+              "createdAt": "2026-10-05T06:53:07Z",
+              "updatedAt": "2026-10-05T06:53:30Z"
+            }
+          ]
         }
       ]
     }
