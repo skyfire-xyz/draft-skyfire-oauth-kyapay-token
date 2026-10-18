@@ -491,6 +491,7 @@ The following informative example displays a decoded KYA type token.
     "verification_id": "a23c1fe4-a4b7-442d-8bca-3c8fad5ec3a6" // Verifier's ID for the KYA verification performed
   },
   "aid": {
+    "id": "7d889702-7b6a-46cb-9bdd-10e83d17b18d", // Identifier of the agent instance
     "name": "Acme Agent Extraordinaire",
     "creation_ip": "54.86.50.139", // IP Address where token was created
     "source_ips": ["54.86.50.139-54.86.50.141", "1.1.1.0/24",
@@ -606,6 +607,10 @@ The recipient MUST ignore any unrecognized sub-claims.
 ### Agent Identity `aid` Sub-Claims
 
 The `aid` claim is REQUIRED. It contains the following sub-claims.
+
+{:vspace}
+`id`:
+: REQUIRED - Agent identifier.
 
 {:vspace}
 `name`:
@@ -841,6 +846,7 @@ The following informative example displays a decoded KYA-PAY type token.
     "verification_id": "a23c1fe4-a4b7-442d-8bca-3c8fad5ec3a6" // Verifier's ID for the KYA verification performed
   },
   "aid": {
+    "id": "4607fa56-368d-4fde-90e9-baad4e9f4439", // Identifier of the agent instance
     "name": "Agentic Excellence Я Us",
     "creation_ip": "128.2.42.95", // IP Address where token was created
     "source_ips": ["54.86.50.139-54.86.50.141", "1.1.1.0/24",
@@ -1333,6 +1339,7 @@ for his contributions to the specification.
 * Added Identity Binding to the Security Considerations.
 * Corrected the example comments on `sub`, which described the subject as an
   agent account identifier.
+* Added "id" as a required sub-claim within "aid".
 
 -02
 
