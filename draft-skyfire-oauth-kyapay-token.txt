@@ -5,8 +5,8 @@
 Web Authorization Protocol                                    A. Agarwal
 Internet-Draft                                      Skyfire Systems Inc.
 Intended status: Standards Track                                M. Jones
-Expires: 8 April 2027                             Self-Issued Consulting
-                                                          5 October 2026
+Expires: 22 April 2027                            Self-Issued Consulting
+                                                         19 October 2026
 
 
                               KYAPay Token
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 April 2027.
+   This Internet-Draft will expire on 22 April 2027.
 
 Copyright Notice
 
@@ -521,6 +521,7 @@ Table of Contents
     "verification_id": "a23c1fe4-a4b7-442d-8bca-3c8fad5ec3a6" // Verifier's ID for the KYA verification performed
   },
   "aid": {
+    "id": "7d889702-7b6a-46cb-9bdd-10e83d17b18d", // Identifier of the agent instance
     "name": "Acme Agent Extraordinaire",
     "creation_ip": "54.86.50.139", // IP Address where token was created
     "source_ips": ["54.86.50.139-54.86.50.141", "1.1.1.0/24",
@@ -625,6 +626,9 @@ Table of Contents
 3.3.3.  Agent Identity aid Sub-Claims
 
    The aid claim is REQUIRED.  It contains the following sub-claims.
+
+   id:
+      REQUIRED - Agent identifier.
 
    name:
       REQUIRED - Agent name.  The name should reflect the business
@@ -856,6 +860,7 @@ Table of Contents
     "verification_id": "a23c1fe4-a4b7-442d-8bca-3c8fad5ec3a6" // Verifier's ID for the KYA verification performed
   },
   "aid": {
+    "id": "4607fa56-368d-4fde-90e9-baad4e9f4439", // Identifier of the agent instance
     "name": "Agentic Excellence Я Us",
     "creation_ip": "128.2.42.95", // IP Address where token was created
     "source_ips": ["54.86.50.139-54.86.50.141", "1.1.1.0/24",
@@ -1656,6 +1661,8 @@ Document History
 
    *  Corrected the example comments on sub, which described the subject
       as an agent account identifier.
+
+   *  Added "id" as a required sub-claim within "aid".
 
    -02
 
