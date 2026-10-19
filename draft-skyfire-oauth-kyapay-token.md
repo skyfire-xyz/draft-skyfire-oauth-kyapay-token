@@ -558,7 +558,7 @@ The recipient MUST ignore any unrecognized sub-claims.
 
 ### Agent Platform Identity `apd` Sub-Claims
 
-The `apd` claim is REQUIRED in KYA and KYAPay tokens and OPTIONAL in PAY tokens.
+The `apd` claim is REQUIRED in KYA and KYAPay tokens.
 It contains the following sub-claims.
 
 {:vspace}
