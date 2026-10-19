@@ -584,8 +584,8 @@ Table of Contents
 
 3.3.2.  Agent Platform Identity apd Sub-Claims
 
-   The apd claim is REQUIRED in KYA and KYAPay tokens and OPTIONAL in
-   PAY tokens.  It contains the following sub-claims.
+   The apd claim is REQUIRED in KYA and KYAPay tokens.  It contains the
+   following sub-claims.
 
    id:
       REQUIRED - Agent Platform identifier.
