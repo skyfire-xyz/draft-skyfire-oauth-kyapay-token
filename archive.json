@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-10-06T00:08:14.909035+00:00",
+  "timestamp": "2026-10-20T00:07:44.725109+00:00",
   "repo": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
   "labels": [
     {
@@ -3469,6 +3469,141 @@
               "updatedAt": "2026-10-05T06:53:30Z"
             }
           ]
+        }
+      ]
+    },
+    {
+      "number": 53,
+      "id": "PR_kwDOQZxkd88AAAABJOTmjA",
+      "title": "Add \"id\" as \"aid\" sub-claim",
+      "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/53",
+      "state": "MERGED",
+      "author": "selfissued",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-10-18T23:59:31Z",
+      "updatedAt": "2026-10-19T00:51:17Z",
+      "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "baseRefName": "main",
+      "baseRefOid": "7cecb1007ebeb02c9126cca297e50702b9fb1c6a",
+      "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "headRefName": "mbj-aid.id",
+      "headRefOid": "d2a155807fbcfd7934da1f1e6d4a26737dd82d33",
+      "closedAt": "2026-10-19T00:51:17Z",
+      "mergedAt": "2026-10-19T00:51:17Z",
+      "mergedBy": "selfissued",
+      "mergeCommit": {
+        "oid": "494437569328c0c949d616ce6164ec006318b774"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd88AAAABS8B5pg",
+          "commit": {
+            "abbreviatedOid": "d2a1558"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "lgtm",
+          "createdAt": "2026-10-19T00:38:44Z",
+          "updatedAt": "2026-10-19T00:38:44Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 54,
+      "id": "PR_kwDOQZxkd88AAAABJOsFRQ",
+      "title": "Make \"apd\" claim REQUIRED in KYA and KYAPay tokens",
+      "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/54",
+      "state": "OPEN",
+      "author": "selfissued",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-10-19T00:59:19Z",
+      "updatedAt": "2026-10-19T02:00:30Z",
+      "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "baseRefName": "main",
+      "baseRefOid": "494437569328c0c949d616ce6164ec006318b774",
+      "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "headRefName": "mbj-apd-REQUIRED",
+      "headRefOid": "161b5cb9831aaed9d13f91773244a9008d7eb831",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd88AAAABS8JkIg",
+          "commit": {
+            "abbreviatedOid": "bcc58dd"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-19T01:11:31Z",
+          "updatedAt": "2026-10-19T01:11:31Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "```suggestion\nThe `apd` claim is REQUIRED in KYA and KYAPay tokens.\n```",
+              "createdAt": "2026-10-19T01:11:31Z",
+              "updatedAt": "2026-10-19T01:11:31Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABS8Jyzg",
+          "commit": {
+            "abbreviatedOid": "bcc58dd"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-19T01:12:28Z",
+          "updatedAt": "2026-10-19T01:12:28Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "The `apd` claim is not included in Pay tokens. The Pay tokens do not contain hid, apd, and aid.",
+              "createdAt": "2026-10-19T01:12:28Z",
+              "updatedAt": "2026-10-19T01:12:29Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABS8J38Q",
+          "commit": {
+            "abbreviatedOid": "bcc58dd"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "",
+          "createdAt": "2026-10-19T01:12:49Z",
+          "updatedAt": "2026-10-19T01:12:49Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABS8WVhw",
+          "commit": {
+            "abbreviatedOid": "161b5cb"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-10-19T02:00:30Z",
+          "updatedAt": "2026-10-19T02:00:30Z",
+          "comments": []
         }
       ]
     }
