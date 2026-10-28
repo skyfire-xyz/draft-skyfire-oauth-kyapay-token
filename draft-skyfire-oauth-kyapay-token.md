@@ -64,6 +64,7 @@ informative:
   RFC8446:
   RFC9110:
   RFC9421:
+  RFC8176:
   IANA.JWT.Claims:
     author:
     - org: IANA
@@ -553,6 +554,30 @@ principal (individual or organization) as follows.
   This is the verifier's identifier for the identity verification performed.
   This could be used during auditing and dispute resolution.
 
+{:vspace}
+`ivm`:
+: OPTIONAL - Identity Verification Methods {{I-D.skyfire-oauth-id-verification}}.
+  A JSON array of the methods by which the human principal's identity was verified.
+  An issuer SHOULD include this sub-claim when it knows the methods used.
+
+{:vspace}
+`amr`:
+: OPTIONAL - Authentication Methods References {{RFC8176}},
+  including the values defined by {{I-D.skyfire-oauth-amr-values}}.
+  A JSON array of the methods by which the human principal authenticated.
+  An issuer SHOULD include this sub-claim when it knows the methods used.
+
+{:vspace}
+`aml`:
+: OPTIONAL - Anti-Money Laundering Methods {{I-D.skyfire-oauth-aml-methods}}.
+  A JSON array of the anti-money laundering and counter-terrorist financing methods
+  applied to the human principal.
+  An issuer SHOULD include this sub-claim when it knows the methods used.
+
+The `ivm`, `amr`, and `aml` sub-claims use the syntax and values
+of the claims of the same names defined in the cited specifications.
+The absence of any of them does not indicate that a method was not used.
+
 Additional sub-claims MAY be defined and used.
 The recipient MUST ignore any unrecognized sub-claims.
 
@@ -601,6 +626,22 @@ It contains the following sub-claims.
   This is the verifier's identifier for the KYA verification performed.
   This could be used during auditing and dispute resolution.
 
+{:vspace}
+`ivm`:
+: OPTIONAL - Identity Verification Methods {{I-D.skyfire-oauth-id-verification}}.
+  A JSON array of the methods by which the agent platform's identity was verified.
+  An issuer SHOULD include this sub-claim when it knows the methods used.
+
+{:vspace}
+`aml`:
+: OPTIONAL - Anti-Money Laundering Methods {{I-D.skyfire-oauth-aml-methods}}.
+  A JSON array of the anti-money laundering and counter-terrorist financing methods
+  applied to the agent platform.
+  An issuer SHOULD include this sub-claim when it knows the methods used.
+
+The `ivm` and `aml` sub-claims use the syntax and values
+of the claims of the same names defined in the cited specifications.
+The absence of either does not indicate that a method was not used.
 
 Additional sub-claims MAY be defined and used.
 The recipient MUST ignore any unrecognized sub-claims.
@@ -1314,6 +1355,7 @@ for his contributions to the specification.
 
 -03
 
+* Added the optional `ivm`, `amr`, and `aml` sub-claims to the `hid` claim, and the optional `ivm` and `aml` sub-claims to the `apd` claim.
 * Stated that the subject identifies the combination of identities the issuer
   has verified for the initiator, that it is stable while those identities are
   unchanged, and that a change to any of them gives a new subject. The
