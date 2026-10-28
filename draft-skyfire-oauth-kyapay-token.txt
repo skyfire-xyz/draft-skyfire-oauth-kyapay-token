@@ -5,8 +5,8 @@
 Web Authorization Protocol                                    A. Agarwal
 Internet-Draft                                      Skyfire Systems Inc.
 Intended status: Standards Track                                M. Jones
-Expires: 22 April 2027                            Self-Issued Consulting
-                                                         19 October 2026
+Expires: 1 May 2027                               Self-Issued Consulting
+                                                         28 October 2026
 
 
                               KYAPay Token
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 22 April 2027.
+   This Internet-Draft will expire on 1 May 2027.
 
 Copyright Notice
 
@@ -584,8 +584,8 @@ Table of Contents
 
 3.3.2.  Agent Platform Identity apd Sub-Claims
 
-   The apd claim is OPTIONAL.  If present, it contains the following
-   sub-claims.
+   The apd claim is REQUIRED in KYA and KYAPay tokens.  It contains the
+   following sub-claims.
 
    id:
       REQUIRED - Agent Platform identifier.
@@ -1663,6 +1663,8 @@ Document History
       as an agent account identifier.
 
    *  Added "id" as a required sub-claim within "aid".
+
+   *  Made the "apd" claim REQUIRED in KYA and KYAPay tokens.
 
    -02
 
