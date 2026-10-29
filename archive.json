@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-10-20T00:07:44.725109+00:00",
+  "timestamp": "2026-10-29T00:05:37.659608+00:00",
   "repo": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
   "labels": [
     {
@@ -3519,24 +3519,26 @@
       "id": "PR_kwDOQZxkd88AAAABJOsFRQ",
       "title": "Make \"apd\" claim REQUIRED in KYA and KYAPay tokens",
       "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/54",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "selfissued",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2026-10-19T00:59:19Z",
-      "updatedAt": "2026-10-19T02:00:30Z",
+      "updatedAt": "2026-10-28T10:25:51Z",
       "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
       "baseRefName": "main",
       "baseRefOid": "494437569328c0c949d616ce6164ec006318b774",
       "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
       "headRefName": "mbj-apd-REQUIRED",
       "headRefOid": "161b5cb9831aaed9d13f91773244a9008d7eb831",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-10-28T10:25:50Z",
+      "mergedAt": "2026-10-28T10:25:50Z",
+      "mergedBy": "selfissued",
+      "mergeCommit": {
+        "oid": "2bcf1cba12e41a2cb5d443bd5cc967f135fc2108"
+      },
       "comments": [],
       "reviews": [
         {
@@ -3603,6 +3605,66 @@
           "body": "",
           "createdAt": "2026-10-19T02:00:30Z",
           "updatedAt": "2026-10-19T02:00:30Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 55,
+      "id": "PR_kwDOQZxkd88AAAABLHCC1w",
+      "title": "Add optional ivm, amr and aml sub-claims to hid, and ivm and aml to apd",
+      "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/55",
+      "state": "OPEN",
+      "author": "skyfire-ankit",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Adds optional `ivm`, `amr` and `aml` sub-claims to `hid`, and optional `ivm` and `aml` sub-claims to `apd`.\n\n- Each sub-claim uses the syntax and values defined in its own draft (id-verification, RFC 8176 plus amr-values, aml-methods).\n- An issuer SHOULD include each one when it knows the methods used. Absence does not mean a method was not used.\n- `amr` is left out of `apd`, because it is not clear which authentication of a platform it would describe.\n- Values for verifying organizations (KYB) do not exist yet. They will be proposed separately in the id-verification draft.\n- Adds RFC 8176 as an informative reference and a -03 Document History entry.\n\nNote: the Document History block may conflict with #54.",
+      "createdAt": "2026-10-27T20:19:48Z",
+      "updatedAt": "2026-10-28T10:40:04Z",
+      "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "baseRefName": "main",
+      "baseRefOid": "494437569328c0c949d616ce6164ec006318b774",
+      "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "headRefName": "aa-method-subclaims-v2",
+      "headRefOid": "436fbc51359a2b237e7a85893bc8b526604c8a8b",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd88AAAABUi7M_w",
+          "commit": {
+            "abbreviatedOid": "436fbc5"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe1 Changes recommended\n\nThe sub-claim definitions depend on RFC 8176 and three method drafts, so those four references need to move from informative to normative.\n\n<details open>\n<summary><strong>1 open issue</strong></summary>\n\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-light.png\" alt=\"Low severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Classify required sub-claim references as normative](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/55#discussion_r4393709475) \u00b7 New\n</details>\n\n<details>\n<summary><strong>What changed in this PR</strong></summary>\n\nThis PR extends the KYAPay token format with optional verification and screening metadata for human principals and agent platforms.\n\n**Changes:**\n- Adds `ivm`, `amr`, and `aml` sub-claims to `hid`, and `ivm` and `aml` to `apd`.\n- Reuses existing specifications and recommends including known methods, while clarifying that absence does not imply non-use.\n- Adds the RFC 8176 reference and a -03 Document History entry.\n\n| File | Description |\r\n| ---- | ----------- |\r\n| `draft-skyfire-oauth-kyapay-token.md` | Defines the optional sub-claims and updates references and document history. |\n</details>\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-10-27T20:22:38Z",
+          "updatedAt": "2026-10-27T20:22:38Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "The new sub-claim definitions require the syntax and values from RFC 8176 and the three method drafts, but all four references are listed under `informative:`. They are now implementation dependencies, even though the sub-claims are optional. Please move these four references to `normative:` so the reference classification matches their use in the protocol.",
+              "createdAt": "2026-10-27T20:22:38Z",
+              "updatedAt": "2026-10-27T20:22:38Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABUqH9dA",
+          "commit": {
+            "abbreviatedOid": "436fbc5"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "This needs text explaining when the amr, ivm, and aml claims should appear as sub-claims and when they should appear at the top level of the token, and what the meaning is if they appear in both places.",
+          "createdAt": "2026-10-28T10:40:04Z",
+          "updatedAt": "2026-10-28T10:40:04Z",
           "comments": []
         }
       ]
