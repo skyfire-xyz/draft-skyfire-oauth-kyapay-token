@@ -138,7 +138,7 @@ on behalf of human principals.
 Because these agents can be hard to distinguish from traditional bots,
 they are often inadvertently blocked,
 creating a need for the web security ecosystem to distinguish between
-legitimate agentic traffic and truly malicious activity.
+legitimate agentic traffic and potentially malicious activity.
 KYAPay tokens are designed to address this challenge by enabling agents to convey
 verified identity and payment credentials.
 These tokens can provide web security systems and merchants with
@@ -283,7 +283,7 @@ Target Agent Platform:
 
 {:vspace}
 Target Principal:
-: A human principal (individual or organization) that that owns the product,
+: A human principal (individual or organization) that owns the product,
   service, API, website, or content being consumed or sold, and serves as the
   ultimate beneficiary of a transaction.
   In buyer/seller transactions, the Target is the seller.
@@ -303,10 +303,10 @@ Target Identity:
 ### Ecosystem Infrastructure Roles
 
 {:vspace}
-Identity Token Issuer:
+KYA Token Issuer:
 : A trusted neutral entity that conducts Know Your Customer (KYC) and Know Your
   Business (KYB) (for organizations) verifications. It is responsible for issuing
-  cryptographically signed `kya` tokens that attest to the identity of the
+  cryptographically signed Know Your Agent (KYA) tokens that attest to the identity of the
   Principal, Agent, and Agent Platform, for both Initiators and Targets.
 
 {:vspace}
@@ -314,7 +314,17 @@ Payment Token Issuer:
 : A trusted entity responsible for facilitating the exchange of payments and
   credentials between the Initiator and Target. It issues signed `pay` tokens that
   enable settlement via various schemes (Cards, Banks, Cryptocurrency), without
-  exposing raw credentials or secrets.
+  exposing raw credentials or secrets. Like a KYA Token Issuer, it conducts Know
+  Your Customer (KYC) and Know Your Business (KYB) verifications of the Initiator.
+  KYAPay does not provide for anonymous payment, so a Payment Token Issuer does
+  not issue a `pay` token for an Initiator it has not verified.
+
+{:vspace}
+Verifier:
+: The party used by the KYA Token Issuer
+  to verify the identity of the human, organization, or agent
+  or the party used by the Payment Token Issuer
+  to verify the payment method.
 
 # KYAPay Token Schemas
 
@@ -332,8 +342,20 @@ PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
 
 {:vspace}
 `sub`:
-: REQUIRED - Subject Identifier. Must be pairwise unique within
-  a given issuer.
+: REQUIRED - Subject Identifier. MUST be unique within a given issuer.
+  The subject identifies the combination of identities the issuer has verified
+  for the initiator: the human principal, the agent platform and the agent.
+  An issuer MUST use the same `sub` value while that combination remains
+  unchanged, MUST NOT use that value for a different combination, and MUST
+  assign a new `sub` when any of those identities changes. KYA and KYA-PAY
+  tokens carry the human principal and the agent as the `hid` and `aid`
+  claims, and carry the agent platform as the `apd` claim where it is
+  identified. PAY tokens carry none of them. The subject identifies the same
+  combination in either case, since an issuer does not issue a token without
+  having verified the initiator. Tokens of different types issued by the same
+  issuer for the same initiator therefore carry the same `sub`. A recipient MAY associate a PAY
+  token with a KYA token on that basis, but MUST treat them as referring to
+  the same initiator only when both the `iss` and the `sub` values are equal.
 
 {:vspace}
 `aud`:
@@ -350,6 +372,7 @@ PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
 {:vspace}
 `jti`:
 : REQUIRED - Unique ID of this JWT as defined in {{Section 4.1.7 of RFC7519}}.
+  This claim can be used to detect replay attempts.
 
 {:vspace}
 `exp`:
@@ -384,10 +407,10 @@ PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
   When present, it MUST contain the `jwk` member: the agent's public key
   represented as a JWK {{RFC7517}}. The JWK MUST contain only public key
   material; a `cnf` containing private key material MUST be rejected.
-  Other confirmation members MAY additionally be present, but a verifier MUST NOT
+  Other confirmation members MAY additionally be present, but a recipient MUST NOT
   be required to obtain the key by any means other than reading `cnf.jwk`.
   A token carrying `cnf` is sender-constrained rather than bearer: the presenter
-  is required to demonstrate possession of the confirmation key. Verifier
+  is required to demonstrate possession of the confirmation key. Recipient
   processing is specified in {{I-D.skyfire-oauth-using-kyapay-tokens}}.
 
 Additional claims MAY be defined and used in these tokens.
@@ -433,8 +456,7 @@ The following identity related claims are used within KYA and KYA-PAY tokens:
 
 {:vspace}
 `hid`:
-: REQUIRED (Required for human identity use cases) - A map of human identity
-  claims (individual or organization).
+: REQUIRED - A map of human identity claims (individual or organization).
 
 {:vspace}
 `apd`:
@@ -460,7 +482,7 @@ The following informative example displays a decoded KYA type token.
   "iat": 1742245254,
   "exp": 1742245554,
   "jti": "b9821893-7699-4d24-af06-803a6a16476b",
-  "sub": "bb713104-c14e-460f-9b7c-f8140fa9bea4", // Initiator Agent Account ID
+  "sub": "bb713104-c14e-460f-9b7c-f8140fa9bea4", // Bound identity combination: hid + apd + aid
   "aud": "7434230d-0861-46f2-9c2c-a6ee33d07f17", // Target Agent Account ID
 
   "env": "production",
@@ -476,11 +498,12 @@ The following informative example displays a decoded KYA type token.
     "email": "platform@acme.com", // Email address for the agent platform
     "phone_number": "+12345677890", // Phone number for the agent platform
     "organization_name": "Acme Shopping Inc.", // Legal name of the agent platform
-    "verifier": "https://www.verifier.com/", // URL of the Identity verifier
+    "verifier": "https://www.verifier.com/", // URL of the KYA verifier
     "verified": true, // Outcome of the verifier's KYA verification
-    "verification_id": "a23c1fe4-a4b7-442d-8bca-3c8fad5ec3a6" // Verifier's verification ID
+    "verification_id": "a23c1fe4-a4b7-442d-8bca-3c8fad5ec3a6" // Verifier's ID for the KYA verification performed
   },
   "aid": {
+    "id": "7d889702-7b6a-46cb-9bdd-10e83d17b18d", // Identifier of the agent instance
     "name": "Acme Agent Extraordinaire",
     "creation_ip": "54.86.50.139", // IP Address where token was created
     "source_ips": ["54.86.50.139-54.86.50.141", "1.1.1.0/24",
@@ -524,23 +547,31 @@ principal (individual or organization) as follows.
 
 {:vspace}
 `verifier`:
-: OPTIONAL - URL of the Identity Verifier
+: OPTIONAL - URL of the party that performed the identity verification
 
 {:vspace}
 `verified`:
-: OPTIONAL - Boolean Verification status.  True if verified, otherwise false.
+: OPTIONAL - Boolean verification status. When present, the value MUST be `true`.
+  An issuer does not issue a token carrying unverified identity claims, so a token
+  never asserts `false`. The claim gives a recipient an explicit affirmative signal
+  rather than requiring it to infer verification from other claims.
+  A recipient that receives `false` MUST treat the claim as not asserting
+  verification, and MUST NOT treat the token as carrying a verified identity on
+  the strength of the claim's presence.
 
 {:vspace}
 `verification_id`:
-: OPTIONAL - Verification identifier. Identifier for the verification performed,
-  such as a GUID.
+: OPTIONAL - Verification identifier.
+  This is the verifier's identifier for the identity verification performed.
+  This could be used during auditing and dispute resolution.
 
 Additional sub-claims MAY be defined and used.
 The recipient MUST ignore any unrecognized sub-claims.
 
 ### Agent Platform Identity `apd` Sub-Claims
 
-The `apd` claim is optional. If present, it contains the following sub-claims.
+The `apd` claim is REQUIRED in KYA and KYAPay tokens.
+It contains the following sub-claims.
 
 {:vspace}
 `id`:
@@ -564,15 +595,24 @@ The `apd` claim is optional. If present, it contains the following sub-claims.
 
 {:vspace}
 `verifier`:
-: OPTIONAL - URL of the Identity Verifier
+: OPTIONAL - URL of the party that verified the agent identity (KYA)
 
 {:vspace}
 `verified`:
-: OPTIONAL - Boolean Verification status.  True if verified, otherwise false.
+: OPTIONAL - Boolean verification status. When present, the value MUST be `true`.
+  An issuer does not issue a token carrying unverified Know Your Agent claims, so a
+  token never asserts `false`. The claim gives a recipient an explicit affirmative
+  signal rather than requiring it to infer verification from other claims.
+  A recipient that receives `false` MUST treat the claim as not asserting
+  verification, and MUST NOT treat the token as carrying a verified identity on
+  the strength of the claim's presence.
 
 {:vspace}
 `verification_id`:
-: OPTIONAL - Verification identifier. Identifier for the verification performed, such as a GUID.
+: OPTIONAL - Verification identifier.
+  This is the verifier's identifier for the KYA verification performed.
+  This could be used during auditing and dispute resolution.
+
 
 Additional sub-claims MAY be defined and used.
 The recipient MUST ignore any unrecognized sub-claims.
@@ -582,8 +622,15 @@ The recipient MUST ignore any unrecognized sub-claims.
 The `aid` claim is REQUIRED. It contains the following sub-claims.
 
 {:vspace}
+`id`:
+: REQUIRED - Agent identifier.
+
+{:vspace}
 `name`:
 : REQUIRED - Agent name. The name should reflect the business purpose of the agent.
+  The name MUST be unique among the agents of a given agent platform at a given
+  issuer, so that the issuer, the agent platform and the agent name together
+  identify the agent unambiguously.
 
 {:vspace}
 `creation_ip`:
@@ -594,8 +641,8 @@ The `aid` claim is REQUIRED. It contains the following sub-claims.
 {:vspace}
 `source_ips`:
 : OPTIONAL - Valid public IP address, or range of public IP addresses, from where
-  the system / agent's requests to merchants / services will originate. Array of
-  comma-separated IPv4 addresses or ranges, IPv6 addresses or ranges, or domain
+  the system / agent's requests to merchants / services will originate. A JSON
+  array of IPv4 addresses or ranges, IPv6 addresses or ranges, or domain
   names resolvable to an IP address via DNS. IPv4 and IPv6 addresses can be a
   single IPv4 or IPv6 address or a range of IPv4 or IPv6 addresses in CIDR notation
   or start-and-end IP pairs.
@@ -640,18 +687,18 @@ The following payment related claims are used within PAY and KYA-PAY type tokens
 
 {:vspace}
 `sti`:
-: REQUIRED - Meta information for payment settlement, depending on settlement.
-  type.
+: REQUIRED - Meta information for payment settlement, depending on the `stp`
+  value.
 
 ### Settlement Information `sti` Sub-Claims
 
-The `sti` claim is REQUIRED. It contains the following sub-claims,
+The `sti` claim is REQUIRED in Pay Tokens. It contains the following sub-claims,
 with the requirement levels marked below.
 
 The `sti` claim carries the settlement instrument, and its contents depend on
 the value of `stp`.
 
-When the `stp` is value `card`, the settlement instrument is an agentic payment credential
+When the `stp` value is `card`, the settlement instrument is an agentic payment credential
 issued by a payment network under an agentic-commerce programme -- for example
 Visa Intelligent Commerce (`visa_vic`) or Mastercard Agent Pay, using Secure Card
 on File (`mastercard_scof`). Such a credential is provisioned for a single
@@ -693,15 +740,23 @@ PAN or the network's agentic token.
 
 {:vspace}
 `verifier`:
-: OPTIONAL - URL of the Payment Verifier
+: OPTIONAL - URL of the party that performed the payment method verification
 
 {:vspace}
 `verified`:
-: OPTIONAL - Boolean Verification status.  True if verified, otherwise false.
+: OPTIONAL - Boolean verification status. When present, the value MUST be `true`.
+  An issuer does not issue a token against an unverified payment method, so a token
+  never asserts `false`. The claim gives a recipient an explicit affirmative signal
+  rather than requiring it to infer verification from other claims.
+  A recipient that receives `false` MUST treat the claim as not asserting
+  verification, and MUST NOT treat the token as carrying a verified payment
+  method on the strength of the claim's presence.
 
 {:vspace}
 `verification_id`:
-: OPTIONAL - Verification identifier. Identifier for the verification performed, such as a GUID.
+: OPTIONAL - Verification identifier.
+  This is the verifier's identifier for the payment method verification performed.
+  This could be used during auditing and dispute resolution.
 
 Additional sub-claims MAY be defined and used.
 The recipient MUST ignore any unrecognized sub-claims.
@@ -735,7 +790,7 @@ The following informative example displays a decoded PAY type token.
   "iat": 1742245254,
   "exp": 1742245554,
   "jti": "b9821893-7699-4d24-af06-803a6a16476b",
-  "sub": "8b810549-7443-494f-b4ad-5bc65871e32b", // Initiator Agent Account ID
+  "sub": "8b810549-7443-494f-b4ad-5bc65871e32b", // Bound identity combination: hid + apd + aid
   "aud": "37888095-2721-48d9-a2df-bfe4075f223a", // Target Agent Account ID
 
   "env": "sandbox",
@@ -757,14 +812,14 @@ The following informative example displays a decoded PAY type token.
     "token_security_code": "123",
     "verifier": "https://verifier.example.info", // URL of payment method verifier
     "verified": true, // Outcome of the verifier's payment method verification
-    "verification_id": "3a6e1b76-8f78-4c24-b1bd-dc78a8cc3711" // Identifier for the verification performed, such as a GUID.
+    "verification_id": "3a6e1b76-8f78-4c24-b1bd-dc78a8cc3711" // Verifier's ID for the payment method verification performed
   }
 }
 
 ~~~
 {: #example-decoded-pay-token align="left" title="A PAY type token"}
 
-## KYA-PAY Token {#kya-pay-token}
+## KYA-PAY Token Example {#kya-pay-token}
 
 The following informative example displays a decoded KYA-PAY type token.
 
@@ -778,7 +833,7 @@ The following informative example displays a decoded KYA-PAY type token.
   "iat": 1742245254,
   "exp": 1742245554,
   "jti": "b9821893-7699-4d24-af06-803a6a16476b",
-  "sub": "f24a431d-108c-46e6-9357-b428c528210e", // Initiator Agent Account ID
+  "sub": "f24a431d-108c-46e6-9357-b428c528210e", // Bound identity combination: hid + apd + aid
   "aud": "5e00177d-ff7f-424b-8c83-2756e15efbed", // Target Agent Account ID
 
   "env": "production",
@@ -791,7 +846,7 @@ The following informative example displays a decoded KYA-PAY type token.
     "middle_name": "Jane",
     "family_name": "Doe",
     "phone_number": "+1-425-555-1212",
-    "verified": false
+    "verified": true // Outcome of the verifier's KYA verification
   },
   "apd": {
     "id": "4b087db2-b6e5-48b8-8737-1aa8ddf4c4fe", // Agent platform ID
@@ -799,11 +854,12 @@ The following informative example displays a decoded KYA-PAY type token.
     "email": "platform@acme.com", // Email address for the agent platform
     "phone_number": "+12345677890", // Phone number for the agent platform
     "organization_name": "Acme Shopping Inc.", // Legal name of the agent platform
-    "verifier": "https://www.verifier.com/", // URL of the Identity verifier
+    "verifier": "https://www.verifier.com/", // URL of the KYA verifier
     "verified": true, // Outcome of the verifier's KYA verification
-    "verification_id": "a23c1fe4-a4b7-442d-8bca-3c8fad5ec3a6" // Verifier's verification ID
+    "verification_id": "a23c1fe4-a4b7-442d-8bca-3c8fad5ec3a6" // Verifier's ID for the KYA verification performed
   },
   "aid": {
+    "id": "4607fa56-368d-4fde-90e9-baad4e9f4439", // Identifier of the agent instance
     "name": "Agentic Excellence Я Us",
     "creation_ip": "128.2.42.95", // IP Address where token was created
     "source_ips": ["54.86.50.139-54.86.50.141", "1.1.1.0/24",
@@ -838,17 +894,17 @@ The following informative example displays a decoded KYA-PAY type token.
 
 1. `alg` - The `alg` header parameter MUST be present and, to enable
    interoperability, it is RECOMMENDED that its value be `ES256` {{RFC7518}}.
-   Verifiers MUST reject any token whose `alg` value is not supported by both
+   Recipients MUST reject any token whose `alg` value is not supported by both
    parties, including `none` {{RFC7515}}.
 
-   Verifiers MUST use the verification algorithm in the token.
+   Recipients MUST use the signature algorithm in the token.
    The key is obtained from the
    issuer's JWK Set (item 2); a token is verified with that algorithm and that
-   key, or rejected. In particular, a verifier MUST NOT accept a token that
+   key, or rejected. In particular, a recipient MUST NOT accept a token that
    would require interpreting an Elliptic Curve public key as a symmetric key.
 
    Where the key retrieved from the issuer's JWK Set carries an `alg` or `use`
-   parameter, the verifier MUST confirm it is consistent with
+   parameter, the recipient MUST confirm it is consistent with
    the parameters of the issued token, and reject the token otherwise.
 
 2. `kid` - The `kid` claim MUST be present, and set to a valid Key ID present in
@@ -858,12 +914,12 @@ The following informative example displays a decoded KYA-PAY type token.
 ### JWT Payload Validation
 
 1. **Verify JWT Signature** - Valid JWTs MUST be signed with a valid key belonging
-  To the token's issuer (`iss` claim)
+  to the token's issuer (`iss` claim)
 2. **Validate `iss` Claim** - Ensure that the token is signed by the expected
   valid issuer.
-3. **Validate the `exp` Claim** - The verifier MUST validate that the token has
+3. **Validate the `exp` Claim** - The recipient MUST validate that the token has
   not expired, within the clock skew tolerance described in {{clock-skew}}.
-4. **Validate the `iat` Claim** - The verifier MUST validate that the token was
+4. **Validate the `iat` Claim** - The recipient MUST validate that the token was
   issued in the past, within the clock skew tolerance described in {{clock-skew}}.
 5. **Validate the `jti` Claim** - Ensure that the `jti` claim is present, and is
   a UUID.
@@ -874,14 +930,14 @@ The following informative example displays a decoded KYA-PAY type token.
 ### Clock Skew {#clock-skew}
 
 The `iat` and `exp` claims are set from the issuer's clock and evaluated against
-the verifier's. These are never precisely synchronized, so a verifier applies a
+the recipient's. These are never precisely synchronized, so a recipient applies a
 tolerance when evaluating them.
 
-A verifier MUST accept a token whose `iat` is up to the tolerance in the future,
+A recipient MUST accept a token whose `iat` is up to the tolerance in the future,
 and MUST accept a token up to the tolerance beyond its `exp`.
 
-A verifier MUST support a tolerance of at least 5 seconds.
-A verifier SHOULD NOT apply a tolerance greater than 60 seconds;
+A recipient MUST support a tolerance of at least 5 seconds.
+A recipient SHOULD NOT apply a tolerance greater than 60 seconds;
 30 seconds is RECOMMENDED.
 A tolerance approaching the token's own lifetime defeats the purpose of `exp`:
 the effective window in which a captured token is accepted is its lifetime plus
@@ -977,7 +1033,7 @@ the window in which a captured token can be replayed.
 More generally, issuers SHOULD set `exp` to the shortest value compatible with
 the intended interaction.
 
-## Bearer Semantics and Proof of Possession
+## Bearer Semantics and Proof of Possession {#bearer-semantics}
 
 Tokens defined in this specification are bearer tokens unless they carry a
 confirmation method: any party in possession of such a token can present it. For
@@ -987,10 +1043,10 @@ the primary defences against capture and replay.
 
 A token MAY carry a `cnf` claim {{RFC7800}} binding it to a public key held by
 the agent. A token carrying `cnf` is sender-constrained rather than bearer:
-possession of the token alone is insufficient, and a verifier requires the
+possession of the token alone is insufficient, and a recipient requires the
 presenter to demonstrate possession of the confirmation key on each request.
 
-Verifier behaviour for tokens carrying `cnf` -- including the requirement to
+Recipient behaviour for tokens carrying `cnf` -- including the requirement to
 verify an HTTP Message Signature {{RFC9421}} over the confirmation key, and to
 reject requests where that signature is absent or invalid -- is specified in
 {{I-D.skyfire-oauth-using-kyapay-tokens}}.
@@ -998,9 +1054,29 @@ reject requests where that signature is absent or invalid -- is specified in
 Issuers SHOULD include `cnf` where the agent holds a suitable key and the target
 is expected to enforce it. Issuers MUST NOT rely on `cnf` as a substitute for
 the bearer-token protections above, since a token carrying `cnf` may still be
-presented to a verifier that does not enforce it.
+presented to a recipient that does not enforce it.
+
+## Identity Binding
+
+The subject binds the human principal, the agent platform and the agent
+together, and the issuer's signature covers all of them. A recipient can
+therefore verify that the issuer associated the parties named by the token
+(see {{bearer-semantics}}). Modifying any of those claims within a token
+invalidates its signature. Combining claims taken from two separately signed
+tokens does not invalidate either signature, so a recipient that correlates
+tokens MUST check that both carry the same `iss` and `sub` values before
+treating them as referring to the same initiator. Because the subject is
+stable while the bound identities are unchanged,
+a recipient MAY use `sub` as a stable key for that combination, for example to
+rate-limit or isolate a particular agent without affecting other agents acting
+for the same principal.
 
 # Privacy Considerations
+
+The subject identifier is stable for a given combination of identities across
+audiences, within the namespace of a single issuer. Recipients that compare
+tokens from the same issuer can therefore recognize the same human principal,
+agent platform and agent combination at different targets.
 
 KYAPay tokens are designed to convey the information that
 an agent is acting on behalf of a principal - a person or organization.
@@ -1155,7 +1231,7 @@ in the manner described in {{RFC6838}}.
 * Required parameters: n/a
 * Optional parameters: n/a
 * Encoding considerations: Uses JWS Compact Serialization as defined in {{RFC7515}}
-* Security considerations: See Security Considerations in in {{RFC7519}}
+* Security considerations: See Security Considerations in {{RFC7519}}
 * Interoperability considerations: n/a
 * Published specification: {{kya-token}} of this specification
 * Applications that use this media type: Applications using Know Your Agent tokens
@@ -1176,7 +1252,7 @@ in the manner described in {{RFC6838}}.
 * Required parameters: n/a
 * Optional parameters: n/a
 * Encoding considerations: Uses JWS Compact Serialization as defined in {{RFC7515}}
-* Security considerations: See Security Considerations in in {{RFC7519}}
+* Security considerations: See Security Considerations in {{RFC7519}}
 * Interoperability considerations: n/a
 * Published specification: {{pay-token}} of this specification
 * Applications that use this media type: Applications using Pay tokens
@@ -1197,7 +1273,7 @@ in the manner described in {{RFC6838}}.
 * Required parameters: n/a
 * Optional parameters: n/a
 * Encoding considerations: Uses JWS Compact Serialization as defined in {{RFC7515}}
-* Security considerations: See Security Considerations in in {{RFC7519}}
+* Security considerations: See Security Considerations in {{RFC7519}}
 * Interoperability considerations: n/a
 * Published specification: {{kya-pay-token}} of this specification
 * Applications that use this media type: Applications using KYA-Pay tokens
@@ -1236,10 +1312,49 @@ The following specifications are related to and designed to be used with this sp
 * {{I-D.skyfire-oauth-id-verification}} defines the "ivm" (Identity Verification Methods) claim and values for declaring how the person's identity was verified.
 * {{I-D.skyfire-oauth-aml-methods}} defines the "aml" (Anti-Money Laundering Methods) claim and values for declaring what AML/CFT methods were employed.
 
+# Acknowledgments
+{: numbered="false"}
+
+We would like to thank
+Jean Diaconu
+for his contributions to the specification.
+
 # Document History
 {: numbered="false"}
 
 [[ to be removed by the RFC Editor before publication as an RFC ]]
+
+-03
+
+* Stated that the subject identifies the combination of identities the issuer
+  has verified for the initiator, that it is stable while those identities are
+  unchanged, and that a change to any of them gives a new subject. The
+  identities are carried as claims in KYA and KYA-PAY tokens and not in PAY
+  tokens, but the subject identifies the same combination in all three.
+* Disclosed in the Privacy Considerations that a stable subject is
+  correlatable across audiences.
+* Removed the qualifier on `hid`, which read as though the claim were required
+  only for some use cases.
+* Stated that a Payment Token Issuer verifies the Initiator, which the role
+  definition had left to the KYA Token Issuer alone.
+* Stated that a `verified` claim is only ever `true`, and corrected a KYA-PAY
+  example that asserted `false`. This is a compatibility change: the previous
+  definition admitted `false`, so a token carrying that value conformed to -02
+  and does not conform here. Recipient behaviour on receiving `false` is
+  specified alongside each claim.
+* Required a recipient correlating a PAY token with a KYA token to check that
+  both carry the same `iss` and `sub`.
+* Described `sub` as unique rather than pairwise unique. The subject is stable
+  for a given combination across audiences, so the OpenID Connect sense of
+  pairwise did not apply.
+* Stated that an agent name is unique within an agent platform at a given
+  issuer.
+* Added Identity Binding to the Security Considerations.
+* Corrected the example comments on `sub`, which described the subject as an
+  agent account identifier.
+* Added "id" as a required sub-claim within "aid".
+* Made the "apd" claim REQUIRED in KYA and KYAPay tokens.
+* Added a Token Size section: no maximum token size, aggregate size guidance for issuers that fits the minimum recipients are required to accept, and a preference for one KYA-PAY token over separate KYA and PAY tokens.
 
 -02
 
@@ -1272,9 +1387,8 @@ The following specifications are related to and designed to be used with this sp
   that URI suffix with IANA.
 * Added a Clock Skew section bounding the tolerance applied to the "iat" and
   "exp" claims, and requiring senders to correct skew they can observe.
-* Added a Token Size section: no maximum token size, aggregate size guidance for
-  issuers that fits the minimum recipients are required to accept, and a
-  preference for one KYA-PAY token over separate KYA and PAY tokens.
+* Addressed review comments by Jean Diaconu.
+* Clarified the meaning of Verifier and differentiated from Recipient.
 
 -01
 
