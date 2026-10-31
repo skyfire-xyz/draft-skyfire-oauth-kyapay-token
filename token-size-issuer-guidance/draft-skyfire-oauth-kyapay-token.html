@@ -22,18 +22,18 @@ tokens in an interoperable manner.
 <meta content="draft-skyfire-oauth-kyapay-token-latest" name="ietf.draft">
 <!-- Generator version information:
   xml2rfc 3.34.1
-    Python 3.14.7
-    ConfigArgParse 1.7.7
+    Python 3.14.8
+    ConfigArgParse 1.8.0
     google-i18n-address 3.1.1
     intervaltree 3.2.1
     Jinja2 3.1.6
     lxml 6.1.1
     natsort 8.4.0
-    platformdirs 4.11.10
+    platformdirs 4.13.4
     pycountry 24.6.1
     PyYAML 6.0.3
     requests 2.33.1
-    wcwidth 0.8.4
+    wcwidth 0.9.2
 -->
 <link href="draft-skyfire-oauth-kyapay-token.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1049,11 +1049,11 @@ svg {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">KYAPay Token</td>
-<td class="right">September 2026</td>
+<td class="right">October 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Agarwal &amp; Jones</td>
-<td class="center">Expires 3 April 2027</td>
+<td class="center">Expires 4 May 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1066,12 +1066,12 @@ svg {
 <dd class="internet-draft">draft-skyfire-oauth-kyapay-token-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-09-30" class="published">30 September 2026</time>
+<time datetime="2026-10-31" class="published">31 October 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-04-03">3 April 2027</time></dd>
+<dd class="expires"><time datetime="2027-05-04">4 May 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1123,7 +1123,7 @@ tokens in an interoperable manner.<a href="#section-abstract-1" class="pilcrow">
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 3 April 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 4 May 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1189,35 +1189,38 @@ tokens in an interoperable manner.<a href="#section-abstract-1" class="pilcrow">
                 <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-issuer-key-discovery" class="internal xref">Issuer Key Discovery</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3">
-                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-kya-token" class="internal xref">KYA Token</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3.2.1">
-                    <p id="section-toc.1-1.3.2.3.2.1.1"><a href="#section-3.3.1" class="auto internal xref">3.3.1</a>.  <a href="#name-hid-human-identity-sub-clai" class="internal xref"><code>hid</code> - Human Identity Sub-Claims</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3.2.2">
-                    <p id="section-toc.1-1.3.2.3.2.2.1"><a href="#section-3.3.2" class="auto internal xref">3.3.2</a>.  <a href="#name-agent-platform-identity-apd" class="internal xref">Agent Platform Identity <code>apd</code> Sub-Claims</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3.2.3">
-                    <p id="section-toc.1-1.3.2.3.2.3.1"><a href="#section-3.3.3" class="auto internal xref">3.3.3</a>.  <a href="#name-agent-identity-aid-sub-clai" class="internal xref">Agent Identity <code>aid</code> Sub-Claims</a></p>
-</li>
-                </ul>
+                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-token-size" class="internal xref">Token Size</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.4">
-                <p id="section-toc.1-1.3.2.4.1"><a href="#section-3.4" class="auto internal xref">3.4</a>.  <a href="#name-pay-token" class="internal xref">PAY Token</a></p>
+                <p id="section-toc.1-1.3.2.4.1"><a href="#section-3.4" class="auto internal xref">3.4</a>.  <a href="#name-kya-token" class="internal xref">KYA Token</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.4.2.1">
-                    <p id="section-toc.1-1.3.2.4.2.1.1"><a href="#section-3.4.1" class="auto internal xref">3.4.1</a>.  <a href="#name-settlement-information-sti-" class="internal xref">Settlement Information <code>sti</code> Sub-Claims</a></p>
+                    <p id="section-toc.1-1.3.2.4.2.1.1"><a href="#section-3.4.1" class="auto internal xref">3.4.1</a>.  <a href="#name-hid-human-identity-sub-clai" class="internal xref"><code>hid</code> - Human Identity Sub-Claims</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.4.2.2">
-                    <p id="section-toc.1-1.3.2.4.2.2.1"><a href="#section-3.4.2" class="auto internal xref">3.4.2</a>.  <a href="#name-scope-of-card-settlement" class="internal xref">Scope of Card Settlement</a></p>
+                    <p id="section-toc.1-1.3.2.4.2.2.1"><a href="#section-3.4.2" class="auto internal xref">3.4.2</a>.  <a href="#name-agent-platform-identity-apd" class="internal xref">Agent Platform Identity <code>apd</code> Sub-Claims</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.4.2.3">
-                    <p id="section-toc.1-1.3.2.4.2.3.1"><a href="#section-3.4.3" class="auto internal xref">3.4.3</a>.  <a href="#name-pay-token-example" class="internal xref">PAY Token Example</a></p>
+                    <p id="section-toc.1-1.3.2.4.2.3.1"><a href="#section-3.4.3" class="auto internal xref">3.4.3</a>.  <a href="#name-agent-identity-aid-sub-clai" class="internal xref">Agent Identity <code>aid</code> Sub-Claims</a></p>
 </li>
                 </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.5">
-                <p id="section-toc.1-1.3.2.5.1"><a href="#section-3.5" class="auto internal xref">3.5</a>.  <a href="#name-kya-pay-token-example" class="internal xref">KYA-PAY Token Example</a></p>
+                <p id="section-toc.1-1.3.2.5.1"><a href="#section-3.5" class="auto internal xref">3.5</a>.  <a href="#name-pay-token" class="internal xref">PAY Token</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.5.2.1">
+                    <p id="section-toc.1-1.3.2.5.2.1.1"><a href="#section-3.5.1" class="auto internal xref">3.5.1</a>.  <a href="#name-settlement-information-sti-" class="internal xref">Settlement Information <code>sti</code> Sub-Claims</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.5.2.2">
+                    <p id="section-toc.1-1.3.2.5.2.2.1"><a href="#section-3.5.2" class="auto internal xref">3.5.2</a>.  <a href="#name-scope-of-card-settlement" class="internal xref">Scope of Card Settlement</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.5.2.3">
+                    <p id="section-toc.1-1.3.2.5.2.3.1"><a href="#section-3.5.3" class="auto internal xref">3.5.3</a>.  <a href="#name-pay-token-example" class="internal xref">PAY Token Example</a></p>
+</li>
+                </ul>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.6">
+                <p id="section-toc.1-1.3.2.6.1"><a href="#section-3.6" class="auto internal xref">3.6</a>.  <a href="#name-kya-pay-token" class="internal xref">KYA-PAY Token</a></p>
 </li>
             </ul>
 </li>
@@ -1356,16 +1359,13 @@ tokens in an interoperable manner.<a href="#section-abstract-1" class="pilcrow">
             <p id="section-toc.1-1.9.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-related-specifications" class="internal xref">Related Specifications</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
-            <p id="section-toc.1-1.10.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
+            <p id="section-toc.1-1.10.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-document-history" class="internal xref">Document History</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11">
-            <p id="section-toc.1-1.11.1"><a href="#appendix-C" class="auto internal xref"></a><a href="#name-document-history" class="internal xref">Document History</a></p>
+            <p id="section-toc.1-1.11.1"><a href="#appendix-C" class="auto internal xref"></a><a href="#name-contributors" class="internal xref">Contributors</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12">
-            <p id="section-toc.1-1.12.1"><a href="#appendix-D" class="auto internal xref"></a><a href="#name-contributors" class="internal xref">Contributors</a></p>
-</li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13">
-            <p id="section-toc.1-1.13.1"><a href="#appendix-E" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+            <p id="section-toc.1-1.12.1"><a href="#appendix-D" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
 </li>
         </ul>
 </nav>
@@ -1412,7 +1412,7 @@ on behalf of human principals.
 Because these agents can be hard to distinguish from traditional bots,
 they are often inadvertently blocked,
 creating a need for the web security ecosystem to distinguish between
-legitimate agentic traffic and potentially malicious activity.
+legitimate agentic traffic and truly malicious activity.
 KYAPay tokens are designed to address this challenge by enabling agents to convey
 verified identity and payment credentials.
 These tokens can provide web security systems and merchants with
@@ -1584,7 +1584,7 @@ to have its own verified identity assertions, grouped into the <code>apd</code> 
             <dd class="break"></dd>
 <dt id="section-2.1.2-1.5">Target Principal:</dt>
             <dd style="margin-left: 1.5em" id="section-2.1.2-1.6">
-              <p id="section-2.1.2-1.6.1">A human principal (individual or organization) that owns the product,
+              <p id="section-2.1.2-1.6.1">A human principal (individual or organization) that that owns the product,
 service, API, website, or content being consumed or sold, and serves as the
 ultimate beneficiary of a transaction.
 In buyer/seller transactions, the Target is the seller.
@@ -1612,11 +1612,11 @@ The target identity utilizes the <code>hid</code>, <code>apd</code>, and <code>a
 <a href="#section-2.1.3" class="section-number selfRef">2.1.3. </a><a href="#name-ecosystem-infrastructure-ro" class="section-name selfRef">Ecosystem Infrastructure Roles</a>
           </h4>
 <span class="break"></span><dl class="dlNewline" id="section-2.1.3-1">
-            <dt id="section-2.1.3-1.1">KYA Token Issuer:</dt>
+            <dt id="section-2.1.3-1.1">Identity Token Issuer:</dt>
             <dd style="margin-left: 1.5em" id="section-2.1.3-1.2">
               <p id="section-2.1.3-1.2.1">A trusted neutral entity that conducts Know Your Customer (KYC) and Know Your
 Business (KYB) (for organizations) verifications. It is responsible for issuing
-cryptographically signed Know Your Agent (KYA) tokens that attest to the identity of the
+cryptographically signed <code>kya</code> tokens that attest to the identity of the
 Principal, Agent, and Agent Platform, for both Initiators and Targets.<a href="#section-2.1.3-1.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
@@ -1626,14 +1626,6 @@ Principal, Agent, and Agent Platform, for both Initiators and Targets.<a href="#
 credentials between the Initiator and Target. It issues signed <code>pay</code> tokens that
 enable settlement via various schemes (Cards, Banks, Cryptocurrency), without
 exposing raw credentials or secrets.<a href="#section-2.1.3-1.4.1" class="pilcrow">¶</a></p>
-</dd>
-            <dd class="break"></dd>
-<dt id="section-2.1.3-1.5">Verifier:</dt>
-            <dd style="margin-left: 1.5em" id="section-2.1.3-1.6">
-              <p id="section-2.1.3-1.6.1">The party used by the KYA Token Issuer
-to verify the identity of the human, organization, or agent
-or the party used by the Payment Token Issuer
-to verify the payment method.<a href="#section-2.1.3-1.6.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 </dl>
@@ -1668,7 +1660,7 @@ signature verification, as described in <a href="#key-discovery" class="auto int
 <dt id="section-3.1-2.3">
 <code>sub</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-3.1-2.4">
-            <p id="section-3.1-2.4.1"><span class="bcp14">REQUIRED</span> - Subject Identifier. <span class="bcp14">MUST</span> be pairwise unique within
+            <p id="section-3.1-2.4.1"><span class="bcp14">REQUIRED</span> - Subject Identifier. Must be pairwise unique within
 a given issuer.<a href="#section-3.1-2.4.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
@@ -1691,8 +1683,7 @@ be used to determine the age of the JWT.<a href="#section-3.1-2.8.1" class="pilc
 <dt id="section-3.1-2.9">
 <code>jti</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-3.1-2.10">
-            <p id="section-3.1-2.10.1"><span class="bcp14">REQUIRED</span> - Unique ID of this JWT as defined in <span><a href="https://rfc-editor.org/rfc/rfc7519#section-4.1.7" class="relref">Section 4.1.7</a> of [<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.
-This claim can be used to detect replay attempts.<a href="#section-3.1-2.10.1" class="pilcrow">¶</a></p>
+            <p id="section-3.1-2.10.1"><span class="bcp14">REQUIRED</span> - Unique ID of this JWT as defined in <span><a href="https://rfc-editor.org/rfc/rfc7519#section-4.1.7" class="relref">Section 4.1.7</a> of [<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.<a href="#section-3.1-2.10.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-3.1-2.11">
@@ -1741,10 +1732,10 @@ a key held by the agent identified in the <code>aid</code> claim.
 When present, it <span class="bcp14">MUST</span> contain the <code>jwk</code> member: the agent's public key
 represented as a JWK <span>[<a href="#RFC7517" class="cite xref">RFC7517</a>]</span>. The JWK <span class="bcp14">MUST</span> contain only public key
 material; a <code>cnf</code> containing private key material <span class="bcp14">MUST</span> be rejected.
-Other confirmation members <span class="bcp14">MAY</span> additionally be present, but a recipient <span class="bcp14">MUST NOT</span>
+Other confirmation members <span class="bcp14">MAY</span> additionally be present, but a verifier <span class="bcp14">MUST NOT</span>
 be required to obtain the key by any means other than reading <code>cnf.jwk</code>.
 A token carrying <code>cnf</code> is sender-constrained rather than bearer: the presenter
-is required to demonstrate possession of the confirmation key. Recipient
+is required to demonstrate possession of the confirmation key. Verifier
 processing is specified in <span>[<a href="#I-D.skyfire-oauth-using-kyapay-tokens" class="cite xref">I-D.skyfire-oauth-using-kyapay-tokens</a>]</span>.<a href="#section-3.1-2.24.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
@@ -1775,42 +1766,58 @@ Such a document would supplement the mechanism described here rather than
 replace it.<a href="#section-3.2-4" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="kya-token">
+<div id="token-size">
 <section id="section-3.3">
-        <h3 id="name-kya-token">
-<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-kya-token" class="section-name selfRef">KYA Token</a>
+        <h3 id="name-token-size">
+<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-token-size" class="section-name selfRef">Token Size</a>
         </h3>
-<p id="section-3.3-1">The following identity related claims are used within KYA and KYA-PAY tokens:<a href="#section-3.3-1" class="pilcrow">¶</a></p>
-<span class="break"></span><dl class="dlNewline" id="section-3.3-2">
-          <dt id="section-3.3-2.1">
+<p id="section-3.3-1">This specification sets no maximum token size; the Token Size section of
+<span>[<a href="#I-D.skyfire-oauth-using-kyapay-tokens" class="cite xref">I-D.skyfire-oauth-using-kyapay-tokens</a>]</span> sets the minimum a recipient must accept.
+An issuer <span class="bcp14">SHOULD NOT</span> emit claims registered by this specification totalling more
+than 3072 octets of JSON, or other claims totalling more than 1024 octets. These
+limits apply to the claims before encoding. Base64url encoding adds about a third,
+so 4096 octets of claims, signed with ES256, serializes to about 5670 octets,
+within that minimum. Where a request would carry both a KYA token and a PAY token,
+an issuer <span class="bcp14">SHOULD</span> issue one KYA-PAY token instead, because two tokens at these
+limits exceed a single header field at a typical origin.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="kya-token">
+<section id="section-3.4">
+        <h3 id="name-kya-token">
+<a href="#section-3.4" class="section-number selfRef">3.4. </a><a href="#name-kya-token" class="section-name selfRef">KYA Token</a>
+        </h3>
+<p id="section-3.4-1">The following identity related claims are used within KYA and KYA-PAY tokens:<a href="#section-3.4-1" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlNewline" id="section-3.4-2">
+          <dt id="section-3.4-2.1">
 <code>hid</code>:</dt>
-          <dd style="margin-left: 1.5em" id="section-3.3-2.2">
-            <p id="section-3.3-2.2.1"><span class="bcp14">REQUIRED</span> (Required for human identity use cases) - A map of human identity
-claims (individual or organization).<a href="#section-3.3-2.2.1" class="pilcrow">¶</a></p>
+          <dd style="margin-left: 1.5em" id="section-3.4-2.2">
+            <p id="section-3.4-2.2.1"><span class="bcp14">REQUIRED</span> (Required for human identity use cases) - A map of human identity
+claims (individual or organization).<a href="#section-3.4-2.2.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-3.3-2.3">
+<dt id="section-3.4-2.3">
 <code>apd</code>:</dt>
-          <dd style="margin-left: 1.5em" id="section-3.3-2.4">
-            <p id="section-3.3-2.4.1"><span class="bcp14">OPTIONAL</span> - Agent Platform identity claims.<a href="#section-3.3-2.4.1" class="pilcrow">¶</a></p>
+          <dd style="margin-left: 1.5em" id="section-3.4-2.4">
+            <p id="section-3.4-2.4.1"><span class="bcp14">OPTIONAL</span> - Agent Platform identity claims.<a href="#section-3.4-2.4.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-3.3-2.5">
+<dt id="section-3.4-2.5">
 <code>aid</code>:</dt>
-          <dd style="margin-left: 1.5em" id="section-3.3-2.6">
-            <p id="section-3.3-2.6.1"><span class="bcp14">REQUIRED</span> - Agent identity claims.<a href="#section-3.3-2.6.1" class="pilcrow">¶</a></p>
+          <dd style="margin-left: 1.5em" id="section-3.4-2.6">
+            <p id="section-3.4-2.6.1"><span class="bcp14">REQUIRED</span> - Agent identity claims.<a href="#section-3.4-2.6.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-3.3-2.7"><code>scope</code></dt>
-          <dd style="margin-left: 1.5em" id="section-3.3-2.8">
-            <p id="section-3.3-2.8.1"><span class="bcp14">OPTIONAL</span> - String with space-separated scope values, per <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span><a href="#section-3.3-2.8.1" class="pilcrow">¶</a></p>
+<dt id="section-3.4-2.7"><code>scope</code></dt>
+          <dd style="margin-left: 1.5em" id="section-3.4-2.8">
+            <p id="section-3.4-2.8.1"><span class="bcp14">OPTIONAL</span> - String with space-separated scope values, per <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span><a href="#section-3.4-2.8.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 </dl>
-<p id="section-3.3-3">The following informative example displays a decoded KYA type token.<a href="#section-3.3-3" class="pilcrow">¶</a></p>
+<p id="section-3.4-3">The following informative example displays a decoded KYA type token.<a href="#section-3.4-3" class="pilcrow">¶</a></p>
 <span id="name-a-kya-type-token"></span><div id="example-decoded-kya-token">
 <figure id="figure-1">
-          <div class="alignLeft art-text artwork" id="section-3.3-4.1">
+          <div class="alignLeft art-text artwork" id="section-3.4-4.1">
 <pre>
 {
   "kid": "YjFdJgFNWj9AkUmtoXILwoeb37PsBuGWVK6_QvFLwJw", // JWK Key ID
@@ -1837,9 +1844,9 @@ claims (individual or organization).<a href="#section-3.3-2.2.1" class="pilcrow"
     "email": "platform@acme.com", // Email address for the agent platform
     "phone_number": "+12345677890", // Phone number for the agent platform
     "organization_name": "Acme Shopping Inc.", // Legal name of the agent platform
-    "verifier": "https://www.verifier.com/", // URL of the KYA verifier
+    "verifier": "https://www.verifier.com/", // URL of the Identity verifier
     "verified": true, // Outcome of the verifier's KYA verification
-    "verification_id": "a23c1fe4-a4b7-442d-8bca-3c8fad5ec3a6" // Verifier's ID for the KYA verification performed
+    "verification_id": "a23c1fe4-a4b7-442d-8bca-3c8fad5ec3a6" // Verifier's verification ID
   },
   "aid": {
     "name": "Acme Agent Extraordinaire",
@@ -1856,347 +1863,342 @@ claims (individual or organization).<a href="#section-3.3-2.2.1" class="pilcrow"
           </figcaption></figure>
 </div>
 <div id="hid-human-identity-sub-claims">
-<section id="section-3.3.1">
+<section id="section-3.4.1">
           <h4 id="name-hid-human-identity-sub-clai">
-<a href="#section-3.3.1" class="section-number selfRef">3.3.1. </a><a href="#name-hid-human-identity-sub-clai" class="section-name selfRef"><code>hid</code> - Human Identity Sub-Claims</a>
+<a href="#section-3.4.1" class="section-number selfRef">3.4.1. </a><a href="#name-hid-human-identity-sub-clai" class="section-name selfRef"><code>hid</code> - Human Identity Sub-Claims</a>
           </h4>
-<p id="section-3.3.1-1">The Human Identity (<code>hid</code>) claim contains sub-claims identifying the human
-principal (individual or organization) as follows.<a href="#section-3.3.1-1" class="pilcrow">¶</a></p>
-<span class="break"></span><dl class="dlNewline" id="section-3.3.1-2">
-            <dt id="section-3.3.1-2.1">
+<p id="section-3.4.1-1">The Human Identity (<code>hid</code>) claim contains sub-claims identifying the human
+principal (individual or organization) as follows.<a href="#section-3.4.1-1" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlNewline" id="section-3.4.1-2">
+            <dt id="section-3.4.1-2.1">
 <code>email</code>:</dt>
-            <dd style="margin-left: 1.5em" id="section-3.3.1-2.2">
-              <p id="section-3.3.1-2.2.1"><span class="bcp14">REQUIRED</span> - Email address associated with the human individual or organization<a href="#section-3.3.1-2.2.1" class="pilcrow">¶</a></p>
+            <dd style="margin-left: 1.5em" id="section-3.4.1-2.2">
+              <p id="section-3.4.1-2.2.1"><span class="bcp14">REQUIRED</span> - Email address associated with the human individual or organization<a href="#section-3.4.1-2.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-3.3.1-2.3">
+<dt id="section-3.4.1-2.3">
 <code>given_name</code>:</dt>
-            <dd style="margin-left: 1.5em" id="section-3.3.1-2.4">
-              <p id="section-3.3.1-2.4.1"><span class="bcp14">OPTIONAL</span> - Given name(s) or first name(s) of the human principal if they
-are an individual.<a href="#section-3.3.1-2.4.1" class="pilcrow">¶</a></p>
+            <dd style="margin-left: 1.5em" id="section-3.4.1-2.4">
+              <p id="section-3.4.1-2.4.1"><span class="bcp14">OPTIONAL</span> - Given name(s) or first name(s) of the human principal if they
+are an individual.<a href="#section-3.4.1-2.4.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-3.3.1-2.5">
+<dt id="section-3.4.1-2.5">
 <code>middle_name</code>:</dt>
-            <dd style="margin-left: 1.5em" id="section-3.3.1-2.6">
-              <p id="section-3.3.1-2.6.1"><span class="bcp14">OPTIONAL</span> - Middle name(s) of the human principal if they are an individual.<a href="#section-3.3.1-2.6.1" class="pilcrow">¶</a></p>
+            <dd style="margin-left: 1.5em" id="section-3.4.1-2.6">
+              <p id="section-3.4.1-2.6.1"><span class="bcp14">OPTIONAL</span> - Middle name(s) of the human principal if they are an individual.<a href="#section-3.4.1-2.6.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-3.3.1-2.7">
+<dt id="section-3.4.1-2.7">
 <code>family_name</code>:</dt>
-            <dd style="margin-left: 1.5em" id="section-3.3.1-2.8">
-              <p id="section-3.3.1-2.8.1"><span class="bcp14">OPTIONAL</span> - Surname(s) or last name(s) of the human principal if they are an
-individual.<a href="#section-3.3.1-2.8.1" class="pilcrow">¶</a></p>
+            <dd style="margin-left: 1.5em" id="section-3.4.1-2.8">
+              <p id="section-3.4.1-2.8.1"><span class="bcp14">OPTIONAL</span> - Surname(s) or last name(s) of the human principal if they are an
+individual.<a href="#section-3.4.1-2.8.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-3.3.1-2.9">
+<dt id="section-3.4.1-2.9">
 <code>phone_number</code>:</dt>
-            <dd style="margin-left: 1.5em" id="section-3.3.1-2.10">
-              <p id="section-3.3.1-2.10.1"><span class="bcp14">OPTIONAL</span> - Phone number associated with the human individual or organization.<a href="#section-3.3.1-2.10.1" class="pilcrow">¶</a></p>
+            <dd style="margin-left: 1.5em" id="section-3.4.1-2.10">
+              <p id="section-3.4.1-2.10.1"><span class="bcp14">OPTIONAL</span> - Phone number associated with the human individual or organization.<a href="#section-3.4.1-2.10.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-3.3.1-2.11">
+<dt id="section-3.4.1-2.11">
 <code>organization_name</code>:</dt>
-            <dd style="margin-left: 1.5em" id="section-3.3.1-2.12">
-              <p id="section-3.3.1-2.12.1"><span class="bcp14">OPTIONAL</span> - Name of the organization.<a href="#section-3.3.1-2.12.1" class="pilcrow">¶</a></p>
+            <dd style="margin-left: 1.5em" id="section-3.4.1-2.12">
+              <p id="section-3.4.1-2.12.1"><span class="bcp14">OPTIONAL</span> - Name of the organization.<a href="#section-3.4.1-2.12.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-3.3.1-2.13">
+<dt id="section-3.4.1-2.13">
 <code>verifier</code>:</dt>
-            <dd style="margin-left: 1.5em" id="section-3.3.1-2.14">
-              <p id="section-3.3.1-2.14.1"><span class="bcp14">OPTIONAL</span> - URL of the party that performed the identity verification<a href="#section-3.3.1-2.14.1" class="pilcrow">¶</a></p>
+            <dd style="margin-left: 1.5em" id="section-3.4.1-2.14">
+              <p id="section-3.4.1-2.14.1"><span class="bcp14">OPTIONAL</span> - URL of the Identity Verifier<a href="#section-3.4.1-2.14.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-3.3.1-2.15">
+<dt id="section-3.4.1-2.15">
 <code>verified</code>:</dt>
-            <dd style="margin-left: 1.5em" id="section-3.3.1-2.16">
-              <p id="section-3.3.1-2.16.1"><span class="bcp14">OPTIONAL</span> - Boolean Verification status.  True if identity verified, otherwise false.<a href="#section-3.3.1-2.16.1" class="pilcrow">¶</a></p>
+            <dd style="margin-left: 1.5em" id="section-3.4.1-2.16">
+              <p id="section-3.4.1-2.16.1"><span class="bcp14">OPTIONAL</span> - Boolean Verification status.  True if verified, otherwise false.<a href="#section-3.4.1-2.16.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-3.3.1-2.17">
+<dt id="section-3.4.1-2.17">
 <code>verification_id</code>:</dt>
-            <dd style="margin-left: 1.5em" id="section-3.3.1-2.18">
-              <p id="section-3.3.1-2.18.1"><span class="bcp14">OPTIONAL</span> - Verification identifier.
-This is the verifier's identifier for the identity verification performed.
-This could be used during auditing and dispute resolution.<a href="#section-3.3.1-2.18.1" class="pilcrow">¶</a></p>
+            <dd style="margin-left: 1.5em" id="section-3.4.1-2.18">
+              <p id="section-3.4.1-2.18.1"><span class="bcp14">OPTIONAL</span> - Verification identifier. Identifier for the verification performed,
+such as a GUID.<a href="#section-3.4.1-2.18.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 </dl>
-<p id="section-3.3.1-3">Additional sub-claims <span class="bcp14">MAY</span> be defined and used.
-The recipient <span class="bcp14">MUST</span> ignore any unrecognized sub-claims.<a href="#section-3.3.1-3" class="pilcrow">¶</a></p>
+<p id="section-3.4.1-3">Additional sub-claims <span class="bcp14">MAY</span> be defined and used.
+The recipient <span class="bcp14">MUST</span> ignore any unrecognized sub-claims.<a href="#section-3.4.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="agent-platform-identity-apd-sub-claims">
-<section id="section-3.3.2">
+<section id="section-3.4.2">
           <h4 id="name-agent-platform-identity-apd">
-<a href="#section-3.3.2" class="section-number selfRef">3.3.2. </a><a href="#name-agent-platform-identity-apd" class="section-name selfRef">Agent Platform Identity <code>apd</code> Sub-Claims</a>
+<a href="#section-3.4.2" class="section-number selfRef">3.4.2. </a><a href="#name-agent-platform-identity-apd" class="section-name selfRef">Agent Platform Identity <code>apd</code> Sub-Claims</a>
           </h4>
-<p id="section-3.3.2-1">The <code>apd</code> claim is <span class="bcp14">OPTIONAL</span>. If present, it contains the following sub-claims.<a href="#section-3.3.2-1" class="pilcrow">¶</a></p>
-<span class="break"></span><dl class="dlNewline" id="section-3.3.2-2">
-            <dt id="section-3.3.2-2.1">
+<p id="section-3.4.2-1">The <code>apd</code> claim is optional. If present, it contains the following sub-claims.<a href="#section-3.4.2-1" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlNewline" id="section-3.4.2-2">
+            <dt id="section-3.4.2-2.1">
 <code>id</code>:</dt>
-            <dd style="margin-left: 1.5em" id="section-3.3.2-2.2">
-              <p id="section-3.3.2-2.2.1"><span class="bcp14">REQUIRED</span> - Agent Platform identifier.<a href="#section-3.3.2-2.2.1" class="pilcrow">¶</a></p>
+            <dd style="margin-left: 1.5em" id="section-3.4.2-2.2">
+              <p id="section-3.4.2-2.2.1"><span class="bcp14">REQUIRED</span> - Agent Platform identifier.<a href="#section-3.4.2-2.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-3.3.2-2.3">
+<dt id="section-3.4.2-2.3">
 <code>name</code>:</dt>
-            <dd style="margin-left: 1.5em" id="section-3.3.2-2.4">
-              <p id="section-3.3.2-2.4.1"><span class="bcp14">REQUIRED</span> - Agent Platform name.<a href="#section-3.3.2-2.4.1" class="pilcrow">¶</a></p>
+            <dd style="margin-left: 1.5em" id="section-3.4.2-2.4">
+              <p id="section-3.4.2-2.4.1"><span class="bcp14">REQUIRED</span> - Agent Platform name.<a href="#section-3.4.2-2.4.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-3.3.2-2.5">
+<dt id="section-3.4.2-2.5">
 <code>email</code>:</dt>
-            <dd style="margin-left: 1.5em" id="section-3.3.2-2.6">
-              <p id="section-3.3.2-2.6.1"><span class="bcp14">OPTIONAL</span> - Email associated with agent platform.<a href="#section-3.3.2-2.6.1" class="pilcrow">¶</a></p>
+            <dd style="margin-left: 1.5em" id="section-3.4.2-2.6">
+              <p id="section-3.4.2-2.6.1"><span class="bcp14">OPTIONAL</span> - Email associated with agent platform.<a href="#section-3.4.2-2.6.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-3.3.2-2.7">
+<dt id="section-3.4.2-2.7">
 <code>phone_number</code>:</dt>
-            <dd style="margin-left: 1.5em" id="section-3.3.2-2.8">
-              <p id="section-3.3.2-2.8.1"><span class="bcp14">OPTIONAL</span> - Phone number associated with agent platform.<a href="#section-3.3.2-2.8.1" class="pilcrow">¶</a></p>
+            <dd style="margin-left: 1.5em" id="section-3.4.2-2.8">
+              <p id="section-3.4.2-2.8.1"><span class="bcp14">OPTIONAL</span> - Phone number associated with agent platform.<a href="#section-3.4.2-2.8.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-3.3.2-2.9">
+<dt id="section-3.4.2-2.9">
 <code>organization_name</code>:</dt>
-            <dd style="margin-left: 1.5em" id="section-3.3.2-2.10">
-              <p id="section-3.3.2-2.10.1"><span class="bcp14">OPTIONAL</span> - Legal name associated with agent platform.<a href="#section-3.3.2-2.10.1" class="pilcrow">¶</a></p>
+            <dd style="margin-left: 1.5em" id="section-3.4.2-2.10">
+              <p id="section-3.4.2-2.10.1"><span class="bcp14">OPTIONAL</span> - Legal name associated with agent platform.<a href="#section-3.4.2-2.10.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-3.3.2-2.11">
+<dt id="section-3.4.2-2.11">
 <code>verifier</code>:</dt>
-            <dd style="margin-left: 1.5em" id="section-3.3.2-2.12">
-              <p id="section-3.3.2-2.12.1"><span class="bcp14">OPTIONAL</span> - URL of the party that verified the agent identity (KYA)<a href="#section-3.3.2-2.12.1" class="pilcrow">¶</a></p>
+            <dd style="margin-left: 1.5em" id="section-3.4.2-2.12">
+              <p id="section-3.4.2-2.12.1"><span class="bcp14">OPTIONAL</span> - URL of the Identity Verifier<a href="#section-3.4.2-2.12.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-3.3.2-2.13">
+<dt id="section-3.4.2-2.13">
 <code>verified</code>:</dt>
-            <dd style="margin-left: 1.5em" id="section-3.3.2-2.14">
-              <p id="section-3.3.2-2.14.1"><span class="bcp14">OPTIONAL</span> - Boolean Verification status.  True if KYA verified, otherwise false.<a href="#section-3.3.2-2.14.1" class="pilcrow">¶</a></p>
+            <dd style="margin-left: 1.5em" id="section-3.4.2-2.14">
+              <p id="section-3.4.2-2.14.1"><span class="bcp14">OPTIONAL</span> - Boolean Verification status.  True if verified, otherwise false.<a href="#section-3.4.2-2.14.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-3.3.2-2.15">
+<dt id="section-3.4.2-2.15">
 <code>verification_id</code>:</dt>
-            <dd style="margin-left: 1.5em" id="section-3.3.2-2.16">
-              <p id="section-3.3.2-2.16.1"><span class="bcp14">OPTIONAL</span> - Verification identifier.
-This is the verifier's identifier for the KYA verification performed.
-This could be used during auditing and dispute resolution.<a href="#section-3.3.2-2.16.1" class="pilcrow">¶</a></p>
+            <dd style="margin-left: 1.5em" id="section-3.4.2-2.16">
+              <p id="section-3.4.2-2.16.1"><span class="bcp14">OPTIONAL</span> - Verification identifier. Identifier for the verification performed, such as a GUID.<a href="#section-3.4.2-2.16.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 </dl>
-<p id="section-3.3.2-3">Additional sub-claims <span class="bcp14">MAY</span> be defined and used.
-The recipient <span class="bcp14">MUST</span> ignore any unrecognized sub-claims.<a href="#section-3.3.2-3" class="pilcrow">¶</a></p>
+<p id="section-3.4.2-3">Additional sub-claims <span class="bcp14">MAY</span> be defined and used.
+The recipient <span class="bcp14">MUST</span> ignore any unrecognized sub-claims.<a href="#section-3.4.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="agent-identity-aid-sub-claims">
-<section id="section-3.3.3">
+<section id="section-3.4.3">
           <h4 id="name-agent-identity-aid-sub-clai">
-<a href="#section-3.3.3" class="section-number selfRef">3.3.3. </a><a href="#name-agent-identity-aid-sub-clai" class="section-name selfRef">Agent Identity <code>aid</code> Sub-Claims</a>
+<a href="#section-3.4.3" class="section-number selfRef">3.4.3. </a><a href="#name-agent-identity-aid-sub-clai" class="section-name selfRef">Agent Identity <code>aid</code> Sub-Claims</a>
           </h4>
-<p id="section-3.3.3-1">The <code>aid</code> claim is <span class="bcp14">REQUIRED</span>. It contains the following sub-claims.<a href="#section-3.3.3-1" class="pilcrow">¶</a></p>
-<span class="break"></span><dl class="dlNewline" id="section-3.3.3-2">
-            <dt id="section-3.3.3-2.1">
+<p id="section-3.4.3-1">The <code>aid</code> claim is <span class="bcp14">REQUIRED</span>. It contains the following sub-claims.<a href="#section-3.4.3-1" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlNewline" id="section-3.4.3-2">
+            <dt id="section-3.4.3-2.1">
 <code>name</code>:</dt>
-            <dd style="margin-left: 1.5em" id="section-3.3.3-2.2">
-              <p id="section-3.3.3-2.2.1"><span class="bcp14">REQUIRED</span> - Agent name. The name should reflect the business purpose of the agent.<a href="#section-3.3.3-2.2.1" class="pilcrow">¶</a></p>
+            <dd style="margin-left: 1.5em" id="section-3.4.3-2.2">
+              <p id="section-3.4.3-2.2.1"><span class="bcp14">REQUIRED</span> - Agent name. The name should reflect the business purpose of the agent.<a href="#section-3.4.3-2.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-3.3.3-2.3">
+<dt id="section-3.4.3-2.3">
 <code>creation_ip</code>:</dt>
-            <dd style="margin-left: 1.5em" id="section-3.3.3-2.4">
-              <p id="section-3.3.3-2.4.1"><span class="bcp14">REQUIRED</span> - The public IP address of the system / agent that requested the token.
+            <dd style="margin-left: 1.5em" id="section-3.4.3-2.4">
+              <p id="section-3.4.3-2.4.1"><span class="bcp14">REQUIRED</span> - The public IP address of the system / agent that requested the token.
 Its value is a string containing the public IPv4 or IPv6 address from where the
-token request originated. It <span class="bcp14">MUST</span> be captured directly from the token request.<a href="#section-3.3.3-2.4.1" class="pilcrow">¶</a></p>
+token request originated. It <span class="bcp14">MUST</span> be captured directly from the token request.<a href="#section-3.4.3-2.4.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-3.3.3-2.5">
+<dt id="section-3.4.3-2.5">
 <code>source_ips</code>:</dt>
-            <dd style="margin-left: 1.5em" id="section-3.3.3-2.6">
-              <p id="section-3.3.3-2.6.1"><span class="bcp14">OPTIONAL</span> - Valid public IP address, or range of public IP addresses, from where
-the system / agent's requests to merchants / services will originate. A JSON
-array of IPv4 addresses or ranges, IPv6 addresses or ranges, or domain
+            <dd style="margin-left: 1.5em" id="section-3.4.3-2.6">
+              <p id="section-3.4.3-2.6.1"><span class="bcp14">OPTIONAL</span> - Valid public IP address, or range of public IP addresses, from where
+the system / agent's requests to merchants / services will originate. Array of
+comma-separated IPv4 addresses or ranges, IPv6 addresses or ranges, or domain
 names resolvable to an IP address via DNS. IPv4 and IPv6 addresses can be a
 single IPv4 or IPv6 address or a range of IPv4 or IPv6 addresses in CIDR notation
-or start-and-end IP pairs.<a href="#section-3.3.3-2.6.1" class="pilcrow">¶</a></p>
+or start-and-end IP pairs.<a href="#section-3.4.3-2.6.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 </dl>
-<p id="section-3.3.3-3">Additional sub-claims <span class="bcp14">MAY</span> be defined and used.
-The recipient <span class="bcp14">MUST</span> ignore any unrecognized sub-claims.<a href="#section-3.3.3-3" class="pilcrow">¶</a></p>
+<p id="section-3.4.3-3">Additional sub-claims <span class="bcp14">MAY</span> be defined and used.
+The recipient <span class="bcp14">MUST</span> ignore any unrecognized sub-claims.<a href="#section-3.4.3-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
 <div id="pay-token">
-<section id="section-3.4">
+<section id="section-3.5">
         <h3 id="name-pay-token">
-<a href="#section-3.4" class="section-number selfRef">3.4. </a><a href="#name-pay-token" class="section-name selfRef">PAY Token</a>
+<a href="#section-3.5" class="section-number selfRef">3.5. </a><a href="#name-pay-token" class="section-name selfRef">PAY Token</a>
         </h3>
-<p id="section-3.4-1">The following payment related claims are used within PAY and KYA-PAY type tokens:<a href="#section-3.4-1" class="pilcrow">¶</a></p>
-<span class="break"></span><dl class="dlNewline" id="section-3.4-2">
-          <dt id="section-3.4-2.1">
+<p id="section-3.5-1">The following payment related claims are used within PAY and KYA-PAY type tokens:<a href="#section-3.5-1" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlNewline" id="section-3.5-2">
+          <dt id="section-3.5-2.1">
 <code>tpr</code>:</dt>
-          <dd style="margin-left: 1.5em" id="section-3.4-2.2">
-            <p id="section-3.4-2.2.1"><span class="bcp14">OPTIONAL</span> - JSON string representing target service price in currency units.<a href="#section-3.4-2.2.1" class="pilcrow">¶</a></p>
+          <dd style="margin-left: 1.5em" id="section-3.5-2.2">
+            <p id="section-3.5-2.2.1"><span class="bcp14">OPTIONAL</span> - JSON string representing target service price in currency units.<a href="#section-3.5-2.2.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-3.4-2.3">
+<dt id="section-3.5-2.3">
 <code>tps</code>:</dt>
-          <dd style="margin-left: 1.5em" id="section-3.4-2.4">
-            <p id="section-3.4-2.4.1"><span class="bcp14">OPTIONAL</span> - Target pricing scheme, which represents a way for the target list
+          <dd style="margin-left: 1.5em" id="section-3.5-2.4">
+            <p id="section-3.5-2.4.1"><span class="bcp14">OPTIONAL</span> - Target pricing scheme, which represents a way for the target list
 how it charges for its service or content. One of <code>pay_per_use</code>,
 <code>subscription</code>, <code>pay_per_mb</code>, or <code>custom</code>.  Additional values may be defined
-and used.<a href="#section-3.4-2.4.1" class="pilcrow">¶</a></p>
+and used.<a href="#section-3.5-2.4.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-3.4-2.5">
+<dt id="section-3.5-2.5">
 <code>amt</code>:</dt>
-          <dd style="margin-left: 1.5em" id="section-3.4-2.6">
-            <p id="section-3.4-2.6.1"><span class="bcp14">REQUIRED</span> - JSON string representing token amount in currency units.<a href="#section-3.4-2.6.1" class="pilcrow">¶</a></p>
+          <dd style="margin-left: 1.5em" id="section-3.5-2.6">
+            <p id="section-3.5-2.6.1"><span class="bcp14">REQUIRED</span> - JSON string representing token amount in currency units.<a href="#section-3.5-2.6.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-3.4-2.7">
+<dt id="section-3.5-2.7">
 <code>cur</code>:</dt>
-          <dd style="margin-left: 1.5em" id="section-3.4-2.8">
-            <p id="section-3.4-2.8.1"><span class="bcp14">REQUIRED</span> - Currency unit, represented as an ISO 4217 three letter code, such as "EUR".<a href="#section-3.4-2.8.1" class="pilcrow">¶</a></p>
+          <dd style="margin-left: 1.5em" id="section-3.5-2.8">
+            <p id="section-3.5-2.8.1"><span class="bcp14">REQUIRED</span> - Currency unit, represented as an ISO 4217 three letter code, such as "EUR".<a href="#section-3.5-2.8.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-3.4-2.9">
+<dt id="section-3.5-2.9">
 <code>val</code>:</dt>
-          <dd style="margin-left: 1.5em" id="section-3.4-2.10">
-            <p id="section-3.4-2.10.1"><span class="bcp14">REQUIRED</span> - JSON string representing token amount in settlement network's units.<a href="#section-3.4-2.10.1" class="pilcrow">¶</a></p>
+          <dd style="margin-left: 1.5em" id="section-3.5-2.10">
+            <p id="section-3.5-2.10.1"><span class="bcp14">REQUIRED</span> - JSON string representing token amount in settlement network's units.<a href="#section-3.5-2.10.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-3.4-2.11">
+<dt id="section-3.5-2.11">
 <code>mnr</code>:</dt>
-          <dd style="margin-left: 1.5em" id="section-3.4-2.12">
-            <p id="section-3.4-2.12.1"><span class="bcp14">OPTIONAL</span> - JSON number representing maximum number of requests when <code>tps</code> is <code>pay_per_use</code>.<a href="#section-3.4-2.12.1" class="pilcrow">¶</a></p>
+          <dd style="margin-left: 1.5em" id="section-3.5-2.12">
+            <p id="section-3.5-2.12.1"><span class="bcp14">OPTIONAL</span> - JSON number representing maximum number of requests when <code>tps</code> is <code>pay_per_use</code>.<a href="#section-3.5-2.12.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-3.4-2.13">
+<dt id="section-3.5-2.13">
 <code>stp</code>:</dt>
-          <dd style="margin-left: 1.5em" id="section-3.4-2.14">
-            <p id="section-3.4-2.14.1"><span class="bcp14">REQUIRED</span> - Settlement type (one of <code>coin</code> or <code>card</code>).  Additional values may be defined and used.<a href="#section-3.4-2.14.1" class="pilcrow">¶</a></p>
+          <dd style="margin-left: 1.5em" id="section-3.5-2.14">
+            <p id="section-3.5-2.14.1"><span class="bcp14">REQUIRED</span> - Settlement type (one of <code>coin</code> or <code>card</code>).  Additional values may be defined and used.<a href="#section-3.5-2.14.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-3.4-2.15">
+<dt id="section-3.5-2.15">
 <code>sti</code>:</dt>
-          <dd style="margin-left: 1.5em" id="section-3.4-2.16">
-            <p id="section-3.4-2.16.1"><span class="bcp14">REQUIRED</span> - Meta information for payment settlement, depending on the <code>stp</code>
-value.<a href="#section-3.4-2.16.1" class="pilcrow">¶</a></p>
+          <dd style="margin-left: 1.5em" id="section-3.5-2.16">
+            <p id="section-3.5-2.16.1"><span class="bcp14">REQUIRED</span> - Meta information for payment settlement, depending on settlement.
+type.<a href="#section-3.5-2.16.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 </dl>
 <div id="settlement-information-sti-sub-claims">
-<section id="section-3.4.1">
+<section id="section-3.5.1">
           <h4 id="name-settlement-information-sti-">
-<a href="#section-3.4.1" class="section-number selfRef">3.4.1. </a><a href="#name-settlement-information-sti-" class="section-name selfRef">Settlement Information <code>sti</code> Sub-Claims</a>
+<a href="#section-3.5.1" class="section-number selfRef">3.5.1. </a><a href="#name-settlement-information-sti-" class="section-name selfRef">Settlement Information <code>sti</code> Sub-Claims</a>
           </h4>
-<p id="section-3.4.1-1">The <code>sti</code> claim is <span class="bcp14">REQUIRED</span> in Pay Tokens. It contains the following sub-claims,
-with the requirement levels marked below.<a href="#section-3.4.1-1" class="pilcrow">¶</a></p>
-<p id="section-3.4.1-2">The <code>sti</code> claim carries the settlement instrument, and its contents depend on
-the value of <code>stp</code>.<a href="#section-3.4.1-2" class="pilcrow">¶</a></p>
-<p id="section-3.4.1-3">When the <code>stp</code> value is <code>card</code>, the settlement instrument is an agentic payment credential
+<p id="section-3.5.1-1">The <code>sti</code> claim is <span class="bcp14">REQUIRED</span>. It contains the following sub-claims,
+with the requirement levels marked below.<a href="#section-3.5.1-1" class="pilcrow">¶</a></p>
+<p id="section-3.5.1-2">The <code>sti</code> claim carries the settlement instrument, and its contents depend on
+the value of <code>stp</code>.<a href="#section-3.5.1-2" class="pilcrow">¶</a></p>
+<p id="section-3.5.1-3">When the <code>stp</code> is value <code>card</code>, the settlement instrument is an agentic payment credential
 issued by a payment network under an agentic-commerce programme -- for example
 Visa Intelligent Commerce (<code>visa_vic</code>) or Mastercard Agent Pay, using Secure Card
 on File (<code>mastercard_scof</code>). Such a credential is provisioned for a single
 transaction and is scoped to one initiator, one target, and one amount. It is not
 a Primary Account Number (PAN), and it cannot be used to derive the underlying
-PAN or the network's agentic token.<a href="#section-3.4.1-3" class="pilcrow">¶</a></p>
-<span class="break"></span><dl class="dlNewline" id="section-3.4.1-4">
-            <dt id="section-3.4.1-4.1">
+PAN or the network's agentic token.<a href="#section-3.5.1-3" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlNewline" id="section-3.5.1-4">
+            <dt id="section-3.5.1-4.1">
 <code>type</code>:</dt>
-            <dd style="margin-left: 1.5em" id="section-3.4.1-4.2">
-              <p id="section-3.4.1-4.2.1"><span class="bcp14">REQUIRED</span> - "type" is dependent on the "stp" value; for "coin" - "usdc";
-for "card" - "visa_vic" or "mastercard_scof".  Additional values may be defined and used.<a href="#section-3.4.1-4.2.1" class="pilcrow">¶</a></p>
+            <dd style="margin-left: 1.5em" id="section-3.5.1-4.2">
+              <p id="section-3.5.1-4.2.1"><span class="bcp14">REQUIRED</span> - "type" is dependent on the "stp" value; for "coin" - "usdc";
+for "card" - "visa_vic" or "mastercard_scof".  Additional values may be defined and used.<a href="#section-3.5.1-4.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-3.4.1-4.3">
+<dt id="section-3.5.1-4.3">
 <code>payment_token</code>:</dt>
-            <dd style="margin-left: 1.5em" id="section-3.4.1-4.4">
-              <p id="section-3.4.1-4.4.1"><span class="bcp14">REQUIRED</span> when the <code>stp</code> value is <code>card</code>; otherwise <span class="bcp14">OPTIONAL</span> - String containing the
+            <dd style="margin-left: 1.5em" id="section-3.5.1-4.4">
+              <p id="section-3.5.1-4.4.1"><span class="bcp14">REQUIRED</span> when the <code>stp</code> value is <code>card</code>; otherwise <span class="bcp14">OPTIONAL</span> - String containing the
 network-issued agentic payment credential, formatted per ISO/IEC 7812,
 12-19 characters. This value <span class="bcp14">MUST</span> be a payment-network-issued agentic or
-tokenized credential. It <span class="bcp14">MUST NOT</span> be a Primary Account Number (PAN).<a href="#section-3.4.1-4.4.1" class="pilcrow">¶</a></p>
+tokenized credential. It <span class="bcp14">MUST NOT</span> be a Primary Account Number (PAN).<a href="#section-3.5.1-4.4.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-3.4.1-4.5">
+<dt id="section-3.5.1-4.5">
 <code>token_expiration_month</code>:</dt>
-            <dd style="margin-left: 1.5em" id="section-3.4.1-4.6">
-              <p id="section-3.4.1-4.6.1"><span class="bcp14">REQUIRED</span> when <code>payment_token</code> is present - String containing two-digit
-Expiration Month Number.<a href="#section-3.4.1-4.6.1" class="pilcrow">¶</a></p>
+            <dd style="margin-left: 1.5em" id="section-3.5.1-4.6">
+              <p id="section-3.5.1-4.6.1"><span class="bcp14">REQUIRED</span> when <code>payment_token</code> is present - String containing two-digit
+Expiration Month Number.<a href="#section-3.5.1-4.6.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-3.4.1-4.7">
+<dt id="section-3.5.1-4.7">
 <code>token_expiration_year</code>:</dt>
-            <dd style="margin-left: 1.5em" id="section-3.4.1-4.8">
-              <p id="section-3.4.1-4.8.1"><span class="bcp14">REQUIRED</span> when <code>payment_token</code> is present - String containing four-digit
-Expiration Year.<a href="#section-3.4.1-4.8.1" class="pilcrow">¶</a></p>
+            <dd style="margin-left: 1.5em" id="section-3.5.1-4.8">
+              <p id="section-3.5.1-4.8.1"><span class="bcp14">REQUIRED</span> when <code>payment_token</code> is present - String containing four-digit
+Expiration Year.<a href="#section-3.5.1-4.8.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-3.4.1-4.9">
+<dt id="section-3.5.1-4.9">
 <code>token_security_code</code>:</dt>
-            <dd style="margin-left: 1.5em" id="section-3.4.1-4.10">
-              <p id="section-3.4.1-4.10.1"><span class="bcp14">REQUIRED</span> when <code>payment_token</code> is present - String containing the single-use
+            <dd style="margin-left: 1.5em" id="section-3.5.1-4.10">
+              <p id="section-3.5.1-4.10.1"><span class="bcp14">REQUIRED</span> when <code>payment_token</code> is present - String containing the single-use
 token cryptogram accompanying the credential in <code>payment_token</code> -- a Dynamic
 Token Verification Value (DTVV) or Token Authentication Verification Value
 (TAVV), depending on the network. 3 or 4 digits. This value is generated per
 transaction and is short-lived; its validity period is determined and enforced
 by the payment network. It <span class="bcp14">MUST NOT</span> be a static Card Verification Value
-(CVV, CVC2 or CVV2).<a href="#section-3.4.1-4.10.1" class="pilcrow">¶</a></p>
+(CVV, CVC2 or CVV2).<a href="#section-3.5.1-4.10.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-3.4.1-4.11">
+<dt id="section-3.5.1-4.11">
 <code>verifier</code>:</dt>
-            <dd style="margin-left: 1.5em" id="section-3.4.1-4.12">
-              <p id="section-3.4.1-4.12.1"><span class="bcp14">OPTIONAL</span> - URL of the party that performed the payment method verification<a href="#section-3.4.1-4.12.1" class="pilcrow">¶</a></p>
+            <dd style="margin-left: 1.5em" id="section-3.5.1-4.12">
+              <p id="section-3.5.1-4.12.1"><span class="bcp14">OPTIONAL</span> - URL of the Payment Verifier<a href="#section-3.5.1-4.12.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-3.4.1-4.13">
+<dt id="section-3.5.1-4.13">
 <code>verified</code>:</dt>
-            <dd style="margin-left: 1.5em" id="section-3.4.1-4.14">
-              <p id="section-3.4.1-4.14.1"><span class="bcp14">OPTIONAL</span> - Boolean Verification status.  True if verified, otherwise false.<a href="#section-3.4.1-4.14.1" class="pilcrow">¶</a></p>
+            <dd style="margin-left: 1.5em" id="section-3.5.1-4.14">
+              <p id="section-3.5.1-4.14.1"><span class="bcp14">OPTIONAL</span> - Boolean Verification status.  True if verified, otherwise false.<a href="#section-3.5.1-4.14.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-3.4.1-4.15">
+<dt id="section-3.5.1-4.15">
 <code>verification_id</code>:</dt>
-            <dd style="margin-left: 1.5em" id="section-3.4.1-4.16">
-              <p id="section-3.4.1-4.16.1"><span class="bcp14">OPTIONAL</span> - Verification identifier.
-This is the verifier's identifier for the payment method verification performed.
-This could be used during auditing and dispute resolution.<a href="#section-3.4.1-4.16.1" class="pilcrow">¶</a></p>
+            <dd style="margin-left: 1.5em" id="section-3.5.1-4.16">
+              <p id="section-3.5.1-4.16.1"><span class="bcp14">OPTIONAL</span> - Verification identifier. Identifier for the verification performed, such as a GUID.<a href="#section-3.5.1-4.16.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 </dl>
-<p id="section-3.4.1-5">Additional sub-claims <span class="bcp14">MAY</span> be defined and used.
-The recipient <span class="bcp14">MUST</span> ignore any unrecognized sub-claims.<a href="#section-3.4.1-5" class="pilcrow">¶</a></p>
+<p id="section-3.5.1-5">Additional sub-claims <span class="bcp14">MAY</span> be defined and used.
+The recipient <span class="bcp14">MUST</span> ignore any unrecognized sub-claims.<a href="#section-3.5.1-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="scope-of-card-settlement">
-<section id="section-3.4.2">
+<section id="section-3.5.2">
           <h4 id="name-scope-of-card-settlement">
-<a href="#section-3.4.2" class="section-number selfRef">3.4.2. </a><a href="#name-scope-of-card-settlement" class="section-name selfRef">Scope of Card Settlement</a>
+<a href="#section-3.5.2" class="section-number selfRef">3.5.2. </a><a href="#name-scope-of-card-settlement" class="section-name selfRef">Scope of Card Settlement</a>
           </h4>
-<p id="section-3.4.2-1">This specification supports card settlement only through payment-network
+<p id="section-3.5.2-1">This specification supports card settlement only through payment-network
 agentic-commerce programmes that issue transaction-scoped, PCI-exempt
-credentials.<a href="#section-3.4.2-1" class="pilcrow">¶</a></p>
-<p id="section-3.4.2-2">A PAY or KYA-PAY token <span class="bcp14">MUST NOT</span> carry a Primary Account Number, or the static
-verification value associated with one.<a href="#section-3.4.2-2" class="pilcrow">¶</a></p>
-<p id="section-3.4.2-3">Settlement instruments that fall within PCI DSS scope require mechanisms this
+credentials.<a href="#section-3.5.2-1" class="pilcrow">¶</a></p>
+<p id="section-3.5.2-2">A PAY or KYA-PAY token <span class="bcp14">MUST NOT</span> carry a Primary Account Number, or the static
+verification value associated with one.<a href="#section-3.5.2-2" class="pilcrow">¶</a></p>
+<p id="section-3.5.2-3">Settlement instruments that fall within PCI DSS scope require mechanisms this
 specification does not define -- including confidentiality protection of the
 token contents and a defined cardholder-data-environment boundary. Support for
 such instruments is left to future work, and implementers requiring it should
-not attempt to carry them in the claims defined here.<a href="#section-3.4.2-3" class="pilcrow">¶</a></p>
+not attempt to carry them in the claims defined here.<a href="#section-3.5.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="pay">
-<section id="section-3.4.3">
+<section id="section-3.5.3">
           <h4 id="name-pay-token-example">
-<a href="#section-3.4.3" class="section-number selfRef">3.4.3. </a><a href="#name-pay-token-example" class="section-name selfRef">PAY Token Example</a>
+<a href="#section-3.5.3" class="section-number selfRef">3.5.3. </a><a href="#name-pay-token-example" class="section-name selfRef">PAY Token Example</a>
           </h4>
-<p id="section-3.4.3-1">The following informative example displays a decoded PAY type token.<a href="#section-3.4.3-1" class="pilcrow">¶</a></p>
+<p id="section-3.5.3-1">The following informative example displays a decoded PAY type token.<a href="#section-3.5.3-1" class="pilcrow">¶</a></p>
 <span id="name-a-pay-type-token"></span><div id="example-decoded-pay-token">
 <figure id="figure-2">
-            <div class="alignLeft art-text artwork" id="section-3.4.3-2.1">
+            <div class="alignLeft art-text artwork" id="section-3.5.3-2.1">
 <pre>
 {
   "kid": "FgT4q8c5IqbBCCjcho5JdeGQvuK1keMDFc9IwCm8J7Y", // JWK Key ID
@@ -2229,7 +2231,7 @@ not attempt to carry them in the claims defined here.<a href="#section-3.4.2-3" 
     "token_security_code": "123",
     "verifier": "https://verifier.example.info", // URL of payment method verifier
     "verified": true, // Outcome of the verifier's payment method verification
-    "verification_id": "3a6e1b76-8f78-4c24-b1bd-dc78a8cc3711" // Verifier's ID for the payment method verification performed
+    "verification_id": "3a6e1b76-8f78-4c24-b1bd-dc78a8cc3711" // Identifier for the verification performed, such as a GUID.
   }
 }
 
@@ -2244,14 +2246,14 @@ not attempt to carry them in the claims defined here.<a href="#section-3.4.2-3" 
 </section>
 </div>
 <div id="kya-pay-token">
-<section id="section-3.5">
-        <h3 id="name-kya-pay-token-example">
-<a href="#section-3.5" class="section-number selfRef">3.5. </a><a href="#name-kya-pay-token-example" class="section-name selfRef">KYA-PAY Token Example</a>
+<section id="section-3.6">
+        <h3 id="name-kya-pay-token">
+<a href="#section-3.6" class="section-number selfRef">3.6. </a><a href="#name-kya-pay-token" class="section-name selfRef">KYA-PAY Token</a>
         </h3>
-<p id="section-3.5-1">The following informative example displays a decoded KYA-PAY type token.<a href="#section-3.5-1" class="pilcrow">¶</a></p>
+<p id="section-3.6-1">The following informative example displays a decoded KYA-PAY type token.<a href="#section-3.6-1" class="pilcrow">¶</a></p>
 <span id="name-a-kya-pay-type-token"></span><div id="example-decoded-kya-pay-token">
 <figure id="figure-3">
-          <div class="alignLeft art-text artwork" id="section-3.5-2.1">
+          <div class="alignLeft art-text artwork" id="section-3.6-2.1">
 <pre>
 {
   "kid": "YjFdJgFNWj9AkUmtoXILwoeb37PsBuGWVK6_QvFLwJw", // JWK Key ID
@@ -2283,9 +2285,9 @@ not attempt to carry them in the claims defined here.<a href="#section-3.4.2-3" 
     "email": "platform@acme.com", // Email address for the agent platform
     "phone_number": "+12345677890", // Phone number for the agent platform
     "organization_name": "Acme Shopping Inc.", // Legal name of the agent platform
-    "verifier": "https://www.verifier.com/", // URL of the KYA verifier
+    "verifier": "https://www.verifier.com/", // URL of the Identity verifier
     "verified": true, // Outcome of the verifier's KYA verification
-    "verification_id": "a23c1fe4-a4b7-442d-8bca-3c8fad5ec3a6" // Verifier's ID for the KYA verification performed
+    "verification_id": "a23c1fe4-a4b7-442d-8bca-3c8fad5ec3a6" // Verifier's verification ID
   },
   "aid": {
     "name": "Agentic Excellence Я Us",
@@ -2340,17 +2342,17 @@ not attempt to carry them in the claims defined here.<a href="#section-3.4.2-3" 
 <li id="section-4.1.1-1.1">
               <p id="section-4.1.1-1.1.1"><code>alg</code> - The <code>alg</code> header parameter <span class="bcp14">MUST</span> be present and, to enable
 interoperability, it is <span class="bcp14">RECOMMENDED</span> that its value be <code>ES256</code> <span>[<a href="#RFC7518" class="cite xref">RFC7518</a>]</span>.
-Recipients <span class="bcp14">MUST</span> reject any token whose <code>alg</code> value is not supported by both
+Verifiers <span class="bcp14">MUST</span> reject any token whose <code>alg</code> value is not supported by both
 parties, including <code>none</code> <span>[<a href="#RFC7515" class="cite xref">RFC7515</a>]</span>.<a href="#section-4.1.1-1.1.1" class="pilcrow">¶</a></p>
 <p id="section-4.1.1-1.1.2">
-Recipients <span class="bcp14">MUST</span> use the signature algorithm in the token.
+Verifiers <span class="bcp14">MUST</span> use the verification algorithm in the token.
 The key is obtained from the
 issuer's JWK Set (item 2); a token is verified with that algorithm and that
-key, or rejected. In particular, a recipient <span class="bcp14">MUST NOT</span> accept a token that
+key, or rejected. In particular, a verifier <span class="bcp14">MUST NOT</span> accept a token that
 would require interpreting an Elliptic Curve public key as a symmetric key.<a href="#section-4.1.1-1.1.2" class="pilcrow">¶</a></p>
 <p id="section-4.1.1-1.1.3">
 Where the key retrieved from the issuer's JWK Set carries an <code>alg</code> or <code>use</code>
-parameter, the recipient <span class="bcp14">MUST</span> confirm it is consistent with
+parameter, the verifier <span class="bcp14">MUST</span> confirm it is consistent with
 the parameters of the issued token, and reject the token otherwise.<a href="#section-4.1.1-1.1.3" class="pilcrow">¶</a></p>
 </li>
             <li id="section-4.1.1-1.2">
@@ -2371,18 +2373,18 @@ the issuer's JWK Set, located as described in <a href="#key-discovery" class="au
 <ol start="1" type="1" class="normal type-1" id="section-4.1.2-1">
 <li id="section-4.1.2-1.1">
               <p id="section-4.1.2-1.1.1"><strong>Verify JWT Signature</strong> - Valid JWTs <span class="bcp14">MUST</span> be signed with a valid key belonging
-  to the token's issuer (<code>iss</code> claim)<a href="#section-4.1.2-1.1.1" class="pilcrow">¶</a></p>
+  To the token's issuer (<code>iss</code> claim)<a href="#section-4.1.2-1.1.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-4.1.2-1.2">
               <p id="section-4.1.2-1.2.1"><strong>Validate <code>iss</code> Claim</strong> - Ensure that the token is signed by the expected
   valid issuer.<a href="#section-4.1.2-1.2.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-4.1.2-1.3">
-              <p id="section-4.1.2-1.3.1"><strong>Validate the <code>exp</code> Claim</strong> - The recipient <span class="bcp14">MUST</span> validate that the token has
+              <p id="section-4.1.2-1.3.1"><strong>Validate the <code>exp</code> Claim</strong> - The verifier <span class="bcp14">MUST</span> validate that the token has
   not expired, within the clock skew tolerance described in <a href="#clock-skew" class="auto internal xref">Section 4.1.3</a>.<a href="#section-4.1.2-1.3.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-4.1.2-1.4">
-              <p id="section-4.1.2-1.4.1"><strong>Validate the <code>iat</code> Claim</strong> - The recipient <span class="bcp14">MUST</span> validate that the token was
+              <p id="section-4.1.2-1.4.1"><strong>Validate the <code>iat</code> Claim</strong> - The verifier <span class="bcp14">MUST</span> validate that the token was
   issued in the past, within the clock skew tolerance described in <a href="#clock-skew" class="auto internal xref">Section 4.1.3</a>.<a href="#section-4.1.2-1.4.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-4.1.2-1.5">
@@ -2405,12 +2407,12 @@ the issuer's JWK Set, located as described in <a href="#key-discovery" class="au
 <a href="#section-4.1.3" class="section-number selfRef">4.1.3. </a><a href="#name-clock-skew" class="section-name selfRef">Clock Skew</a>
           </h4>
 <p id="section-4.1.3-1">The <code>iat</code> and <code>exp</code> claims are set from the issuer's clock and evaluated against
-the recipient's. These are never precisely synchronized, so a recipient applies a
+the verifier's. These are never precisely synchronized, so a verifier applies a
 tolerance when evaluating them.<a href="#section-4.1.3-1" class="pilcrow">¶</a></p>
-<p id="section-4.1.3-2">A recipient <span class="bcp14">MUST</span> accept a token whose <code>iat</code> is up to the tolerance in the future,
+<p id="section-4.1.3-2">A verifier <span class="bcp14">MUST</span> accept a token whose <code>iat</code> is up to the tolerance in the future,
 and <span class="bcp14">MUST</span> accept a token up to the tolerance beyond its <code>exp</code>.<a href="#section-4.1.3-2" class="pilcrow">¶</a></p>
-<p id="section-4.1.3-3">A recipient <span class="bcp14">MUST</span> support a tolerance of at least 5 seconds.
-A recipient <span class="bcp14">SHOULD NOT</span> apply a tolerance greater than 60 seconds;
+<p id="section-4.1.3-3">A verifier <span class="bcp14">MUST</span> support a tolerance of at least 5 seconds.
+A verifier <span class="bcp14">SHOULD NOT</span> apply a tolerance greater than 60 seconds;
 30 seconds is <span class="bcp14">RECOMMENDED</span>.
 A tolerance approaching the token's own lifetime defeats the purpose of <code>exp</code>:
 the effective window in which a captured token is accepted is its lifetime plus
@@ -2559,16 +2561,16 @@ forwarding, short lifetimes, and audience restriction via the <code>aud</code> c
 the primary defences against capture and replay.<a href="#section-5.5-1" class="pilcrow">¶</a></p>
 <p id="section-5.5-2">A token <span class="bcp14">MAY</span> carry a <code>cnf</code> claim <span>[<a href="#RFC7800" class="cite xref">RFC7800</a>]</span> binding it to a public key held by
 the agent. A token carrying <code>cnf</code> is sender-constrained rather than bearer:
-possession of the token alone is insufficient, and a recipient requires the
+possession of the token alone is insufficient, and a verifier requires the
 presenter to demonstrate possession of the confirmation key on each request.<a href="#section-5.5-2" class="pilcrow">¶</a></p>
-<p id="section-5.5-3">Recipient behaviour for tokens carrying <code>cnf</code> -- including the requirement to
+<p id="section-5.5-3">Verifier behaviour for tokens carrying <code>cnf</code> -- including the requirement to
 verify an HTTP Message Signature <span>[<a href="#RFC9421" class="cite xref">RFC9421</a>]</span> over the confirmation key, and to
 reject requests where that signature is absent or invalid -- is specified in
 <span>[<a href="#I-D.skyfire-oauth-using-kyapay-tokens" class="cite xref">I-D.skyfire-oauth-using-kyapay-tokens</a>]</span>.<a href="#section-5.5-3" class="pilcrow">¶</a></p>
 <p id="section-5.5-4">Issuers <span class="bcp14">SHOULD</span> include <code>cnf</code> where the agent holds a suitable key and the target
 is expected to enforce it. Issuers <span class="bcp14">MUST NOT</span> rely on <code>cnf</code> as a substitute for
 the bearer-token protections above, since a token carrying <code>cnf</code> may still be
-presented to a recipient that does not enforce it.<a href="#section-5.5-4" class="pilcrow">¶</a></p>
+presented to a verifier that does not enforce it.<a href="#section-5.5-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2730,7 +2732,7 @@ established by <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.<
               <p id="section-7.1.6-1.3.1">Change Controller: Michael B. Jones - michael_b_jones@hotmail.com<a href="#section-7.1.6-1.3.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.6-1.4">
-              <p id="section-7.1.6-1.4.1">Reference: <a href="#kya-token" class="auto internal xref">Section 3.3</a> of this specification<a href="#section-7.1.6-1.4.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.6-1.4.1">Reference: <a href="#kya-token" class="auto internal xref">Section 3.4</a> of this specification<a href="#section-7.1.6-1.4.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
@@ -2751,7 +2753,7 @@ established by <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.<
               <p id="section-7.1.7-1.3.1">Change Controller: Michael B. Jones - michael_b_jones@hotmail.com<a href="#section-7.1.7-1.3.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.7-1.4">
-              <p id="section-7.1.7-1.4.1">Reference: <a href="#kya-token" class="auto internal xref">Section 3.3</a> of this specification<a href="#section-7.1.7-1.4.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.7-1.4.1">Reference: <a href="#kya-token" class="auto internal xref">Section 3.4</a> of this specification<a href="#section-7.1.7-1.4.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
@@ -2772,7 +2774,7 @@ established by <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.<
               <p id="section-7.1.8-1.3.1">Change Controller: Michael B. Jones - michael_b_jones@hotmail.com<a href="#section-7.1.8-1.3.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.8-1.4">
-              <p id="section-7.1.8-1.4.1">Reference: <a href="#kya-token" class="auto internal xref">Section 3.3</a> of this specification<a href="#section-7.1.8-1.4.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.8-1.4.1">Reference: <a href="#kya-token" class="auto internal xref">Section 3.4</a> of this specification<a href="#section-7.1.8-1.4.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
@@ -2793,7 +2795,7 @@ established by <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.<
               <p id="section-7.1.9-1.3.1">Change Controller: Michael B. Jones - michael_b_jones@hotmail.com<a href="#section-7.1.9-1.3.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.9-1.4">
-              <p id="section-7.1.9-1.4.1">Reference: <a href="#pay-token" class="auto internal xref">Section 3.4</a> of this specification<a href="#section-7.1.9-1.4.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.9-1.4.1">Reference: <a href="#pay-token" class="auto internal xref">Section 3.5</a> of this specification<a href="#section-7.1.9-1.4.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
@@ -2814,7 +2816,7 @@ established by <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.<
               <p id="section-7.1.10-1.3.1">Change Controller: Michael B. Jones - michael_b_jones@hotmail.com<a href="#section-7.1.10-1.3.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.10-1.4">
-              <p id="section-7.1.10-1.4.1">Reference: <a href="#pay-token" class="auto internal xref">Section 3.4</a> of this specification<a href="#section-7.1.10-1.4.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.10-1.4.1">Reference: <a href="#pay-token" class="auto internal xref">Section 3.5</a> of this specification<a href="#section-7.1.10-1.4.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
@@ -2835,7 +2837,7 @@ established by <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.<
               <p id="section-7.1.11-1.3.1">Change Controller: Michael B. Jones - michael_b_jones@hotmail.com<a href="#section-7.1.11-1.3.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.11-1.4">
-              <p id="section-7.1.11-1.4.1">Reference: <a href="#pay-token" class="auto internal xref">Section 3.4</a> of this specification<a href="#section-7.1.11-1.4.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.11-1.4.1">Reference: <a href="#pay-token" class="auto internal xref">Section 3.5</a> of this specification<a href="#section-7.1.11-1.4.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
@@ -2856,7 +2858,7 @@ established by <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.<
               <p id="section-7.1.12-1.3.1">Change Controller: Michael B. Jones - michael_b_jones@hotmail.com<a href="#section-7.1.12-1.3.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.12-1.4">
-              <p id="section-7.1.12-1.4.1">Reference: <a href="#pay-token" class="auto internal xref">Section 3.4</a> of this specification<a href="#section-7.1.12-1.4.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.12-1.4.1">Reference: <a href="#pay-token" class="auto internal xref">Section 3.5</a> of this specification<a href="#section-7.1.12-1.4.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
@@ -2877,7 +2879,7 @@ established by <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.<
               <p id="section-7.1.13-1.3.1">Change Controller: Michael B. Jones - michael_b_jones@hotmail.com<a href="#section-7.1.13-1.3.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.13-1.4">
-              <p id="section-7.1.13-1.4.1">Reference: <a href="#pay-token" class="auto internal xref">Section 3.4</a> of this specification<a href="#section-7.1.13-1.4.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.13-1.4.1">Reference: <a href="#pay-token" class="auto internal xref">Section 3.5</a> of this specification<a href="#section-7.1.13-1.4.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
@@ -2898,7 +2900,7 @@ established by <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.<
               <p id="section-7.1.14-1.3.1">Change Controller: Michael B. Jones - michael_b_jones@hotmail.com<a href="#section-7.1.14-1.3.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.14-1.4">
-              <p id="section-7.1.14-1.4.1">Reference: <a href="#pay-token" class="auto internal xref">Section 3.4</a> of this specification<a href="#section-7.1.14-1.4.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.14-1.4.1">Reference: <a href="#pay-token" class="auto internal xref">Section 3.5</a> of this specification<a href="#section-7.1.14-1.4.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
@@ -2919,7 +2921,7 @@ established by <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.<
               <p id="section-7.1.15-1.3.1">Change Controller: Michael B. Jones - michael_b_jones@hotmail.com<a href="#section-7.1.15-1.3.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.15-1.4">
-              <p id="section-7.1.15-1.4.1">Reference: <a href="#pay-token" class="auto internal xref">Section 3.4</a> of this specification<a href="#section-7.1.15-1.4.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.15-1.4.1">Reference: <a href="#pay-token" class="auto internal xref">Section 3.5</a> of this specification<a href="#section-7.1.15-1.4.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
@@ -2940,7 +2942,7 @@ established by <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.<
               <p id="section-7.1.16-1.3.1">Change Controller: Michael B. Jones - michael_b_jones@hotmail.com<a href="#section-7.1.16-1.3.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.1.16-1.4">
-              <p id="section-7.1.16-1.4.1">Reference: <a href="#pay-token" class="auto internal xref">Section 3.4</a> of this specification<a href="#section-7.1.16-1.4.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.16-1.4.1">Reference: <a href="#pay-token" class="auto internal xref">Section 3.5</a> of this specification<a href="#section-7.1.16-1.4.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
@@ -2977,13 +2979,13 @@ in the manner described in <span>[<a href="#RFC6838" class="cite xref">RFC6838</
               <p id="section-7.2.1-1.5.1">Encoding considerations: Uses JWS Compact Serialization as defined in <span>[<a href="#RFC7515" class="cite xref">RFC7515</a>]</span><a href="#section-7.2.1-1.5.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.2.1-1.6">
-              <p id="section-7.2.1-1.6.1">Security considerations: See Security Considerations in <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span><a href="#section-7.2.1-1.6.1" class="pilcrow">¶</a></p>
+              <p id="section-7.2.1-1.6.1">Security considerations: See Security Considerations in in <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span><a href="#section-7.2.1-1.6.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.2.1-1.7">
               <p id="section-7.2.1-1.7.1">Interoperability considerations: n/a<a href="#section-7.2.1-1.7.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.2.1-1.8">
-              <p id="section-7.2.1-1.8.1">Published specification: <a href="#kya-token" class="auto internal xref">Section 3.3</a> of this specification<a href="#section-7.2.1-1.8.1" class="pilcrow">¶</a></p>
+              <p id="section-7.2.1-1.8.1">Published specification: <a href="#kya-token" class="auto internal xref">Section 3.4</a> of this specification<a href="#section-7.2.1-1.8.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.2.1-1.9">
               <p id="section-7.2.1-1.9.1">Applications that use this media type: Applications using Know Your Agent tokens<a href="#section-7.2.1-1.9.1" class="pilcrow">¶</a></p>
@@ -3042,13 +3044,13 @@ in the manner described in <span>[<a href="#RFC6838" class="cite xref">RFC6838</
               <p id="section-7.2.2-1.5.1">Encoding considerations: Uses JWS Compact Serialization as defined in <span>[<a href="#RFC7515" class="cite xref">RFC7515</a>]</span><a href="#section-7.2.2-1.5.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.2.2-1.6">
-              <p id="section-7.2.2-1.6.1">Security considerations: See Security Considerations in <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span><a href="#section-7.2.2-1.6.1" class="pilcrow">¶</a></p>
+              <p id="section-7.2.2-1.6.1">Security considerations: See Security Considerations in in <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span><a href="#section-7.2.2-1.6.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.2.2-1.7">
               <p id="section-7.2.2-1.7.1">Interoperability considerations: n/a<a href="#section-7.2.2-1.7.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.2.2-1.8">
-              <p id="section-7.2.2-1.8.1">Published specification: <a href="#pay-token" class="auto internal xref">Section 3.4</a> of this specification<a href="#section-7.2.2-1.8.1" class="pilcrow">¶</a></p>
+              <p id="section-7.2.2-1.8.1">Published specification: <a href="#pay-token" class="auto internal xref">Section 3.5</a> of this specification<a href="#section-7.2.2-1.8.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.2.2-1.9">
               <p id="section-7.2.2-1.9.1">Applications that use this media type: Applications using Pay tokens<a href="#section-7.2.2-1.9.1" class="pilcrow">¶</a></p>
@@ -3107,13 +3109,13 @@ in the manner described in <span>[<a href="#RFC6838" class="cite xref">RFC6838</
               <p id="section-7.2.3-1.5.1">Encoding considerations: Uses JWS Compact Serialization as defined in <span>[<a href="#RFC7515" class="cite xref">RFC7515</a>]</span><a href="#section-7.2.3-1.5.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.2.3-1.6">
-              <p id="section-7.2.3-1.6.1">Security considerations: See Security Considerations in <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span><a href="#section-7.2.3-1.6.1" class="pilcrow">¶</a></p>
+              <p id="section-7.2.3-1.6.1">Security considerations: See Security Considerations in in <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span><a href="#section-7.2.3-1.6.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.2.3-1.7">
               <p id="section-7.2.3-1.7.1">Interoperability considerations: n/a<a href="#section-7.2.3-1.7.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.2.3-1.8">
-              <p id="section-7.2.3-1.8.1">Published specification: <a href="#kya-pay-token" class="auto internal xref">Section 3.5</a> of this specification<a href="#section-7.2.3-1.8.1" class="pilcrow">¶</a></p>
+              <p id="section-7.2.3-1.8.1">Published specification: <a href="#kya-pay-token" class="auto internal xref">Section 3.6</a> of this specification<a href="#section-7.2.3-1.8.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.2.3-1.9">
               <p id="section-7.2.3-1.9.1">Applications that use this media type: Applications using KYA-Pay tokens<a href="#section-7.2.3-1.9.1" class="pilcrow">¶</a></p>
@@ -3251,15 +3253,15 @@ keys with which the origin signs KYAPay tokens.<a href="#section-7.3-2.5.1" clas
 <dl class="references">
 <dt id="I-D.skyfire-oauth-aml-methods">[I-D.skyfire-oauth-aml-methods]</dt>
         <dd>
-<span class="refAuthor">Agarwal, A.</span>, <span class="refAuthor">Jones, M. B.</span>, and <span class="refAuthor">N. Ali</span>, <span class="refTitle">"Anti-Money Laundering Methods Values"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-skyfire-oauth-aml-methods-00</span>, <time datetime="2026-07-18" class="refDate">18 July 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-aml-methods-00">https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-aml-methods-00</a>&gt;</span>. </dd>
+<span class="refAuthor">Agarwal, A.</span>, <span class="refAuthor">Jones, M. B.</span>, and <span class="refAuthor">N. Ali</span>, <span class="refTitle">"Anti-Money Laundering Methods Values"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-skyfire-oauth-aml-methods-01</span>, <time datetime="2026-10-01" class="refDate">1 October 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-aml-methods-01">https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-aml-methods-01</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.skyfire-oauth-amr-values">[I-D.skyfire-oauth-amr-values]</dt>
         <dd>
-<span class="refAuthor">Agarwal, A.</span>, <span class="refAuthor">Jones, M. B.</span>, <span class="refAuthor">Ali, N.</span>, and <span class="refAuthor">Srinivasa</span>, <span class="refTitle">"Additional Authentication Method Reference Values"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-skyfire-oauth-amr-values-01</span>, <time datetime="2026-07-19" class="refDate">19 July 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-amr-values-01">https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-amr-values-01</a>&gt;</span>. </dd>
+<span class="refAuthor">Agarwal, A.</span>, <span class="refAuthor">Jones, M. B.</span>, <span class="refAuthor">Ali, N.</span>, and <span class="refAuthor">Srinivasa</span>, <span class="refTitle">"Additional Authentication Method Reference Values"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-skyfire-oauth-amr-values-02</span>, <time datetime="2026-10-01" class="refDate">1 October 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-amr-values-02">https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-amr-values-02</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.skyfire-oauth-id-verification">[I-D.skyfire-oauth-id-verification]</dt>
         <dd>
-<span class="refAuthor">Agarwal, A.</span>, <span class="refAuthor">Jones, M. B.</span>, <span class="refAuthor">Ali, N.</span>, and <span class="refAuthor">Srinivasa</span>, <span class="refTitle">"Identity Verification Methods Values"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-skyfire-oauth-id-verification-01</span>, <time datetime="2026-07-19" class="refDate">19 July 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-id-verification-01">https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-id-verification-01</a>&gt;</span>. </dd>
+<span class="refAuthor">Agarwal, A.</span>, <span class="refAuthor">Jones, M. B.</span>, <span class="refAuthor">Ali, N.</span>, and <span class="refAuthor">Srinivasa</span>, <span class="refTitle">"Identity Verification Methods Values"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-skyfire-oauth-id-verification-02</span>, <time datetime="2026-10-01" class="refDate">1 October 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-id-verification-02">https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-id-verification-02</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.skyfire-oauth-kyapay-token-exchange">[I-D.skyfire-oauth-kyapay-token-exchange]</dt>
         <dd>
@@ -3267,7 +3269,7 @@ keys with which the origin signs KYAPay tokens.<a href="#section-7.3-2.5.1" clas
 <dd class="break"></dd>
 <dt id="I-D.skyfire-oauth-using-kyapay-tokens">[I-D.skyfire-oauth-using-kyapay-tokens]</dt>
         <dd>
-<span class="refAuthor">Agarwal, A.</span>, <span class="refAuthor">Jones, M. B.</span>, and <span class="refAuthor">Srinivasa</span>, <span class="refTitle">"Using KYAPay Tokens"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-skyfire-oauth-using-kyapay-tokens-00</span>, <time datetime="2026-07-19" class="refDate">19 July 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-using-kyapay-tokens-00">https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-using-kyapay-tokens-00</a>&gt;</span>. </dd>
+<span class="refAuthor">Agarwal, A.</span>, <span class="refAuthor">Jones, M. B.</span>, and <span class="refAuthor">Srinivasa</span>, <span class="refTitle">"Using KYAPay Tokens"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-skyfire-oauth-using-kyapay-tokens-01</span>, <time datetime="2026-10-01" class="refDate">1 October 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-using-kyapay-tokens-01">https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-using-kyapay-tokens-01</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="IANA.JWT.Claims">[IANA.JWT.Claims]</dt>
         <dd>
@@ -3331,126 +3333,115 @@ keys with which the origin signs KYAPay tokens.<a href="#section-7.3-2.5.1" clas
       </ul>
 </section>
 </div>
-<div id="acknowledgments">
-<section id="appendix-B">
-      <h2 id="name-acknowledgments">
-<a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
-      </h2>
-<p id="appendix-B-1">We would like to thank
-Jean Diaconu
-for his contributions to the specification.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
-</section>
-</div>
 <div id="document-history">
-<section id="appendix-C">
+<section id="appendix-B">
       <h2 id="name-document-history">
 <a href="#name-document-history" class="section-name selfRef">Document History</a>
       </h2>
-<p id="appendix-C-1">[[ to be removed by the RFC Editor before publication as an RFC ]]<a href="#appendix-C-1" class="pilcrow">¶</a></p>
-<p id="appendix-C-2">-02<a href="#appendix-C-2" class="pilcrow">¶</a></p>
+<p id="appendix-B-1">[[ to be removed by the RFC Editor before publication as an RFC ]]<a href="#appendix-B-1" class="pilcrow">¶</a></p>
+<p id="appendix-B-2">-02<a href="#appendix-B-2" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="appendix-C-3.1">
-          <p id="appendix-C-3.1.1">Corrected the <code>sti</code> sub-claim names in the PAY and KYA-PAY examples to match
+<li class="normal" id="appendix-B-3.1">
+          <p id="appendix-B-3.1.1">Corrected the <code>sti</code> sub-claim names in the PAY and KYA-PAY examples to match
 the normative names in the Settlement Information section (<code>payment_token</code>,
 <code>token_expiration_month</code>, <code>token_expiration_year</code>, <code>token_security_code</code>).
-The examples had retained the pre-rename camelCase forms.<a href="#appendix-C-3.1.1" class="pilcrow">¶</a></p>
+The examples had retained the pre-rename camelCase forms.<a href="#appendix-B-3.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="appendix-C-3.2">
-          <p id="appendix-C-3.2.1">Clarified that the card settlement instrument is a network-issued agentic
+        <li class="normal" id="appendix-B-3.2">
+          <p id="appendix-B-3.2.1">Clarified that the card settlement instrument is a network-issued agentic
 payment credential and that <code>token_security_code</code> carries a single-use token
-cryptogram, not a static CVV.<a href="#appendix-C-3.2.1" class="pilcrow">¶</a></p>
+cryptogram, not a static CVV.<a href="#appendix-B-3.2.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="appendix-C-3.3">
-          <p id="appendix-C-3.3.1">Made the <code>aid</code> and <code>sti</code> claims <span class="bcp14">REQUIRED</span>, and marked the <code>sti</code> sub-claim
-requirement levels individually.<a href="#appendix-C-3.3.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="appendix-B-3.3">
+          <p id="appendix-B-3.3.1">Made the <code>aid</code> and <code>sti</code> claims <span class="bcp14">REQUIRED</span>, and marked the <code>sti</code> sub-claim
+requirement levels individually.<a href="#appendix-B-3.3.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="appendix-C-3.4">
-          <p id="appendix-C-3.4.1">Added the <code>cnf</code> (confirmation) claim, binding a token to a key held by the
-agent, and described the resulting sender-constrained semantics.<a href="#appendix-C-3.4.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="appendix-B-3.4">
+          <p id="appendix-B-3.4.1">Added the <code>cnf</code> (confirmation) claim, binding a token to a key held by the
+agent, and described the resulting sender-constrained semantics.<a href="#appendix-B-3.4.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="appendix-C-3.5">
-          <p id="appendix-C-3.5.1">Added a Scope of Card Settlement section prohibiting Primary Account Numbers
-and static card verification values.<a href="#appendix-C-3.5.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="appendix-B-3.5">
+          <p id="appendix-B-3.5.1">Added a Scope of Card Settlement section prohibiting Primary Account Numbers
+and static card verification values.<a href="#appendix-B-3.5.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="appendix-C-3.6">
-          <p id="appendix-C-3.6.1">Expanded Security Considerations to cover confidentiality of token contents,
+        <li class="normal" id="appendix-B-3.6">
+          <p id="appendix-B-3.6.1">Expanded Security Considerations to cover confidentiality of token contents,
 settlement credential handling, token lifetime, and bearer versus
-sender-constrained semantics.<a href="#appendix-C-3.6.1" class="pilcrow">¶</a></p>
+sender-constrained semantics.<a href="#appendix-B-3.6.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="appendix-C-3.7">
-          <p id="appendix-C-3.7.1">Tightened JWT header validation: an <code>alg</code> value of <code>none</code> and algorithm
-substitution are rejected.<a href="#appendix-C-3.7.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="appendix-B-3.7">
+          <p id="appendix-B-3.7.1">Tightened JWT header validation: an <code>alg</code> value of <code>none</code> and algorithm
+substitution are rejected.<a href="#appendix-B-3.7.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="appendix-C-3.8">
-          <p id="appendix-C-3.8.1">Corrected a missing comma in the KYA token example, and shortened the example
-token lifetimes, which had exceeded a year.<a href="#appendix-C-3.8.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="appendix-B-3.8">
+          <p id="appendix-B-3.8.1">Corrected a missing comma in the KYA token example, and shortened the example
+token lifetimes, which had exceeded a year.<a href="#appendix-B-3.8.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="appendix-C-3.9">
-          <p id="appendix-C-3.9.1">Added {:vspace} syntax to definition list entries.<a href="#appendix-C-3.9.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="appendix-B-3.9">
+          <p id="appendix-B-3.9.1">Added {:vspace} syntax to definition list entries.<a href="#appendix-B-3.9.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="appendix-C-3.10">
-          <p id="appendix-C-3.10.1">Required the <code>iss</code> claim to be an origin, with no path, query or fragment
+        <li class="normal" id="appendix-B-3.10">
+          <p id="appendix-B-3.10.1">Required the <code>iss</code> claim to be an origin, with no path, query or fragment
 component, and corrected the example <code>iss</code> values accordingly; one had lacked
-a scheme.<a href="#appendix-C-3.10.1" class="pilcrow">¶</a></p>
+a scheme.<a href="#appendix-B-3.10.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="appendix-C-3.11">
-          <p id="appendix-C-3.11.1">Added an Issuer Key Discovery section specifying that the issuer's JWK Set is
+        <li class="normal" id="appendix-B-3.11">
+          <p id="appendix-B-3.11.1">Added an Issuer Key Discovery section specifying that the issuer's JWK Set is
 located at the <code>jwks.json</code> well-known URI formed from <code>iss</code>, and registered
-that URI suffix with IANA.<a href="#appendix-C-3.11.1" class="pilcrow">¶</a></p>
+that URI suffix with IANA.<a href="#appendix-B-3.11.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="appendix-C-3.12">
-          <p id="appendix-C-3.12.1">Added a Clock Skew section bounding the tolerance applied to the "iat" and
-"exp" claims, and requiring senders to correct skew they can observe.<a href="#appendix-C-3.12.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="appendix-B-3.12">
+          <p id="appendix-B-3.12.1">Added a Clock Skew section bounding the tolerance applied to the "iat" and
+"exp" claims, and requiring senders to correct skew they can observe.<a href="#appendix-B-3.12.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="appendix-C-3.13">
-          <p id="appendix-C-3.13.1">Addressed review comments by Jean Diaconu.<a href="#appendix-C-3.13.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-C-3.14">
-          <p id="appendix-C-3.14.1">Clarified the meaning of Verifier and differentiated from Recipient.<a href="#appendix-C-3.14.1" class="pilcrow">¶</a></p>
-</li>
-      </ul>
-<p id="appendix-C-4">-01<a href="#appendix-C-4" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="appendix-C-5.1">
-          <p id="appendix-C-5.1.1">Added appendix referencing related specifications.<a href="#appendix-C-5.1.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="appendix-B-3.13">
+          <p id="appendix-B-3.13.1">Added a Token Size section: no maximum token size, aggregate size guidance for
+issuers that fits the minimum recipients are required to accept, and a
+preference for one KYA-PAY token over separate KYA and PAY tokens.<a href="#appendix-B-3.13.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-C-6">-00<a href="#appendix-C-6" class="pilcrow">¶</a></p>
+<p id="appendix-B-4">-01<a href="#appendix-B-4" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="appendix-C-7.1">
-          <p id="appendix-C-7.1.1">Renamed draft-skyfire-kyapayprofile to draft-skyfire-oauth-kyapay-token.<a href="#appendix-C-7.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-B-5.1">
+          <p id="appendix-B-5.1.1">Added appendix referencing related specifications.<a href="#appendix-B-5.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-C-8">draft-skyfire-kyapayprofile-02<a href="#appendix-C-8" class="pilcrow">¶</a></p>
+<p id="appendix-B-6">-00<a href="#appendix-B-6" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="appendix-C-9.1">
-          <p id="appendix-C-9.1.1">Changed terms buyer and seller to initiator and target to generalize applicability.
+<li class="normal" id="appendix-B-7.1">
+          <p id="appendix-B-7.1.1">Renamed draft-skyfire-kyapayprofile to draft-skyfire-oauth-kyapay-token.<a href="#appendix-B-7.1.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="appendix-B-8">draft-skyfire-kyapayprofile-02<a href="#appendix-B-8" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-B-9.1">
+          <p id="appendix-B-9.1.1">Changed terms buyer and seller to initiator and target to generalize applicability.
 These claim names were changed: "sdm" to "tdm", "ssi" to "tsi", "btg" to "itg",
-"spr" to "tpr", and "sps" to "tps".<a href="#appendix-C-9.1.1" class="pilcrow">¶</a></p>
+"spr" to "tpr", and "sps" to "tps".<a href="#appendix-B-9.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="appendix-C-9.2">
-          <p id="appendix-C-9.2.1">Updated Settlement Information sti Sub-Claims.<a href="#appendix-C-9.2.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="appendix-B-9.2">
+          <p id="appendix-B-9.2.1">Updated Settlement Information sti Sub-Claims.<a href="#appendix-B-9.2.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="appendix-C-9.3">
-          <p id="appendix-C-9.3.1">Changed specification type from Informative to Proposed Standard.<a href="#appendix-C-9.3.1" class="pilcrow">¶</a></p>
-</li>
-      </ul>
-<p id="appendix-C-10">draft-skyfire-kyapayprofile-01<a href="#appendix-C-10" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="appendix-C-11.1">
-          <p id="appendix-C-11.1.1">Removed "srl" (Seller Resource Locator) claim.<a href="#appendix-C-11.1.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="appendix-B-9.3">
+          <p id="appendix-B-9.3.1">Changed specification type from Informative to Proposed Standard.<a href="#appendix-B-9.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-C-12">draft-skyfire-kyapayprofile-00<a href="#appendix-C-12" class="pilcrow">¶</a></p>
+<p id="appendix-B-10">draft-skyfire-kyapayprofile-01<a href="#appendix-B-10" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="appendix-C-13.1">
-          <p id="appendix-C-13.1.1">Initial Internet Draft.<a href="#appendix-C-13.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-B-11.1">
+          <p id="appendix-B-11.1.1">Removed "srl" (Seller Resource Locator) claim.<a href="#appendix-B-11.1.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="appendix-B-12">draft-skyfire-kyapayprofile-00<a href="#appendix-B-12" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-B-13.1">
+          <p id="appendix-B-13.1.1">Initial Internet Draft.<a href="#appendix-B-13.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 </section>
 </div>
 <div id="contributors">
-<section id="appendix-D">
+<section id="appendix-C">
       <h2 id="name-contributors">
 <a href="#name-contributors" class="section-name selfRef">Contributors</a>
       </h2>
@@ -3463,7 +3454,7 @@ These claim names were changed: "sdm" to "tdm", "ssi" to "tsi", "btg" to "itg",
 </section>
 </div>
 <div id="authors-addresses">
-<section id="appendix-E">
+<section id="appendix-D">
       <h2 id="name-authors-addresses">
 <a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
       </h2>
