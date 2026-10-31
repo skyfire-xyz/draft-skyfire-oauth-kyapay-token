@@ -445,8 +445,10 @@ This specification sets no maximum token size; the Token Size section of
 An issuer SHOULD NOT emit claims registered by this specification totalling more
 than 3072 octets of JSON, or other claims totalling more than 1024 octets. These
 limits apply to the claims before encoding. Base64url encoding adds about a third,
-so 4096 octets of claims, signed with ES256, serializes to about 5670 octets,
-within that minimum. Where a request would carry both a KYA token and a PAY token,
+so 4096 octets of claims, with a typical JOSE header and an ES256 signature,
+serializes to about 5670 octets, within that minimum. An issuer using a larger
+header or signature SHOULD check the complete serialized token against that
+minimum. Where a request would carry both a KYA token and a PAY token,
 an issuer SHOULD issue one KYA-PAY token instead, because two tokens at these
 limits exceed a single header field at a typical origin.
 
