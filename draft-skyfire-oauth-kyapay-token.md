@@ -47,6 +47,8 @@ contributor:
 # see https://github.com/cabo/kramdown-rfc/wiki/Syntax2#authors-contributors
 
 normative:
+  RFC3986:
+  RFC6265:
   RFC6454:
   RFC7515:
   RFC7517:
@@ -484,6 +486,17 @@ security intermediary acting for many Targets, checks at least that `tdm` names
 the domain it is protecting for that request.
 The Authenticating the Counterparty section of
 {{I-D.skyfire-oauth-using-kyapay-tokens}} describes that choice.
+
+A recipient that checks more than the domain compares the request's host, in
+lower case, with the host in `tdm`. Where `tdm` includes a path, the request
+path, normalized as described in {{Section 6.2.2 of RFC3986}}, matches it as a
+cookie path does ({{Section 5.1.4 of RFC6265}}): it is the same path or one
+below it. For example, `shop.example.com/store` matches `/store` and
+`/store/cart` on `shop.example.com`, but not `/storefront`. A recipient that
+checks only the domain does not enforce the host or the path. A Target whose
+host serves several tenants, or that protects only some of its paths, therefore
+checks the host and path itself, or `aud` and `tsi` where it has onboarded to
+the issuer.
 
 ## Issuer Key Discovery {#key-discovery}
 
@@ -1389,9 +1402,10 @@ The following specifications are related to and designed to be used with this sp
 {: numbered="false"}
 
 We would like to thank
-Bhasker Allam
-and
+Bhasker Allam,
 Jean Diaconu
+and
+Carlos Martínez
 for their contributions to the specification.
 
 # Document History
