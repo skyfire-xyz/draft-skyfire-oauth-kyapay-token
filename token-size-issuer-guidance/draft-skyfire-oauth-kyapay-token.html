@@ -1049,11 +1049,11 @@ svg {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">KYAPay Token</td>
-<td class="right">October 2026</td>
+<td class="right">November 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Agarwal &amp; Jones</td>
-<td class="center">Expires 4 May 2027</td>
+<td class="center">Expires 5 May 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1066,12 +1066,12 @@ svg {
 <dd class="internet-draft">draft-skyfire-oauth-kyapay-token-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-10-31" class="published">31 October 2026</time>
+<time datetime="2026-11-01" class="published">1 November 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-05-04">4 May 2027</time></dd>
+<dd class="expires"><time datetime="2027-05-05">5 May 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1123,7 +1123,7 @@ tokens in an interoperable manner.<a href="#section-abstract-1" class="pilcrow">
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 4 May 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 5 May 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1803,15 +1803,15 @@ replace it.<a href="#section-3.2-4" class="pilcrow">¶</a></p>
         </h3>
 <p id="section-3.3-1">This specification sets no maximum token size; the Token Size section of
 <span>[<a href="#I-D.skyfire-oauth-using-kyapay-tokens" class="cite xref">I-D.skyfire-oauth-using-kyapay-tokens</a>]</span> sets the minimum a recipient must accept.
-An issuer <span class="bcp14">SHOULD NOT</span> emit claims registered by this specification totalling more
-than 3072 octets of JSON, or other claims totalling more than 1024 octets. These
-limits apply to the claims before encoding. Base64url encoding adds about a third,
-so 4096 octets of claims, with a typical JOSE header and an ES256 signature,
-serializes to about 5670 octets, within that minimum. An issuer using a larger
-header or signature <span class="bcp14">SHOULD</span> check the complete serialized token against that
-minimum. Where a request would carry both a KYA token and a PAY token,
-an issuer <span class="bcp14">SHOULD</span> issue one KYA-PAY token instead, because two tokens at these
-limits exceed a single header field at a typical origin.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
+An issuer <span class="bcp14">SHOULD NOT</span> emit a token whose claims total more than 4096 octets of
+JSON, counting all claims together, whichever specification defines them, and
+measuring before encoding. Base64url encoding adds about a third, so 4096 octets
+of claims, with a typical JOSE header and an ES256 signature, serializes to about
+5670 octets, within that minimum. An issuer using a larger header or signature
+<span class="bcp14">SHOULD</span> check the complete serialized token against that minimum. Where a request
+would carry both a KYA token and a PAY token, an issuer <span class="bcp14">SHOULD</span> issue one KYA-PAY
+token instead, because two tokens at this limit exceed a single header field at a
+typical origin.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="kya-token">
