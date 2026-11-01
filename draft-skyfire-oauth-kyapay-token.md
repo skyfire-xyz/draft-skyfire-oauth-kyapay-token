@@ -500,7 +500,8 @@ validates whichever it is in a position to interpret. A Target that has onboarde
 to the issuer checks `aud` and `tsi`. A recipient that has not, including a
 security intermediary acting for many Targets, checks at least that `tdm` names
 the domain it is protecting for that request.
-{{Section 5.3 of I-D.skyfire-oauth-using-kyapay-tokens}} describes that choice.
+The Authenticating the Counterparty section of
+{{I-D.skyfire-oauth-using-kyapay-tokens}} describes that choice.
 
 ## Issuer Key Discovery {#key-discovery}
 
