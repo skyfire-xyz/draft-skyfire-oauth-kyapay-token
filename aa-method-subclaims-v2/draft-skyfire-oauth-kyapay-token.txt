@@ -5,8 +5,8 @@
 Web Authorization Protocol                                    A. Agarwal
 Internet-Draft                                      Skyfire Systems Inc.
 Intended status: Standards Track                                M. Jones
-Expires: 30 April 2027                            Self-Issued Consulting
-                                                         27 October 2026
+Expires: 5 May 2027                               Self-Issued Consulting
+                                                         1 November 2026
 
 
                               KYAPay Token
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 30 April 2027.
+   This Internet-Draft will expire on 5 May 2027.
 
 Copyright Notice
 
@@ -586,11 +586,11 @@ Table of Contents
       SHOULD include this sub-claim when it knows the methods used.
 
    amr:
-      OPTIONAL - Authentication Methods References [RFC8176], including
-      the values defined by [I-D.skyfire-oauth-amr-values].  A JSON
-      array of the methods by which the human principal authenticated.
-      An issuer SHOULD include this sub-claim when it knows the methods
-      used.
+      OPTIONAL - Authentication Methods References, as defined in
+      Section 2 of [OpenID.Core], with values from [RFC8176] and
+      [I-D.skyfire-oauth-amr-values].  A JSON array of the methods by
+      which the human principal authenticated.  An issuer SHOULD include
+      this sub-claim when it knows the methods used.
 
    aml:
       OPTIONAL - Anti-Money Laundering Methods
@@ -660,6 +660,14 @@ Table of Contents
    The ivm and aml sub-claims use the syntax and values of the claims of
    the same names defined in the cited specifications.  The absence of
    either does not indicate that a method was not used.
+
+   In a KYAPay token, the ivm, amr, and aml claims appear only as sub-
+   claims of hid and apd, so that each describes the party whose claim
+   contains it: in hid, how the human principal was vetted; in apd, how
+   the agent platform was vetted. amr does not apply to the agent
+   platform and is not used in apd.  Issuers MUST NOT include ivm, amr,
+   or aml as top-level claims in a KYAPay token, and recipients MUST
+   ignore them if they appear there.
 
    Additional sub-claims MAY be defined and used.  The recipient MUST
    ignore any unrecognized sub-claims.
@@ -1500,6 +1508,34 @@ Table of Contents
 
 8.1.  Normative References
 
+   [I-D.skyfire-oauth-aml-methods]
+              Agarwal, A., Jones, M. B., and N. Ali, "Anti-Money
+              Laundering Methods Values", Work in Progress, Internet-
+              Draft, draft-skyfire-oauth-aml-methods-01, 1 October 2026,
+              <https://datatracker.ietf.org/doc/html/draft-skyfire-
+              oauth-aml-methods-01>.
+
+   [I-D.skyfire-oauth-amr-values]
+              Agarwal, A., Jones, M. B., Ali, N., and Srinivasa,
+              "Additional Authentication Method Reference Values", Work
+              in Progress, Internet-Draft, draft-skyfire-oauth-amr-
+              values-02, 1 October 2026,
+              <https://datatracker.ietf.org/doc/html/draft-skyfire-
+              oauth-amr-values-02>.
+
+   [I-D.skyfire-oauth-id-verification]
+              Agarwal, A., Jones, M. B., Ali, N., and Srinivasa,
+              "Identity Verification Methods Values", Work in Progress,
+              Internet-Draft, draft-skyfire-oauth-id-verification-02, 1
+              October 2026, <https://datatracker.ietf.org/doc/html/
+              draft-skyfire-oauth-id-verification-02>.
+
+   [OpenID.Core]
+              Sakimura, N., Bradley, J., Jones, M. B., Medeiros, B. de.,
+              and C. Mortimore, "OpenID Connect Core 1.0 incorporating
+              errata set 2", 15 December 2023,
+              <https://openid.net/specs/openid-connect-core-1_0.html>.
+
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
@@ -1538,6 +1574,10 @@ Table of Contents
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
 
+   [RFC8176]  Jones, M., Hunt, P., and A. Nadalin, "Authentication
+              Method Reference Values", RFC 8176, DOI 10.17487/RFC8176,
+              June 2017, <https://www.rfc-editor.org/rfc/rfc8176>.
+
    [RFC8615]  Nottingham, M., "Well-Known Uniform Resource Identifiers
               (URIs)", RFC 8615, DOI 10.17487/RFC8615, May 2019,
               <https://www.rfc-editor.org/rfc/rfc8615>.
@@ -1553,28 +1593,6 @@ Table of Contents
               <https://www.rfc-editor.org/rfc/rfc8725>.
 
 8.2.  Informative References
-
-   [I-D.skyfire-oauth-aml-methods]
-              Agarwal, A., Jones, M. B., and N. Ali, "Anti-Money
-              Laundering Methods Values", Work in Progress, Internet-
-              Draft, draft-skyfire-oauth-aml-methods-01, 1 October 2026,
-              <https://datatracker.ietf.org/doc/html/draft-skyfire-
-              oauth-aml-methods-01>.
-
-   [I-D.skyfire-oauth-amr-values]
-              Agarwal, A., Jones, M. B., Ali, N., and Srinivasa,
-              "Additional Authentication Method Reference Values", Work
-              in Progress, Internet-Draft, draft-skyfire-oauth-amr-
-              values-02, 1 October 2026,
-              <https://datatracker.ietf.org/doc/html/draft-skyfire-
-              oauth-amr-values-02>.
-
-   [I-D.skyfire-oauth-id-verification]
-              Agarwal, A., Jones, M. B., Ali, N., and Srinivasa,
-              "Identity Verification Methods Values", Work in Progress,
-              Internet-Draft, draft-skyfire-oauth-id-verification-02, 1
-              October 2026, <https://datatracker.ietf.org/doc/html/
-              draft-skyfire-oauth-id-verification-02>.
 
    [I-D.skyfire-oauth-kyapay-token-exchange]
               Agarwal, A., Jones, M. B., Hingnikar, A., and J. Hickman,
@@ -1611,10 +1629,6 @@ Table of Contents
               Specifications and Registration Procedures", BCP 13,
               RFC 6838, DOI 10.17487/RFC6838, January 2013,
               <https://www.rfc-editor.org/rfc/rfc6838>.
-
-   [RFC8176]  Jones, M., Hunt, P., and A. Nadalin, "Authentication
-              Method Reference Values", RFC 8176, DOI 10.17487/RFC8176,
-              June 2017, <https://www.rfc-editor.org/rfc/rfc8176>.
 
    [RFC8446]  Rescorla, E., "The Transport Layer Security (TLS) Protocol
               Version 1.3", RFC 8446, DOI 10.17487/RFC8446, August 2018,
