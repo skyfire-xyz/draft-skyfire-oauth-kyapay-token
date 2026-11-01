@@ -895,12 +895,15 @@ The following informative example displays a decoded KYA-PAY type token.
 ### JWT Header Validation
 
 1. `alg` - The `alg` header parameter MUST be present. Recipients MUST support
-   `ES256` {{RFC7518}}. Issuers MUST use `ES256` unless they know that the
-   recipients of a token accept another algorithm.
+   `ES256` {{RFC7518}}, and MUST accept it from any issuer they trust whose JWK
+   Set publishes an `ES256` key. Issuers MUST use `ES256`, or an algorithm that
+   they know every recipient of the token accepts.
 
    A recipient MUST determine the set of algorithms it will accept for a given
-   issuer from its own configuration and from that issuer's JWK Set, and MUST
-   NOT derive that set from the token. A token whose `alg` value is absent from,
+   issuer as the algorithms its own configuration allows for that issuer, limited
+   to those for which the issuer's JWK Set publishes a suitable key. The JWK Set
+   MUST NOT add an algorithm that the configuration does not allow, and the set
+   MUST NOT be derived from the token. A token whose `alg` value is absent from,
    or outside, that set MUST be rejected, including the value `none` {{RFC7515}}
    and any symmetric (MAC) algorithm, since an issuer's JWK Set publishes only
    public keys. Verification is then performed using the algorithm named in the
@@ -1371,10 +1374,11 @@ for their contributions to the specification.
 * Added "id" as a required sub-claim within "aid".
 * Made the "apd" claim REQUIRED in KYA and KYAPay tokens.
 * Added a Token Size section: no maximum token size, aggregate size guidance for issuers that fits the minimum recipients are required to accept, and a preference for one KYA-PAY token over separate KYA and PAY tokens.
-* Required recipients to support `ES256` and issuers to use it unless they know
-  that a token's recipients accept another algorithm, required the accepted
-  algorithms to come from the recipient's configuration and the issuer's JWK Set, and rejected
-  `none` and symmetric algorithms.
+* Required recipients to support `ES256` and to accept it from trusted issuers
+  that publish an `ES256` key, and issuers to use it or an algorithm every
+  recipient of the token accepts; limited the accepted algorithms to those the
+  recipient's configuration allows and the issuer's JWK Set has keys for; and
+  rejected `none` and symmetric algorithms.
 * Required a recipient to determine the `typ` values it accepts before
   validating a token.
 * Changed "SHOULD follow" BCP 225 to "MUST follow".
