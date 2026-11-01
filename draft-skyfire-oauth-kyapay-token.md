@@ -57,6 +57,20 @@ normative:
   RFC8615:
   RFC8693:
   RFC8725:
+  RFC8176:
+  OpenID.Core:
+    target: https://openid.net/specs/openid-connect-core-1_0.html
+    title: "OpenID Connect Core 1.0 incorporating errata set 2"
+    date: 2023-12-15
+    author:
+      - name: Nat Sakimura
+      - name: John Bradley
+      - name: Michael B. Jones
+      - name: Breno de Medeiros
+      - name: Chuck Mortimore
+  I-D.skyfire-oauth-amr-values:
+  I-D.skyfire-oauth-id-verification:
+  I-D.skyfire-oauth-aml-methods:
 
 informative:
   RFC2046:
@@ -64,7 +78,6 @@ informative:
   RFC8446:
   RFC9110:
   RFC9421:
-  RFC8176:
   IANA.JWT.Claims:
     author:
     - org: IANA
@@ -85,9 +98,6 @@ informative:
     date: false
   I-D.skyfire-oauth-using-kyapay-tokens:
   I-D.skyfire-oauth-kyapay-token-exchange:
-  I-D.skyfire-oauth-amr-values:
-  I-D.skyfire-oauth-id-verification:
-  I-D.skyfire-oauth-aml-methods:
 
 ...
 
@@ -562,8 +572,8 @@ principal (individual or organization) as follows.
 
 {:vspace}
 `amr`:
-: OPTIONAL - Authentication Methods References {{RFC8176}},
-  including the values defined by {{I-D.skyfire-oauth-amr-values}}.
+: OPTIONAL - Authentication Methods References, as defined in Section 2 of {{OpenID.Core}},
+  with values from {{RFC8176}} and {{I-D.skyfire-oauth-amr-values}}.
   A JSON array of the methods by which the human principal authenticated.
   An issuer SHOULD include this sub-claim when it knows the methods used.
 
@@ -641,6 +651,10 @@ The `apd` claim is OPTIONAL. If present, it contains the following sub-claims.
 The `ivm` and `aml` sub-claims use the syntax and values
 of the claims of the same names defined in the cited specifications.
 The absence of either does not indicate that a method was not used.
+
+In a KYAPay token, the `ivm`, `amr`, and `aml` claims appear only as sub-claims of `hid` and `apd`, so that each describes the party whose claim contains it: in `hid`, how the human principal was vetted; in `apd`, how the agent platform was vetted.
+`amr` does not apply to the agent platform and is not used in `apd`.
+Issuers MUST NOT include `ivm`, `amr`, or `aml` as top-level claims in a KYAPay token, and recipients MUST ignore them if they appear there.
 
 Additional sub-claims MAY be defined and used.
 The recipient MUST ignore any unrecognized sub-claims.
