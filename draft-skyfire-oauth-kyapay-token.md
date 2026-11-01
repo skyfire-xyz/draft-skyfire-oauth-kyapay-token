@@ -986,8 +986,13 @@ information. Accordingly:
 
 * Tokens MUST be transmitted over a channel providing confidentiality, integrity
   and server authentication, such as TLS {{RFC8446}}.
-* Tokens MUST NOT be written to logs, analytics pipelines, or other persistent
-  stores that are not required to process the transaction.
+* Tokens MUST NOT be written to logs, traces, analytics pipelines, or other
+  persistent stores that are not required to process the transaction. An agent
+  that obtains a token through a tool whose result is returned to a language
+  model may be unable to keep the token out of that model's context or out of a
+  transcript retained from it; the Token Exposure in the Agent Runtime section
+  of {{I-D.skyfire-oauth-using-kyapay-tokens}} describes how such a deployment
+  treats the token.
 * Tokens MUST NOT be forwarded to parties other than those necessary to complete
   the interaction for which they were issued.
 * Issuers SHOULD include only those claims necessary for the interaction for
@@ -1318,8 +1323,10 @@ The following specifications are related to and designed to be used with this sp
 {: numbered="false"}
 
 We would like to thank
+Bhasker Allam
+and
 Jean Diaconu
-for his contributions to the specification.
+for their contributions to the specification.
 
 # Document History
 {: numbered="false"}
@@ -1357,6 +1364,8 @@ for his contributions to the specification.
 * Added "id" as a required sub-claim within "aid".
 * Made the "apd" claim REQUIRED in KYA and KYAPay tokens.
 * Added a Token Size section: no maximum token size, aggregate size guidance for issuers that fits the minimum recipients are required to accept, and a preference for one KYA-PAY token over separate KYA and PAY tokens.
+* Added traces to the logging prohibition, and pointed to the Using document for
+  tokens that reach a language model's context.
 
 -02
 
