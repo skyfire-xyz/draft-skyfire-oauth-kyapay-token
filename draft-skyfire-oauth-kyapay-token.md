@@ -569,8 +569,8 @@ principal (individual or organization) as follows.
 
 Additional sub-claims MAY be defined and used, including further identifiers for
 the human principal where a Target requires them to recognize an account. An
-issuer MUST NOT assert an identifier it has not verified to be under the control
-of the human principal. This document does not prescribe how control is
+issuer MUST NOT assert an identifier of the human principal unless it has
+verified that the principal controls it. This document does not prescribe how control is
 verified.
 The recipient MUST ignore any unrecognized sub-claims.
 
