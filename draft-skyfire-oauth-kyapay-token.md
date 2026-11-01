@@ -726,8 +726,7 @@ The `aid` claim is REQUIRED. It contains the following sub-claims.
   agent at the same Target service (`tsi`), and a different value at each
   Target service. The value MUST NOT be, or reveal, a directly identifying
   attribute, and values at different Target services MUST NOT be linkable to
-  one another without the issuer's cooperation. An issuer MAY use the same
-  value as `sub`.
+  one another without the issuer's cooperation.
 
 {:vspace}
 `name`:
