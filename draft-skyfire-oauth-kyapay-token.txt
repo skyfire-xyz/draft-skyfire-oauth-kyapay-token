@@ -5,8 +5,8 @@
 Web Authorization Protocol                                    A. Agarwal
 Internet-Draft                                      Skyfire Systems Inc.
 Intended status: Standards Track                                M. Jones
-Expires: 1 May 2027                               Self-Issued Consulting
-                                                         28 October 2026
+Expires: 5 May 2027                               Self-Issued Consulting
+                                                         1 November 2026
 
 
                               KYAPay Token
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 1 May 2027.
+   This Internet-Draft will expire on 5 May 2027.
 
 Copyright Notice
 
@@ -76,15 +76,16 @@ Table of Contents
    3.  KYAPay Token Schemas
      3.1.  Common Token Claims
      3.2.  Issuer Key Discovery
-     3.3.  KYA Token
-       3.3.1.  hid - Human Identity Sub-Claims
-       3.3.2.  Agent Platform Identity apd Sub-Claims
-       3.3.3.  Agent Identity aid Sub-Claims
-     3.4.  PAY Token
-       3.4.1.  Settlement Information sti Sub-Claims
-       3.4.2.  Scope of Card Settlement
-       3.4.3.  PAY Token Example
-     3.5.  KYA-PAY Token Example
+     3.3.  Token Size
+     3.4.  KYA Token
+       3.4.1.  hid - Human Identity Sub-Claims
+       3.4.2.  Agent Platform Identity apd Sub-Claims
+       3.4.3.  Agent Identity aid Sub-Claims
+     3.5.  PAY Token
+       3.5.1.  Settlement Information sti Sub-Claims
+       3.5.2.  Scope of Card Settlement
+       3.5.3.  PAY Token Example
+     3.6.  KYA-PAY Token Example
    4.  Token Validation
      4.1.  Validating KYA and PAY Tokens
        4.1.1.  JWT Header Validation
@@ -471,7 +472,23 @@ Table of Contents
    verification methods it supports.  Such a document would supplement
    the mechanism described here rather than replace it.
 
-3.3.  KYA Token
+3.3.  Token Size
+
+   This specification sets no maximum token size; the Token Size section
+   of [I-D.skyfire-oauth-using-kyapay-tokens] sets the minimum a
+   recipient must accept.  An issuer SHOULD NOT emit a token whose
+   claims total more than 4096 octets of JSON, counting all claims
+   together, whichever specification defines them, and measuring before
+   encoding.  Base64url encoding adds about a third, so 4096 octets of
+   claims, with a typical JOSE header and an ES256 signature, serializes
+   to about 5670 octets, within that minimum.  An issuer using a larger
+   header or signature SHOULD check the complete serialized token
+   against that minimum.  Where a request would carry both a KYA token
+   and a PAY token, an issuer SHOULD issue one KYA-PAY token instead,
+   because two tokens at this limit exceed a single header field at a
+   typical origin.
+
+3.4.  KYA Token
 
    The following identity related claims are used within KYA and KYA-PAY
    tokens:
@@ -532,7 +549,7 @@ Table of Contents
 
                       Figure 1: A KYA type token
 
-3.3.1.  hid - Human Identity Sub-Claims
+3.4.1.  hid - Human Identity Sub-Claims
 
    The Human Identity (hid) claim contains sub-claims identifying the
    human principal (individual or organization) as follows.
@@ -582,7 +599,7 @@ Table of Contents
    Additional sub-claims MAY be defined and used.  The recipient MUST
    ignore any unrecognized sub-claims.
 
-3.3.2.  Agent Platform Identity apd Sub-Claims
+3.4.2.  Agent Platform Identity apd Sub-Claims
 
    The apd claim is REQUIRED in KYA and KYAPay tokens.  It contains the
    following sub-claims.
@@ -623,7 +640,7 @@ Table of Contents
    Additional sub-claims MAY be defined and used.  The recipient MUST
    ignore any unrecognized sub-claims.
 
-3.3.3.  Agent Identity aid Sub-Claims
+3.4.3.  Agent Identity aid Sub-Claims
 
    The aid claim is REQUIRED.  It contains the following sub-claims.
 
@@ -655,7 +672,7 @@ Table of Contents
    Additional sub-claims MAY be defined and used.  The recipient MUST
    ignore any unrecognized sub-claims.
 
-3.4.  PAY Token
+3.5.  PAY Token
 
    The following payment related claims are used within PAY and KYA-PAY
    type tokens:
@@ -694,7 +711,7 @@ Table of Contents
       REQUIRED - Meta information for payment settlement, depending on
       the stp value.
 
-3.4.1.  Settlement Information sti Sub-Claims
+3.5.1.  Settlement Information sti Sub-Claims
 
    The sti claim is REQUIRED in Pay Tokens.  It contains the following
    sub-claims, with the requirement levels marked below.
@@ -763,7 +780,7 @@ Table of Contents
    Additional sub-claims MAY be defined and used.  The recipient MUST
    ignore any unrecognized sub-claims.
 
-3.4.2.  Scope of Card Settlement
+3.5.2.  Scope of Card Settlement
 
    This specification supports card settlement only through payment-
    network agentic-commerce programmes that issue transaction-scoped,
@@ -779,7 +796,7 @@ Table of Contents
    is left to future work, and implementers requiring it should not
    attempt to carry them in the claims defined here.
 
-3.4.3.  PAY Token Example
+3.5.3.  PAY Token Example
 
    The following informative example displays a decoded PAY type token.
 
@@ -820,7 +837,7 @@ Table of Contents
 
                       Figure 2: A PAY type token
 
-3.5.  KYA-PAY Token Example
+3.6.  KYA-PAY Token Example
 
    The following informative example displays a decoded KYA-PAY type
    token.
@@ -1202,7 +1219,7 @@ Table of Contents
 
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
-   *  Reference: Section 3.3 of this specification
+   *  Reference: Section 3.4 of this specification
 
 7.1.7.  "apd" Claim
 
@@ -1213,7 +1230,7 @@ Table of Contents
 
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
-   *  Reference: Section 3.3 of this specification
+   *  Reference: Section 3.4 of this specification
 
 7.1.8.  "aid" Claim
 
@@ -1223,7 +1240,7 @@ Table of Contents
 
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
-   *  Reference: Section 3.3 of this specification
+   *  Reference: Section 3.4 of this specification
 
 7.1.9.  "tpr" Claim
 
@@ -1234,7 +1251,7 @@ Table of Contents
 
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
-   *  Reference: Section 3.4 of this specification
+   *  Reference: Section 3.5 of this specification
 
 7.1.10.  "tps" Claim
 
@@ -1245,7 +1262,7 @@ Table of Contents
 
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
-   *  Reference: Section 3.4 of this specification
+   *  Reference: Section 3.5 of this specification
 
 7.1.11.  "amt" Claim
 
@@ -1256,7 +1273,7 @@ Table of Contents
 
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
-   *  Reference: Section 3.4 of this specification
+   *  Reference: Section 3.5 of this specification
 
 7.1.12.  "cur" Claim
 
@@ -1267,7 +1284,7 @@ Table of Contents
 
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
-   *  Reference: Section 3.4 of this specification
+   *  Reference: Section 3.5 of this specification
 
 7.1.13.  "val" Claim
 
@@ -1278,7 +1295,7 @@ Table of Contents
 
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
-   *  Reference: Section 3.4 of this specification
+   *  Reference: Section 3.5 of this specification
 
 7.1.14.  "mnr" Claim
 
@@ -1289,7 +1306,7 @@ Table of Contents
 
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
-   *  Reference: Section 3.4 of this specification
+   *  Reference: Section 3.5 of this specification
 
 7.1.15.  "stp" Claim
 
@@ -1299,7 +1316,7 @@ Table of Contents
 
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
-   *  Reference: Section 3.4 of this specification
+   *  Reference: Section 3.5 of this specification
 
 7.1.16.  "sti" Claim
 
@@ -1310,7 +1327,7 @@ Table of Contents
 
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
-   *  Reference: Section 3.4 of this specification
+   *  Reference: Section 3.5 of this specification
 
 7.2.  Media Types Registration
 
@@ -1335,7 +1352,7 @@ Table of Contents
 
    *  Interoperability considerations: n/a
 
-   *  Published specification: Section 3.3 of this specification
+   *  Published specification: Section 3.4 of this specification
 
    *  Applications that use this media type: Applications using Know
       Your Agent tokens
@@ -1375,7 +1392,7 @@ Table of Contents
 
    *  Interoperability considerations: n/a
 
-   *  Published specification: Section 3.4 of this specification
+   *  Published specification: Section 3.5 of this specification
 
    *  Applications that use this media type: Applications using Pay
       tokens
@@ -1415,7 +1432,7 @@ Table of Contents
 
    *  Interoperability considerations: n/a
 
-   *  Published specification: Section 3.5 of this specification
+   *  Published specification: Section 3.6 of this specification
 
    *  Applications that use this media type: Applications using KYA-Pay
       tokens
@@ -1665,6 +1682,11 @@ Document History
    *  Added "id" as a required sub-claim within "aid".
 
    *  Made the "apd" claim REQUIRED in KYA and KYAPay tokens.
+
+   *  Added a Token Size section: no maximum token size, aggregate size
+      guidance for issuers that fits the minimum recipients are required
+      to accept, and a preference for one KYA-PAY token over separate
+      KYA and PAY tokens.
 
    -02
 
