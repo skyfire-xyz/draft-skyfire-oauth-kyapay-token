@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-10-29T00:05:37.659608+00:00",
+  "timestamp": "2026-11-01T00:05:48.845599+00:00",
   "repo": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
   "labels": [
     {
@@ -2980,15 +2980,15 @@
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
-      "body": "Addresses the token-size gap: this specification currently says nothing about how large a token may be, and a token is carried in a single HTTP header field whose size limit is set by deployment configuration and enforced at the origin. A token that exceeds it fails before any claim is read.\r\n\r\n**This is the issuer half.** The recipient half \u2014 the minimum a verifier must accept \u2014 belongs in `using-kyapay-tokens`, alongside the header field it defines, and is a separate pull request. Neither is much use without the other, so please read them together.\r\n\r\n### What it says\r\n\r\n- **No maximum token size.** An issuer is not required to omit or truncate claims to hit a number, and a verifier MUST NOT assume a maximum.\r\n- **Five `SHOULD NOT` limits for issuers**: 32 octets for a claim or sub-claim name, 256 octets for a string value, 8 elements in `aid.source_ips`, 3072 octets of JSON for the registered claim set, and 1024 octets for everything outside this specification.\r\n- **A `MUST NOT` for verifiers**: do not silently evaluate a prefix of an over-length `source_ips`. Rejecting it is fine; truncating it silently is not.\r\n- **The serialization arithmetic**, so an implementer can size claims without guessing: roughly `1.34 N + 140` characters.\r\n\r\n### Why these numbers\r\n\r\nEvery registered claim and sub-claim, present at once at realistic maximum lengths, is **2995 octets** of claim JSON \u2014 so the 3072-octet limit constrains no conformant token. It bounds the tail rather than the median; a realistic `kya-pay+jwt` is about a third of the budget.\r\n\r\n3072 + 1024 octets of claim JSON serializes to roughly **5670 characters**, inside the 6144-octet minimum proposed for recipients \u2014 with 476 octets spare. **That is the point of the section:** an issuer that observes this guidance can rely on any conformant recipient accepting the result. The measurements are reproducible and I am happy to share the script.\r\n\r\n`aid.source_ips` is the only structure defined here with no inherent bound. At 8 elements the maximal token is about 4200 octets serialized; at 64 it is about 6216, which is why it gets an explicit element limit rather than relying on the aggregate.\r\n\r\n### The last paragraph, which is the one worth arguing about\r\n\r\nIt says an issuer **SHOULD** prefer a single `kya-pay+jwt` over a KYA token and a PAY token in the same request. Two tokens each sized to the limits above exceed a single header field value at a typical origin, whereas the combined token does not.\r\n\r\nThe `KYAPay-Token` field is registered as a List and may carry more than one token, and RFC 9110 \u00a75.2 lets a recipient coalesce multiple field lines into one \u2014 so a per-token limit does not bound what arrives at the origin. Halving the budget instead is not workable: 3072 octets per token allows about 2149 octets of claim JSON against a 2995-octet maximum, so a maximal conformant token would not fit in its own half. This also gives the combined token type a stated engineering reason to exist, which I do not think it currently has.\r\n\r\n### Note on construction\r\n\r\nWritten to mirror the Clock Skew section: the physical cause, then what the recipient must accept, then the limits, then the rationale as arithmetic, then a sender-side duty with a one-line justification. Two bounded-parameter rules reading as one pattern seemed better than two.\r\n\r\nOpened as a draft for review.",
+      "body": "Adds a short Token Size section. This specification sets no maximum token size; the Using draft sets the minimum a recipient must accept (6144 octets, in skyfire-xyz/draft-skyfire-oauth-using-kyapay-tokens#4). Issuers SHOULD keep registered claims within 3072 octets of JSON and other claims within 1024; with ES256 that serializes to about 5670 octets, inside the minimum. Where a request would carry both a KYA token and a PAY token, an issuer SHOULD issue one KYA-PAY token instead.\r\n\r\nCondensed on 31 Oct following review. This also answers C2 in skyfire-xyz/draft-skyfire-oauth-using-kyapay-tokens#8.",
       "createdAt": "2026-09-08T22:02:03Z",
-      "updatedAt": "2026-09-26T16:50:31Z",
+      "updatedAt": "2026-10-31T23:54:32Z",
       "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
       "baseRefName": "main",
-      "baseRefOid": "4bdf4ec155107dee28dd008957f6b2f09f45027f",
+      "baseRefOid": "2bcf1cba12e41a2cb5d443bd5cc967f135fc2108",
       "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
       "headRefName": "token-size-issuer-guidance",
-      "headRefOid": "a5503a994216b85c76d96ca93b1d8474e73192d1",
+      "headRefOid": "a98ab4d6e5ade31f090279550f2bdd4dc05e8db9",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -3028,6 +3028,59 @@
           "createdAt": "2026-09-26T00:46:25Z",
           "updatedAt": "2026-09-26T00:46:25Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVULGPg",
+          "commit": {
+            "abbreviatedOid": "3d70872"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe1 Changes recommended\n\nThe token-size estimate omits the JOSE header from both claim budgets, so a larger header could exceed the 6144-octet field-value minimum unless the header assumption is stated and the complete serialized value is checked.\n\n<details open>\n<summary><strong>1 open issue</strong></summary>\n\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-light.png\" alt=\"Low severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Account for JOSE header size in the token length limit](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/48#discussion_r4433654225) \u00b7 New\n</details>\n\n<details>\n<summary><strong>What changed in this PR</strong></summary>\n\nAdds issuer-side token-size guidance to complement the companion Using draft\u2019s recipient acceptance minimum, addressing header-size concerns without imposing a maximum token size.\n\n**Changes:**\n- Recommends aggregate JSON budgets of 3072 octets for registered claims and 1024 octets for other claims.\n- Provides an ES256 serialization estimate and recommends one combined KYA-PAY token instead of separate KYA and PAY tokens.\n- Records the guidance in the document history.\n\n| File | Description |\r\n| ---- | ----------- |\r\n| draft-skyfire-oauth-kyapay-token.md | Adds the Token Size section and corresponding document-history entry. |\n</details>\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-10-31T23:16:36Z",
+          "updatedAt": "2026-10-31T23:16:37Z",
+          "comments": [
+            {
+              "originalPosition": 12,
+              "body": "The 5670-octet estimate assumes a small JOSE header, but neither claim budget includes that header. A larger header can therefore push an ES256 token above the companion draft's 6144-octet field-value minimum even when both claim budgets are met. Please state the header-size assumption and recommend checking the complete serialized field value against that minimum.",
+              "createdAt": "2026-10-31T23:16:36Z",
+              "updatedAt": "2026-10-31T23:16:37Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVUMbBA",
+          "commit": {
+            "abbreviatedOid": "a98ab4d"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe2 Approval recommended\n\nNo active review issues are reported for the issuer-side token size guidance change.\n\n**No open issues** \ud83c\udf89\n\n<details>\n<summary><strong>1 resolved since last review</strong></summary>\n\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-light.png\" alt=\"Low severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Account for JOSE header size in the token length limit](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/48#discussion_r4433654225)\n</details>\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-10-31T23:24:19Z",
+          "updatedAt": "2026-10-31T23:24:19Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVURsYQ",
+          "commit": {
+            "abbreviatedOid": "a98ab4d"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-31T23:54:32Z",
+          "updatedAt": "2026-10-31T23:54:32Z",
+          "comments": [
+            {
+              "originalPosition": 9,
+              "body": "This is ambiguously worded.  Do you mean that each single claim should not exceed 3072 bytes?  Or that that the sum of all claims should not exceed 3072 bytes?\n\nAlso, why is there different guidance for claims registered by this spec than by other claims.  Other claims are just as legitimate.",
+              "createdAt": "2026-10-31T23:54:32Z",
+              "updatedAt": "2026-10-31T23:54:32Z"
+            }
+          ]
         }
       ]
     },
@@ -3666,6 +3719,53 @@
           "createdAt": "2026-10-28T10:40:04Z",
           "updatedAt": "2026-10-28T10:40:04Z",
           "comments": []
+        }
+      ]
+    },
+    {
+      "number": 56,
+      "id": "PR_kwDOQZxkd88AAAABMCU13Q",
+      "title": "Address Bhasker Allam's review (issue #8) in the token draft",
+      "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/56",
+      "state": "OPEN",
+      "author": "skyfire-ankit",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Token-draft changes from Bhasker Allam's review, as proposed in our reply on\nskyfire-xyz/draft-skyfire-oauth-using-kyapay-tokens#8:\n\n- S1: further identifiers in hid only where the issuer has verified control.\n- S3: jti identifies the token, not the request.\n- S4: new Identifying the Target section; tsi REQUIRED; tdm REQUIRED for\n  domain-identified Targets, with its form defined; audience validation for\n  recipients that have not onboarded.\n- S5: issuer trust confirmed before any key retrieval; issuer check moved ahead\n  of signature verification.\n- S6: ES256 as a common floor; accepted algorithms from configuration and the\n  JWK Set; accepted typ values fixed before validation; MUST follow BCP 225.\n- S7: traces added to the logging prohibition.\n- P2: no Account Data in any token; EMV Payment Token wording; PCI SSC FAQ 1326.\n- P3: creation_ip OPTIONAL; documentation values in the examples.\n\nThe Using-draft half is in a companion pull request, and the two should merge\ntogether (S4 spans both). P1 (hid.id by default) follows in its own pull request.",
+      "createdAt": "2026-10-31T23:59:50Z",
+      "updatedAt": "2026-11-01T00:04:13Z",
+      "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "baseRefName": "main",
+      "baseRefOid": "2bcf1cba12e41a2cb5d443bd5cc967f135fc2108",
+      "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "headRefName": "bhasker-review-token",
+      "headRefOid": "e080cc8ff08851f29e4b14440df95c8e97cc2f33",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVUTT3A",
+          "commit": {
+            "abbreviatedOid": "e080cc8"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe1 Changes recommended\n\nIssuers are not required to support ES256, allowing conforming RS256-only issuers whose tokens ES256-only recipients cannot verify, contrary to the common-algorithm guarantee.\n\n<details open>\n<summary><strong>1 open issue</strong></summary>\n\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Require issuers to support ES256 for interoperability](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/56#discussion_r4433770238) \u00b7 New\n</details>\n\n<details>\n<summary><strong>What changed in this PR</strong></summary>\n\nUpdates the KYAPay token draft in response to issue #8, clarifying token targeting and strengthening validation, privacy, and payment-credential requirements. Target-identification changes are intended to merge alongside the companion Using-draft update.\n\n**Changes:**\n- Defines how `aud`, `tsi`, and `tdm` identify Targets and support audience validation.\n- Strengthens issuer trust, algorithm selection, token-type checks, and JWT validation requirements.\n- Clarifies payment-token scope, restricts sensitive data and logging, and updates diagnostic claims and examples.\n\n| File | Description |\r\n| ---- | ----------- |\r\n| draft-skyfire-oauth-kyapay-token.md | Revises target identification, validation rules, credential handling, privacy guidance, and examples. |\n</details>\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-01T00:04:12Z",
+          "updatedAt": "2026-11-01T00:04:13Z",
+          "comments": [
+            {
+              "originalPosition": 306,
+              "body": "Only recipients are required to support ES256; issuers are merely told they SHOULD use it. An issuer supporting only RS256 can therefore still conform while an ES256-only recipient cannot verify any of its tokens, contrary to the common-algorithm guarantee below. Require issuers to support ES256 as well, while retaining SHOULD for selecting it when issuing tokens.",
+              "createdAt": "2026-11-01T00:04:12Z",
+              "updatedAt": "2026-11-01T00:04:13Z"
+            }
+          ]
         }
       ]
     }
