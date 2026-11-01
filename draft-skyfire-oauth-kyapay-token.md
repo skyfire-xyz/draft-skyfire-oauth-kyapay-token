@@ -466,7 +466,7 @@ The `tdm` claim identifies a Target reached over a URL-based interface, such as
 a website or an HTTP API: at least its domain, and optionally its host and a
 path. Unlike `aud` and `tsi` it is not issuer-specific, so any recipient can
 interpret it without a relationship with the issuer. It is present in addition
-to `aud` and `tsi` where the Target is reached that way.
+to `aud` and `tsi` where such a Target is identified by a domain name.
 
 The value of `tdm` is a host name in lower case, optionally followed by a path,
 with no scheme, port, query or fragment; for example `example.com`,
