@@ -1833,6 +1833,16 @@ security intermediary acting for many Targets, checks at least that <code>tdm</c
 the domain it is protecting for that request.
 The Authenticating the Counterparty section of
 <span>[<a href="#I-D.skyfire-oauth-using-kyapay-tokens" class="cite xref">I-D.skyfire-oauth-using-kyapay-tokens</a>]</span> describes that choice.<a href="#section-3.1.1-10" class="pilcrow">¶</a></p>
+<p id="section-3.1.1-11">A recipient that checks more than the domain compares the request's host, in
+lower case, with the host in <code>tdm</code>. Where <code>tdm</code> includes a path, the request
+path, normalized as described in <span><a href="https://rfc-editor.org/rfc/rfc3986#section-6.2.2" class="relref">Section 6.2.2</a> of [<a href="#RFC3986" class="cite xref">RFC3986</a>]</span>, matches it as a
+cookie path does (<span><a href="https://rfc-editor.org/rfc/rfc6265#section-5.1.4" class="relref">Section 5.1.4</a> of [<a href="#RFC6265" class="cite xref">RFC6265</a>]</span>): it is the same path or one
+below it. For example, <code>shop.example.com/store</code> matches <code>/store</code> and
+<code>/store/cart</code> on <code>shop.example.com</code>, but not <code>/storefront</code>. A recipient that
+checks only the domain does not enforce the host or the path. A Target whose
+host serves several tenants, or that protects only some of its paths, therefore
+checks the host and path itself, or <code>aud</code> and <code>tsi</code> where it has onboarded to
+the issuer.<a href="#section-3.1.1-11" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -3353,6 +3363,14 @@ keys with which the origin signs KYAPay tokens.<a href="#section-7.3-2.5.1" clas
         <dd>
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC3986">[RFC3986]</dt>
+        <dd>
+<span class="refAuthor">Berners-Lee, T.</span>, <span class="refAuthor">Fielding, R.</span>, and <span class="refAuthor">L. Masinter</span>, <span class="refTitle">"Uniform Resource Identifier (URI): Generic Syntax"</span>, <span class="seriesInfo">STD 66</span>, <span class="seriesInfo">RFC 3986</span>, <span class="seriesInfo">DOI 10.17487/RFC3986</span>, <time datetime="2005-01" class="refDate">January 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3986">https://www.rfc-editor.org/rfc/rfc3986</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC6265">[RFC6265]</dt>
+        <dd>
+<span class="refAuthor">Barth, A.</span>, <span class="refTitle">"HTTP State Management Mechanism"</span>, <span class="seriesInfo">RFC 6265</span>, <span class="seriesInfo">DOI 10.17487/RFC6265</span>, <time datetime="2011-04" class="refDate">April 2011</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6265">https://www.rfc-editor.org/rfc/rfc6265</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC6454">[RFC6454]</dt>
         <dd>
 <span class="refAuthor">Barth, A.</span>, <span class="refTitle">"The Web Origin Concept"</span>, <span class="seriesInfo">RFC 6454</span>, <span class="seriesInfo">DOI 10.17487/RFC6454</span>, <time datetime="2011-12" class="refDate">December 2011</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6454">https://www.rfc-editor.org/rfc/rfc6454</a>&gt;</span>. </dd>
@@ -3498,9 +3516,10 @@ keys with which the origin signs KYAPay tokens.<a href="#section-7.3-2.5.1" clas
 <a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
       </h2>
 <p id="appendix-B-1">We would like to thank
-Bhasker Allam
-and
+Bhasker Allam,
 Jean Diaconu
+and
+Carlos Martínez
 for their contributions to the specification.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
 </section>
 </div>
