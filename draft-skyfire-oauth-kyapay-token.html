@@ -1713,7 +1713,9 @@ be used to determine the age of the JWT.<a href="#section-3.1-2.8.1" class="pilc
 <code>jti</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-3.1-2.10">
             <p id="section-3.1-2.10.1"><span class="bcp14">REQUIRED</span> - Unique ID of this JWT as defined in <span><a href="https://rfc-editor.org/rfc/rfc7519#section-4.1.7" class="relref">Section 4.1.7</a> of [<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.
-This claim can be used to detect replay attempts.<a href="#section-3.1-2.10.1" class="pilcrow">¶</a></p>
+This claim identifies the token, not the request. A token may be presented on
+more than one request within its lifetime, so a repeated <code>jti</code> is not by itself
+evidence of replay.<a href="#section-3.1-2.10.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-3.1-2.11">
@@ -3428,8 +3430,10 @@ keys with which the origin signs KYAPay tokens.<a href="#section-7.3-2.5.1" clas
 <a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
       </h2>
 <p id="appendix-B-1">We would like to thank
+Bhasker Allam
+and
 Jean Diaconu
-for his contributions to the specification.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
+for their contributions to the specification.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="document-history">
@@ -3494,6 +3498,10 @@ agent account identifier.<a href="#appendix-C-3.10.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.13">
           <p id="appendix-C-3.13.1">Added a Token Size section: no maximum token size, aggregate size guidance for issuers that fits the minimum recipients are required to accept, and a preference for one KYA-PAY token over separate KYA and PAY tokens.<a href="#appendix-C-3.13.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-3.14">
+          <p id="appendix-C-3.14.1">Stated that <code>jti</code> identifies the token, not the request, so a repeated <code>jti</code>
+is not by itself evidence of replay.<a href="#appendix-C-3.14.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="appendix-C-4">-02<a href="#appendix-C-4" class="pilcrow">¶</a></p>

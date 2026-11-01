@@ -408,7 +408,9 @@ Table of Contents
 
    jti:
       REQUIRED - Unique ID of this JWT as defined in Section 4.1.7 of
-      [RFC7519].  This claim can be used to detect replay attempts.
+      [RFC7519].  This claim identifies the token, not the request.  A
+      token may be presented on more than one request within its
+      lifetime, so a repeated jti is not by itself evidence of replay.
 
    exp:
       REQUIRED - as defined in Section 4.1.4 of [RFC7519].  Identifies
@@ -1632,8 +1634,8 @@ Appendix A.  Related Specifications
 
 Acknowledgments
 
-   We would like to thank Jean Diaconu for his contributions to the
-   specification.
+   We would like to thank Bhasker Allam and Jean Diaconu for their
+   contributions to the specification.
 
 Document History
 
@@ -1687,6 +1689,9 @@ Document History
       guidance for issuers that fits the minimum recipients are required
       to accept, and a preference for one KYA-PAY token over separate
       KYA and PAY tokens.
+
+   *  Stated that jti identifies the token, not the request, so a
+      repeated jti is not by itself evidence of replay.
 
    -02
 
