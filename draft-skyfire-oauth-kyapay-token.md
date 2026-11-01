@@ -438,6 +438,20 @@ the location of its keys, such as the identity verification methods it supports.
 Such a document would supplement the mechanism described here rather than
 replace it.
 
+## Token Size {#token-size}
+
+This specification sets no maximum token size; the Token Size section of
+{{I-D.skyfire-oauth-using-kyapay-tokens}} sets the minimum a recipient must accept.
+An issuer SHOULD NOT emit a token whose claims total more than 4096 octets of
+JSON, counting all claims together, whichever specification defines them, and
+measuring before encoding. Base64url encoding adds about a third, so 4096 octets
+of claims, with a typical JOSE header and an ES256 signature, serializes to about
+5670 octets, within that minimum. An issuer using a larger header or signature
+SHOULD check the complete serialized token against that minimum. Where a request
+would carry both a KYA token and a PAY token, an issuer SHOULD issue one KYA-PAY
+token instead, because two tokens at this limit exceed a single header field at a
+typical origin.
+
 ## KYA Token {#kya-token}
 
 The following identity related claims are used within KYA and KYA-PAY tokens:
@@ -1342,6 +1356,7 @@ for his contributions to the specification.
   agent account identifier.
 * Added "id" as a required sub-claim within "aid".
 * Made the "apd" claim REQUIRED in KYA and KYAPay tokens.
+* Added a Token Size section: no maximum token size, aggregate size guidance for issuers that fits the minimum recipients are required to accept, and a preference for one KYA-PAY token over separate KYA and PAY tokens.
 
 -02
 
