@@ -5,8 +5,8 @@
 Web Authorization Protocol                                    A. Agarwal
 Internet-Draft                                      Skyfire Systems Inc.
 Intended status: Standards Track                                M. Jones
-Expires: 4 May 2027                               Self-Issued Consulting
-                                                         31 October 2026
+Expires: 5 May 2027                               Self-Issued Consulting
+                                                         1 November 2026
 
 
                               KYAPay Token
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 4 May 2027.
+   This Internet-Draft will expire on 5 May 2027.
 
 Copyright Notice
 
@@ -520,8 +520,9 @@ Table of Contents
    Target that has onboarded to the issuer checks aud and tsi.  A
    recipient that has not, including a security intermediary acting for
    many Targets, checks at least that tdm names the domain it is
-   protecting for that request.  Section 5.3 of
-   [I-D.skyfire-oauth-using-kyapay-tokens] describes that choice.
+   protecting for that request.  The Authenticating the Counterparty
+   section of [I-D.skyfire-oauth-using-kyapay-tokens] describes that
+   choice.
 
 3.2.  Issuer Key Discovery
 
