@@ -894,16 +894,24 @@ The following informative example displays a decoded KYA-PAY type token.
 
 ### JWT Header Validation
 
-1. `alg` - The `alg` header parameter MUST be present and, to enable
-   interoperability, it is RECOMMENDED that its value be `ES256` {{RFC7518}}.
-   Recipients MUST reject any token whose `alg` value is not supported by both
-   parties, including `none` {{RFC7515}}.
+1. `alg` - The `alg` header parameter MUST be present. Recipients MUST support
+   `ES256` {{RFC7518}}; issuers SHOULD use `ES256`.
 
-   Recipients MUST use the signature algorithm in the token.
-   The key is obtained from the
-   issuer's JWK Set (item 2); a token is verified with that algorithm and that
-   key, or rejected. In particular, a recipient MUST NOT accept a token that
-   would require interpreting an Elliptic Curve public key as a symmetric key.
+   A recipient MUST determine the set of algorithms it will accept for a given
+   issuer from its own configuration and from that issuer's JWK Set, and MUST
+   NOT derive that set from the token. A token whose `alg` value is absent from,
+   or outside, that set MUST be rejected, including the value `none` {{RFC7515}}
+   and any symmetric (MAC) algorithm, since an issuer's JWK Set publishes only
+   public keys. Verification is then performed using the algorithm named in the
+   token and the key obtained from the issuer's JWK Set (item 2), or the token is
+   rejected. In particular, a recipient MUST NOT accept a token that would
+   require interpreting an Elliptic Curve public key as a symmetric key.
+
+   Requiring support for `ES256` guarantees that any conforming issuer and
+   recipient share at least one algorithm, without constraining which algorithm
+   a deployment uses. Implementations remain free to support and use others,
+   including post-quantum algorithms as they are standardized; this requirement
+   is a floor for interoperability, not a ceiling on agility.
 
    Where the key retrieved from the issuer's JWK Set carries an `alg` or `use`
    parameter, the recipient MUST confirm it is consistent with
@@ -912,6 +920,9 @@ The following informative example displays a decoded KYA-PAY type token.
 2. `kid` - The `kid` claim MUST be present, and set to a valid Key ID present in
    the issuer's JWK Set, located as described in {{key-discovery}}.
 3. `typ` - The `typ` header parameter value MUST be one of: `kya+jwt`, `pay+jwt`, or `kya-pay+jwt`.
+   A recipient MUST determine which of these types it requires for a given request
+   before validating a token, and MUST reject a token whose `typ` value is not
+   among them.
 
 ### JWT Payload Validation
 
@@ -970,8 +981,8 @@ In addition, perform the following steps.
 
 ## General JWT Practices
 
-When validating the JWTs described in this specification, implementers SHOULD
-follow the best practices and guidelines described in {{RFC8725}}.
+When validating the JWTs described in this specification, implementers MUST
+follow the JSON Web Token Best Current Practices, BCP 225 {{RFC8725}}.
 
 ## Confidentiality of Token Contents
 
@@ -1318,8 +1329,10 @@ The following specifications are related to and designed to be used with this sp
 {: numbered="false"}
 
 We would like to thank
+Bhasker Allam
+and
 Jean Diaconu
-for his contributions to the specification.
+for their contributions to the specification.
 
 # Document History
 {: numbered="false"}
@@ -1357,6 +1370,12 @@ for his contributions to the specification.
 * Added "id" as a required sub-claim within "aid".
 * Made the "apd" claim REQUIRED in KYA and KYAPay tokens.
 * Added a Token Size section: no maximum token size, aggregate size guidance for issuers that fits the minimum recipients are required to accept, and a preference for one KYA-PAY token over separate KYA and PAY tokens.
+* Required recipients to support `ES256`, required the accepted algorithms to
+  come from the recipient's configuration and the issuer's JWK Set, and rejected
+  `none` and symmetric algorithms.
+* Required a recipient to determine the `typ` values it accepts before
+  validating a token.
+* Changed "SHOULD follow" BCP 225 to "MUST follow".
 
 -02
 
