@@ -157,7 +157,8 @@ on behalf of their human principals is a related design goal.
 To achieve this, systems can utilize a token exchange workflow {{RFC8693}}.
 In this process, a Security Token Service (STS), Identity Provider (IdP),
 or OAuth Authorization Server verifies incoming KYA tokens
-and extracts claims associated with the human principal, such as email addresses.
+and extracts claims associated with the human principal, such as `hid.id`,
+or an email address where it requested one.
 The authorization server then performs a token exchange,
 swapping the KYA token for a standard OAuth Access Token,
 which the agent subsequently uses to interact with the target service.
@@ -348,18 +349,21 @@ PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
 
 {:vspace}
 `sub`:
-: REQUIRED - Subject Identifier. MUST be unique within a given issuer.
+: REQUIRED - Subject Identifier. MUST be pairwise unique within a given
+  issuer: unique, and different at each Target service (`tsi`).
   The subject identifies the combination of identities the issuer has verified
   for the initiator: the human principal, the agent platform and the agent.
-  An issuer MUST use the same `sub` value while that combination remains
-  unchanged, MUST NOT use that value for a different combination, and MUST
+  An issuer MUST use the same `sub` value at a given Target service while that
+  combination remains unchanged, MUST use a different value at each other
+  Target service, MUST NOT use that value for a different combination, and MUST
   assign a new `sub` when any of those identities changes. KYA and KYA-PAY
   tokens carry the human principal and the agent as the `hid` and `aid`
   claims, and carry the agent platform as the `apd` claim where it is
   identified. PAY tokens carry none of them. The subject identifies the same
   combination in either case, since an issuer does not issue a token without
   having verified the initiator. Tokens of different types issued by the same
-  issuer for the same initiator therefore carry the same `sub`. A recipient MAY associate a PAY
+  issuer for the same initiator at the same Target service therefore carry the
+  same `sub`. A recipient MAY associate a PAY
   token with a KYA token on that basis, but MUST treat them as referring to
   the same initiator only when both the `iss` and the `sub` values are equal.
 
@@ -560,7 +564,7 @@ The following informative example displays a decoded KYA type token.
   "itg": "4f6cbd39-215c-4516-bf33-cab22862ee60", // Initiator Tag (Internal Reference ID)
 
   "hid": {
-    "email": "initiator@initiator.com"
+    "id": "6d2f8a41-0c3e-4b9a-a7d5-1e8f3c6b2a90" // Human principal ID at this Target service
   },
   "apd": {
     "id": "d3306fc0-602b-47e6-9fe2-3d55d028fbd2",
@@ -590,8 +594,20 @@ The Human Identity (`hid`) claim contains sub-claims identifying the human
 principal (individual or organization) as follows.
 
 {:vspace}
+`id`:
+: REQUIRED - Human principal identifier. An opaque, pseudonymous
+  identifier for the human principal, assigned by the issuer. It MUST
+  NOT be, or reveal, an email address, telephone number or other
+  directly identifying attribute. An issuer MUST use the same value for
+  the same principal acting through the same agent platform at the same
+  Target service (`tsi`), whatever the agent, and MUST use a different
+  value for each agent platform and for each Target service. The value
+  is unique within a given issuer, so a recipient that compares `hid.id`
+  values from two tokens MUST first check that both carry the same `iss`.
+
+{:vspace}
 `email`:
-: REQUIRED - Email address associated with the human individual or organization
+: OPTIONAL - Email address associated with the human individual or organization.
 
 {:vspace}
 `given_name`:
@@ -634,6 +650,13 @@ principal (individual or organization) as follows.
 : OPTIONAL - Verification identifier.
   This is the verifier's identifier for the identity verification performed.
   This could be used during auditing and dispute resolution.
+
+The sub-claims `email`, `given_name`, `middle_name`, `family_name`,
+`phone_number` and `organization_name` directly identify the human
+principal, and `verification_id` is the same at every Target. An issuer MUST
+NOT include any of them unless a Target requires it for the action at hand
+and the principal has authorized its disclosure to that Target, whether to
+the issuer or to the agent platform ({{privacy}}).
 
 Additional sub-claims MAY be defined and used.
 The recipient MUST ignore any unrecognized sub-claims.
@@ -693,7 +716,9 @@ The `aid` claim is REQUIRED. It contains the following sub-claims.
 
 {:vspace}
 `id`:
-: REQUIRED - Agent identifier.
+: REQUIRED - Agent identifier. An issuer MUST use the same value for the same
+  agent at the same Target service (`tsi`), and a different value at each
+  Target service. An issuer MAY use the same value as `sub`.
 
 {:vspace}
 `name`:
@@ -911,6 +936,8 @@ The following informative example displays a decoded KYA-PAY type token.
   "itg": "c52e0ef2-e27d-4e95-862e-475a904ae7b2", // Initiator Tag (Internal Reference ID)
 
   "hid": {
+    "id": "a4c19e07-5b2d-4f86-9e3a-7d0b8c1f5e62", // Human principal ID at this Target service
+    // The following are present because the Target requires them for checkout
     "email": "maryjane@initiator.example.com",
     "given_name": "Mary",
     "middle_name": "Jane",
@@ -1139,17 +1166,34 @@ invalidates its signature. Combining claims taken from two separately signed
 tokens does not invalidate either signature, so a recipient that correlates
 tokens MUST check that both carry the same `iss` and `sub` values before
 treating them as referring to the same initiator. Because the subject is
-stable while the bound identities are unchanged,
-a recipient MAY use `sub` as a stable key for that combination, for example to
+stable at a Target service while the bound identities are unchanged,
+a recipient at that service MAY use `sub` as a stable key for that combination, for example to
 rate-limit or isolate a particular agent without affecting other agents acting
 for the same principal.
 
-# Privacy Considerations
+# Privacy Considerations {#privacy}
 
-The subject identifier is stable for a given combination of identities across
-audiences, within the namespace of a single issuer. Recipients that compare
-tokens from the same issuer can therefore recognize the same human principal,
-agent platform and agent combination at different targets.
+By default a KYA token identifies the human principal only by
+`hid.id`. Directly identifying sub-claims such as `email`,
+`phone_number` or names are disclosed only where a Target requires
+them for the action at hand, as stated in its decline response or
+discovery document, and the principal has authorized the disclosure.
+The issuer MAY collect the principal's authorization itself or
+delegate its collection to the agent platform. Whichever of them
+collected it MUST be able to demonstrate that it was given. What
+counts as sufficient evidence may depend on applicable law and
+regulation. Targets SHOULD NOT require directly identifying
+sub-claims for actions that do not need them, such as browsing a
+catalog.
+
+A token carrying only `hid.id` is pseudonymous, not anonymous.
+`hid.id`, `sub` and `aid.id` are each specific to one Target
+service: stable for a principal returning to that service through a
+given agent platform, and different at every other Target service.
+Two Targets, or a party that sees the traffic of both, cannot link
+the principal from these values. `apd` identifies the agent platform
+and is the same at every Target, and directly identifying sub-claims
+link wherever they are disclosed.
 
 KYAPay tokens are designed to convey the information that
 an agent is acting on behalf of a principal - a person or organization.
@@ -1406,8 +1450,10 @@ for their contributions to the specification.
   unchanged, and that a change to any of them gives a new subject. The
   identities are carried as claims in KYA and KYA-PAY tokens and not in PAY
   tokens, but the subject identifies the same combination in all three.
-* Disclosed in the Privacy Considerations that a stable subject is
-  correlatable across audiences.
+* Stated in the Privacy Considerations that `hid.id`, `sub` and `aid.id` are
+  specific to one Target service, and that directly identifying sub-claims are
+  disclosed only where a Target requires them and the principal has authorized
+  it.
 * Removed the qualifier on `hid`, which read as though the claim were required
   only for some use cases.
 * Stated that a Payment Token Issuer verifies the Initiator, which the role
@@ -1419,9 +1465,8 @@ for their contributions to the specification.
   specified alongside each claim.
 * Required a recipient correlating a PAY token with a KYA token to check that
   both carry the same `iss` and `sub`.
-* Described `sub` as unique rather than pairwise unique. The subject is stable
-  for a given combination across audiences, so the OpenID Connect sense of
-  pairwise did not apply.
+* Made `sub` pairwise: a different value at each Target service, stable at
+  that service.
 * Stated that an agent name is unique within an agent platform at a given
   issuer.
 * Added Identity Binding to the Security Considerations.
@@ -1434,6 +1479,13 @@ for their contributions to the specification.
   `tsi` REQUIRED and `tdm` REQUIRED where the Target is identified by a domain
   name, defined the form of `tdm`, and let a recipient that has not onboarded to
   the issuer validate the audience using `tdm`.
+* Added `hid.id`, a pseudonymous identifier for the human principal, specific
+  to one agent platform and one Target service, and made `aid.id` specific to
+  one Target service.
+* Made `email` OPTIONAL, and included `email`, `phone_number`,
+  `organization_name`, `verification_id` and the name sub-claims only where a
+  Target requires them for the action at hand and the principal has authorized
+  their disclosure.
 
 -02
 
