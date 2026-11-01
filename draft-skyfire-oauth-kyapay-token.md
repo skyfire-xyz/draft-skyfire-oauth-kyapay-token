@@ -923,11 +923,15 @@ The following informative example displays a decoded KYA-PAY type token.
 
 2. `kid` - The `kid` claim MUST be present, and set to a valid Key ID present in
    the issuer's JWK Set, located as described in {{key-discovery}}.
-3. `typ` - The `typ` header parameter value MUST be one of: `kya+jwt`, `pay+jwt`, or `kya-pay+jwt`.
+3. `typ` - The `typ` header parameter MUST be present, and its value MUST be one of:
+   `kya+jwt`, `pay+jwt`, or `kya-pay+jwt`. As specified in {{Section 4.1.9 of RFC7515}},
+   values are compared case-insensitively, and a value with the `application/` prefix,
+   such as `application/kya+jwt`, is the same type. A token whose `typ` is absent or has
+   any other value fails validation.
    A recipient MUST determine which of these types it accepts for a given request
-   before validating a token, and MUST NOT use a token whose `typ` value is not
-   among them for that request; such a token is set aside rather than treated as
-   having failed validation.
+   before validating a token. A token of one of these types that the recipient does not
+   accept for that request is set aside: the recipient does not use it for that request,
+   and does not treat it as having failed validation.
 
 ### JWT Payload Validation
 
@@ -1381,7 +1385,8 @@ for their contributions to the specification.
   recipient's configuration allows and the issuer's JWK Set has keys for; and
   rejected `none` and symmetric algorithms.
 * Required a recipient to determine the `typ` values it accepts before
-  validating a token.
+  validating a token, set aside a token of a defined type it does not accept,
+  and reject a token whose `typ` is missing or not a defined type.
 * Changed "SHOULD follow" BCP 225 to "MUST follow".
 
 -02
