@@ -571,8 +571,7 @@ Additional sub-claims MAY be defined and used, including further identifiers for
 the human principal where a Target requires them to recognize an account. An
 issuer MUST NOT assert an identifier it has not verified to be under the control
 of the human principal. This document does not prescribe how control is
-verified; a one-time code, a magic link and silent network authentication are
-examples.
+verified.
 The recipient MUST ignore any unrecognized sub-claims.
 
 ### Agent Platform Identity `apd` Sub-Claims
