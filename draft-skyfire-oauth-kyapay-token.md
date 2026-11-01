@@ -442,15 +442,15 @@ replace it.
 
 This specification sets no maximum token size; the Token Size section of
 {{I-D.skyfire-oauth-using-kyapay-tokens}} sets the minimum a recipient must accept.
-An issuer SHOULD NOT emit claims registered by this specification totalling more
-than 3072 octets of JSON, or other claims totalling more than 1024 octets. These
-limits apply to the claims before encoding. Base64url encoding adds about a third,
-so 4096 octets of claims, with a typical JOSE header and an ES256 signature,
-serializes to about 5670 octets, within that minimum. An issuer using a larger
-header or signature SHOULD check the complete serialized token against that
-minimum. Where a request would carry both a KYA token and a PAY token,
-an issuer SHOULD issue one KYA-PAY token instead, because two tokens at these
-limits exceed a single header field at a typical origin.
+An issuer SHOULD NOT emit a token whose claims total more than 4096 octets of
+JSON, counting all claims together, whichever specification defines them, and
+measuring before encoding. Base64url encoding adds about a third, so 4096 octets
+of claims, with a typical JOSE header and an ES256 signature, serializes to about
+5670 octets, within that minimum. An issuer using a larger header or signature
+SHOULD check the complete serialized token against that minimum. Where a request
+would carry both a KYA token and a PAY token, an issuer SHOULD issue one KYA-PAY
+token instead, because two tokens at this limit exceed a single header field at a
+typical origin.
 
 ## KYA Token {#kya-token}
 
