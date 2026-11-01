@@ -921,7 +921,7 @@ The following informative example displays a decoded KYA-PAY type token.
 2. `kid` - The `kid` claim MUST be present, and set to a valid Key ID present in
    the issuer's JWK Set, located as described in {{key-discovery}}.
 3. `typ` - The `typ` header parameter value MUST be one of: `kya+jwt`, `pay+jwt`, or `kya-pay+jwt`.
-   A recipient MUST determine which of these types it requires for a given request
+   A recipient MUST determine which of these types it accepts for a given request
    before validating a token, and MUST reject a token whose `typ` value is not
    among them.
 
