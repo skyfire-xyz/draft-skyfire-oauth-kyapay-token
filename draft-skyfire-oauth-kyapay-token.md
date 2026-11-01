@@ -567,7 +567,12 @@ principal (individual or organization) as follows.
   This is the verifier's identifier for the identity verification performed.
   This could be used during auditing and dispute resolution.
 
-Additional sub-claims MAY be defined and used.
+Additional sub-claims MAY be defined and used, including further identifiers for
+the human principal where a Target requires them to recognize an account. An
+issuer MUST NOT assert an identifier it has not verified to be under the control
+of the human principal. This document does not prescribe how control is
+verified; a one-time code, a magic link and silent network authentication are
+examples.
 The recipient MUST ignore any unrecognized sub-claims.
 
 ### Agent Platform Identity `apd` Sub-Claims
@@ -1318,8 +1323,10 @@ The following specifications are related to and designed to be used with this sp
 {: numbered="false"}
 
 We would like to thank
+Bhasker Allam
+and
 Jean Diaconu
-for his contributions to the specification.
+for their contributions to the specification.
 
 # Document History
 {: numbered="false"}
@@ -1357,6 +1364,8 @@ for his contributions to the specification.
 * Added "id" as a required sub-claim within "aid".
 * Made the "apd" claim REQUIRED in KYA and KYAPay tokens.
 * Added a Token Size section: no maximum token size, aggregate size guidance for issuers that fits the minimum recipients are required to accept, and a preference for one KYA-PAY token over separate KYA and PAY tokens.
+* Allowed further identifiers for the human principal in `hid`, only where the
+  issuer has verified that the principal controls them.
 
 -02
 
