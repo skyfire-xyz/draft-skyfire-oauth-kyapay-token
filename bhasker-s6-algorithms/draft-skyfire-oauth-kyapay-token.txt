@@ -944,7 +944,7 @@ Table of Contents
 
    3.  typ - The typ header parameter value MUST be one of: kya+jwt,
        pay+jwt, or kya-pay+jwt.  A recipient MUST determine which of
-       these types it requires for a given request before validating a
+       these types it accepts for a given request before validating a
        token, and MUST reject a token whose typ value is not among them.
 
 4.1.2.  JWT Payload Validation
