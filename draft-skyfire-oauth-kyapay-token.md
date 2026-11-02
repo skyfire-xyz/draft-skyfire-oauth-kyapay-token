@@ -1052,16 +1052,27 @@ configured out of band and is not derived from the token.
 
 ### JWT Header Validation
 
-1. `alg` - The `alg` header parameter MUST be present and, to enable
-   interoperability, it is RECOMMENDED that its value be `ES256` {{RFC7518}}.
-   Recipients MUST reject any token whose `alg` value is not supported by both
-   parties, including `none` {{RFC7515}}.
+1. `alg` - The `alg` header parameter MUST be present. Recipients MUST support
+   `ES256` {{RFC7518}}, and MUST accept it from any issuer they trust whose JWK
+   Set publishes an `ES256` key. Issuers MUST use `ES256`, or an algorithm that
+   they know every recipient of the token accepts.
 
-   Recipients MUST use the signature algorithm in the token.
-   The key is obtained from the
-   issuer's JWK Set (item 2); a token is verified with that algorithm and that
-   key, or rejected. In particular, a recipient MUST NOT accept a token that
-   would require interpreting an Elliptic Curve public key as a symmetric key.
+   A recipient MUST determine the set of algorithms it will accept for a given
+   issuer, limited
+   to those for which the issuer's JWK Set publishes a suitable key.
+   The set
+   MUST NOT be derived from the token. A token whose `alg` value is absent from,
+   or outside, that set MUST be rejected, including the value `none` {{RFC7515}}
+   and any symmetric (MAC) algorithm, since an issuer's JWK Set publishes only
+   public keys. Verification is then performed using the algorithm named in the
+   token and the key obtained from the issuer's JWK Set, or the token is
+   rejected.
+
+   Together, these guarantee that any conforming recipient can verify a token
+   whose recipients the issuer does not know in advance, without constraining
+   which algorithm a deployment uses. Implementations remain free to support and use others,
+   including post-quantum algorithms as they are standardized; this requirement
+   is a floor for interoperability, not a ceiling on agility.
 
    Where the key retrieved from the issuer's JWK Set carries an `alg` or `use`
    parameter, the recipient MUST confirm it is consistent with
@@ -1069,7 +1080,15 @@ configured out of band and is not derived from the token.
 
 2. `kid` - The `kid` claim MUST be present, and set to a valid Key ID present in
    the issuer's JWK Set, located as described in {{key-discovery}}.
-3. `typ` - The `typ` header parameter value MUST be one of: `kya+jwt`, `pay+jwt`, or `kya-pay+jwt`.
+3. `typ` - The `typ` header parameter MUST be present, and its value MUST be one of:
+   `kya+jwt`, `pay+jwt`, or `kya-pay+jwt`. As specified in {{Section 4.1.9 of RFC7515}},
+   values are compared case-insensitively, and a value with the `application/` prefix,
+   such as `application/kya+jwt`, is the same type. A token whose `typ` is absent or has
+   any other value fails validation.
+   A recipient MUST determine which of these types it accepts for a given request
+   before validating a token. A token of one of these types that the recipient does not
+   accept for that request is set aside: the recipient does not use it for that request,
+   and does not treat it as having failed validation.
 
 ### JWT Payload Validation
 
@@ -1131,8 +1150,8 @@ In addition, perform the following steps.
 
 ## General JWT Practices
 
-When validating the JWTs described in this specification, implementers SHOULD
-follow the best practices and guidelines described in {{RFC8725}}.
+When validating the JWTs described in this specification, implementers MUST
+follow the JSON Web Token Best Current Practices, BCP 225 {{RFC8725}}.
 
 ## Confidentiality of Token Contents
 
@@ -1581,6 +1600,15 @@ for their contributions to the specification.
   `organization_name`, `verification_id` and the name sub-claims only when a
   Target requires them for the action at hand and the principal has authorized
   their disclosure.
+* Required recipients to support `ES256` and to accept it from trusted issuers
+  that publish an `ES256` key, and issuers to use it or an algorithm every
+  recipient of the token accepts; limited the accepted algorithms to those the
+  recipient's configuration allows and the issuer's JWK Set has keys for; and
+  rejected `none` and symmetric algorithms.
+* Required a recipient to determine the `typ` values it accepts before
+  validating a token, set aside a token of a defined type it does not accept,
+  and reject a token whose `typ` is missing or not a defined type.
+* Changed "SHOULD follow" BCP 225 to "MUST follow".
 
 -02
 
