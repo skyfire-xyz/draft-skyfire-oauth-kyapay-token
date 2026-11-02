@@ -491,7 +491,8 @@ A recipient that checks more than the domain checks that `tdm` names the Target
 it is protecting for the request: the host in `tdm` is that Target's host, and
 where that Target is identified by a path, the path in `tdm` is that path or one
 below it. Paths are matched as cookie paths are ({{Section 5.1.4 of RFC6265}}),
-after both are normalized as described in {{Section 6.2.2 of RFC3986}}. For
+after both are normalized as described in {{Section 6.2.2 of RFC3986}}. Ports
+are not compared. For
 example, for a Target at `shop.example.com/store`, a `tdm` of
 `shop.example.com/store` or `shop.example.com/store/cart` passes, but
 `shop.example.com`, `shop.example.com/storefront` and `example.com/store` do
