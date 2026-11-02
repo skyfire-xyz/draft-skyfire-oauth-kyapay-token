@@ -95,6 +95,22 @@ informative:
   I-D.skyfire-oauth-amr-values:
   I-D.skyfire-oauth-id-verification:
   I-D.skyfire-oauth-aml-methods:
+  EMVCo-PT:
+    title: "EMV Payment Tokenisation Specification - Technical Framework"
+    author:
+    - org: EMVCo
+    target: https://www.emvco.com/emv-technologies/payment-tokenisation/
+    seriesinfo:
+      Version: "2.4"
+    date: 2026-07-09
+  PCI-FAQ-1326:
+    title: "How does PCI DSS apply to EMVCo Payment Tokens?"
+    author:
+    - org: PCI Security Standards Council
+    target: https://www.pcisecuritystandards.org/faqs/1326
+    seriesinfo:
+      FAQ: "1326"
+    date: 2015-05
 
 ...
 
@@ -388,7 +404,9 @@ PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
 {:vspace}
 `jti`:
 : REQUIRED - Unique ID of this JWT as defined in {{Section 4.1.7 of RFC7519}}.
-  This claim can be used to detect replay attempts.
+  This claim identifies the token, not the request. A token may be presented on
+  more than one request within its lifetime, so a repeated `jti` is not by itself
+  evidence of replay.
 
 {:vspace}
 `exp`:
@@ -522,6 +540,9 @@ JWK Sets SHOULD be cached and refreshed according to standard JWK Set practice.
 Retrieval per request is neither required nor expected; because KYAPay tokens
 are self-contained, signature verification is intended to be performed locally.
 
+A recipient retrieves this JWK Set only for an issuer it trusts
+({{validating-tokens}}).
+
 A future revision of this specification may additionally define an issuer
 metadata document, giving an issuer somewhere to advertise capabilities beyond
 the location of its keys, such as the identity verification methods it supports.
@@ -597,9 +618,9 @@ The following informative example displays a decoded KYA type token.
   "aid": {
     "id": "7d889702-7b6a-46cb-9bdd-10e83d17b18d", // Identifier of the agent instance
     "name": "Acme Agent Extraordinaire",
-    "creation_ip": "54.86.50.139", // IP Address where token was created
-    "source_ips": ["54.86.50.139-54.86.50.141", "1.1.1.0/24",
-      "2001:db8:abcd:0012::/64", "acme.com"]
+    "creation_ip": "192.0.2.10", // IP address the token was requested from
+    "source_ips": ["192.0.2.10-192.0.2.12", "203.0.113.0/24",
+      "2001:db8:abcd:12::/64", "agents.example.com"]
       // IP addresses from which the initiator agent will make requests to the target
   }
 }
@@ -677,9 +698,13 @@ The sub-claims `email`, `given_name`, `middle_name`, `family_name`,
 principal, and `verification_id` is the same at every Target. An issuer MUST
 NOT include any of them unless a Target requires it for the action at hand
 and the principal has authorized its disclosure to that Target, whether to
-the issuer or to the agent platform ({{privacy}}).
+the issuer or to the agent platform ({{privacy-considerations}}).
 
-Additional sub-claims MAY be defined and used.
+Additional sub-claims MAY be defined and used, including further identifiers for
+the human principal where a Target requires them to recognize an account. An
+issuer MUST NOT assert an identifier of the human principal unless it has
+verified that the principal controls it. This document does not prescribe how control is
+verified.
 The recipient MUST ignore any unrecognized sub-claims.
 
 ### Agent Platform Identity `apd` Sub-Claims
@@ -752,9 +777,14 @@ The `aid` claim is REQUIRED. It contains the following sub-claims.
 
 {:vspace}
 `creation_ip`:
-: REQUIRED - The public IP address of the system / agent that requested the token.
+: OPTIONAL - The public IP address of the system / agent that requested the token.
   Its value is a string containing the public IPv4 or IPv6 address from where the
-  token request originated. It MUST be captured directly from the token request.
+  token request originated. When present, it MUST be captured directly from the
+  token request. It is a diagnostic aid, for example when investigating an
+  incident, and is not an access-control signal: a recipient MAY use it as a weak
+  corroborating signal only and MUST NOT treat it as sufficient on its own
+  ({{Section 6.3 of I-D.skyfire-oauth-using-kyapay-tokens}}). It is personal
+  data, subject to the privacy considerations in {{privacy-considerations}}.
 
 {:vspace}
 `source_ips`:
@@ -808,7 +838,7 @@ The following payment related claims are used within PAY and KYA-PAY type tokens
 : REQUIRED - Meta information for payment settlement, depending on the `stp`
   value.
 
-### Settlement Information `sti` Sub-Claims
+### Settlement Information `sti` Sub-Claims {#sti}
 
 The `sti` claim is REQUIRED in Pay Tokens. It contains the following sub-claims,
 with the requirement levels marked below.
@@ -819,10 +849,11 @@ the value of `stp`.
 When the `stp` value is `card`, the settlement instrument is an agentic payment credential
 issued by a payment network under an agentic-commerce programme -- for example
 Visa Intelligent Commerce (`visa_vic`) or Mastercard Agent Pay, using Secure Card
-on File (`mastercard_scof`). Such a credential is provisioned for a single
-transaction and is scoped to one initiator, one target, and one amount. It is not
-a Primary Account Number (PAN), and it cannot be used to derive the underlying
-PAN or the network's agentic token.
+on File (`mastercard_scof`). Such a credential is a payment token issued by the
+payment network ({{card-settlement-scope}}). It is used with a single-use token
+cryptogram (`token_security_code`), and the network restricts its use to one
+initiator, one target, and one amount. It is not a Primary Account Number (PAN),
+and the underlying PAN cannot feasibly be recovered from it.
 
 {:vspace}
 `type`:
@@ -879,14 +910,17 @@ PAN or the network's agentic token.
 Additional sub-claims MAY be defined and used.
 The recipient MUST ignore any unrecognized sub-claims.
 
-### Scope of Card Settlement
+### Scope of Card Settlement {#card-settlement-scope}
 
 This specification supports card settlement only through payment-network
-agentic-commerce programmes that issue transaction-scoped, PCI-exempt
-credentials.
+agentic-commerce programmes whose credentials are Payment Tokens as defined by
+the EMV Payment Tokenisation Specification {{EMVCo-PT}}, used with a single-use
+token cryptogram and restricted by the payment network to the transaction bound
+in the token.
 
-A PAY or KYA-PAY token MUST NOT carry a Primary Account Number, or the static
-verification value associated with one.
+A token defined in this specification, of any type, MUST NOT contain a Primary
+Account Number, full magnetic-stripe or chip track data, a static card
+verification value (CVV, CVC2 or CVV2), or a PIN or PIN block.
 
 Settlement instruments that fall within PCI DSS scope require mechanisms this
 specification does not define -- including confidentiality protection of the
@@ -924,10 +958,10 @@ The following informative example displays a decoded PAY type token.
   "stp": "card",
   "sti": {
     "type": "visa_vic",
-    "payment_token": "1234567890123456",
+    "payment_token": "0000000000000000", // Example only: a network-issued payment token, not a PAN
     "token_expiration_month": "03",
     "token_expiration_year": "2030",
-    "token_security_code": "123",
+    "token_security_code": "000", // Example only: a single-use cryptogram (DTVV or TAVV), not a CVV
     "verifier": "https://verifier.example.info", // URL of payment method verifier
     "verified": true, // Outcome of the verifier's payment method verification
     "verification_id": "3a6e1b76-8f78-4c24-b1bd-dc78a8cc3711" // Verifier's ID for the payment method verification performed
@@ -981,9 +1015,9 @@ The following informative example displays a decoded KYA-PAY type token.
   "aid": {
     "id": "4607fa56-368d-4fde-90e9-baad4e9f4439", // Identifier of the agent instance
     "name": "Agentic Excellence Я Us",
-    "creation_ip": "128.2.42.95", // IP Address where token was created
-    "source_ips": ["54.86.50.139-54.86.50.141", "1.1.1.0/24",
-      "2001:db8:abcd:0012::/64", "agentic-excellence.example.com"]
+    "creation_ip": "198.51.100.20", // IP address the token was requested from
+    "source_ips": ["192.0.2.10-192.0.2.12", "203.0.113.0/24",
+      "2001:db8:abcd:12::/64", "agents.example.com"]
       // IP addresses from which the initiator agent will make requests to the target
   },
 
@@ -996,10 +1030,10 @@ The following informative example displays a decoded KYA-PAY type token.
   "stp": "card",
   "sti": {
     "type": "visa_vic",
-    "payment_token": "1234567890123456",
+    "payment_token": "0000000000000000", // Example only: a network-issued payment token, not a PAN
     "token_expiration_month": "03",
     "token_expiration_year": "2030",
-    "token_security_code": "123"
+    "token_security_code": "000" // Example only: a single-use cryptogram (DTVV or TAVV), not a CVV
   }
 }
 
@@ -1008,7 +1042,13 @@ The following informative example displays a decoded KYA-PAY type token.
 
 # Token Validation
 
-## Validating KYA and PAY Tokens
+## Validating KYA and PAY Tokens {#validating-tokens}
+
+A recipient MUST confirm that the `iss` claim names an issuer it trusts before
+it performs any step below that retrieves key material or otherwise depends on
+the issuer. A recipient MUST NOT retrieve key material for an issuer that is not
+in its configured set of trusted issuers. The set of trusted issuers is
+configured out of band and is not derived from the token.
 
 ### JWT Header Validation
 
@@ -1033,10 +1073,10 @@ The following informative example displays a decoded KYA-PAY type token.
 
 ### JWT Payload Validation
 
-1. **Verify JWT Signature** - Valid JWTs MUST be signed with a valid key belonging
-  to the token's issuer (`iss` claim)
-2. **Validate `iss` Claim** - Ensure that the token is signed by the expected
-  valid issuer.
+1. **Validate `iss` Claim** - Ensure that the token's issuer is one the
+  recipient trusts ({{validating-tokens}}).
+2. **Verify JWT Signature** - Valid JWTs MUST be signed with a valid key belonging
+  to the token's issuer (`iss` claim).
 3. **Validate the `exp` Claim** - The recipient MUST validate that the token has
   not expired, within the clock skew tolerance described in {{clock-skew}}.
 4. **Validate the `iat` Claim** - The recipient MUST validate that the token was
@@ -1107,8 +1147,13 @@ information. Accordingly:
 
 * Tokens MUST be transmitted over a channel providing confidentiality, integrity
   and server authentication, such as TLS {{RFC8446}}.
-* Tokens MUST NOT be written to logs, analytics pipelines, or other persistent
-  stores that are not required to process the transaction.
+* Tokens MUST NOT be written to logs, traces, analytics pipelines, or other
+  persistent stores that are not required to process the transaction. An agent
+  that obtains a token through a tool whose result is returned to a language
+  model may be unable to keep the token out of that model's context or out of a
+  transcript retained from it; the Token Exposure in the Agent Runtime section
+  of {{I-D.skyfire-oauth-using-kyapay-tokens}} describes how such a deployment
+  treats the token.
 * Tokens MUST NOT be forwarded to parties other than those necessary to complete
   the interaction for which they were issued.
 * Issuers SHOULD include only those claims necessary for the interaction for
@@ -1127,28 +1172,36 @@ provided at the transport layer and by minimising token contents, not at the
 token layer.
 
 The settlement information carried in a PAY or KYA-PAY token is additionally
-protected by its own construction rather than by encryption: the credential is
-transaction-scoped and its accompanying cryptogram is single-use, so a captured
-token yields no reusable payment instrument.
+protected by its own construction rather than by encryption: the network
+restricts the credential to the transaction bound in the token, and its
+accompanying cryptogram is single-use, so a captured token yields no reusable
+payment instrument.
 
 ## Settlement Credential Handling
 
 The `sti` claim of a PAY or KYA-PAY token carries a settlement instrument. When
-`stp` is `card`, that instrument is a network-issued agentic payment credential
-provisioned for a single transaction, accompanied by a single-use dynamic
-cryptogram. Such credentials are issued outside the scope of PCI DSS and cannot
-be used to derive the underlying account number.
+`stp` is `card`, that instrument is a payment token issued by a payment network
+and accompanied by a single-use token cryptogram ({{sti}}).
 
-Implementations MUST NOT place a Primary Account Number, or a static Card
-Verification Value, in the `sti` claim. Doing so would place the token, and
-every system that processes it, within PCI DSS scope, for which this
-specification provides no confidentiality mechanism.
+For entities other than Token Service Providers, a Payment Token that is defined
+and used in accordance with the EMV Payment Tokenisation Specification and that
+exists outside the Token Service Provider's token data environment is not
+Account Data and is not in scope for PCI DSS {{PCI-FAQ-1326}}. Receiving,
+inspecting, or forwarding a token defined in this specification therefore does
+not of itself bring a recipient within that scope. That determination concerns
+the payment token, not the recipient's wider environment: a system that also
+stores, processes, or transmits Account Data, or is connected to one that does,
+remains in scope.
+
+{{card-settlement-scope}} prohibits Account Data in any token. A token that
+carried it would bring every system that processes it within PCI DSS scope, for
+which this specification provides no confidentiality mechanism.
 
 ## Token Lifetime
 
 The `exp` claim of a token carrying a settlement instrument SHOULD NOT extend
-beyond the validity period of that instrument. Agentic payment credentials and
-their associated token cryptograms are single-use and short-lived; their
+beyond the validity period of that instrument. The token cryptograms that
+accompany agentic payment credentials are single-use and short-lived; their
 validity period is determined and enforced by the payment network. Issuing a
 long-lived token around a short-lived credential provides no benefit and widens
 the window in which a captured token can be replayed.
@@ -1194,7 +1247,7 @@ a recipient at that service MAY use `sub` as a stable key for that combination, 
 rate-limit or isolate a particular agent without affecting other agents acting
 for the same principal.
 
-# Privacy Considerations {#privacy}
+# Privacy Considerations {#privacy-considerations}
 
 By default, a KYA token identifies the human principal only by
 `hid.id`. Directly identifying sub-claims such as `email`,
@@ -1503,6 +1556,20 @@ for their contributions to the specification.
 * Added "id" as a required sub-claim within "aid".
 * Made the "apd" claim REQUIRED in KYA and KYAPay tokens.
 * Added a Token Size section: no maximum token size, aggregate size guidance for issuers that fits the minimum recipients are required to accept, and a preference for one KYA-PAY token over separate KYA and PAY tokens.
+* Stated that `jti` identifies the token, not the request, so a repeated `jti`
+  is not by itself evidence of replay.
+* Made `creation_ip` OPTIONAL and described its use.
+* Replaced the example IP addresses with documentation addresses.
+* Required a recipient to confirm that it trusts the issuer before retrieving
+  key material, and moved the issuer check ahead of signature verification.
+* Added traces to the logging prohibition, and pointed to the Using document for
+  tokens that reach a language model's context.
+* Allowed further identifiers for the human principal in `hid`, only where the
+  issuer has verified that the principal controls them.
+* Prohibited Account Data in tokens of every type, described card credentials as
+  EMV Payment Tokens, and cited PCI SSC FAQ 1326 for their PCI DSS scope.
+* Replaced the example payment credential values with values that cannot be
+  mistaken for real ones.
 * Added an Identifying the Target section relating `aud`, `tsi` and `tdm`, made
   `tsi` REQUIRED and `tdm` REQUIRED where the Target is identified by a domain
   name, defined the form of `tdm`, and let a recipient that has not onboarded to
