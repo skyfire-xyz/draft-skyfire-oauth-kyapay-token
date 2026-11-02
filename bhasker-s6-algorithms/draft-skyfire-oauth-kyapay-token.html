@@ -1184,6 +1184,11 @@ tokens in an interoperable manner.<a href="#section-abstract-1" class="pilcrow">
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1">
                 <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-common-token-claims" class="internal xref">Common Token Claims</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1.2.1">
+                    <p id="section-toc.1-1.3.2.1.2.1.1"><a href="#section-3.1.1" class="auto internal xref">3.1.1</a>.  <a href="#name-identifying-the-target" class="internal xref">Identifying the Target</a></p>
+</li>
+                </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2">
                 <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-issuer-key-discovery" class="internal xref">Issuer Key Discovery</a></p>
@@ -1430,7 +1435,8 @@ on behalf of their human principals is a related design goal.
 To achieve this, systems can utilize a token exchange workflow <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span>.
 In this process, a Security Token Service (STS), Identity Provider (IdP),
 or OAuth Authorization Server verifies incoming KYA tokens
-and extracts claims associated with the human principal, such as email addresses.
+and extracts claims associated with the human principal, such as <code>hid.id</code>,
+or an email address where it requested one.
 The authorization server then performs a token exchange,
 swapping the KYA token for a standard OAuth Access Token,
 which the agent subsequently uses to interact with the target service.
@@ -1677,18 +1683,24 @@ signature verification, as described in <a href="#key-discovery" class="auto int
 <dt id="section-3.1-2.3">
 <code>sub</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-3.1-2.4">
-            <p id="section-3.1-2.4.1"><span class="bcp14">REQUIRED</span> - Subject Identifier. <span class="bcp14">MUST</span> be unique within a given issuer.
+            <p id="section-3.1-2.4.1"><span class="bcp14">REQUIRED</span> - Subject Identifier. <span class="bcp14">MUST</span> be pairwise unique within a given
+issuer: unique, and different at each Target service (<code>tsi</code>). As for
+<code>hid.id</code>, the value <span class="bcp14">MUST NOT</span> be, or reveal, a directly identifying
+attribute, and values at different Target services <span class="bcp14">MUST NOT</span> be linkable
+to one another without the issuer's cooperation.
 The subject identifies the combination of identities the issuer has verified
 for the initiator: the human principal, the agent platform and the agent.
-An issuer <span class="bcp14">MUST</span> use the same <code>sub</code> value while that combination remains
-unchanged, <span class="bcp14">MUST NOT</span> use that value for a different combination, and <span class="bcp14">MUST</span>
+An issuer <span class="bcp14">MUST</span> use the same <code>sub</code> value at a given Target service while that
+combination remains unchanged, <span class="bcp14">MUST</span> use a different value at each other
+Target service, <span class="bcp14">MUST NOT</span> use that value for a different combination, and <span class="bcp14">MUST</span>
 assign a new <code>sub</code> when any of those identities changes. KYA and KYA-PAY
 tokens carry the human principal and the agent as the <code>hid</code> and <code>aid</code>
 claims, and carry the agent platform as the <code>apd</code> claim where it is
 identified. PAY tokens carry none of them. The subject identifies the same
 combination in either case, since an issuer does not issue a token without
 having verified the initiator. Tokens of different types issued by the same
-issuer for the same initiator therefore carry the same <code>sub</code>. A recipient <span class="bcp14">MAY</span> associate a PAY
+issuer for the same initiator at the same Target service therefore carry the
+same <code>sub</code>. A recipient <span class="bcp14">MAY</span> associate a PAY
 token with a KYA token on that basis, but <span class="bcp14">MUST</span> treat them as referring to
 the same initiator only when both the <code>iss</code> and the <code>sub</code> values are equal.<a href="#section-3.1-2.4.1" class="pilcrow">¶</a></p>
 </dd>
@@ -1696,9 +1708,10 @@ the same initiator only when both the <code>iss</code> and the <code>sub</code> 
 <dt id="section-3.1-2.5">
 <code>aud</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-3.1-2.6">
-            <p id="section-3.1-2.6.1"><span class="bcp14">REQUIRED</span> - Audience (used for audience binding and replay attack mitigation),
-uniquely identifying the target agent.
-A single string value.<a href="#section-3.1-2.6.1" class="pilcrow">¶</a></p>
+            <p id="section-3.1-2.6.1"><span class="bcp14">REQUIRED</span> - Audience (used for audience binding and replay attack mitigation).
+The audience identifies the combination of identities the issuer holds for the
+Target: the human principal, the agent platform and the agent, where "agent" is
+understood broadly (<a href="#identifying-target" class="auto internal xref">Section 3.1.1</a>). A single string value.<a href="#section-3.1-2.6.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-3.1-2.7">
@@ -1713,7 +1726,9 @@ be used to determine the age of the JWT.<a href="#section-3.1-2.8.1" class="pilc
 <code>jti</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-3.1-2.10">
             <p id="section-3.1-2.10.1"><span class="bcp14">REQUIRED</span> - Unique ID of this JWT as defined in <span><a href="https://rfc-editor.org/rfc/rfc7519#section-4.1.7" class="relref">Section 4.1.7</a> of [<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.
-This claim can be used to detect replay attempts.<a href="#section-3.1-2.10.1" class="pilcrow">¶</a></p>
+This claim identifies the token, not the request. A token may be presented on
+more than one request within its lifetime, so a repeated <code>jti</code> is not by itself
+evidence of replay.<a href="#section-3.1-2.10.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-3.1-2.11">
@@ -1726,7 +1741,9 @@ time on or after which the JWT <span class="bcp14">MUST NOT</span> be accepted f
 <dt id="section-3.1-2.13">
 <code>tdm</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-3.1-2.14">
-            <p id="section-3.1-2.14.1"><span class="bcp14">OPTIONAL</span> - Target domain, associated with the audience claim, the token is intended for.<a href="#section-3.1-2.14.1" class="pilcrow">¶</a></p>
+            <p id="section-3.1-2.14.1"><span class="bcp14">REQUIRED</span> where the Target is identified by a domain name; <span class="bcp14">OPTIONAL</span> otherwise.
+A host name, optionally followed by a path, identifying the Target the token is
+intended for. See <a href="#identifying-target" class="auto internal xref">Section 3.1.1</a>.<a href="#section-3.1-2.14.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-3.1-2.15">
@@ -1745,7 +1762,8 @@ may be defined and used.<a href="#section-3.1-2.18.1" class="pilcrow">¶</a></p>
 <dt id="section-3.1-2.19">
 <code>tsi</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-3.1-2.20">
-            <p id="section-3.1-2.20.1"><span class="bcp14">OPTIONAL</span> - Target Service ID that this token was created for.<a href="#section-3.1-2.20.1" class="pilcrow">¶</a></p>
+            <p id="section-3.1-2.20.1"><span class="bcp14">REQUIRED</span> - Target Service ID, assigned by the Token Issuer, identifying the
+service offered under the Target agent named by <code>aud</code>. See <a href="#identifying-target" class="auto internal xref">Section 3.1.1</a>.<a href="#section-3.1-2.20.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-3.1-2.21">
@@ -1772,6 +1790,73 @@ processing is specified in <span>[<a href="#I-D.skyfire-oauth-using-kyapay-token
 </dl>
 <p id="section-3.1-3">Additional claims <span class="bcp14">MAY</span> be defined and used in these tokens.
 The recipient <span class="bcp14">MUST</span> ignore any unrecognized claims.<a href="#section-3.1-3" class="pilcrow">¶</a></p>
+<div id="identifying-target">
+<section id="section-3.1.1">
+          <h4 id="name-identifying-the-target">
+<a href="#section-3.1.1" class="section-number selfRef">3.1.1. </a><a href="#name-identifying-the-target" class="section-name selfRef">Identifying the Target</a>
+          </h4>
+<p id="section-3.1.1-1">Three claims identify the party a token was minted for, and they answer
+different questions.<a href="#section-3.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-3.1.1-2">The <code>aud</code> claim is the counterpart, on the Target side, of <code>sub</code> on the
+initiating side, and it names the same three things. Where <code>sub</code> identifies the
+combination of identities the issuer has verified for the initiator (the human
+principal, the agent platform and the agent), <code>aud</code> identifies that combination
+for the Target: the Target's agent, the platform it runs on, and the human
+principal behind it.<a href="#section-3.1.1-2" class="pilcrow">¶</a></p>
+<p id="section-3.1.1-3">"Agent" is used broadly on the Target side. On the initiating side it is a
+program acting for a person. On the Target side it is whatever the initiator is
+dealing with, which may be a website, an API, an MCP server, or another agent.
+The <code>tsi</code> claim identifies the particular service offered under that Target
+agent.<a href="#section-3.1.1-3" class="pilcrow">¶</a></p>
+<p id="section-3.1.1-4">The Token Issuer assigns both, and both are present in every token it creates,
+so that it can account for the tokens it has issued. Their values are meaningful
+to the issuer and to a Target that has onboarded to it; onboarding is what allows
+a Target to interpret them, not what causes them to be set.<a href="#section-3.1.1-4" class="pilcrow">¶</a></p>
+<p id="section-3.1.1-5">The two sides differ in what stands behind them. The identities named in <code>sub</code>
+are verified by the issuer. Those named in <code>aud</code> and <code>tsi</code> are verified where the
+Target has onboarded to the issuer; where the issuer has no means of confirming
+the Target, they are its record of the Target that the initiator asserted it was
+minting for, and <code>tdm</code> carries the domain the initiator supplied.<a href="#section-3.1.1-5" class="pilcrow">¶</a></p>
+<p id="section-3.1.1-6">A recipient reads these claims accordingly. They bind a token to one Target and
+so limit where it can be presented, which holds in either case because the
+binding narrows the token rather than granting anything. A recipient <span class="bcp14">MUST NOT</span>
+read <code>tdm</code> alone as the issuer confirming the Target's identity.<a href="#section-3.1.1-6" class="pilcrow">¶</a></p>
+<p id="section-3.1.1-7">The <code>tdm</code> claim identifies a Target reached over a URL-based interface, such as
+a website or an HTTP API: at least its domain, and optionally its host and a
+path. Unlike <code>aud</code> and <code>tsi</code> it is not issuer-specific, so any recipient can
+interpret it without a relationship with the issuer. It is present in addition
+to <code>aud</code> and <code>tsi</code> where such a Target is identified by a domain name.<a href="#section-3.1.1-7" class="pilcrow">¶</a></p>
+<p id="section-3.1.1-8">The value of <code>tdm</code> is a host name in lower case, optionally followed by a path,
+with no scheme, port, query or fragment; for example <code>example.com</code>,
+<code>shop.example.com</code> or <code>shop.example.com/store</code>. The Target's domain is the
+registrable domain of that host, determined using the Public Suffix List <span>[<a href="#PSL" class="cite xref">PSL</a>]</span>,
+including its private section. A host on a shared hosting platform that the list
+names is therefore a domain of its own, and a token minted for one such host
+does not name the platform's other hosts.<a href="#section-3.1.1-8" class="pilcrow">¶</a></p>
+<p id="section-3.1.1-9"><code>tdm</code> and <code>tsi</code> are alternates rather than duplicates: they name the same
+Target by different means, one publicly interpretable and one not. A recipient
+validates whichever it is in a position to interpret. A Target that has onboarded
+to the issuer checks <code>aud</code> and <code>tsi</code>. A recipient that has not, including a
+security intermediary acting for many Targets, checks at least that <code>tdm</code> names
+the domain it is protecting for that request.
+The Authenticating the Counterparty section of
+<span>[<a href="#I-D.skyfire-oauth-using-kyapay-tokens" class="cite xref">I-D.skyfire-oauth-using-kyapay-tokens</a>]</span> describes that choice.<a href="#section-3.1.1-9" class="pilcrow">¶</a></p>
+<p id="section-3.1.1-10">A recipient that checks more than the domain checks that <code>tdm</code> names the Target
+it is protecting for the request: the host in <code>tdm</code> is that Target's host, and
+where that Target is identified by a path, the path in <code>tdm</code> is that path or one
+below it. Paths are matched as cookie paths are (<span><a href="https://rfc-editor.org/rfc/rfc6265#section-5.1.4" class="relref">Section 5.1.4</a> of [<a href="#RFC6265" class="cite xref">RFC6265</a>]</span>),
+after both are normalized as described in <span><a href="https://rfc-editor.org/rfc/rfc3986#section-6.2.2" class="relref">Section 6.2.2</a> of [<a href="#RFC3986" class="cite xref">RFC3986</a>]</span>. Ports
+are not compared. For
+example, for a Target at <code>shop.example.com/store</code>, a <code>tdm</code> of
+<code>shop.example.com/store</code> or <code>shop.example.com/store/cart</code> passes, but
+<code>shop.example.com</code>, <code>shop.example.com/storefront</code> and <code>example.com/store</code> do
+not. A recipient that
+checks only the domain does not enforce the host or the path. A Target whose
+host serves several tenants, or that protects only some of its paths, therefore
+checks the host and path itself, or <code>aud</code> and <code>tsi</code> where it has onboarded to
+the issuer.<a href="#section-3.1.1-10" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="key-discovery">
@@ -1789,11 +1874,13 @@ of <code>https://issuer.example.com</code> yields
 <p id="section-3.2-3">JWK Sets <span class="bcp14">SHOULD</span> be cached and refreshed according to standard JWK Set practice.
 Retrieval per request is neither required nor expected; because KYAPay tokens
 are self-contained, signature verification is intended to be performed locally.<a href="#section-3.2-3" class="pilcrow">¶</a></p>
-<p id="section-3.2-4">A future revision of this specification may additionally define an issuer
+<p id="section-3.2-4">A recipient retrieves this JWK Set only for an issuer it trusts
+(<a href="#validating-tokens" class="auto internal xref">Section 4.1</a>).<a href="#section-3.2-4" class="pilcrow">¶</a></p>
+<p id="section-3.2-5">A future revision of this specification may additionally define an issuer
 metadata document, giving an issuer somewhere to advertise capabilities beyond
 the location of its keys, such as the identity verification methods it supports.
 Such a document would supplement the mechanism described here rather than
-replace it.<a href="#section-3.2-4" class="pilcrow">¶</a></p>
+replace it.<a href="#section-3.2-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="token-size">
@@ -1867,7 +1954,7 @@ typical origin.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
   "itg": "4f6cbd39-215c-4516-bf33-cab22862ee60", // Initiator Tag (Internal Reference ID)
 
   "hid": {
-    "email": "initiator@initiator.com"
+    "id": "6d2f8a41-0c3e-4b9a-a7d5-1e8f3c6b2a90" // Human principal ID at this Target service
   },
   "apd": {
     "id": "d3306fc0-602b-47e6-9fe2-3d55d028fbd2",
@@ -1882,9 +1969,9 @@ typical origin.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
   "aid": {
     "id": "7d889702-7b6a-46cb-9bdd-10e83d17b18d", // Identifier of the agent instance
     "name": "Acme Agent Extraordinaire",
-    "creation_ip": "54.86.50.139", // IP Address where token was created
-    "source_ips": ["54.86.50.139-54.86.50.141", "1.1.1.0/24",
-      "2001:db8:abcd:0012::/64", "acme.com"]
+    "creation_ip": "192.0.2.10", // IP address the token was requested from
+    "source_ips": ["192.0.2.10-192.0.2.12", "203.0.113.0/24",
+      "2001:db8:abcd:12::/64", "agents.example.com"]
       // IP addresses from which the initiator agent will make requests to the target
   }
 }
@@ -1903,72 +1990,97 @@ typical origin.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
 principal (individual or organization) as follows.<a href="#section-3.4.1-1" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlNewline" id="section-3.4.1-2">
             <dt id="section-3.4.1-2.1">
-<code>email</code>:</dt>
+<code>id</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.4.1-2.2">
-              <p id="section-3.4.1-2.2.1"><span class="bcp14">REQUIRED</span> - Email address associated with the human individual or organization<a href="#section-3.4.1-2.2.1" class="pilcrow">¶</a></p>
+              <p id="section-3.4.1-2.2.1"><span class="bcp14">REQUIRED</span> - Human principal identifier. An opaque, pseudonymous
+identifier for the human principal, assigned by the issuer. It <span class="bcp14">MUST NOT</span> be, or reveal, an email address, telephone number or other
+directly identifying attribute. An issuer <span class="bcp14">MUST</span> use the same value for
+the same principal acting through the same agent platform at the same
+Target service (<code>tsi</code>), whatever the agent, and <span class="bcp14">MUST</span> use a different
+value for each agent platform and for each Target service. Values for
+different agent platforms or Target services <span class="bcp14">MUST NOT</span> be linkable to one
+another without the issuer's cooperation; an issuer can, for example,
+assign each value at random or derive it using a key known only to
+itself. The value is unique within a given issuer, so a recipient that compares <code>hid.id</code>
+values from two tokens <span class="bcp14">MUST</span> first check that both carry the same <code>iss</code>.<a href="#section-3.4.1-2.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.4.1-2.3">
-<code>given_name</code>:</dt>
+<code>email</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.4.1-2.4">
-              <p id="section-3.4.1-2.4.1"><span class="bcp14">OPTIONAL</span> - Given name(s) or first name(s) of the human principal if they
-are an individual.<a href="#section-3.4.1-2.4.1" class="pilcrow">¶</a></p>
+              <p id="section-3.4.1-2.4.1"><span class="bcp14">OPTIONAL</span> - Email address associated with the human individual or organization.<a href="#section-3.4.1-2.4.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.4.1-2.5">
-<code>middle_name</code>:</dt>
+<code>given_name</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.4.1-2.6">
-              <p id="section-3.4.1-2.6.1"><span class="bcp14">OPTIONAL</span> - Middle name(s) of the human principal if they are an individual.<a href="#section-3.4.1-2.6.1" class="pilcrow">¶</a></p>
+              <p id="section-3.4.1-2.6.1"><span class="bcp14">OPTIONAL</span> - Given name(s) or first name(s) of the human principal if they
+are an individual.<a href="#section-3.4.1-2.6.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.4.1-2.7">
-<code>family_name</code>:</dt>
+<code>middle_name</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.4.1-2.8">
-              <p id="section-3.4.1-2.8.1"><span class="bcp14">OPTIONAL</span> - Surname(s) or last name(s) of the human principal if they are an
-individual.<a href="#section-3.4.1-2.8.1" class="pilcrow">¶</a></p>
+              <p id="section-3.4.1-2.8.1"><span class="bcp14">OPTIONAL</span> - Middle name(s) of the human principal if they are an individual.<a href="#section-3.4.1-2.8.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.4.1-2.9">
-<code>phone_number</code>:</dt>
+<code>family_name</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.4.1-2.10">
-              <p id="section-3.4.1-2.10.1"><span class="bcp14">OPTIONAL</span> - Phone number associated with the human individual or organization.<a href="#section-3.4.1-2.10.1" class="pilcrow">¶</a></p>
+              <p id="section-3.4.1-2.10.1"><span class="bcp14">OPTIONAL</span> - Surname(s) or last name(s) of the human principal if they are an
+individual.<a href="#section-3.4.1-2.10.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.4.1-2.11">
-<code>organization_name</code>:</dt>
+<code>phone_number</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.4.1-2.12">
-              <p id="section-3.4.1-2.12.1"><span class="bcp14">OPTIONAL</span> - Name of the organization.<a href="#section-3.4.1-2.12.1" class="pilcrow">¶</a></p>
+              <p id="section-3.4.1-2.12.1"><span class="bcp14">OPTIONAL</span> - Phone number associated with the human individual or organization.<a href="#section-3.4.1-2.12.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.4.1-2.13">
-<code>verifier</code>:</dt>
+<code>organization_name</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.4.1-2.14">
-              <p id="section-3.4.1-2.14.1"><span class="bcp14">OPTIONAL</span> - URL of the party that performed the identity verification<a href="#section-3.4.1-2.14.1" class="pilcrow">¶</a></p>
+              <p id="section-3.4.1-2.14.1"><span class="bcp14">OPTIONAL</span> - Name of the organization.<a href="#section-3.4.1-2.14.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.4.1-2.15">
-<code>verified</code>:</dt>
+<code>verifier</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.4.1-2.16">
-              <p id="section-3.4.1-2.16.1"><span class="bcp14">OPTIONAL</span> - Boolean verification status. When present, the value <span class="bcp14">MUST</span> be <code>true</code>.
+              <p id="section-3.4.1-2.16.1"><span class="bcp14">OPTIONAL</span> - URL of the party that performed the identity verification<a href="#section-3.4.1-2.16.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-3.4.1-2.17">
+<code>verified</code>:</dt>
+            <dd style="margin-left: 1.5em" id="section-3.4.1-2.18">
+              <p id="section-3.4.1-2.18.1"><span class="bcp14">OPTIONAL</span> - Boolean verification status. When present, the value <span class="bcp14">MUST</span> be <code>true</code>.
 An issuer does not issue a token carrying unverified identity claims, so a token
 never asserts <code>false</code>. The claim gives a recipient an explicit affirmative signal
 rather than requiring it to infer verification from other claims.
 A recipient that receives <code>false</code> <span class="bcp14">MUST</span> treat the claim as not asserting
 verification, and <span class="bcp14">MUST NOT</span> treat the token as carrying a verified identity on
-the strength of the claim's presence.<a href="#section-3.4.1-2.16.1" class="pilcrow">¶</a></p>
+the strength of the claim's presence.<a href="#section-3.4.1-2.18.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-3.4.1-2.17">
+<dt id="section-3.4.1-2.19">
 <code>verification_id</code>:</dt>
-            <dd style="margin-left: 1.5em" id="section-3.4.1-2.18">
-              <p id="section-3.4.1-2.18.1"><span class="bcp14">OPTIONAL</span> - Verification identifier.
+            <dd style="margin-left: 1.5em" id="section-3.4.1-2.20">
+              <p id="section-3.4.1-2.20.1"><span class="bcp14">OPTIONAL</span> - Verification identifier.
 This is the verifier's identifier for the identity verification performed.
-This could be used during auditing and dispute resolution.<a href="#section-3.4.1-2.18.1" class="pilcrow">¶</a></p>
+This could be used during auditing and dispute resolution.<a href="#section-3.4.1-2.20.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 </dl>
-<p id="section-3.4.1-3">Additional sub-claims <span class="bcp14">MAY</span> be defined and used.
-The recipient <span class="bcp14">MUST</span> ignore any unrecognized sub-claims.<a href="#section-3.4.1-3" class="pilcrow">¶</a></p>
+<p id="section-3.4.1-3">The sub-claims <code>email</code>, <code>given_name</code>, <code>middle_name</code>, <code>family_name</code>,
+<code>phone_number</code> and <code>organization_name</code> directly identify the human
+principal, and <code>verification_id</code> is the same at every Target. An issuer <span class="bcp14">MUST NOT</span> include any of them unless a Target requires it for the action at hand
+and the principal has authorized its disclosure to that Target, whether to
+the issuer or to the agent platform (<a href="#privacy-considerations" class="auto internal xref">Section 6</a>).<a href="#section-3.4.1-3" class="pilcrow">¶</a></p>
+<p id="section-3.4.1-4">Additional sub-claims <span class="bcp14">MAY</span> be defined and used, including further identifiers for
+the human principal where a Target requires them to recognize an account. An
+issuer <span class="bcp14">MUST NOT</span> assert an identifier of the human principal unless it has
+verified that the principal controls it. This document does not prescribe how control is
+verified.
+The recipient <span class="bcp14">MUST</span> ignore any unrecognized sub-claims.<a href="#section-3.4.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="agent-platform-identity-apd-sub-claims">
@@ -2050,7 +2162,11 @@ The recipient <span class="bcp14">MUST</span> ignore any unrecognized sub-claims
             <dt id="section-3.4.3-2.1">
 <code>id</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.4.3-2.2">
-              <p id="section-3.4.3-2.2.1"><span class="bcp14">REQUIRED</span> - Agent identifier.<a href="#section-3.4.3-2.2.1" class="pilcrow">¶</a></p>
+              <p id="section-3.4.3-2.2.1"><span class="bcp14">REQUIRED</span> - Agent identifier. An issuer <span class="bcp14">MUST</span> use the same value for the same
+agent at the same Target service (<code>tsi</code>), and a different value at each
+Target service. The value <span class="bcp14">MUST NOT</span> be, or reveal, a directly identifying
+attribute, and values at different Target services <span class="bcp14">MUST NOT</span> be linkable to
+one another without the issuer's cooperation.<a href="#section-3.4.3-2.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.4.3-2.3">
@@ -2065,9 +2181,14 @@ identify the agent unambiguously.<a href="#section-3.4.3-2.4.1" class="pilcrow">
 <dt id="section-3.4.3-2.5">
 <code>creation_ip</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.4.3-2.6">
-              <p id="section-3.4.3-2.6.1"><span class="bcp14">REQUIRED</span> - The public IP address of the system / agent that requested the token.
+              <p id="section-3.4.3-2.6.1"><span class="bcp14">OPTIONAL</span> - The public IP address of the system / agent that requested the token.
 Its value is a string containing the public IPv4 or IPv6 address from where the
-token request originated. It <span class="bcp14">MUST</span> be captured directly from the token request.<a href="#section-3.4.3-2.6.1" class="pilcrow">¶</a></p>
+token request originated. When present, it <span class="bcp14">MUST</span> be captured directly from the
+token request. It is a diagnostic aid, for example when investigating an
+incident, and is not an access-control signal: a recipient <span class="bcp14">MAY</span> use it as a weak
+corroborating signal only and <span class="bcp14">MUST NOT</span> treat it as sufficient on its own
+(<span><a href="https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-using-kyapay-tokens-01#section-6.3" class="relref">Section 6.3</a> of [<a href="#I-D.skyfire-oauth-using-kyapay-tokens" class="cite xref">I-D.skyfire-oauth-using-kyapay-tokens</a>]</span>). It is personal
+data, subject to the privacy considerations in <a href="#privacy-considerations" class="auto internal xref">Section 6</a>.<a href="#section-3.4.3-2.6.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.4.3-2.7">
@@ -2148,7 +2269,7 @@ value.<a href="#section-3.5-2.16.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 </dl>
-<div id="settlement-information-sti-sub-claims">
+<div id="sti">
 <section id="section-3.5.1">
           <h4 id="name-settlement-information-sti-">
 <a href="#section-3.5.1" class="section-number selfRef">3.5.1. </a><a href="#name-settlement-information-sti-" class="section-name selfRef">Settlement Information <code>sti</code> Sub-Claims</a>
@@ -2160,10 +2281,11 @@ the value of <code>stp</code>.<a href="#section-3.5.1-2" class="pilcrow">¶</a><
 <p id="section-3.5.1-3">When the <code>stp</code> value is <code>card</code>, the settlement instrument is an agentic payment credential
 issued by a payment network under an agentic-commerce programme -- for example
 Visa Intelligent Commerce (<code>visa_vic</code>) or Mastercard Agent Pay, using Secure Card
-on File (<code>mastercard_scof</code>). Such a credential is provisioned for a single
-transaction and is scoped to one initiator, one target, and one amount. It is not
-a Primary Account Number (PAN), and it cannot be used to derive the underlying
-PAN or the network's agentic token.<a href="#section-3.5.1-3" class="pilcrow">¶</a></p>
+on File (<code>mastercard_scof</code>). Such a credential is a payment token issued by the
+payment network (<a href="#card-settlement-scope" class="auto internal xref">Section 3.5.2</a>). It is used with a single-use token
+cryptogram (<code>token_security_code</code>), and the network restricts its use to one
+initiator, one target, and one amount. It is not a Primary Account Number (PAN),
+and the underlying PAN cannot feasibly be recovered from it.<a href="#section-3.5.1-3" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlNewline" id="section-3.5.1-4">
             <dt id="section-3.5.1-4.1">
 <code>type</code>:</dt>
@@ -2238,16 +2360,19 @@ This could be used during auditing and dispute resolution.<a href="#section-3.5.
 The recipient <span class="bcp14">MUST</span> ignore any unrecognized sub-claims.<a href="#section-3.5.1-5" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="scope-of-card-settlement">
+<div id="card-settlement-scope">
 <section id="section-3.5.2">
           <h4 id="name-scope-of-card-settlement">
 <a href="#section-3.5.2" class="section-number selfRef">3.5.2. </a><a href="#name-scope-of-card-settlement" class="section-name selfRef">Scope of Card Settlement</a>
           </h4>
 <p id="section-3.5.2-1">This specification supports card settlement only through payment-network
-agentic-commerce programmes that issue transaction-scoped, PCI-exempt
-credentials.<a href="#section-3.5.2-1" class="pilcrow">¶</a></p>
-<p id="section-3.5.2-2">A PAY or KYA-PAY token <span class="bcp14">MUST NOT</span> carry a Primary Account Number, or the static
-verification value associated with one.<a href="#section-3.5.2-2" class="pilcrow">¶</a></p>
+agentic-commerce programmes whose credentials are Payment Tokens as defined by
+the EMV Payment Tokenisation Specification <span>[<a href="#EMVCo-PT" class="cite xref">EMVCo-PT</a>]</span>, used with a single-use
+token cryptogram and restricted by the payment network to the transaction bound
+in the token.<a href="#section-3.5.2-1" class="pilcrow">¶</a></p>
+<p id="section-3.5.2-2">A token defined in this specification, of any type, <span class="bcp14">MUST NOT</span> contain a Primary
+Account Number, full magnetic-stripe or chip track data, a static card
+verification value (CVV, CVC2 or CVV2), or a PIN or PIN block.<a href="#section-3.5.2-2" class="pilcrow">¶</a></p>
 <p id="section-3.5.2-3">Settlement instruments that fall within PCI DSS scope require mechanisms this
 specification does not define -- including confidentiality protection of the
 token contents and a defined cardholder-data-environment boundary. Support for
@@ -2290,10 +2415,10 @@ not attempt to carry them in the claims defined here.<a href="#section-3.5.2-3" 
   "stp": "card",
   "sti": {
     "type": "visa_vic",
-    "payment_token": "1234567890123456",
+    "payment_token": "0000000000000000", // Example only: a network-issued payment token, not a PAN
     "token_expiration_month": "03",
     "token_expiration_year": "2030",
-    "token_security_code": "123",
+    "token_security_code": "000", // Example only: a single-use cryptogram (DTVV or TAVV), not a CVV
     "verifier": "https://verifier.example.info", // URL of payment method verifier
     "verified": true, // Outcome of the verifier's payment method verification
     "verification_id": "3a6e1b76-8f78-4c24-b1bd-dc78a8cc3711" // Verifier's ID for the payment method verification performed
@@ -2337,6 +2462,8 @@ not attempt to carry them in the claims defined here.<a href="#section-3.5.2-3" 
   "itg": "c52e0ef2-e27d-4e95-862e-475a904ae7b2", // Initiator Tag (Internal Reference ID)
 
   "hid": {
+    "id": "a4c19e07-5b2d-4f86-9e3a-7d0b8c1f5e62", // Human principal ID at this Target service
+    // The following are present because the Target requires them for checkout
     "email": "maryjane@initiator.example.com",
     "given_name": "Mary",
     "middle_name": "Jane",
@@ -2357,9 +2484,9 @@ not attempt to carry them in the claims defined here.<a href="#section-3.5.2-3" 
   "aid": {
     "id": "4607fa56-368d-4fde-90e9-baad4e9f4439", // Identifier of the agent instance
     "name": "Agentic Excellence Я Us",
-    "creation_ip": "128.2.42.95", // IP Address where token was created
-    "source_ips": ["54.86.50.139-54.86.50.141", "1.1.1.0/24",
-      "2001:db8:abcd:0012::/64", "agentic-excellence.example.com"]
+    "creation_ip": "198.51.100.20", // IP address the token was requested from
+    "source_ips": ["192.0.2.10-192.0.2.12", "203.0.113.0/24",
+      "2001:db8:abcd:12::/64", "agents.example.com"]
       // IP addresses from which the initiator agent will make requests to the target
   },
 
@@ -2372,10 +2499,10 @@ not attempt to carry them in the claims defined here.<a href="#section-3.5.2-3" 
   "stp": "card",
   "sti": {
     "type": "visa_vic",
-    "payment_token": "1234567890123456",
+    "payment_token": "0000000000000000", // Example only: a network-issued payment token, not a PAN
     "token_expiration_month": "03",
     "token_expiration_year": "2030",
-    "token_security_code": "123"
+    "token_security_code": "000" // Example only: a single-use cryptogram (DTVV or TAVV), not a CVV
   }
 }
 
@@ -2394,11 +2521,16 @@ not attempt to carry them in the claims defined here.<a href="#section-3.5.2-3" 
       <h2 id="name-token-validation">
 <a href="#section-4" class="section-number selfRef">4. </a><a href="#name-token-validation" class="section-name selfRef">Token Validation</a>
       </h2>
-<div id="validating-kya-and-pay-tokens">
+<div id="validating-tokens">
 <section id="section-4.1">
         <h3 id="name-validating-kya-and-pay-toke">
 <a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-validating-kya-and-pay-toke" class="section-name selfRef">Validating KYA and PAY Tokens</a>
         </h3>
+<p id="section-4.1-1">A recipient <span class="bcp14">MUST</span> confirm that the <code>iss</code> claim names an issuer it trusts before
+it performs any step below that retrieves key material or otherwise depends on
+the issuer. A recipient <span class="bcp14">MUST NOT</span> retrieve key material for an issuer that is not
+in its configured set of trusted issuers. The set of trusted issuers is
+configured out of band and is not derived from the token.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
 <div id="jwt-header-validation">
 <section id="section-4.1.1">
           <h4 id="name-jwt-header-validation">
@@ -2457,12 +2589,12 @@ and does not treat it as having failed validation.<a href="#section-4.1.1-1.3.1"
           </h4>
 <ol start="1" type="1" class="normal type-1" id="section-4.1.2-1">
 <li id="section-4.1.2-1.1">
-              <p id="section-4.1.2-1.1.1"><strong>Verify JWT Signature</strong> - Valid JWTs <span class="bcp14">MUST</span> be signed with a valid key belonging
-  to the token's issuer (<code>iss</code> claim)<a href="#section-4.1.2-1.1.1" class="pilcrow">¶</a></p>
+              <p id="section-4.1.2-1.1.1"><strong>Validate <code>iss</code> Claim</strong> - Ensure that the token's issuer is one the
+  recipient trusts (<a href="#validating-tokens" class="auto internal xref">Section 4.1</a>).<a href="#section-4.1.2-1.1.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-4.1.2-1.2">
-              <p id="section-4.1.2-1.2.1"><strong>Validate <code>iss</code> Claim</strong> - Ensure that the token is signed by the expected
-  valid issuer.<a href="#section-4.1.2-1.2.1" class="pilcrow">¶</a></p>
+              <p id="section-4.1.2-1.2.1"><strong>Verify JWT Signature</strong> - Valid JWTs <span class="bcp14">MUST</span> be signed with a valid key belonging
+  to the token's issuer (<code>iss</code> claim).<a href="#section-4.1.2-1.2.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-4.1.2-1.3">
               <p id="section-4.1.2-1.3.1"><strong>Validate the <code>exp</code> Claim</strong> - The recipient <span class="bcp14">MUST</span> validate that the token has
@@ -2477,7 +2609,10 @@ and does not treat it as having failed validation.<a href="#section-4.1.1-1.3.1"
   a UUID.<a href="#section-4.1.2-1.5.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-4.1.2-1.6">
-              <p id="section-4.1.2-1.6.1"><strong>Validate the <code>aud</code> Claim</strong> - Ensure that the <code>aud</code> identifies the recipient as the intended audience.<a href="#section-4.1.2-1.6.1" class="pilcrow">¶</a></p>
+              <p id="section-4.1.2-1.6.1"><strong>Validate the Audience</strong> - A recipient that has onboarded to the issuer
+  ensures that <code>aud</code> and <code>tsi</code> identify it as the intended audience. A recipient
+  that has not ensures at least that <code>tdm</code> names the domain it is protecting for
+  the request (<a href="#identifying-target" class="auto internal xref">Section 3.1.1</a>).<a href="#section-4.1.2-1.6.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-4.1.2-1.7">
               <p id="section-4.1.2-1.7.1"><strong>Validate the <code>env</code> Claim</strong> - Ensure that the Environment claim is set to
@@ -2574,8 +2709,13 @@ information. Accordingly:<a href="#section-5.2-2" class="pilcrow">¶</a></p>
 and server authentication, such as TLS <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span>.<a href="#section-5.2-3.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.2-3.2">
-            <p id="section-5.2-3.2.1">Tokens <span class="bcp14">MUST NOT</span> be written to logs, analytics pipelines, or other persistent
-stores that are not required to process the transaction.<a href="#section-5.2-3.2.1" class="pilcrow">¶</a></p>
+            <p id="section-5.2-3.2.1">Tokens <span class="bcp14">MUST NOT</span> be written to logs, traces, analytics pipelines, or other
+persistent stores that are not required to process the transaction. An agent
+that obtains a token through a tool whose result is returned to a language
+model may be unable to keep the token out of that model's context or out of a
+transcript retained from it; the Token Exposure in the Agent Runtime section
+of <span>[<a href="#I-D.skyfire-oauth-using-kyapay-tokens" class="cite xref">I-D.skyfire-oauth-using-kyapay-tokens</a>]</span> describes how such a deployment
+treats the token.<a href="#section-5.2-3.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.2-3.3">
             <p id="section-5.2-3.3.1">Tokens <span class="bcp14">MUST NOT</span> be forwarded to parties other than those necessary to complete
@@ -2598,9 +2738,10 @@ intermediaries that are its intended consumers. Confidentiality is therefore
 provided at the transport layer and by minimising token contents, not at the
 token layer.<a href="#section-5.2-4" class="pilcrow">¶</a></p>
 <p id="section-5.2-5">The settlement information carried in a PAY or KYA-PAY token is additionally
-protected by its own construction rather than by encryption: the credential is
-transaction-scoped and its accompanying cryptogram is single-use, so a captured
-token yields no reusable payment instrument.<a href="#section-5.2-5" class="pilcrow">¶</a></p>
+protected by its own construction rather than by encryption: the network
+restricts the credential to the transaction bound in the token, and its
+accompanying cryptogram is single-use, so a captured token yields no reusable
+payment instrument.<a href="#section-5.2-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="settlement-credential-handling">
@@ -2609,14 +2750,20 @@ token yields no reusable payment instrument.<a href="#section-5.2-5" class="pilc
 <a href="#section-5.3" class="section-number selfRef">5.3. </a><a href="#name-settlement-credential-handl" class="section-name selfRef">Settlement Credential Handling</a>
         </h3>
 <p id="section-5.3-1">The <code>sti</code> claim of a PAY or KYA-PAY token carries a settlement instrument. When
-<code>stp</code> is <code>card</code>, that instrument is a network-issued agentic payment credential
-provisioned for a single transaction, accompanied by a single-use dynamic
-cryptogram. Such credentials are issued outside the scope of PCI DSS and cannot
-be used to derive the underlying account number.<a href="#section-5.3-1" class="pilcrow">¶</a></p>
-<p id="section-5.3-2">Implementations <span class="bcp14">MUST NOT</span> place a Primary Account Number, or a static Card
-Verification Value, in the <code>sti</code> claim. Doing so would place the token, and
-every system that processes it, within PCI DSS scope, for which this
-specification provides no confidentiality mechanism.<a href="#section-5.3-2" class="pilcrow">¶</a></p>
+<code>stp</code> is <code>card</code>, that instrument is a payment token issued by a payment network
+and accompanied by a single-use token cryptogram (<a href="#sti" class="auto internal xref">Section 3.5.1</a>).<a href="#section-5.3-1" class="pilcrow">¶</a></p>
+<p id="section-5.3-2">For entities other than Token Service Providers, a Payment Token that is defined
+and used in accordance with the EMV Payment Tokenisation Specification and that
+exists outside the Token Service Provider's token data environment is not
+Account Data and is not in scope for PCI DSS <span>[<a href="#PCI-FAQ-1326" class="cite xref">PCI-FAQ-1326</a>]</span>. Receiving,
+inspecting, or forwarding a token defined in this specification therefore does
+not of itself bring a recipient within that scope. That determination concerns
+the payment token, not the recipient's wider environment: a system that also
+stores, processes, or transmits Account Data, or is connected to one that does,
+remains in scope.<a href="#section-5.3-2" class="pilcrow">¶</a></p>
+<p id="section-5.3-3"><a href="#card-settlement-scope" class="auto internal xref">Section 3.5.2</a> prohibits Account Data in any token. A token that
+carried it would bring every system that processes it within PCI DSS scope, for
+which this specification provides no confidentiality mechanism.<a href="#section-5.3-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="token-lifetime">
@@ -2625,8 +2772,8 @@ specification provides no confidentiality mechanism.<a href="#section-5.3-2" cla
 <a href="#section-5.4" class="section-number selfRef">5.4. </a><a href="#name-token-lifetime" class="section-name selfRef">Token Lifetime</a>
         </h3>
 <p id="section-5.4-1">The <code>exp</code> claim of a token carrying a settlement instrument <span class="bcp14">SHOULD NOT</span> extend
-beyond the validity period of that instrument. Agentic payment credentials and
-their associated token cryptograms are single-use and short-lived; their
+beyond the validity period of that instrument. The token cryptograms that
+accompany agentic payment credentials are single-use and short-lived; their
 validity period is determined and enforced by the payment network. Issuing a
 long-lived token around a short-lived credential provides no benefit and widens
 the window in which a captured token can be replayed.<a href="#section-5.4-1" class="pilcrow">¶</a></p>
@@ -2671,8 +2818,8 @@ invalidates its signature. Combining claims taken from two separately signed
 tokens does not invalidate either signature, so a recipient that correlates
 tokens <span class="bcp14">MUST</span> check that both carry the same <code>iss</code> and <code>sub</code> values before
 treating them as referring to the same initiator. Because the subject is
-stable while the bound identities are unchanged,
-a recipient <span class="bcp14">MAY</span> use <code>sub</code> as a stable key for that combination, for example to
+stable at a Target service while the bound identities are unchanged,
+a recipient at that service <span class="bcp14">MAY</span> use <code>sub</code> as a stable key for that combination, for example to
 rate-limit or isolate a particular agent without affecting other agents acting
 for the same principal.<a href="#section-5.6-1" class="pilcrow">¶</a></p>
 </section>
@@ -2684,26 +2831,46 @@ for the same principal.<a href="#section-5.6-1" class="pilcrow">¶</a></p>
       <h2 id="name-privacy-considerations">
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-privacy-considerations" class="section-name selfRef">Privacy Considerations</a>
       </h2>
-<p id="section-6-1">The subject identifier is stable for a given combination of identities across
-audiences, within the namespace of a single issuer. Recipients that compare
-tokens from the same issuer can therefore recognize the same human principal,
-agent platform and agent combination at different targets.<a href="#section-6-1" class="pilcrow">¶</a></p>
-<p id="section-6-2">KYAPay tokens are designed to convey the information that
+<p id="section-6-1">By default, a KYA token identifies the human principal only by
+<code>hid.id</code>. Directly identifying sub-claims such as <code>email</code>,
+<code>phone_number</code> or names are disclosed only when a Target requires
+them for the action at hand, as stated in its decline response or
+discovery document, and the principal has authorized the disclosure.
+The issuer <span class="bcp14">MAY</span> collect the principal's authorization itself or
+delegate its collection to the agent platform. Whichever of them
+collected it <span class="bcp14">MUST</span> be able to demonstrate that it was given. What
+counts as sufficient evidence may depend on applicable law and
+regulation. Targets <span class="bcp14">SHOULD NOT</span> require directly identifying
+sub-claims for actions that do not need them, such as browsing a
+catalog.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<p id="section-6-2">A token carrying only <code>hid.id</code> is pseudonymous, not anonymous.
+<code>hid.id</code>, <code>sub</code> and <code>aid.id</code> are each specific to one Target
+service and different at every other Target service. At a given
+service, <code>hid.id</code> is stable for a principal returning through a given
+agent platform, whatever the agent, while <code>sub</code> and <code>aid.id</code> are
+stable for one agent of that principal and change with the agent.
+Two Targets, or a party that sees the traffic of both, cannot link
+the principal from these values. <code>apd</code> identifies the agent platform
+and is the same at every Target. <code>aid.name</code> is also the same at every
+Target, so where an agent acts for a single principal, its name can
+link that principal's activity across Targets. Directly identifying
+sub-claims link wherever they are disclosed.<a href="#section-6-2" class="pilcrow">¶</a></p>
+<p id="section-6-3">KYAPay tokens are designed to convey the information that
 an agent is acting on behalf of a principal - a person or organization.
 To do this, they will necessarily contain information about that principal
 that can be verified and utilized by participants in the system.
 Participants should therefore only share these tokens with other legitimate
 participants and not make their contents public or disclose them to
-unknown or untrustworthy parties.<a href="#section-6-2" class="pilcrow">¶</a></p>
-<p id="section-6-3">Consent of the principal represented to participate in the interactions is vital.
+unknown or untrustworthy parties.<a href="#section-6-3" class="pilcrow">¶</a></p>
+<p id="section-6-4">Consent of the principal represented to participate in the interactions is vital.
 If I authorize an agent to shop for a widget at given price,
 it's legitimate for the agent to carry enough information about me
 to the merchant to be able to do this for me.
 Whereas, if an agent claims to be shopping for me but does not have my authorization
-to do so, my privacy and possibly also my financial integrity are being violated.<a href="#section-6-3" class="pilcrow">¶</a></p>
-<p id="section-6-4">The principle of minimal disclosure should be employed.
+to do so, my privacy and possibly also my financial integrity are being violated.<a href="#section-6-4" class="pilcrow">¶</a></p>
+<p id="section-6-5">The principle of minimal disclosure should be employed.
 Only the information needed to facilitate the intended interactions
-should be placed in the tokens and conveyed to participants.<a href="#section-6-4" class="pilcrow">¶</a></p>
+should be placed in the tokens and conveyed to participants.<a href="#section-6-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="iana-considerations">
@@ -3306,6 +3473,14 @@ keys with which the origin signs KYAPay tokens.<a href="#section-7.3-2.5.1" clas
         <dd>
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC3986">[RFC3986]</dt>
+        <dd>
+<span class="refAuthor">Berners-Lee, T.</span>, <span class="refAuthor">Fielding, R.</span>, and <span class="refAuthor">L. Masinter</span>, <span class="refTitle">"Uniform Resource Identifier (URI): Generic Syntax"</span>, <span class="seriesInfo">STD 66</span>, <span class="seriesInfo">RFC 3986</span>, <span class="seriesInfo">DOI 10.17487/RFC3986</span>, <time datetime="2005-01" class="refDate">January 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3986">https://www.rfc-editor.org/rfc/rfc3986</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC6265">[RFC6265]</dt>
+        <dd>
+<span class="refAuthor">Barth, A.</span>, <span class="refTitle">"HTTP State Management Mechanism"</span>, <span class="seriesInfo">RFC 6265</span>, <span class="seriesInfo">DOI 10.17487/RFC6265</span>, <time datetime="2011-04" class="refDate">April 2011</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6265">https://www.rfc-editor.org/rfc/rfc6265</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC6454">[RFC6454]</dt>
         <dd>
 <span class="refAuthor">Barth, A.</span>, <span class="refTitle">"The Web Origin Concept"</span>, <span class="seriesInfo">RFC 6454</span>, <span class="seriesInfo">DOI 10.17487/RFC6454</span>, <time datetime="2011-12" class="refDate">December 2011</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6454">https://www.rfc-editor.org/rfc/rfc6454</a>&gt;</span>. </dd>
@@ -3359,6 +3534,10 @@ keys with which the origin signs KYAPay tokens.<a href="#section-7.3-2.5.1" clas
 <a href="#section-8.2" class="section-number selfRef">8.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
+<dt id="EMVCo-PT">[EMVCo-PT]</dt>
+        <dd>
+<span class="refAuthor">EMVCo</span>, <span class="refTitle">"EMV Payment Tokenisation Specification - Technical Framework"</span>, <span class="seriesInfo">Version 2.4</span>, <time datetime="2026-07-09" class="refDate">9 July 2026</time>, <span>&lt;<a href="https://www.emvco.com/emv-technologies/payment-tokenisation/">https://www.emvco.com/emv-technologies/payment-tokenisation/</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="I-D.skyfire-oauth-aml-methods">[I-D.skyfire-oauth-aml-methods]</dt>
         <dd>
 <span class="refAuthor">Agarwal, A.</span>, <span class="refAuthor">Jones, M. B.</span>, and <span class="refAuthor">N. Ali</span>, <span class="refTitle">"Anti-Money Laundering Methods Values"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-skyfire-oauth-aml-methods-01</span>, <time datetime="2026-10-01" class="refDate">1 October 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-aml-methods-01">https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-aml-methods-01</a>&gt;</span>. </dd>
@@ -3390,6 +3569,14 @@ keys with which the origin signs KYAPay tokens.<a href="#section-7.3-2.5.1" clas
 <dt id="IANA.WellKnownURIs">[IANA.WellKnownURIs]</dt>
         <dd>
 <span class="refAuthor">IANA</span>, <span class="refTitle">"Well-Known URIs"</span>, <span>&lt;<a href="https://www.iana.org/assignments/well-known-uris">https://www.iana.org/assignments/well-known-uris</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="PCI-FAQ-1326">[PCI-FAQ-1326]</dt>
+        <dd>
+<span class="refAuthor">PCI Security Standards Council</span>, <span class="refTitle">"How does PCI DSS apply to EMVCo Payment Tokens?"</span>, <span class="seriesInfo">FAQ 1326</span>, <time datetime="2015-05" class="refDate">May 2015</time>, <span>&lt;<a href="https://www.pcisecuritystandards.org/faqs/1326">https://www.pcisecuritystandards.org/faqs/1326</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="PSL">[PSL]</dt>
+        <dd>
+<span class="refAuthor">Mozilla Foundation</span>, <span class="refTitle">"Public Suffix List"</span>, <span>&lt;<a href="https://publicsuffix.org/">https://publicsuffix.org/</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC2046">[RFC2046]</dt>
         <dd>
@@ -3447,9 +3634,10 @@ keys with which the origin signs KYAPay tokens.<a href="#section-7.3-2.5.1" clas
 <a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
       </h2>
 <p id="appendix-B-1">We would like to thank
-Bhasker Allam
-and
+Bhasker Allam,
 Jean Diaconu
+and
+Carlos Martínez
 for their contributions to the specification.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -3469,8 +3657,10 @@ identities are carried as claims in KYA and KYA-PAY tokens and not in PAY
 tokens, but the subject identifies the same combination in all three.<a href="#appendix-C-3.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.2">
-          <p id="appendix-C-3.2.1">Disclosed in the Privacy Considerations that a stable subject is
-correlatable across audiences.<a href="#appendix-C-3.2.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.2.1">Stated in the Privacy Considerations that <code>hid.id</code>, <code>sub</code> and <code>aid.id</code> are
+specific to one Target service, and that directly identifying sub-claims are
+disclosed only when a Target requires them and the principal has authorized
+it.<a href="#appendix-C-3.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.3">
           <p id="appendix-C-3.3.1">Removed the qualifier on <code>hid</code>, which read as though the claim were required
@@ -3492,9 +3682,8 @@ specified alongside each claim.<a href="#appendix-C-3.5.1" class="pilcrow">¶</a
 both carry the same <code>iss</code> and <code>sub</code>.<a href="#appendix-C-3.6.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.7">
-          <p id="appendix-C-3.7.1">Described <code>sub</code> as unique rather than pairwise unique. The subject is stable
-for a given combination across audiences, so the OpenID Connect sense of
-pairwise did not apply.<a href="#appendix-C-3.7.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.7.1">Made <code>sub</code> pairwise: a different value at each Target service, stable at
+that service.<a href="#appendix-C-3.7.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.8">
           <p id="appendix-C-3.8.1">Stated that an agent name is unique within an agent platform at a given
@@ -3517,19 +3706,66 @@ agent account identifier.<a href="#appendix-C-3.10.1" class="pilcrow">¶</a></p>
           <p id="appendix-C-3.13.1">Added a Token Size section: no maximum token size, aggregate size guidance for issuers that fits the minimum recipients are required to accept, and a preference for one KYA-PAY token over separate KYA and PAY tokens.<a href="#appendix-C-3.13.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.14">
-          <p id="appendix-C-3.14.1">Required recipients to support <code>ES256</code> and to accept it from trusted issuers
+          <p id="appendix-C-3.14.1">Stated that <code>jti</code> identifies the token, not the request, so a repeated <code>jti</code>
+is not by itself evidence of replay.<a href="#appendix-C-3.14.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-3.15">
+          <p id="appendix-C-3.15.1">Made <code>creation_ip</code> <span class="bcp14">OPTIONAL</span> and described its use.<a href="#appendix-C-3.15.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-3.16">
+          <p id="appendix-C-3.16.1">Replaced the example IP addresses with documentation addresses.<a href="#appendix-C-3.16.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-3.17">
+          <p id="appendix-C-3.17.1">Required a recipient to confirm that it trusts the issuer before retrieving
+key material, and moved the issuer check ahead of signature verification.<a href="#appendix-C-3.17.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-3.18">
+          <p id="appendix-C-3.18.1">Added traces to the logging prohibition, and pointed to the Using document for
+tokens that reach a language model's context.<a href="#appendix-C-3.18.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-3.19">
+          <p id="appendix-C-3.19.1">Allowed further identifiers for the human principal in <code>hid</code>, only where the
+issuer has verified that the principal controls them.<a href="#appendix-C-3.19.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-3.20">
+          <p id="appendix-C-3.20.1">Prohibited Account Data in tokens of every type, described card credentials as
+EMV Payment Tokens, and cited PCI SSC FAQ 1326 for their PCI DSS scope.<a href="#appendix-C-3.20.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-3.21">
+          <p id="appendix-C-3.21.1">Replaced the example payment credential values with values that cannot be
+mistaken for real ones.<a href="#appendix-C-3.21.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-3.22">
+          <p id="appendix-C-3.22.1">Added an Identifying the Target section relating <code>aud</code>, <code>tsi</code> and <code>tdm</code>, made
+<code>tsi</code> <span class="bcp14">REQUIRED</span> and <code>tdm</code> <span class="bcp14">REQUIRED</span> where the Target is identified by a domain
+name, defined the form of <code>tdm</code>, and let a recipient that has not onboarded to
+the issuer validate the audience using <code>tdm</code>.<a href="#appendix-C-3.22.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-3.23">
+          <p id="appendix-C-3.23.1">Added <code>hid.id</code>, a pseudonymous identifier for the human principal, specific
+to one agent platform and one Target service, and made <code>aid.id</code> specific to
+one Target service.<a href="#appendix-C-3.23.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-3.24">
+          <p id="appendix-C-3.24.1">Made <code>email</code> <span class="bcp14">OPTIONAL</span>, and included <code>email</code>, <code>phone_number</code>,
+<code>organization_name</code>, <code>verification_id</code> and the name sub-claims only when a
+Target requires them for the action at hand and the principal has authorized
+their disclosure.<a href="#appendix-C-3.24.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-3.25">
+          <p id="appendix-C-3.25.1">Required recipients to support <code>ES256</code> and to accept it from trusted issuers
 that publish an <code>ES256</code> key, and issuers to use it or an algorithm every
 recipient of the token accepts; limited the accepted algorithms to those the
 recipient's configuration allows and the issuer's JWK Set has keys for; and
-rejected <code>none</code> and symmetric algorithms.<a href="#appendix-C-3.14.1" class="pilcrow">¶</a></p>
+rejected <code>none</code> and symmetric algorithms.<a href="#appendix-C-3.25.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="appendix-C-3.15">
-          <p id="appendix-C-3.15.1">Required a recipient to determine the <code>typ</code> values it accepts before
+        <li class="normal" id="appendix-C-3.26">
+          <p id="appendix-C-3.26.1">Required a recipient to determine the <code>typ</code> values it accepts before
 validating a token, set aside a token of a defined type it does not accept,
-and reject a token whose <code>typ</code> is missing or not a defined type.<a href="#appendix-C-3.15.1" class="pilcrow">¶</a></p>
+and reject a token whose <code>typ</code> is missing or not a defined type.<a href="#appendix-C-3.26.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="appendix-C-3.16">
-          <p id="appendix-C-3.16.1">Changed "<span class="bcp14">SHOULD</span> follow" BCP 225 to "<span class="bcp14">MUST</span> follow".<a href="#appendix-C-3.16.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="appendix-C-3.27">
+          <p id="appendix-C-3.27.1">Changed "<span class="bcp14">SHOULD</span> follow" BCP 225 to "<span class="bcp14">MUST</span> follow".<a href="#appendix-C-3.27.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="appendix-C-4">-02<a href="#appendix-C-4" class="pilcrow">¶</a></p>
