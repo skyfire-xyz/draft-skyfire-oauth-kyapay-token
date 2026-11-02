@@ -1184,6 +1184,11 @@ tokens in an interoperable manner.<a href="#section-abstract-1" class="pilcrow">
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1">
                 <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-common-token-claims" class="internal xref">Common Token Claims</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1.2.1">
+                    <p id="section-toc.1-1.3.2.1.2.1.1"><a href="#section-3.1.1" class="auto internal xref">3.1.1</a>.  <a href="#name-identifying-the-target" class="internal xref">Identifying the Target</a></p>
+</li>
+                </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2">
                 <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-issuer-key-discovery" class="internal xref">Issuer Key Discovery</a></p>
@@ -1696,9 +1701,10 @@ the same initiator only when both the <code>iss</code> and the <code>sub</code> 
 <dt id="section-3.1-2.5">
 <code>aud</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-3.1-2.6">
-            <p id="section-3.1-2.6.1"><span class="bcp14">REQUIRED</span> - Audience (used for audience binding and replay attack mitigation),
-uniquely identifying the target agent.
-A single string value.<a href="#section-3.1-2.6.1" class="pilcrow">¶</a></p>
+            <p id="section-3.1-2.6.1"><span class="bcp14">REQUIRED</span> - Audience (used for audience binding and replay attack mitigation).
+The audience identifies the combination of identities the issuer holds for the
+Target: the human principal, the agent platform and the agent, where "agent" is
+understood broadly (<a href="#identifying-target" class="auto internal xref">Section 3.1.1</a>). A single string value.<a href="#section-3.1-2.6.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-3.1-2.7">
@@ -1728,7 +1734,9 @@ time on or after which the JWT <span class="bcp14">MUST NOT</span> be accepted f
 <dt id="section-3.1-2.13">
 <code>tdm</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-3.1-2.14">
-            <p id="section-3.1-2.14.1"><span class="bcp14">OPTIONAL</span> - Target domain, associated with the audience claim, the token is intended for.<a href="#section-3.1-2.14.1" class="pilcrow">¶</a></p>
+            <p id="section-3.1-2.14.1"><span class="bcp14">REQUIRED</span> where the Target is identified by a domain name; <span class="bcp14">OPTIONAL</span> otherwise.
+A host name, optionally followed by a path, identifying the Target the token is
+intended for. See <a href="#identifying-target" class="auto internal xref">Section 3.1.1</a>.<a href="#section-3.1-2.14.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-3.1-2.15">
@@ -1747,7 +1755,8 @@ may be defined and used.<a href="#section-3.1-2.18.1" class="pilcrow">¶</a></p>
 <dt id="section-3.1-2.19">
 <code>tsi</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-3.1-2.20">
-            <p id="section-3.1-2.20.1"><span class="bcp14">OPTIONAL</span> - Target Service ID that this token was created for.<a href="#section-3.1-2.20.1" class="pilcrow">¶</a></p>
+            <p id="section-3.1-2.20.1"><span class="bcp14">REQUIRED</span> - Target Service ID, assigned by the Token Issuer, identifying the
+service offered under the Target agent named by <code>aud</code>. See <a href="#identifying-target" class="auto internal xref">Section 3.1.1</a>.<a href="#section-3.1-2.20.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-3.1-2.21">
@@ -1774,6 +1783,73 @@ processing is specified in <span>[<a href="#I-D.skyfire-oauth-using-kyapay-token
 </dl>
 <p id="section-3.1-3">Additional claims <span class="bcp14">MAY</span> be defined and used in these tokens.
 The recipient <span class="bcp14">MUST</span> ignore any unrecognized claims.<a href="#section-3.1-3" class="pilcrow">¶</a></p>
+<div id="identifying-target">
+<section id="section-3.1.1">
+          <h4 id="name-identifying-the-target">
+<a href="#section-3.1.1" class="section-number selfRef">3.1.1. </a><a href="#name-identifying-the-target" class="section-name selfRef">Identifying the Target</a>
+          </h4>
+<p id="section-3.1.1-1">Three claims identify the party a token was minted for, and they answer
+different questions.<a href="#section-3.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-3.1.1-2">The <code>aud</code> claim is the counterpart, on the Target side, of <code>sub</code> on the
+initiating side, and it names the same three things. Where <code>sub</code> identifies the
+combination of identities the issuer has verified for the initiator (the human
+principal, the agent platform and the agent), <code>aud</code> identifies that combination
+for the Target: the Target's agent, the platform it runs on, and the human
+principal behind it.<a href="#section-3.1.1-2" class="pilcrow">¶</a></p>
+<p id="section-3.1.1-3">"Agent" is used broadly on the Target side. On the initiating side it is a
+program acting for a person. On the Target side it is whatever the initiator is
+dealing with, which may be a website, an API, an MCP server, or another agent.
+The <code>tsi</code> claim identifies the particular service offered under that Target
+agent.<a href="#section-3.1.1-3" class="pilcrow">¶</a></p>
+<p id="section-3.1.1-4">The Token Issuer assigns both, and both are present in every token it creates,
+so that it can account for the tokens it has issued. Their values are meaningful
+to the issuer and to a Target that has onboarded to it; onboarding is what allows
+a Target to interpret them, not what causes them to be set.<a href="#section-3.1.1-4" class="pilcrow">¶</a></p>
+<p id="section-3.1.1-5">The two sides differ in what stands behind them. The identities named in <code>sub</code>
+are verified by the issuer. Those named in <code>aud</code> and <code>tsi</code> are verified where the
+Target has onboarded to the issuer; where the issuer has no means of confirming
+the Target, they are its record of the Target that the initiator asserted it was
+minting for, and <code>tdm</code> carries the domain the initiator supplied.<a href="#section-3.1.1-5" class="pilcrow">¶</a></p>
+<p id="section-3.1.1-6">A recipient reads these claims accordingly. They bind a token to one Target and
+so limit where it can be presented, which holds in either case because the
+binding narrows the token rather than granting anything. A recipient <span class="bcp14">MUST NOT</span>
+read <code>tdm</code> alone as the issuer confirming the Target's identity.<a href="#section-3.1.1-6" class="pilcrow">¶</a></p>
+<p id="section-3.1.1-7">The <code>tdm</code> claim identifies a Target reached over a URL-based interface, such as
+a website or an HTTP API: at least its domain, and optionally its host and a
+path. Unlike <code>aud</code> and <code>tsi</code> it is not issuer-specific, so any recipient can
+interpret it without a relationship with the issuer. It is present in addition
+to <code>aud</code> and <code>tsi</code> where such a Target is identified by a domain name.<a href="#section-3.1.1-7" class="pilcrow">¶</a></p>
+<p id="section-3.1.1-8">The value of <code>tdm</code> is a host name in lower case, optionally followed by a path,
+with no scheme, port, query or fragment; for example <code>example.com</code>,
+<code>shop.example.com</code> or <code>shop.example.com/store</code>. The Target's domain is the
+registrable domain of that host, determined using the Public Suffix List <span>[<a href="#PSL" class="cite xref">PSL</a>]</span>,
+including its private section. A host on a shared hosting platform that the list
+names is therefore a domain of its own, and a token minted for one such host
+does not name the platform's other hosts.<a href="#section-3.1.1-8" class="pilcrow">¶</a></p>
+<p id="section-3.1.1-9"><code>tdm</code> and <code>tsi</code> are alternates rather than duplicates: they name the same
+Target by different means, one publicly interpretable and one not. A recipient
+validates whichever it is in a position to interpret. A Target that has onboarded
+to the issuer checks <code>aud</code> and <code>tsi</code>. A recipient that has not, including a
+security intermediary acting for many Targets, checks at least that <code>tdm</code> names
+the domain it is protecting for that request.
+The Authenticating the Counterparty section of
+<span>[<a href="#I-D.skyfire-oauth-using-kyapay-tokens" class="cite xref">I-D.skyfire-oauth-using-kyapay-tokens</a>]</span> describes that choice.<a href="#section-3.1.1-9" class="pilcrow">¶</a></p>
+<p id="section-3.1.1-10">A recipient that checks more than the domain checks that <code>tdm</code> names the Target
+it is protecting for the request: the host in <code>tdm</code> is that Target's host, and
+where that Target is identified by a path, the path in <code>tdm</code> is that path or one
+below it. Paths are matched as cookie paths are (<span><a href="https://rfc-editor.org/rfc/rfc6265#section-5.1.4" class="relref">Section 5.1.4</a> of [<a href="#RFC6265" class="cite xref">RFC6265</a>]</span>),
+after both are normalized as described in <span><a href="https://rfc-editor.org/rfc/rfc3986#section-6.2.2" class="relref">Section 6.2.2</a> of [<a href="#RFC3986" class="cite xref">RFC3986</a>]</span>. Ports
+are not compared. For
+example, for a Target at <code>shop.example.com/store</code>, a <code>tdm</code> of
+<code>shop.example.com/store</code> or <code>shop.example.com/store/cart</code> passes, but
+<code>shop.example.com</code>, <code>shop.example.com/storefront</code> and <code>example.com/store</code> do
+not. A recipient that
+checks only the domain does not enforce the host or the path. A Target whose
+host serves several tenants, or that protects only some of its paths, therefore
+checks the host and path itself, or <code>aud</code> and <code>tsi</code> where it has onboarded to
+the issuer.<a href="#section-3.1.1-10" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="key-discovery">
@@ -2480,7 +2556,10 @@ the issuer's JWK Set, located as described in <a href="#key-discovery" class="au
   a UUID.<a href="#section-4.1.2-1.5.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-4.1.2-1.6">
-              <p id="section-4.1.2-1.6.1"><strong>Validate the <code>aud</code> Claim</strong> - Ensure that the <code>aud</code> identifies the recipient as the intended audience.<a href="#section-4.1.2-1.6.1" class="pilcrow">¶</a></p>
+              <p id="section-4.1.2-1.6.1"><strong>Validate the Audience</strong> - A recipient that has onboarded to the issuer
+  ensures that <code>aud</code> and <code>tsi</code> identify it as the intended audience. A recipient
+  that has not ensures at least that <code>tdm</code> names the domain it is protecting for
+  the request (<a href="#identifying-target" class="auto internal xref">Section 3.1.1</a>).<a href="#section-4.1.2-1.6.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-4.1.2-1.7">
               <p id="section-4.1.2-1.7.1"><strong>Validate the <code>env</code> Claim</strong> - Ensure that the Environment claim is set to
@@ -3321,6 +3400,14 @@ keys with which the origin signs KYAPay tokens.<a href="#section-7.3-2.5.1" clas
         <dd>
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC3986">[RFC3986]</dt>
+        <dd>
+<span class="refAuthor">Berners-Lee, T.</span>, <span class="refAuthor">Fielding, R.</span>, and <span class="refAuthor">L. Masinter</span>, <span class="refTitle">"Uniform Resource Identifier (URI): Generic Syntax"</span>, <span class="seriesInfo">STD 66</span>, <span class="seriesInfo">RFC 3986</span>, <span class="seriesInfo">DOI 10.17487/RFC3986</span>, <time datetime="2005-01" class="refDate">January 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3986">https://www.rfc-editor.org/rfc/rfc3986</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC6265">[RFC6265]</dt>
+        <dd>
+<span class="refAuthor">Barth, A.</span>, <span class="refTitle">"HTTP State Management Mechanism"</span>, <span class="seriesInfo">RFC 6265</span>, <span class="seriesInfo">DOI 10.17487/RFC6265</span>, <time datetime="2011-04" class="refDate">April 2011</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6265">https://www.rfc-editor.org/rfc/rfc6265</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC6454">[RFC6454]</dt>
         <dd>
 <span class="refAuthor">Barth, A.</span>, <span class="refTitle">"The Web Origin Concept"</span>, <span class="seriesInfo">RFC 6454</span>, <span class="seriesInfo">DOI 10.17487/RFC6454</span>, <time datetime="2011-12" class="refDate">December 2011</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6454">https://www.rfc-editor.org/rfc/rfc6454</a>&gt;</span>. </dd>
@@ -3414,6 +3501,10 @@ keys with which the origin signs KYAPay tokens.<a href="#section-7.3-2.5.1" clas
         <dd>
 <span class="refAuthor">PCI Security Standards Council</span>, <span class="refTitle">"How does PCI DSS apply to EMVCo Payment Tokens?"</span>, <span class="seriesInfo">FAQ 1326</span>, <time datetime="2015-05" class="refDate">May 2015</time>, <span>&lt;<a href="https://www.pcisecuritystandards.org/faqs/1326">https://www.pcisecuritystandards.org/faqs/1326</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="PSL">[PSL]</dt>
+        <dd>
+<span class="refAuthor">Mozilla Foundation</span>, <span class="refTitle">"Public Suffix List"</span>, <span>&lt;<a href="https://publicsuffix.org/">https://publicsuffix.org/</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC2046">[RFC2046]</dt>
         <dd>
 <span class="refAuthor">Freed, N.</span> and <span class="refAuthor">N. Borenstein</span>, <span class="refTitle">"Multipurpose Internet Mail Extensions (MIME) Part Two: Media Types"</span>, <span class="seriesInfo">RFC 2046</span>, <span class="seriesInfo">DOI 10.17487/RFC2046</span>, <time datetime="1996-11" class="refDate">November 1996</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2046">https://www.rfc-editor.org/rfc/rfc2046</a>&gt;</span>. </dd>
@@ -3470,9 +3561,10 @@ keys with which the origin signs KYAPay tokens.<a href="#section-7.3-2.5.1" clas
 <a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
       </h2>
 <p id="appendix-B-1">We would like to thank
-Bhasker Allam
-and
+Bhasker Allam,
 Jean Diaconu
+and
+Carlos Martínez
 for their contributions to the specification.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -3568,6 +3660,12 @@ EMV Payment Tokens, and cited PCI SSC FAQ 1326 for their PCI DSS scope.<a href="
         <li class="normal" id="appendix-C-3.21">
           <p id="appendix-C-3.21.1">Replaced the example payment credential values with values that cannot be
 mistaken for real ones.<a href="#appendix-C-3.21.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-3.22">
+          <p id="appendix-C-3.22.1">Added an Identifying the Target section relating <code>aud</code>, <code>tsi</code> and <code>tdm</code>, made
+<code>tsi</code> <span class="bcp14">REQUIRED</span> and <code>tdm</code> <span class="bcp14">REQUIRED</span> where the Target is identified by a domain
+name, defined the form of <code>tdm</code>, and let a recipient that has not onboarded to
+the issuer validate the audience using <code>tdm</code>.<a href="#appendix-C-3.22.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="appendix-C-4">-02<a href="#appendix-C-4" class="pilcrow">¶</a></p>
