@@ -443,10 +443,8 @@ principal behind it.
 "Agent" is used broadly on the Target side. On the initiating side it is a
 program acting for a person. On the Target side it is whatever the initiator is
 dealing with, which may be a website, an API, an MCP server, or another agent.
-
 The `tsi` claim identifies the particular service offered under that Target
-agent: a website, an MCP server, an API endpoint, or another interface. A single
-`aud` may offer several.
+agent.
 
 The Token Issuer assigns both, and both are present in every token it creates,
 so that it can account for the tokens it has issued. Their values are meaningful
