@@ -1053,7 +1053,7 @@ svg {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Agarwal &amp; Jones</td>
-<td class="center">Expires 5 May 2027</td>
+<td class="center">Expires 6 May 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1066,12 +1066,12 @@ svg {
 <dd class="internet-draft">draft-skyfire-oauth-kyapay-token-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-11-01" class="published">1 November 2026</time>
+<time datetime="2026-11-02" class="published">2 November 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-05-05">5 May 2027</time></dd>
+<dd class="expires"><time datetime="2027-05-06">6 May 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1123,7 +1123,7 @@ tokens in an interoperable manner.<a href="#section-abstract-1" class="pilcrow">
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 5 May 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 6 May 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1713,7 +1713,9 @@ be used to determine the age of the JWT.<a href="#section-3.1-2.8.1" class="pilc
 <code>jti</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-3.1-2.10">
             <p id="section-3.1-2.10.1"><span class="bcp14">REQUIRED</span> - Unique ID of this JWT as defined in <span><a href="https://rfc-editor.org/rfc/rfc7519#section-4.1.7" class="relref">Section 4.1.7</a> of [<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.
-This claim can be used to detect replay attempts.<a href="#section-3.1-2.10.1" class="pilcrow">¶</a></p>
+This claim identifies the token, not the request. A token may be presented on
+more than one request within its lifetime, so a repeated <code>jti</code> is not by itself
+evidence of replay.<a href="#section-3.1-2.10.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-3.1-2.11">
@@ -1789,11 +1791,13 @@ of <code>https://issuer.example.com</code> yields
 <p id="section-3.2-3">JWK Sets <span class="bcp14">SHOULD</span> be cached and refreshed according to standard JWK Set practice.
 Retrieval per request is neither required nor expected; because KYAPay tokens
 are self-contained, signature verification is intended to be performed locally.<a href="#section-3.2-3" class="pilcrow">¶</a></p>
-<p id="section-3.2-4">A future revision of this specification may additionally define an issuer
+<p id="section-3.2-4">A recipient retrieves this JWK Set only for an issuer it trusts
+(<a href="#validating-tokens" class="auto internal xref">Section 4.1</a>).<a href="#section-3.2-4" class="pilcrow">¶</a></p>
+<p id="section-3.2-5">A future revision of this specification may additionally define an issuer
 metadata document, giving an issuer somewhere to advertise capabilities beyond
 the location of its keys, such as the identity verification methods it supports.
 Such a document would supplement the mechanism described here rather than
-replace it.<a href="#section-3.2-4" class="pilcrow">¶</a></p>
+replace it.<a href="#section-3.2-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="token-size">
@@ -1882,9 +1886,9 @@ typical origin.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
   "aid": {
     "id": "7d889702-7b6a-46cb-9bdd-10e83d17b18d", // Identifier of the agent instance
     "name": "Acme Agent Extraordinaire",
-    "creation_ip": "54.86.50.139", // IP Address where token was created
-    "source_ips": ["54.86.50.139-54.86.50.141", "1.1.1.0/24",
-      "2001:db8:abcd:0012::/64", "acme.com"]
+    "creation_ip": "192.0.2.10", // IP address the token was requested from
+    "source_ips": ["192.0.2.10-192.0.2.12", "203.0.113.0/24",
+      "2001:db8:abcd:12::/64", "agents.example.com"]
       // IP addresses from which the initiator agent will make requests to the target
   }
 }
@@ -1967,7 +1971,11 @@ This could be used during auditing and dispute resolution.<a href="#section-3.4.
 </dd>
           <dd class="break"></dd>
 </dl>
-<p id="section-3.4.1-3">Additional sub-claims <span class="bcp14">MAY</span> be defined and used.
+<p id="section-3.4.1-3">Additional sub-claims <span class="bcp14">MAY</span> be defined and used, including further identifiers for
+the human principal where a Target requires them to recognize an account. An
+issuer <span class="bcp14">MUST NOT</span> assert an identifier of the human principal unless it has
+verified that the principal controls it. This document does not prescribe how control is
+verified.
 The recipient <span class="bcp14">MUST</span> ignore any unrecognized sub-claims.<a href="#section-3.4.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -2065,9 +2073,14 @@ identify the agent unambiguously.<a href="#section-3.4.3-2.4.1" class="pilcrow">
 <dt id="section-3.4.3-2.5">
 <code>creation_ip</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.4.3-2.6">
-              <p id="section-3.4.3-2.6.1"><span class="bcp14">REQUIRED</span> - The public IP address of the system / agent that requested the token.
+              <p id="section-3.4.3-2.6.1"><span class="bcp14">OPTIONAL</span> - The public IP address of the system / agent that requested the token.
 Its value is a string containing the public IPv4 or IPv6 address from where the
-token request originated. It <span class="bcp14">MUST</span> be captured directly from the token request.<a href="#section-3.4.3-2.6.1" class="pilcrow">¶</a></p>
+token request originated. When present, it <span class="bcp14">MUST</span> be captured directly from the
+token request. It is a diagnostic aid, for example when investigating an
+incident, and is not an access-control signal: a recipient <span class="bcp14">MAY</span> use it as a weak
+corroborating signal only and <span class="bcp14">MUST NOT</span> treat it as sufficient on its own
+(<span><a href="https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-using-kyapay-tokens-01#section-6.3" class="relref">Section 6.3</a> of [<a href="#I-D.skyfire-oauth-using-kyapay-tokens" class="cite xref">I-D.skyfire-oauth-using-kyapay-tokens</a>]</span>). It is personal
+data, subject to the privacy considerations in <a href="#privacy-considerations" class="auto internal xref">Section 6</a>.<a href="#section-3.4.3-2.6.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.4.3-2.7">
@@ -2361,9 +2374,9 @@ not attempt to carry them in the claims defined here.<a href="#section-3.5.2-3" 
   "aid": {
     "id": "4607fa56-368d-4fde-90e9-baad4e9f4439", // Identifier of the agent instance
     "name": "Agentic Excellence Я Us",
-    "creation_ip": "128.2.42.95", // IP Address where token was created
-    "source_ips": ["54.86.50.139-54.86.50.141", "1.1.1.0/24",
-      "2001:db8:abcd:0012::/64", "agentic-excellence.example.com"]
+    "creation_ip": "198.51.100.20", // IP address the token was requested from
+    "source_ips": ["192.0.2.10-192.0.2.12", "203.0.113.0/24",
+      "2001:db8:abcd:12::/64", "agents.example.com"]
       // IP addresses from which the initiator agent will make requests to the target
   },
 
@@ -2398,11 +2411,16 @@ not attempt to carry them in the claims defined here.<a href="#section-3.5.2-3" 
       <h2 id="name-token-validation">
 <a href="#section-4" class="section-number selfRef">4. </a><a href="#name-token-validation" class="section-name selfRef">Token Validation</a>
       </h2>
-<div id="validating-kya-and-pay-tokens">
+<div id="validating-tokens">
 <section id="section-4.1">
         <h3 id="name-validating-kya-and-pay-toke">
 <a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-validating-kya-and-pay-toke" class="section-name selfRef">Validating KYA and PAY Tokens</a>
         </h3>
+<p id="section-4.1-1">A recipient <span class="bcp14">MUST</span> confirm that the <code>iss</code> claim names an issuer it trusts before
+it performs any step below that retrieves key material or otherwise depends on
+the issuer. A recipient <span class="bcp14">MUST NOT</span> retrieve key material for an issuer that is not
+in its configured set of trusted issuers. The set of trusted issuers is
+configured out of band and is not derived from the token.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
 <div id="jwt-header-validation">
 <section id="section-4.1.1">
           <h4 id="name-jwt-header-validation">
@@ -2442,12 +2460,12 @@ the issuer's JWK Set, located as described in <a href="#key-discovery" class="au
           </h4>
 <ol start="1" type="1" class="normal type-1" id="section-4.1.2-1">
 <li id="section-4.1.2-1.1">
-              <p id="section-4.1.2-1.1.1"><strong>Verify JWT Signature</strong> - Valid JWTs <span class="bcp14">MUST</span> be signed with a valid key belonging
-  to the token's issuer (<code>iss</code> claim)<a href="#section-4.1.2-1.1.1" class="pilcrow">¶</a></p>
+              <p id="section-4.1.2-1.1.1"><strong>Validate <code>iss</code> Claim</strong> - Ensure that the token's issuer is one the
+  recipient trusts (<a href="#validating-tokens" class="auto internal xref">Section 4.1</a>).<a href="#section-4.1.2-1.1.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-4.1.2-1.2">
-              <p id="section-4.1.2-1.2.1"><strong>Validate <code>iss</code> Claim</strong> - Ensure that the token is signed by the expected
-  valid issuer.<a href="#section-4.1.2-1.2.1" class="pilcrow">¶</a></p>
+              <p id="section-4.1.2-1.2.1"><strong>Verify JWT Signature</strong> - Valid JWTs <span class="bcp14">MUST</span> be signed with a valid key belonging
+  to the token's issuer (<code>iss</code> claim).<a href="#section-4.1.2-1.2.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-4.1.2-1.3">
               <p id="section-4.1.2-1.3.1"><strong>Validate the <code>exp</code> Claim</strong> - The recipient <span class="bcp14">MUST</span> validate that the token has
@@ -2559,8 +2577,13 @@ information. Accordingly:<a href="#section-5.2-2" class="pilcrow">¶</a></p>
 and server authentication, such as TLS <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span>.<a href="#section-5.2-3.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.2-3.2">
-            <p id="section-5.2-3.2.1">Tokens <span class="bcp14">MUST NOT</span> be written to logs, analytics pipelines, or other persistent
-stores that are not required to process the transaction.<a href="#section-5.2-3.2.1" class="pilcrow">¶</a></p>
+            <p id="section-5.2-3.2.1">Tokens <span class="bcp14">MUST NOT</span> be written to logs, traces, analytics pipelines, or other
+persistent stores that are not required to process the transaction. An agent
+that obtains a token through a tool whose result is returned to a language
+model may be unable to keep the token out of that model's context or out of a
+transcript retained from it; the Token Exposure in the Agent Runtime section
+of <span>[<a href="#I-D.skyfire-oauth-using-kyapay-tokens" class="cite xref">I-D.skyfire-oauth-using-kyapay-tokens</a>]</span> describes how such a deployment
+treats the token.<a href="#section-5.2-3.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.2-3.3">
             <p id="section-5.2-3.3.1">Tokens <span class="bcp14">MUST NOT</span> be forwarded to parties other than those necessary to complete
@@ -3517,12 +3540,34 @@ agent account identifier.<a href="#appendix-C-3.10.1" class="pilcrow">¶</a></p>
           <p id="appendix-C-3.13.1">Added a Token Size section: no maximum token size, aggregate size guidance for issuers that fits the minimum recipients are required to accept, and a preference for one KYA-PAY token over separate KYA and PAY tokens.<a href="#appendix-C-3.13.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.14">
-          <p id="appendix-C-3.14.1">Prohibited Account Data in tokens of every type, described card credentials as
-EMV Payment Tokens, and cited PCI SSC FAQ 1326 for their PCI DSS scope.<a href="#appendix-C-3.14.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.14.1">Stated that <code>jti</code> identifies the token, not the request, so a repeated <code>jti</code>
+is not by itself evidence of replay.<a href="#appendix-C-3.14.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.15">
-          <p id="appendix-C-3.15.1">Replaced the example payment credential values with values that cannot be
-mistaken for real ones.<a href="#appendix-C-3.15.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.15.1">Made <code>creation_ip</code> <span class="bcp14">OPTIONAL</span> and described its use.<a href="#appendix-C-3.15.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-3.16">
+          <p id="appendix-C-3.16.1">Replaced the example IP addresses with documentation addresses.<a href="#appendix-C-3.16.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-3.17">
+          <p id="appendix-C-3.17.1">Required a recipient to confirm that it trusts the issuer before retrieving
+key material, and moved the issuer check ahead of signature verification.<a href="#appendix-C-3.17.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-3.18">
+          <p id="appendix-C-3.18.1">Added traces to the logging prohibition, and pointed to the Using document for
+tokens that reach a language model's context.<a href="#appendix-C-3.18.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-3.19">
+          <p id="appendix-C-3.19.1">Allowed further identifiers for the human principal in <code>hid</code>, only where the
+issuer has verified that the principal controls them.<a href="#appendix-C-3.19.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-3.20">
+          <p id="appendix-C-3.20.1">Prohibited Account Data in tokens of every type, described card credentials as
+EMV Payment Tokens, and cited PCI SSC FAQ 1326 for their PCI DSS scope.<a href="#appendix-C-3.20.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-3.21">
+          <p id="appendix-C-3.21.1">Replaced the example payment credential values with values that cannot be
+mistaken for real ones.<a href="#appendix-C-3.21.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="appendix-C-4">-02<a href="#appendix-C-4" class="pilcrow">¶</a></p>
