@@ -372,7 +372,9 @@ PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
 {:vspace}
 `jti`:
 : REQUIRED - Unique ID of this JWT as defined in {{Section 4.1.7 of RFC7519}}.
-  This claim can be used to detect replay attempts.
+  This claim identifies the token, not the request. A token may be presented on
+  more than one request within its lifetime, so a repeated `jti` is not by itself
+  evidence of replay.
 
 {:vspace}
 `exp`:
@@ -1364,6 +1366,8 @@ for their contributions to the specification.
 * Added "id" as a required sub-claim within "aid".
 * Made the "apd" claim REQUIRED in KYA and KYAPay tokens.
 * Added a Token Size section: no maximum token size, aggregate size guidance for issuers that fits the minimum recipients are required to accept, and a preference for one KYA-PAY token over separate KYA and PAY tokens.
+* Stated that `jti` identifies the token, not the request, so a repeated `jti`
+  is not by itself evidence of replay.
 * Made `creation_ip` OPTIONAL and described its use.
 * Replaced the example IP addresses with documentation addresses.
 
