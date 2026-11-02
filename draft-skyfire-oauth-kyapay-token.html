@@ -2068,19 +2068,48 @@ the strength of the claim's presence.<a href="#section-3.4.1-2.18.1" class="pilc
 This is the verifier's identifier for the identity verification performed.
 This could be used during auditing and dispute resolution.<a href="#section-3.4.1-2.20.1" class="pilcrow">¶</a></p>
 </dd>
+            <dd class="break"></dd>
+<dt id="section-3.4.1-2.21">
+<code>ivm</code>:</dt>
+            <dd style="margin-left: 1.5em" id="section-3.4.1-2.22">
+              <p id="section-3.4.1-2.22.1"><span class="bcp14">OPTIONAL</span> - Identity Verification Methods <span>[<a href="#I-D.skyfire-oauth-id-verification" class="cite xref">I-D.skyfire-oauth-id-verification</a>]</span>.
+A JSON array of the methods by which the human principal's identity was verified.
+An issuer <span class="bcp14">SHOULD</span> include this sub-claim when it knows the methods used.<a href="#section-3.4.1-2.22.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-3.4.1-2.23">
+<code>amr</code>:</dt>
+            <dd style="margin-left: 1.5em" id="section-3.4.1-2.24">
+              <p id="section-3.4.1-2.24.1"><span class="bcp14">OPTIONAL</span> - Authentication Methods References, as defined in Section 2 of <span>[<a href="#OpenID.Core" class="cite xref">OpenID.Core</a>]</span>,
+with values from <span>[<a href="#RFC8176" class="cite xref">RFC8176</a>]</span> and <span>[<a href="#I-D.skyfire-oauth-amr-values" class="cite xref">I-D.skyfire-oauth-amr-values</a>]</span>.
+A JSON array of the methods by which the human principal authenticated.
+An issuer <span class="bcp14">SHOULD</span> include this sub-claim when it knows the methods used.<a href="#section-3.4.1-2.24.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-3.4.1-2.25">
+<code>aml</code>:</dt>
+            <dd style="margin-left: 1.5em" id="section-3.4.1-2.26">
+              <p id="section-3.4.1-2.26.1"><span class="bcp14">OPTIONAL</span> - Anti-Money Laundering Methods <span>[<a href="#I-D.skyfire-oauth-aml-methods" class="cite xref">I-D.skyfire-oauth-aml-methods</a>]</span>.
+A JSON array of the anti-money laundering and counter-terrorist financing methods
+applied to the human principal.
+An issuer <span class="bcp14">SHOULD</span> include this sub-claim when it knows the methods used.<a href="#section-3.4.1-2.26.1" class="pilcrow">¶</a></p>
+</dd>
           <dd class="break"></dd>
 </dl>
-<p id="section-3.4.1-3">The sub-claims <code>email</code>, <code>given_name</code>, <code>middle_name</code>, <code>family_name</code>,
+<p id="section-3.4.1-3">The <code>ivm</code>, <code>amr</code>, and <code>aml</code> sub-claims use the syntax and values
+of the claims of the same names defined in the cited specifications.
+The absence of any of them does not indicate that a method was not used.<a href="#section-3.4.1-3" class="pilcrow">¶</a></p>
+<p id="section-3.4.1-4">The sub-claims <code>email</code>, <code>given_name</code>, <code>middle_name</code>, <code>family_name</code>,
 <code>phone_number</code> and <code>organization_name</code> directly identify the human
 principal, and <code>verification_id</code> is the same at every Target. An issuer <span class="bcp14">MUST NOT</span> include any of them unless a Target requires it for the action at hand
 and the principal has authorized its disclosure to that Target, whether to
-the issuer or to the agent platform (<a href="#privacy-considerations" class="auto internal xref">Section 6</a>).<a href="#section-3.4.1-3" class="pilcrow">¶</a></p>
-<p id="section-3.4.1-4">Additional sub-claims <span class="bcp14">MAY</span> be defined and used, including further identifiers for
+the issuer or to the agent platform (<a href="#privacy-considerations" class="auto internal xref">Section 6</a>).<a href="#section-3.4.1-4" class="pilcrow">¶</a></p>
+<p id="section-3.4.1-5">Additional sub-claims <span class="bcp14">MAY</span> be defined and used, including further identifiers for
 the human principal where a Target requires them to recognize an account. An
 issuer <span class="bcp14">MUST NOT</span> assert an identifier of the human principal unless it has
 verified that the principal controls it. This document does not prescribe how control is
 verified.
-The recipient <span class="bcp14">MUST</span> ignore any unrecognized sub-claims.<a href="#section-3.4.1-4" class="pilcrow">¶</a></p>
+The recipient <span class="bcp14">MUST</span> ignore any unrecognized sub-claims.<a href="#section-3.4.1-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="agent-platform-identity-apd-sub-claims">
@@ -2146,10 +2175,33 @@ the strength of the claim's presence.<a href="#section-3.4.2-2.14.1" class="pilc
 This is the verifier's identifier for the KYA verification performed.
 This could be used during auditing and dispute resolution.<a href="#section-3.4.2-2.16.1" class="pilcrow">¶</a></p>
 </dd>
+            <dd class="break"></dd>
+<dt id="section-3.4.2-2.17">
+<code>ivm</code>:</dt>
+            <dd style="margin-left: 1.5em" id="section-3.4.2-2.18">
+              <p id="section-3.4.2-2.18.1"><span class="bcp14">OPTIONAL</span> - Identity Verification Methods <span>[<a href="#I-D.skyfire-oauth-id-verification" class="cite xref">I-D.skyfire-oauth-id-verification</a>]</span>.
+A JSON array of the methods by which the agent platform's identity was verified.
+An issuer <span class="bcp14">SHOULD</span> include this sub-claim when it knows the methods used.<a href="#section-3.4.2-2.18.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-3.4.2-2.19">
+<code>aml</code>:</dt>
+            <dd style="margin-left: 1.5em" id="section-3.4.2-2.20">
+              <p id="section-3.4.2-2.20.1"><span class="bcp14">OPTIONAL</span> - Anti-Money Laundering Methods <span>[<a href="#I-D.skyfire-oauth-aml-methods" class="cite xref">I-D.skyfire-oauth-aml-methods</a>]</span>.
+A JSON array of the anti-money laundering and counter-terrorist financing methods
+applied to the agent platform.
+An issuer <span class="bcp14">SHOULD</span> include this sub-claim when it knows the methods used.<a href="#section-3.4.2-2.20.1" class="pilcrow">¶</a></p>
+</dd>
           <dd class="break"></dd>
 </dl>
-<p id="section-3.4.2-3">Additional sub-claims <span class="bcp14">MAY</span> be defined and used.
-The recipient <span class="bcp14">MUST</span> ignore any unrecognized sub-claims.<a href="#section-3.4.2-3" class="pilcrow">¶</a></p>
+<p id="section-3.4.2-3">The <code>ivm</code> and <code>aml</code> sub-claims use the syntax and values
+of the claims of the same names defined in the cited specifications.
+The absence of either does not indicate that a method was not used.<a href="#section-3.4.2-3" class="pilcrow">¶</a></p>
+<p id="section-3.4.2-4">In a KYAPay token, the <code>ivm</code>, <code>amr</code>, and <code>aml</code> claims appear only as sub-claims of <code>hid</code> and <code>apd</code>, so that each describes the party whose claim contains it: in <code>hid</code>, how the human principal was vetted; in <code>apd</code>, how the agent platform was vetted.
+<code>amr</code> does not apply to the agent platform and is not used in <code>apd</code>.
+Issuers <span class="bcp14">MUST NOT</span> include <code>ivm</code>, <code>amr</code>, or <code>aml</code> as top-level claims in a KYAPay token, and recipients <span class="bcp14">MUST</span> ignore them if they appear there.<a href="#section-3.4.2-4" class="pilcrow">¶</a></p>
+<p id="section-3.4.2-5">Additional sub-claims <span class="bcp14">MAY</span> be defined and used.
+The recipient <span class="bcp14">MUST</span> ignore any unrecognized sub-claims.<a href="#section-3.4.2-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="agent-identity-aid-sub-claims">
@@ -3469,6 +3521,22 @@ keys with which the origin signs KYAPay tokens.<a href="#section-7.3-2.5.1" clas
 <a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
         </h3>
 <dl class="references">
+<dt id="I-D.skyfire-oauth-aml-methods">[I-D.skyfire-oauth-aml-methods]</dt>
+        <dd>
+<span class="refAuthor">Agarwal, A.</span>, <span class="refAuthor">Jones, M. B.</span>, and <span class="refAuthor">N. Ali</span>, <span class="refTitle">"Anti-Money Laundering Methods Values"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-skyfire-oauth-aml-methods-01</span>, <time datetime="2026-10-01" class="refDate">1 October 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-aml-methods-01">https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-aml-methods-01</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.skyfire-oauth-amr-values">[I-D.skyfire-oauth-amr-values]</dt>
+        <dd>
+<span class="refAuthor">Agarwal, A.</span>, <span class="refAuthor">Jones, M. B.</span>, <span class="refAuthor">Ali, N.</span>, and <span class="refAuthor">Srinivasa</span>, <span class="refTitle">"Additional Authentication Method Reference Values"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-skyfire-oauth-amr-values-02</span>, <time datetime="2026-10-01" class="refDate">1 October 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-amr-values-02">https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-amr-values-02</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.skyfire-oauth-id-verification">[I-D.skyfire-oauth-id-verification]</dt>
+        <dd>
+<span class="refAuthor">Agarwal, A.</span>, <span class="refAuthor">Jones, M. B.</span>, <span class="refAuthor">Ali, N.</span>, and <span class="refAuthor">Srinivasa</span>, <span class="refTitle">"Identity Verification Methods Values"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-skyfire-oauth-id-verification-02</span>, <time datetime="2026-10-01" class="refDate">1 October 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-id-verification-02">https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-id-verification-02</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="OpenID.Core">[OpenID.Core]</dt>
+        <dd>
+<span class="refAuthor">Sakimura, N.</span>, <span class="refAuthor">Bradley, J.</span>, <span class="refAuthor">Jones, M. B.</span>, <span class="refAuthor">Medeiros, B. de.</span>, and <span class="refAuthor">C. Mortimore</span>, <span class="refTitle">"OpenID Connect Core 1.0 incorporating errata set 2"</span>, <time datetime="2023-12-15" class="refDate">15 December 2023</time>, <span>&lt;<a href="https://openid.net/specs/openid-connect-core-1_0.html">https://openid.net/specs/openid-connect-core-1_0.html</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
@@ -3513,6 +3581,10 @@ keys with which the origin signs KYAPay tokens.<a href="#section-7.3-2.5.1" clas
         <dd>
 <span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC8176">[RFC8176]</dt>
+        <dd>
+<span class="refAuthor">Jones, M.</span>, <span class="refAuthor">Hunt, P.</span>, and <span class="refAuthor">A. Nadalin</span>, <span class="refTitle">"Authentication Method Reference Values"</span>, <span class="seriesInfo">RFC 8176</span>, <span class="seriesInfo">DOI 10.17487/RFC8176</span>, <time datetime="2017-06" class="refDate">June 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8176">https://www.rfc-editor.org/rfc/rfc8176</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC8615">[RFC8615]</dt>
         <dd>
 <span class="refAuthor">Nottingham, M.</span>, <span class="refTitle">"Well-Known Uniform Resource Identifiers (URIs)"</span>, <span class="seriesInfo">RFC 8615</span>, <span class="seriesInfo">DOI 10.17487/RFC8615</span>, <time datetime="2019-05" class="refDate">May 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8615">https://www.rfc-editor.org/rfc/rfc8615</a>&gt;</span>. </dd>
@@ -3537,18 +3609,6 @@ keys with which the origin signs KYAPay tokens.<a href="#section-7.3-2.5.1" clas
 <dt id="EMVCo-PT">[EMVCo-PT]</dt>
         <dd>
 <span class="refAuthor">EMVCo</span>, <span class="refTitle">"EMV Payment Tokenisation Specification - Technical Framework"</span>, <span class="seriesInfo">Version 2.4</span>, <time datetime="2026-07-09" class="refDate">9 July 2026</time>, <span>&lt;<a href="https://www.emvco.com/emv-technologies/payment-tokenisation/">https://www.emvco.com/emv-technologies/payment-tokenisation/</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="I-D.skyfire-oauth-aml-methods">[I-D.skyfire-oauth-aml-methods]</dt>
-        <dd>
-<span class="refAuthor">Agarwal, A.</span>, <span class="refAuthor">Jones, M. B.</span>, and <span class="refAuthor">N. Ali</span>, <span class="refTitle">"Anti-Money Laundering Methods Values"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-skyfire-oauth-aml-methods-01</span>, <time datetime="2026-10-01" class="refDate">1 October 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-aml-methods-01">https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-aml-methods-01</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="I-D.skyfire-oauth-amr-values">[I-D.skyfire-oauth-amr-values]</dt>
-        <dd>
-<span class="refAuthor">Agarwal, A.</span>, <span class="refAuthor">Jones, M. B.</span>, <span class="refAuthor">Ali, N.</span>, and <span class="refAuthor">Srinivasa</span>, <span class="refTitle">"Additional Authentication Method Reference Values"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-skyfire-oauth-amr-values-02</span>, <time datetime="2026-10-01" class="refDate">1 October 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-amr-values-02">https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-amr-values-02</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="I-D.skyfire-oauth-id-verification">[I-D.skyfire-oauth-id-verification]</dt>
-        <dd>
-<span class="refAuthor">Agarwal, A.</span>, <span class="refAuthor">Jones, M. B.</span>, <span class="refAuthor">Ali, N.</span>, and <span class="refAuthor">Srinivasa</span>, <span class="refTitle">"Identity Verification Methods Values"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-skyfire-oauth-id-verification-02</span>, <time datetime="2026-10-01" class="refDate">1 October 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-id-verification-02">https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-id-verification-02</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.skyfire-oauth-kyapay-token-exchange">[I-D.skyfire-oauth-kyapay-token-exchange]</dt>
         <dd>
@@ -3650,122 +3710,125 @@ for their contributions to the specification.<a href="#appendix-B-1" class="pilc
 <p id="appendix-C-2">-03<a href="#appendix-C-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-C-3.1">
-          <p id="appendix-C-3.1.1">Stated that the subject identifies the combination of identities the issuer
+          <p id="appendix-C-3.1.1">Added the optional <code>ivm</code>, <code>amr</code>, and <code>aml</code> sub-claims to the <code>hid</code> claim, and the optional <code>ivm</code> and <code>aml</code> sub-claims to the <code>apd</code> claim.<a href="#appendix-C-3.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-3.2">
+          <p id="appendix-C-3.2.1">Stated that the subject identifies the combination of identities the issuer
 has verified for the initiator, that it is stable while those identities are
 unchanged, and that a change to any of them gives a new subject. The
 identities are carried as claims in KYA and KYA-PAY tokens and not in PAY
-tokens, but the subject identifies the same combination in all three.<a href="#appendix-C-3.1.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-C-3.2">
-          <p id="appendix-C-3.2.1">Stated in the Privacy Considerations that <code>hid.id</code>, <code>sub</code> and <code>aid.id</code> are
-specific to one Target service, and that directly identifying sub-claims are
-disclosed only when a Target requires them and the principal has authorized
-it.<a href="#appendix-C-3.2.1" class="pilcrow">¶</a></p>
+tokens, but the subject identifies the same combination in all three.<a href="#appendix-C-3.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.3">
-          <p id="appendix-C-3.3.1">Removed the qualifier on <code>hid</code>, which read as though the claim were required
-only for some use cases.<a href="#appendix-C-3.3.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.3.1">Stated in the Privacy Considerations that <code>hid.id</code>, <code>sub</code> and <code>aid.id</code> are
+specific to one Target service, and that directly identifying sub-claims are
+disclosed only when a Target requires them and the principal has authorized
+it.<a href="#appendix-C-3.3.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.4">
-          <p id="appendix-C-3.4.1">Stated that a Payment Token Issuer verifies the Initiator, which the role
-definition had left to the KYA Token Issuer alone.<a href="#appendix-C-3.4.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.4.1">Removed the qualifier on <code>hid</code>, which read as though the claim were required
+only for some use cases.<a href="#appendix-C-3.4.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.5">
-          <p id="appendix-C-3.5.1">Stated that a <code>verified</code> claim is only ever <code>true</code>, and corrected a KYA-PAY
+          <p id="appendix-C-3.5.1">Stated that a Payment Token Issuer verifies the Initiator, which the role
+definition had left to the KYA Token Issuer alone.<a href="#appendix-C-3.5.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-3.6">
+          <p id="appendix-C-3.6.1">Stated that a <code>verified</code> claim is only ever <code>true</code>, and corrected a KYA-PAY
 example that asserted <code>false</code>. This is a compatibility change: the previous
 definition admitted <code>false</code>, so a token carrying that value conformed to -02
 and does not conform here. Recipient behaviour on receiving <code>false</code> is
-specified alongside each claim.<a href="#appendix-C-3.5.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-C-3.6">
-          <p id="appendix-C-3.6.1">Required a recipient correlating a PAY token with a KYA token to check that
-both carry the same <code>iss</code> and <code>sub</code>.<a href="#appendix-C-3.6.1" class="pilcrow">¶</a></p>
+specified alongside each claim.<a href="#appendix-C-3.6.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.7">
-          <p id="appendix-C-3.7.1">Made <code>sub</code> pairwise: a different value at each Target service, stable at
-that service.<a href="#appendix-C-3.7.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.7.1">Required a recipient correlating a PAY token with a KYA token to check that
+both carry the same <code>iss</code> and <code>sub</code>.<a href="#appendix-C-3.7.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.8">
-          <p id="appendix-C-3.8.1">Stated that an agent name is unique within an agent platform at a given
-issuer.<a href="#appendix-C-3.8.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.8.1">Made <code>sub</code> pairwise: a different value at each Target service, stable at
+that service.<a href="#appendix-C-3.8.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.9">
-          <p id="appendix-C-3.9.1">Added Identity Binding to the Security Considerations.<a href="#appendix-C-3.9.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.9.1">Stated that an agent name is unique within an agent platform at a given
+issuer.<a href="#appendix-C-3.9.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.10">
-          <p id="appendix-C-3.10.1">Corrected the example comments on <code>sub</code>, which described the subject as an
-agent account identifier.<a href="#appendix-C-3.10.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.10.1">Added Identity Binding to the Security Considerations.<a href="#appendix-C-3.10.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.11">
-          <p id="appendix-C-3.11.1">Added "id" as a required sub-claim within "aid".<a href="#appendix-C-3.11.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.11.1">Corrected the example comments on <code>sub</code>, which described the subject as an
+agent account identifier.<a href="#appendix-C-3.11.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.12">
-          <p id="appendix-C-3.12.1">Made the "apd" claim <span class="bcp14">REQUIRED</span> in KYA and KYAPay tokens.<a href="#appendix-C-3.12.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.12.1">Added "id" as a required sub-claim within "aid".<a href="#appendix-C-3.12.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.13">
-          <p id="appendix-C-3.13.1">Added a Token Size section: no maximum token size, aggregate size guidance for issuers that fits the minimum recipients are required to accept, and a preference for one KYA-PAY token over separate KYA and PAY tokens.<a href="#appendix-C-3.13.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.13.1">Made the "apd" claim <span class="bcp14">REQUIRED</span> in KYA and KYAPay tokens.<a href="#appendix-C-3.13.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.14">
-          <p id="appendix-C-3.14.1">Stated that <code>jti</code> identifies the token, not the request, so a repeated <code>jti</code>
-is not by itself evidence of replay.<a href="#appendix-C-3.14.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.14.1">Added a Token Size section: no maximum token size, aggregate size guidance for issuers that fits the minimum recipients are required to accept, and a preference for one KYA-PAY token over separate KYA and PAY tokens.<a href="#appendix-C-3.14.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.15">
-          <p id="appendix-C-3.15.1">Made <code>creation_ip</code> <span class="bcp14">OPTIONAL</span> and described its use.<a href="#appendix-C-3.15.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.15.1">Stated that <code>jti</code> identifies the token, not the request, so a repeated <code>jti</code>
+is not by itself evidence of replay.<a href="#appendix-C-3.15.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.16">
-          <p id="appendix-C-3.16.1">Replaced the example IP addresses with documentation addresses.<a href="#appendix-C-3.16.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.16.1">Made <code>creation_ip</code> <span class="bcp14">OPTIONAL</span> and described its use.<a href="#appendix-C-3.16.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.17">
-          <p id="appendix-C-3.17.1">Required a recipient to confirm that it trusts the issuer before retrieving
-key material, and moved the issuer check ahead of signature verification.<a href="#appendix-C-3.17.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.17.1">Replaced the example IP addresses with documentation addresses.<a href="#appendix-C-3.17.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.18">
-          <p id="appendix-C-3.18.1">Added traces to the logging prohibition, and pointed to the Using document for
-tokens that reach a language model's context.<a href="#appendix-C-3.18.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.18.1">Required a recipient to confirm that it trusts the issuer before retrieving
+key material, and moved the issuer check ahead of signature verification.<a href="#appendix-C-3.18.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.19">
-          <p id="appendix-C-3.19.1">Allowed further identifiers for the human principal in <code>hid</code>, only where the
-issuer has verified that the principal controls them.<a href="#appendix-C-3.19.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.19.1">Added traces to the logging prohibition, and pointed to the Using document for
+tokens that reach a language model's context.<a href="#appendix-C-3.19.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.20">
-          <p id="appendix-C-3.20.1">Prohibited Account Data in tokens of every type, described card credentials as
-EMV Payment Tokens, and cited PCI SSC FAQ 1326 for their PCI DSS scope.<a href="#appendix-C-3.20.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.20.1">Allowed further identifiers for the human principal in <code>hid</code>, only where the
+issuer has verified that the principal controls them.<a href="#appendix-C-3.20.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.21">
-          <p id="appendix-C-3.21.1">Replaced the example payment credential values with values that cannot be
-mistaken for real ones.<a href="#appendix-C-3.21.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.21.1">Prohibited Account Data in tokens of every type, described card credentials as
+EMV Payment Tokens, and cited PCI SSC FAQ 1326 for their PCI DSS scope.<a href="#appendix-C-3.21.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.22">
-          <p id="appendix-C-3.22.1">Added an Identifying the Target section relating <code>aud</code>, <code>tsi</code> and <code>tdm</code>, made
-<code>tsi</code> <span class="bcp14">REQUIRED</span> and <code>tdm</code> <span class="bcp14">REQUIRED</span> where the Target is identified by a domain
-name, defined the form of <code>tdm</code>, and let a recipient that has not onboarded to
-the issuer validate the audience using <code>tdm</code>.<a href="#appendix-C-3.22.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.22.1">Replaced the example payment credential values with values that cannot be
+mistaken for real ones.<a href="#appendix-C-3.22.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.23">
-          <p id="appendix-C-3.23.1">Added <code>hid.id</code>, a pseudonymous identifier for the human principal, specific
-to one agent platform and one Target service, and made <code>aid.id</code> specific to
-one Target service.<a href="#appendix-C-3.23.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.23.1">Added an Identifying the Target section relating <code>aud</code>, <code>tsi</code> and <code>tdm</code>, made
+<code>tsi</code> <span class="bcp14">REQUIRED</span> and <code>tdm</code> <span class="bcp14">REQUIRED</span> where the Target is identified by a domain
+name, defined the form of <code>tdm</code>, and let a recipient that has not onboarded to
+the issuer validate the audience using <code>tdm</code>.<a href="#appendix-C-3.23.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.24">
-          <p id="appendix-C-3.24.1">Made <code>email</code> <span class="bcp14">OPTIONAL</span>, and included <code>email</code>, <code>phone_number</code>,
-<code>organization_name</code>, <code>verification_id</code> and the name sub-claims only when a
-Target requires them for the action at hand and the principal has authorized
-their disclosure.<a href="#appendix-C-3.24.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.24.1">Added <code>hid.id</code>, a pseudonymous identifier for the human principal, specific
+to one agent platform and one Target service, and made <code>aid.id</code> specific to
+one Target service.<a href="#appendix-C-3.24.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.25">
-          <p id="appendix-C-3.25.1">Required recipients to support <code>ES256</code> and to accept it from trusted issuers
+          <p id="appendix-C-3.25.1">Made <code>email</code> <span class="bcp14">OPTIONAL</span>, and included <code>email</code>, <code>phone_number</code>,
+<code>organization_name</code>, <code>verification_id</code> and the name sub-claims only when a
+Target requires them for the action at hand and the principal has authorized
+their disclosure.<a href="#appendix-C-3.25.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-3.26">
+          <p id="appendix-C-3.26.1">Required recipients to support <code>ES256</code> and to accept it from trusted issuers
 that publish an <code>ES256</code> key, and issuers to use it or an algorithm every
 recipient of the token accepts; limited the accepted algorithms to those the
 recipient's configuration allows and the issuer's JWK Set has keys for; and
-rejected <code>none</code> and symmetric algorithms.<a href="#appendix-C-3.25.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-C-3.26">
-          <p id="appendix-C-3.26.1">Required a recipient to determine the <code>typ</code> values it accepts before
-validating a token, set aside a token of a defined type it does not accept,
-and reject a token whose <code>typ</code> is missing or not a defined type.<a href="#appendix-C-3.26.1" class="pilcrow">¶</a></p>
+rejected <code>none</code> and symmetric algorithms.<a href="#appendix-C-3.26.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.27">
-          <p id="appendix-C-3.27.1">Changed "<span class="bcp14">SHOULD</span> follow" BCP 225 to "<span class="bcp14">MUST</span> follow".<a href="#appendix-C-3.27.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.27.1">Required a recipient to determine the <code>typ</code> values it accepts before
+validating a token, set aside a token of a defined type it does not accept,
+and reject a token whose <code>typ</code> is missing or not a defined type.<a href="#appendix-C-3.27.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-3.28">
+          <p id="appendix-C-3.28.1">Changed "<span class="bcp14">SHOULD</span> follow" BCP 225 to "<span class="bcp14">MUST</span> follow".<a href="#appendix-C-3.28.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="appendix-C-4">-02<a href="#appendix-C-4" class="pilcrow">¶</a></p>
