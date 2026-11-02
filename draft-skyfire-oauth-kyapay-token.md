@@ -372,7 +372,9 @@ PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
 {:vspace}
 `jti`:
 : REQUIRED - Unique ID of this JWT as defined in {{Section 4.1.7 of RFC7519}}.
-  This claim can be used to detect replay attempts.
+  This claim identifies the token, not the request. A token may be presented on
+  more than one request within its lifetime, so a repeated `jti` is not by itself
+  evidence of replay.
 
 {:vspace}
 `exp`:
@@ -431,6 +433,9 @@ The `jwks.json` URI suffix is registered in {{well-known-registration}}.
 JWK Sets SHOULD be cached and refreshed according to standard JWK Set practice.
 Retrieval per request is neither required nor expected; because KYAPay tokens
 are self-contained, signature verification is intended to be performed locally.
+
+A recipient retrieves this JWK Set only for an issuer it trusts
+({{validating-tokens}}).
 
 A future revision of this specification may additionally define an issuer
 metadata document, giving an issuer somewhere to advertise capabilities beyond
@@ -507,9 +512,9 @@ The following informative example displays a decoded KYA type token.
   "aid": {
     "id": "7d889702-7b6a-46cb-9bdd-10e83d17b18d", // Identifier of the agent instance
     "name": "Acme Agent Extraordinaire",
-    "creation_ip": "54.86.50.139", // IP Address where token was created
-    "source_ips": ["54.86.50.139-54.86.50.141", "1.1.1.0/24",
-      "2001:db8:abcd:0012::/64", "acme.com"]
+    "creation_ip": "192.0.2.10", // IP address the token was requested from
+    "source_ips": ["192.0.2.10-192.0.2.12", "203.0.113.0/24",
+      "2001:db8:abcd:12::/64", "agents.example.com"]
       // IP addresses from which the initiator agent will make requests to the target
   }
 }
@@ -640,9 +645,14 @@ The `aid` claim is REQUIRED. It contains the following sub-claims.
 
 {:vspace}
 `creation_ip`:
-: REQUIRED - The public IP address of the system / agent that requested the token.
+: OPTIONAL - The public IP address of the system / agent that requested the token.
   Its value is a string containing the public IPv4 or IPv6 address from where the
-  token request originated. It MUST be captured directly from the token request.
+  token request originated. When present, it MUST be captured directly from the
+  token request. It is a diagnostic aid, for example when investigating an
+  incident, and is not an access-control signal: a recipient MAY use it as a weak
+  corroborating signal only and MUST NOT treat it as sufficient on its own
+  ({{Section 6.3 of I-D.skyfire-oauth-using-kyapay-tokens}}). It is personal
+  data, subject to the privacy considerations in {{privacy-considerations}}.
 
 {:vspace}
 `source_ips`:
@@ -867,9 +877,9 @@ The following informative example displays a decoded KYA-PAY type token.
   "aid": {
     "id": "4607fa56-368d-4fde-90e9-baad4e9f4439", // Identifier of the agent instance
     "name": "Agentic Excellence Я Us",
-    "creation_ip": "128.2.42.95", // IP Address where token was created
-    "source_ips": ["54.86.50.139-54.86.50.141", "1.1.1.0/24",
-      "2001:db8:abcd:0012::/64", "agentic-excellence.example.com"]
+    "creation_ip": "198.51.100.20", // IP address the token was requested from
+    "source_ips": ["192.0.2.10-192.0.2.12", "203.0.113.0/24",
+      "2001:db8:abcd:12::/64", "agents.example.com"]
       // IP addresses from which the initiator agent will make requests to the target
   },
 
@@ -894,7 +904,13 @@ The following informative example displays a decoded KYA-PAY type token.
 
 # Token Validation
 
-## Validating KYA and PAY Tokens
+## Validating KYA and PAY Tokens {#validating-tokens}
+
+A recipient MUST confirm that the `iss` claim names an issuer it trusts before
+it performs any step below that retrieves key material or otherwise depends on
+the issuer. A recipient MUST NOT retrieve key material for an issuer that is not
+in its configured set of trusted issuers. The set of trusted issuers is
+configured out of band and is not derived from the token.
 
 ### JWT Header Validation
 
@@ -919,10 +935,10 @@ The following informative example displays a decoded KYA-PAY type token.
 
 ### JWT Payload Validation
 
-1. **Verify JWT Signature** - Valid JWTs MUST be signed with a valid key belonging
-  to the token's issuer (`iss` claim)
-2. **Validate `iss` Claim** - Ensure that the token is signed by the expected
-  valid issuer.
+1. **Validate `iss` Claim** - Ensure that the token's issuer is one the
+  recipient trusts ({{validating-tokens}}).
+2. **Verify JWT Signature** - Valid JWTs MUST be signed with a valid key belonging
+  to the token's issuer (`iss` claim).
 3. **Validate the `exp` Claim** - The recipient MUST validate that the token has
   not expired, within the clock skew tolerance described in {{clock-skew}}.
 4. **Validate the `iat` Claim** - The recipient MUST validate that the token was
@@ -990,8 +1006,13 @@ information. Accordingly:
 
 * Tokens MUST be transmitted over a channel providing confidentiality, integrity
   and server authentication, such as TLS {{RFC8446}}.
-* Tokens MUST NOT be written to logs, analytics pipelines, or other persistent
-  stores that are not required to process the transaction.
+* Tokens MUST NOT be written to logs, traces, analytics pipelines, or other
+  persistent stores that are not required to process the transaction. An agent
+  that obtains a token through a tool whose result is returned to a language
+  model may be unable to keep the token out of that model's context or out of a
+  transcript retained from it; the Token Exposure in the Agent Runtime section
+  of {{I-D.skyfire-oauth-using-kyapay-tokens}} describes how such a deployment
+  treats the token.
 * Tokens MUST NOT be forwarded to parties other than those necessary to complete
   the interaction for which they were issued.
 * Issuers SHOULD include only those claims necessary for the interaction for
@@ -1077,7 +1098,7 @@ a recipient MAY use `sub` as a stable key for that combination, for example to
 rate-limit or isolate a particular agent without affecting other agents acting
 for the same principal.
 
-# Privacy Considerations
+# Privacy Considerations {#privacy-considerations}
 
 The subject identifier is stable for a given combination of identities across
 audiences, within the namespace of a single issuer. Recipients that compare
@@ -1363,6 +1384,14 @@ for their contributions to the specification.
 * Added "id" as a required sub-claim within "aid".
 * Made the "apd" claim REQUIRED in KYA and KYAPay tokens.
 * Added a Token Size section: no maximum token size, aggregate size guidance for issuers that fits the minimum recipients are required to accept, and a preference for one KYA-PAY token over separate KYA and PAY tokens.
+* Stated that `jti` identifies the token, not the request, so a repeated `jti`
+  is not by itself evidence of replay.
+* Made `creation_ip` OPTIONAL and described its use.
+* Replaced the example IP addresses with documentation addresses.
+* Required a recipient to confirm that it trusts the issuer before retrieving
+  key material, and moved the issuer check ahead of signature verification.
+* Added traces to the logging prohibition, and pointed to the Using document for
+  tokens that reach a language model's context.
 * Allowed further identifiers for the human principal in `hid`, only where the
   issuer has verified that the principal controls them.
 
