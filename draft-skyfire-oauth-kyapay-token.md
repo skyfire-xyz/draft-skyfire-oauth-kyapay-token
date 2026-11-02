@@ -1181,9 +1181,9 @@ for the same principal.
 
 # Privacy Considerations {#privacy}
 
-By default a KYA token identifies the human principal only by
+By default, a KYA token identifies the human principal only by
 `hid.id`. Directly identifying sub-claims such as `email`,
-`phone_number` or names are disclosed only where a Target requires
+`phone_number` or names are disclosed only when a Target requires
 them for the action at hand, as stated in its decline response or
 discovery document, and the principal has authorized the disclosure.
 The issuer MAY collect the principal's authorization itself or
@@ -1464,7 +1464,7 @@ for their contributions to the specification.
   tokens, but the subject identifies the same combination in all three.
 * Stated in the Privacy Considerations that `hid.id`, `sub` and `aid.id` are
   specific to one Target service, and that directly identifying sub-claims are
-  disclosed only where a Target requires them and the principal has authorized
+  disclosed only when a Target requires them and the principal has authorized
   it.
 * Removed the qualifier on `hid`, which read as though the claim were required
   only for some use cases.
@@ -1495,7 +1495,7 @@ for their contributions to the specification.
   to one agent platform and one Target service, and made `aid.id` specific to
   one Target service.
 * Made `email` OPTIONAL, and included `email`, `phone_number`,
-  `organization_name`, `verification_id` and the name sub-claims only where a
+  `organization_name`, `verification_id` and the name sub-claims only when a
   Target requires them for the action at hand and the principal has authorized
   their disclosure.
 
