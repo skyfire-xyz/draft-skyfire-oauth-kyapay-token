@@ -900,16 +900,15 @@ The following informative example displays a decoded KYA-PAY type token.
    they know every recipient of the token accepts.
 
    A recipient MUST determine the set of algorithms it will accept for a given
-   issuer as the algorithms its own configuration allows for that issuer, limited
-   to those for which the issuer's JWK Set publishes a suitable key. The JWK Set
-   MUST NOT add an algorithm that the configuration does not allow, and the set
+   issuer, limited
+   to those for which the issuer's JWK Set publishes a suitable key.
+   The set
    MUST NOT be derived from the token. A token whose `alg` value is absent from,
    or outside, that set MUST be rejected, including the value `none` {{RFC7515}}
    and any symmetric (MAC) algorithm, since an issuer's JWK Set publishes only
    public keys. Verification is then performed using the algorithm named in the
-   token and the key obtained from the issuer's JWK Set (item 2), or the token is
-   rejected. In particular, a recipient MUST NOT accept a token that would
-   require interpreting an Elliptic Curve public key as a symmetric key.
+   token and the key obtained from the issuer's JWK Set, or the token is
+   rejected.
 
    Together, these guarantee that any conforming recipient can verify a token
    whose recipients the issuer does not know in advance, without constraining
