@@ -5,8 +5,8 @@
 Web Authorization Protocol                                    A. Agarwal
 Internet-Draft                                      Skyfire Systems Inc.
 Intended status: Standards Track                                M. Jones
-Expires: 5 May 2027                               Self-Issued Consulting
-                                                         1 November 2026
+Expires: 6 May 2027                               Self-Issued Consulting
+                                                         2 November 2026
 
 
                               KYAPay Token
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 5 May 2027.
+   This Internet-Draft will expire on 6 May 2027.
 
 Copyright Notice
 
@@ -753,7 +753,7 @@ Table of Contents
       different value at each Target service.  The value MUST NOT be, or
       reveal, a directly identifying attribute, and values at different
       Target services MUST NOT be linkable to one another without the
-      issuer's cooperation.  An issuer MAY use the same value as sub.
+      issuer's cooperation.
 
    name:
       REQUIRED - Agent name.  The name should reflect the business
@@ -1238,17 +1238,17 @@ Table of Contents
 
 6.  Privacy Considerations
 
-   By default a KYA token identifies the human principal only by hid.id.
-   Directly identifying sub-claims such as email, phone_number or names
-   are disclosed only where a Target requires them for the action at
-   hand, as stated in its decline response or discovery document, and
-   the principal has authorized the disclosure.  The issuer MAY collect
-   the principal's authorization itself or delegate its collection to
-   the agent platform.  Whichever of them collected it MUST be able to
-   demonstrate that it was given.  What counts as sufficient evidence
-   may depend on applicable law and regulation.  Targets SHOULD NOT
-   require directly identifying sub-claims for actions that do not need
-   them, such as browsing a catalog.
+   By default, a KYA token identifies the human principal only by
+   hid.id.  Directly identifying sub-claims such as email, phone_number
+   or names are disclosed only when a Target requires them for the
+   action at hand, as stated in its decline response or discovery
+   document, and the principal has authorized the disclosure.  The
+   issuer MAY collect the principal's authorization itself or delegate
+   its collection to the agent platform.  Whichever of them collected it
+   MUST be able to demonstrate that it was given.  What counts as
+   sufficient evidence may depend on applicable law and regulation.
+   Targets SHOULD NOT require directly identifying sub-claims for
+   actions that do not need them, such as browsing a catalog.
 
    A token carrying only hid.id is pseudonymous, not anonymous. hid.id,
    sub and aid.id are each specific to one Target service and different
@@ -1786,7 +1786,7 @@ Document History
 
    *  Stated in the Privacy Considerations that hid.id, sub and aid.id
       are specific to one Target service, and that directly identifying
-      sub-claims are disclosed only where a Target requires them and the
+      sub-claims are disclosed only when a Target requires them and the
       principal has authorized it.
 
    *  Removed the qualifier on hid, which read as though the claim were
@@ -1837,7 +1837,7 @@ Document History
 
    *  Made email OPTIONAL, and included email, phone_number,
       organization_name, verification_id and the name sub-claims only
-      where a Target requires them for the action at hand and the
+      when a Target requires them for the action at hand and the
       principal has authorized their disclosure.
 
    -02
