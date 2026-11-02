@@ -59,6 +59,20 @@ normative:
   RFC8615:
   RFC8693:
   RFC8725:
+  RFC8176:
+  OpenID.Core:
+    target: https://openid.net/specs/openid-connect-core-1_0.html
+    title: "OpenID Connect Core 1.0 incorporating errata set 2"
+    date: 2023-12-15
+    author:
+      - name: Nat Sakimura
+      - name: John Bradley
+      - name: Michael B. Jones
+      - name: Breno de Medeiros
+      - name: Chuck Mortimore
+  I-D.skyfire-oauth-amr-values:
+  I-D.skyfire-oauth-id-verification:
+  I-D.skyfire-oauth-aml-methods:
 
 informative:
   RFC2046:
@@ -92,9 +106,6 @@ informative:
     date: false
   I-D.skyfire-oauth-using-kyapay-tokens:
   I-D.skyfire-oauth-kyapay-token-exchange:
-  I-D.skyfire-oauth-amr-values:
-  I-D.skyfire-oauth-id-verification:
-  I-D.skyfire-oauth-aml-methods:
   EMVCo-PT:
     title: "EMV Payment Tokenisation Specification - Technical Framework"
     author:
@@ -693,6 +704,30 @@ principal (individual or organization) as follows.
   This is the verifier's identifier for the identity verification performed.
   This could be used during auditing and dispute resolution.
 
+{:vspace}
+`ivm`:
+: OPTIONAL - Identity Verification Methods {{I-D.skyfire-oauth-id-verification}}.
+  A JSON array of the methods by which the human principal's identity was verified.
+  An issuer SHOULD include this sub-claim when it knows the methods used.
+
+{:vspace}
+`amr`:
+: OPTIONAL - Authentication Methods References, as defined in Section 2 of {{OpenID.Core}},
+  with values from {{RFC8176}} and {{I-D.skyfire-oauth-amr-values}}.
+  A JSON array of the methods by which the human principal authenticated.
+  An issuer SHOULD include this sub-claim when it knows the methods used.
+
+{:vspace}
+`aml`:
+: OPTIONAL - Anti-Money Laundering Methods {{I-D.skyfire-oauth-aml-methods}}.
+  A JSON array of the anti-money laundering and counter-terrorist financing methods
+  applied to the human principal.
+  An issuer SHOULD include this sub-claim when it knows the methods used.
+
+The `ivm`, `amr`, and `aml` sub-claims use the syntax and values
+of the claims of the same names defined in the cited specifications.
+The absence of any of them does not indicate that a method was not used.
+
 The sub-claims `email`, `given_name`, `middle_name`, `family_name`,
 `phone_number` and `organization_name` directly identify the human
 principal, and `verification_id` is the same at every Target. An issuer MUST
@@ -752,6 +787,26 @@ It contains the following sub-claims.
   This is the verifier's identifier for the KYA verification performed.
   This could be used during auditing and dispute resolution.
 
+{:vspace}
+`ivm`:
+: OPTIONAL - Identity Verification Methods {{I-D.skyfire-oauth-id-verification}}.
+  A JSON array of the methods by which the agent platform's identity was verified.
+  An issuer SHOULD include this sub-claim when it knows the methods used.
+
+{:vspace}
+`aml`:
+: OPTIONAL - Anti-Money Laundering Methods {{I-D.skyfire-oauth-aml-methods}}.
+  A JSON array of the anti-money laundering and counter-terrorist financing methods
+  applied to the agent platform.
+  An issuer SHOULD include this sub-claim when it knows the methods used.
+
+The `ivm` and `aml` sub-claims use the syntax and values
+of the claims of the same names defined in the cited specifications.
+The absence of either does not indicate that a method was not used.
+
+In a KYAPay token, the `ivm`, `amr`, and `aml` claims appear only as sub-claims of `hid` and `apd`, so that each describes the party whose claim contains it: in `hid`, how the human principal was vetted; in `apd`, how the agent platform was vetted.
+`amr` does not apply to the agent platform and is not used in `apd`.
+Issuers MUST NOT include `ivm`, `amr`, or `aml` as top-level claims in a KYAPay token, and recipients MUST ignore them if they appear there.
 
 Additional sub-claims MAY be defined and used.
 The recipient MUST ignore any unrecognized sub-claims.
@@ -1545,6 +1600,7 @@ for their contributions to the specification.
 
 -03
 
+* Added the optional `ivm`, `amr`, and `aml` sub-claims to the `hid` claim, and the optional `ivm` and `aml` sub-claims to the `apd` claim.
 * Stated that the subject identifies the combination of identities the issuer
   has verified for the initiator, that it is stable while those identities are
   unchanged, and that a change to any of them gives a new subject. The
