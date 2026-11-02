@@ -738,10 +738,12 @@ Table of Contents
    payment credential issued by a payment network under an agentic-
    commerce programme -- for example Visa Intelligent Commerce
    (visa_vic) or Mastercard Agent Pay, using Secure Card on File
-   (mastercard_scof).  Such a credential is provisioned for a single
-   transaction and is scoped to one initiator, one target, and one
-   amount.  It is not a Primary Account Number (PAN), and it cannot be
-   used to derive the underlying PAN or the network's agentic token.
+   (mastercard_scof).  Such a credential is a payment token issued by
+   the payment network (Section 3.5.2).  It is used with a single-use
+   token cryptogram (token_security_code), and the network restricts its
+   use to one initiator, one target, and one amount.  It is not a
+   Primary Account Number (PAN), and the underlying PAN cannot feasibly
+   be recovered from it.
 
    type:
       REQUIRED - "type" is dependent on the "stp" value; for "coin" -
@@ -798,11 +800,15 @@ Table of Contents
 3.5.2.  Scope of Card Settlement
 
    This specification supports card settlement only through payment-
-   network agentic-commerce programmes that issue transaction-scoped,
-   PCI-exempt credentials.
+   network agentic-commerce programmes whose credentials are Payment
+   Tokens as defined by the EMV Payment Tokenisation Specification
+   [EMVCo-PT], used with a single-use token cryptogram and restricted by
+   the payment network to the transaction bound in the token.
 
-   A PAY or KYA-PAY token MUST NOT carry a Primary Account Number, or
-   the static verification value associated with one.
+   A token defined in this specification, of any type, MUST NOT contain
+   a Primary Account Number, full magnetic-stripe or chip track data, a
+   static card verification value (CVV, CVC2 or CVV2), or a PIN or PIN
+   block.
 
    Settlement instruments that fall within PCI DSS scope require
    mechanisms this specification does not define -- including
@@ -840,10 +846,10 @@ Table of Contents
   "stp": "card",
   "sti": {
     "type": "visa_vic",
-    "payment_token": "1234567890123456",
+    "payment_token": "0000000000000000", // Example only: a network-issued payment token, not a PAN
     "token_expiration_month": "03",
     "token_expiration_year": "2030",
-    "token_security_code": "123",
+    "token_security_code": "000", // Example only: a single-use cryptogram (DTVV or TAVV), not a CVV
     "verifier": "https://verifier.example.info", // URL of payment method verifier
     "verified": true, // Outcome of the verifier's payment method verification
     "verification_id": "3a6e1b76-8f78-4c24-b1bd-dc78a8cc3711" // Verifier's ID for the payment method verification performed
@@ -909,10 +915,10 @@ Table of Contents
   "stp": "card",
   "sti": {
     "type": "visa_vic",
-    "payment_token": "1234567890123456",
+    "payment_token": "0000000000000000", // Example only: a network-issued payment token, not a PAN
     "token_expiration_month": "03",
     "token_expiration_year": "2030",
-    "token_security_code": "123"
+    "token_security_code": "000" // Example only: a single-use cryptogram (DTVV or TAVV), not a CVV
   }
 }
 
@@ -1076,33 +1082,42 @@ Table of Contents
 
    The settlement information carried in a PAY or KYA-PAY token is
    additionally protected by its own construction rather than by
-   encryption: the credential is transaction-scoped and its accompanying
-   cryptogram is single-use, so a captured token yields no reusable
-   payment instrument.
+   encryption: the network restricts the credential to the transaction
+   bound in the token, and its accompanying cryptogram is single-use, so
+   a captured token yields no reusable payment instrument.
 
 5.3.  Settlement Credential Handling
 
    The sti claim of a PAY or KYA-PAY token carries a settlement
-   instrument.  When stp is card, that instrument is a network-issued
-   agentic payment credential provisioned for a single transaction,
-   accompanied by a single-use dynamic cryptogram.  Such credentials are
-   issued outside the scope of PCI DSS and cannot be used to derive the
-   underlying account number.
+   instrument.  When stp is card, that instrument is a payment token
+   issued by a payment network and accompanied by a single-use token
+   cryptogram (Section 3.5.1).
 
-   Implementations MUST NOT place a Primary Account Number, or a static
-   Card Verification Value, in the sti claim.  Doing so would place the
-   token, and every system that processes it, within PCI DSS scope, for
-   which this specification provides no confidentiality mechanism.
+   For entities other than Token Service Providers, a Payment Token that
+   is defined and used in accordance with the EMV Payment Tokenisation
+   Specification and that exists outside the Token Service Provider's
+   token data environment is not Account Data and is not in scope for
+   PCI DSS [PCI-FAQ-1326].  Receiving, inspecting, or forwarding a token
+   defined in this specification therefore does not of itself bring a
+   recipient within that scope.  That determination concerns the payment
+   token, not the recipient's wider environment: a system that also
+   stores, processes, or transmits Account Data, or is connected to one
+   that does, remains in scope.
+
+   Section 3.5.2 prohibits Account Data in any token.  A token that
+   carried it would bring every system that processes it within PCI DSS
+   scope, for which this specification provides no confidentiality
+   mechanism.
 
 5.4.  Token Lifetime
 
    The exp claim of a token carrying a settlement instrument SHOULD NOT
-   extend beyond the validity period of that instrument.  Agentic
-   payment credentials and their associated token cryptograms are
-   single-use and short-lived; their validity period is determined and
-   enforced by the payment network.  Issuing a long-lived token around a
-   short-lived credential provides no benefit and widens the window in
-   which a captured token can be replayed.
+   extend beyond the validity period of that instrument.  The token
+   cryptograms that accompany agentic payment credentials are single-use
+   and short-lived; their validity period is determined and enforced by
+   the payment network.  Issuing a long-lived token around a short-lived
+   credential provides no benefit and widens the window in which a
+   captured token can be replayed.
 
    More generally, issuers SHOULD set exp to the shortest value
    compatible with the intended interaction.
@@ -1557,6 +1572,11 @@ Table of Contents
 
 8.2.  Informative References
 
+   [EMVCo-PT] EMVCo, "EMV Payment Tokenisation Specification - Technical
+              Framework", Version 2.4, 9 July 2026,
+              <https://www.emvco.com/emv-technologies/payment-
+              tokenisation/>.
+
    [I-D.skyfire-oauth-aml-methods]
               Agarwal, A., Jones, M. B., and N. Ali, "Anti-Money
               Laundering Methods Values", Work in Progress, Internet-
@@ -1604,6 +1624,11 @@ Table of Contents
    [IANA.WellKnownURIs]
               IANA, "Well-Known URIs",
               <https://www.iana.org/assignments/well-known-uris>.
+
+   [PCI-FAQ-1326]
+              PCI Security Standards Council, "How does PCI DSS apply to
+              EMVCo Payment Tokens?", FAQ 1326, May 2015,
+              <https://www.pcisecuritystandards.org/faqs/1326>.
 
    [RFC2046]  Freed, N. and N. Borenstein, "Multipurpose Internet Mail
               Extensions (MIME) Part Two: Media Types", RFC 2046,
@@ -1731,6 +1756,13 @@ Document History
 
    *  Allowed further identifiers for the human principal in hid, only
       where the issuer has verified that the principal controls them.
+
+   *  Prohibited Account Data in tokens of every type, described card
+      credentials as EMV Payment Tokens, and cited PCI SSC FAQ 1326 for
+      their PCI DSS scope.
+
+   *  Replaced the example payment credential values with values that
+      cannot be mistaken for real ones.
 
    -02
 

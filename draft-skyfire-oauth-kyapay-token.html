@@ -2161,7 +2161,7 @@ value.<a href="#section-3.5-2.16.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 </dl>
-<div id="settlement-information-sti-sub-claims">
+<div id="sti">
 <section id="section-3.5.1">
           <h4 id="name-settlement-information-sti-">
 <a href="#section-3.5.1" class="section-number selfRef">3.5.1. </a><a href="#name-settlement-information-sti-" class="section-name selfRef">Settlement Information <code>sti</code> Sub-Claims</a>
@@ -2173,10 +2173,11 @@ the value of <code>stp</code>.<a href="#section-3.5.1-2" class="pilcrow">¶</a><
 <p id="section-3.5.1-3">When the <code>stp</code> value is <code>card</code>, the settlement instrument is an agentic payment credential
 issued by a payment network under an agentic-commerce programme -- for example
 Visa Intelligent Commerce (<code>visa_vic</code>) or Mastercard Agent Pay, using Secure Card
-on File (<code>mastercard_scof</code>). Such a credential is provisioned for a single
-transaction and is scoped to one initiator, one target, and one amount. It is not
-a Primary Account Number (PAN), and it cannot be used to derive the underlying
-PAN or the network's agentic token.<a href="#section-3.5.1-3" class="pilcrow">¶</a></p>
+on File (<code>mastercard_scof</code>). Such a credential is a payment token issued by the
+payment network (<a href="#card-settlement-scope" class="auto internal xref">Section 3.5.2</a>). It is used with a single-use token
+cryptogram (<code>token_security_code</code>), and the network restricts its use to one
+initiator, one target, and one amount. It is not a Primary Account Number (PAN),
+and the underlying PAN cannot feasibly be recovered from it.<a href="#section-3.5.1-3" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlNewline" id="section-3.5.1-4">
             <dt id="section-3.5.1-4.1">
 <code>type</code>:</dt>
@@ -2251,16 +2252,19 @@ This could be used during auditing and dispute resolution.<a href="#section-3.5.
 The recipient <span class="bcp14">MUST</span> ignore any unrecognized sub-claims.<a href="#section-3.5.1-5" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="scope-of-card-settlement">
+<div id="card-settlement-scope">
 <section id="section-3.5.2">
           <h4 id="name-scope-of-card-settlement">
 <a href="#section-3.5.2" class="section-number selfRef">3.5.2. </a><a href="#name-scope-of-card-settlement" class="section-name selfRef">Scope of Card Settlement</a>
           </h4>
 <p id="section-3.5.2-1">This specification supports card settlement only through payment-network
-agentic-commerce programmes that issue transaction-scoped, PCI-exempt
-credentials.<a href="#section-3.5.2-1" class="pilcrow">¶</a></p>
-<p id="section-3.5.2-2">A PAY or KYA-PAY token <span class="bcp14">MUST NOT</span> carry a Primary Account Number, or the static
-verification value associated with one.<a href="#section-3.5.2-2" class="pilcrow">¶</a></p>
+agentic-commerce programmes whose credentials are Payment Tokens as defined by
+the EMV Payment Tokenisation Specification <span>[<a href="#EMVCo-PT" class="cite xref">EMVCo-PT</a>]</span>, used with a single-use
+token cryptogram and restricted by the payment network to the transaction bound
+in the token.<a href="#section-3.5.2-1" class="pilcrow">¶</a></p>
+<p id="section-3.5.2-2">A token defined in this specification, of any type, <span class="bcp14">MUST NOT</span> contain a Primary
+Account Number, full magnetic-stripe or chip track data, a static card
+verification value (CVV, CVC2 or CVV2), or a PIN or PIN block.<a href="#section-3.5.2-2" class="pilcrow">¶</a></p>
 <p id="section-3.5.2-3">Settlement instruments that fall within PCI DSS scope require mechanisms this
 specification does not define -- including confidentiality protection of the
 token contents and a defined cardholder-data-environment boundary. Support for
@@ -2303,10 +2307,10 @@ not attempt to carry them in the claims defined here.<a href="#section-3.5.2-3" 
   "stp": "card",
   "sti": {
     "type": "visa_vic",
-    "payment_token": "1234567890123456",
+    "payment_token": "0000000000000000", // Example only: a network-issued payment token, not a PAN
     "token_expiration_month": "03",
     "token_expiration_year": "2030",
-    "token_security_code": "123",
+    "token_security_code": "000", // Example only: a single-use cryptogram (DTVV or TAVV), not a CVV
     "verifier": "https://verifier.example.info", // URL of payment method verifier
     "verified": true, // Outcome of the verifier's payment method verification
     "verification_id": "3a6e1b76-8f78-4c24-b1bd-dc78a8cc3711" // Verifier's ID for the payment method verification performed
@@ -2385,10 +2389,10 @@ not attempt to carry them in the claims defined here.<a href="#section-3.5.2-3" 
   "stp": "card",
   "sti": {
     "type": "visa_vic",
-    "payment_token": "1234567890123456",
+    "payment_token": "0000000000000000", // Example only: a network-issued payment token, not a PAN
     "token_expiration_month": "03",
     "token_expiration_year": "2030",
-    "token_security_code": "123"
+    "token_security_code": "000" // Example only: a single-use cryptogram (DTVV or TAVV), not a CVV
   }
 }
 
@@ -2602,9 +2606,10 @@ intermediaries that are its intended consumers. Confidentiality is therefore
 provided at the transport layer and by minimising token contents, not at the
 token layer.<a href="#section-5.2-4" class="pilcrow">¶</a></p>
 <p id="section-5.2-5">The settlement information carried in a PAY or KYA-PAY token is additionally
-protected by its own construction rather than by encryption: the credential is
-transaction-scoped and its accompanying cryptogram is single-use, so a captured
-token yields no reusable payment instrument.<a href="#section-5.2-5" class="pilcrow">¶</a></p>
+protected by its own construction rather than by encryption: the network
+restricts the credential to the transaction bound in the token, and its
+accompanying cryptogram is single-use, so a captured token yields no reusable
+payment instrument.<a href="#section-5.2-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="settlement-credential-handling">
@@ -2613,14 +2618,20 @@ token yields no reusable payment instrument.<a href="#section-5.2-5" class="pilc
 <a href="#section-5.3" class="section-number selfRef">5.3. </a><a href="#name-settlement-credential-handl" class="section-name selfRef">Settlement Credential Handling</a>
         </h3>
 <p id="section-5.3-1">The <code>sti</code> claim of a PAY or KYA-PAY token carries a settlement instrument. When
-<code>stp</code> is <code>card</code>, that instrument is a network-issued agentic payment credential
-provisioned for a single transaction, accompanied by a single-use dynamic
-cryptogram. Such credentials are issued outside the scope of PCI DSS and cannot
-be used to derive the underlying account number.<a href="#section-5.3-1" class="pilcrow">¶</a></p>
-<p id="section-5.3-2">Implementations <span class="bcp14">MUST NOT</span> place a Primary Account Number, or a static Card
-Verification Value, in the <code>sti</code> claim. Doing so would place the token, and
-every system that processes it, within PCI DSS scope, for which this
-specification provides no confidentiality mechanism.<a href="#section-5.3-2" class="pilcrow">¶</a></p>
+<code>stp</code> is <code>card</code>, that instrument is a payment token issued by a payment network
+and accompanied by a single-use token cryptogram (<a href="#sti" class="auto internal xref">Section 3.5.1</a>).<a href="#section-5.3-1" class="pilcrow">¶</a></p>
+<p id="section-5.3-2">For entities other than Token Service Providers, a Payment Token that is defined
+and used in accordance with the EMV Payment Tokenisation Specification and that
+exists outside the Token Service Provider's token data environment is not
+Account Data and is not in scope for PCI DSS <span>[<a href="#PCI-FAQ-1326" class="cite xref">PCI-FAQ-1326</a>]</span>. Receiving,
+inspecting, or forwarding a token defined in this specification therefore does
+not of itself bring a recipient within that scope. That determination concerns
+the payment token, not the recipient's wider environment: a system that also
+stores, processes, or transmits Account Data, or is connected to one that does,
+remains in scope.<a href="#section-5.3-2" class="pilcrow">¶</a></p>
+<p id="section-5.3-3"><a href="#card-settlement-scope" class="auto internal xref">Section 3.5.2</a> prohibits Account Data in any token. A token that
+carried it would bring every system that processes it within PCI DSS scope, for
+which this specification provides no confidentiality mechanism.<a href="#section-5.3-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="token-lifetime">
@@ -2629,8 +2640,8 @@ specification provides no confidentiality mechanism.<a href="#section-5.3-2" cla
 <a href="#section-5.4" class="section-number selfRef">5.4. </a><a href="#name-token-lifetime" class="section-name selfRef">Token Lifetime</a>
         </h3>
 <p id="section-5.4-1">The <code>exp</code> claim of a token carrying a settlement instrument <span class="bcp14">SHOULD NOT</span> extend
-beyond the validity period of that instrument. Agentic payment credentials and
-their associated token cryptograms are single-use and short-lived; their
+beyond the validity period of that instrument. The token cryptograms that
+accompany agentic payment credentials are single-use and short-lived; their
 validity period is determined and enforced by the payment network. Issuing a
 long-lived token around a short-lived credential provides no benefit and widens
 the window in which a captured token can be replayed.<a href="#section-5.4-1" class="pilcrow">¶</a></p>
@@ -3363,6 +3374,10 @@ keys with which the origin signs KYAPay tokens.<a href="#section-7.3-2.5.1" clas
 <a href="#section-8.2" class="section-number selfRef">8.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
+<dt id="EMVCo-PT">[EMVCo-PT]</dt>
+        <dd>
+<span class="refAuthor">EMVCo</span>, <span class="refTitle">"EMV Payment Tokenisation Specification - Technical Framework"</span>, <span class="seriesInfo">Version 2.4</span>, <time datetime="2026-07-09" class="refDate">9 July 2026</time>, <span>&lt;<a href="https://www.emvco.com/emv-technologies/payment-tokenisation/">https://www.emvco.com/emv-technologies/payment-tokenisation/</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="I-D.skyfire-oauth-aml-methods">[I-D.skyfire-oauth-aml-methods]</dt>
         <dd>
 <span class="refAuthor">Agarwal, A.</span>, <span class="refAuthor">Jones, M. B.</span>, and <span class="refAuthor">N. Ali</span>, <span class="refTitle">"Anti-Money Laundering Methods Values"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-skyfire-oauth-aml-methods-01</span>, <time datetime="2026-10-01" class="refDate">1 October 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-aml-methods-01">https://datatracker.ietf.org/doc/html/draft-skyfire-oauth-aml-methods-01</a>&gt;</span>. </dd>
@@ -3394,6 +3409,10 @@ keys with which the origin signs KYAPay tokens.<a href="#section-7.3-2.5.1" clas
 <dt id="IANA.WellKnownURIs">[IANA.WellKnownURIs]</dt>
         <dd>
 <span class="refAuthor">IANA</span>, <span class="refTitle">"Well-Known URIs"</span>, <span>&lt;<a href="https://www.iana.org/assignments/well-known-uris">https://www.iana.org/assignments/well-known-uris</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="PCI-FAQ-1326">[PCI-FAQ-1326]</dt>
+        <dd>
+<span class="refAuthor">PCI Security Standards Council</span>, <span class="refTitle">"How does PCI DSS apply to EMVCo Payment Tokens?"</span>, <span class="seriesInfo">FAQ 1326</span>, <time datetime="2015-05" class="refDate">May 2015</time>, <span>&lt;<a href="https://www.pcisecuritystandards.org/faqs/1326">https://www.pcisecuritystandards.org/faqs/1326</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC2046">[RFC2046]</dt>
         <dd>
@@ -3541,6 +3560,14 @@ tokens that reach a language model's context.<a href="#appendix-C-3.18.1" class=
         <li class="normal" id="appendix-C-3.19">
           <p id="appendix-C-3.19.1">Allowed further identifiers for the human principal in <code>hid</code>, only where the
 issuer has verified that the principal controls them.<a href="#appendix-C-3.19.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-3.20">
+          <p id="appendix-C-3.20.1">Prohibited Account Data in tokens of every type, described card credentials as
+EMV Payment Tokens, and cited PCI SSC FAQ 1326 for their PCI DSS scope.<a href="#appendix-C-3.20.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-3.21">
+          <p id="appendix-C-3.21.1">Replaced the example payment credential values with values that cannot be
+mistaken for real ones.<a href="#appendix-C-3.21.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="appendix-C-4">-02<a href="#appendix-C-4" class="pilcrow">¶</a></p>
