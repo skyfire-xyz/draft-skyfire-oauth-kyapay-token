@@ -1837,7 +1837,8 @@ The Authenticating the Counterparty section of
 it is protecting for the request: the host in <code>tdm</code> is that Target's host, and
 where that Target is identified by a path, the path in <code>tdm</code> is that path or one
 below it. Paths are matched as cookie paths are (<span><a href="https://rfc-editor.org/rfc/rfc6265#section-5.1.4" class="relref">Section 5.1.4</a> of [<a href="#RFC6265" class="cite xref">RFC6265</a>]</span>),
-after both are normalized as described in <span><a href="https://rfc-editor.org/rfc/rfc3986#section-6.2.2" class="relref">Section 6.2.2</a> of [<a href="#RFC3986" class="cite xref">RFC3986</a>]</span>. For
+after both are normalized as described in <span><a href="https://rfc-editor.org/rfc/rfc3986#section-6.2.2" class="relref">Section 6.2.2</a> of [<a href="#RFC3986" class="cite xref">RFC3986</a>]</span>. Ports
+are not compared. For
 example, for a Target at <code>shop.example.com/store</code>, a <code>tdm</code> of
 <code>shop.example.com/store</code> or <code>shop.example.com/store/cart</code> passes, but
 <code>shop.example.com</code>, <code>shop.example.com/storefront</code> and <code>example.com/store</code> do
