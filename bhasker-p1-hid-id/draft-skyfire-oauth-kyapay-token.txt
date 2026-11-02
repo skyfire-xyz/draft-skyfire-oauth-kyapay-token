@@ -478,11 +478,8 @@ Table of Contents
    "Agent" is used broadly on the Target side.  On the initiating side
    it is a program acting for a person.  On the Target side it is
    whatever the initiator is dealing with, which may be a website, an
-   API, an MCP server, or another agent.
-
-   The tsi claim identifies the particular service offered under that
-   Target agent: a website, an MCP server, an API endpoint, or another
-   interface.  A single aud may offer several.
+   API, an MCP server, or another agent.  The tsi claim identifies the
+   particular service offered under that Target agent.
 
    The Token Issuer assigns both, and both are present in every token it
    creates, so that it can account for the tokens it has issued.  Their
@@ -528,6 +525,20 @@ Table of Contents
    protecting for that request.  The Authenticating the Counterparty
    section of [I-D.skyfire-oauth-using-kyapay-tokens] describes that
    choice.
+
+   A recipient that checks more than the domain checks that tdm names
+   the Target it is protecting for the request: the host in tdm is that
+   Target's host, and where that Target is identified by a path, the
+   path in tdm is that path or one below it.  Paths are matched as
+   cookie paths are (Section 5.1.4 of [RFC6265]), after both are
+   normalized as described in Section 6.2.2 of [RFC3986].  Ports are not
+   compared.  For example, for a Target at shop.example.com/store, a tdm
+   of shop.example.com/store or shop.example.com/store/cart passes, but
+   shop.example.com, shop.example.com/storefront and example.com/store
+   do not.  A recipient that checks only the domain does not enforce the
+   host or the path.  A Target whose host serves several tenants, or
+   that protects only some of its paths, therefore checks the host and
+   path itself, or aud and tsi where it has onboarded to the issuer.
 
 3.2.  Issuer Key Discovery
 
@@ -1614,6 +1625,15 @@ Table of Contents
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/rfc/rfc2119>.
 
+   [RFC3986]  Berners-Lee, T., Fielding, R., and L. Masinter, "Uniform
+              Resource Identifier (URI): Generic Syntax", STD 66,
+              RFC 3986, DOI 10.17487/RFC3986, January 2005,
+              <https://www.rfc-editor.org/rfc/rfc3986>.
+
+   [RFC6265]  Barth, A., "HTTP State Management Mechanism", RFC 6265,
+              DOI 10.17487/RFC6265, April 2011,
+              <https://www.rfc-editor.org/rfc/rfc6265>.
+
    [RFC6454]  Barth, A., "The Web Origin Concept", RFC 6454,
               DOI 10.17487/RFC6454, December 2011,
               <https://www.rfc-editor.org/rfc/rfc6454>.
@@ -1768,8 +1788,8 @@ Appendix A.  Related Specifications
 
 Acknowledgments
 
-   We would like to thank Bhasker Allam and Jean Diaconu for their
-   contributions to the specification.
+   We would like to thank Bhasker Allam, Jean Diaconu and Carlos
+   Martínez for their contributions to the specification.
 
 Document History
 
