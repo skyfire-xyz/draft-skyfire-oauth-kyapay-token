@@ -47,6 +47,8 @@ contributor:
 # see https://github.com/cabo/kramdown-rfc/wiki/Syntax2#authors-contributors
 
 normative:
+  RFC3986:
+  RFC6265:
   RFC6454:
   RFC7515:
   RFC7517:
@@ -64,6 +66,12 @@ informative:
   RFC8446:
   RFC9110:
   RFC9421:
+  PSL:
+    title: "Public Suffix List"
+    author:
+    - org: Mozilla Foundation
+    target: https://publicsuffix.org/
+    date: false
   IANA.JWT.Claims:
     author:
     - org: IANA
@@ -375,9 +383,10 @@ PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
 
 {:vspace}
 `aud`:
-: REQUIRED - Audience (used for audience binding and replay attack mitigation),
-  uniquely identifying the target agent.
-  A single string value.
+: REQUIRED - Audience (used for audience binding and replay attack mitigation).
+  The audience identifies the combination of identities the issuer holds for the
+  Target: the human principal, the agent platform and the agent, where "agent" is
+  understood broadly ({{identifying-target}}). A single string value.
 
 {:vspace}
 `iat`:
@@ -399,7 +408,9 @@ PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
 
 {:vspace}
 `tdm`:
-: OPTIONAL - Target domain, associated with the audience claim, the token is intended for.
+: REQUIRED where the Target is identified by a domain name; OPTIONAL otherwise.
+  A host name, optionally followed by a path, identifying the Target the token is
+  intended for. See {{identifying-target}}.
 
 {:vspace}
 `ori`:
@@ -412,7 +423,8 @@ PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
 
 {:vspace}
 `tsi`:
-: OPTIONAL - Target Service ID that this token was created for.
+: REQUIRED - Target Service ID, assigned by the Token Issuer, identifying the
+  service offered under the Target agent named by `aud`. See {{identifying-target}}.
 
 {:vspace}
 `itg`:
@@ -434,6 +446,77 @@ PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
 Additional claims MAY be defined and used in these tokens.
 The recipient MUST ignore any unrecognized claims.
 
+### Identifying the Target {#identifying-target}
+
+Three claims identify the party a token was minted for, and they answer
+different questions.
+
+The `aud` claim is the counterpart, on the Target side, of `sub` on the
+initiating side, and it names the same three things. Where `sub` identifies the
+combination of identities the issuer has verified for the initiator (the human
+principal, the agent platform and the agent), `aud` identifies that combination
+for the Target: the Target's agent, the platform it runs on, and the human
+principal behind it.
+
+"Agent" is used broadly on the Target side. On the initiating side it is a
+program acting for a person. On the Target side it is whatever the initiator is
+dealing with, which may be a website, an API, an MCP server, or another agent.
+The `tsi` claim identifies the particular service offered under that Target
+agent.
+
+The Token Issuer assigns both, and both are present in every token it creates,
+so that it can account for the tokens it has issued. Their values are meaningful
+to the issuer and to a Target that has onboarded to it; onboarding is what allows
+a Target to interpret them, not what causes them to be set.
+
+The two sides differ in what stands behind them. The identities named in `sub`
+are verified by the issuer. Those named in `aud` and `tsi` are verified where the
+Target has onboarded to the issuer; where the issuer has no means of confirming
+the Target, they are its record of the Target that the initiator asserted it was
+minting for, and `tdm` carries the domain the initiator supplied.
+
+A recipient reads these claims accordingly. They bind a token to one Target and
+so limit where it can be presented, which holds in either case because the
+binding narrows the token rather than granting anything. A recipient MUST NOT
+read `tdm` alone as the issuer confirming the Target's identity.
+
+The `tdm` claim identifies a Target reached over a URL-based interface, such as
+a website or an HTTP API: at least its domain, and optionally its host and a
+path. Unlike `aud` and `tsi` it is not issuer-specific, so any recipient can
+interpret it without a relationship with the issuer. It is present in addition
+to `aud` and `tsi` where such a Target is identified by a domain name.
+
+The value of `tdm` is a host name in lower case, optionally followed by a path,
+with no scheme, port, query or fragment; for example `example.com`,
+`shop.example.com` or `shop.example.com/store`. The Target's domain is the
+registrable domain of that host, determined using the Public Suffix List {{PSL}},
+including its private section. A host on a shared hosting platform that the list
+names is therefore a domain of its own, and a token minted for one such host
+does not name the platform's other hosts.
+
+`tdm` and `tsi` are alternates rather than duplicates: they name the same
+Target by different means, one publicly interpretable and one not. A recipient
+validates whichever it is in a position to interpret. A Target that has onboarded
+to the issuer checks `aud` and `tsi`. A recipient that has not, including a
+security intermediary acting for many Targets, checks at least that `tdm` names
+the domain it is protecting for that request.
+The Authenticating the Counterparty section of
+{{I-D.skyfire-oauth-using-kyapay-tokens}} describes that choice.
+
+A recipient that checks more than the domain checks that `tdm` names the Target
+it is protecting for the request: the host in `tdm` is that Target's host, and
+where that Target is identified by a path, the path in `tdm` is that path or one
+below it. Paths are matched as cookie paths are ({{Section 5.1.4 of RFC6265}}),
+after both are normalized as described in {{Section 6.2.2 of RFC3986}}. Ports
+are not compared. For
+example, for a Target at `shop.example.com/store`, a `tdm` of
+`shop.example.com/store` or `shop.example.com/store/cart` passes, but
+`shop.example.com`, `shop.example.com/storefront` and `example.com/store` do
+not. A recipient that
+checks only the domain does not enforce the host or the path. A Target whose
+host serves several tenants, or that protects only some of its paths, therefore
+checks the host and path itself, or `aud` and `tsi` where it has onboarded to
+the issuer.
 
 ## Issuer Key Discovery {#key-discovery}
 
@@ -965,7 +1048,10 @@ configured out of band and is not derived from the token.
   issued in the past, within the clock skew tolerance described in {{clock-skew}}.
 5. **Validate the `jti` Claim** - Ensure that the `jti` claim is present, and is
   a UUID.
-6. **Validate the `aud` Claim** - Ensure that the `aud` identifies the recipient as the intended audience.
+6. **Validate the Audience** - A recipient that has onboarded to the issuer
+  ensures that `aud` and `tsi` identify it as the intended audience. A recipient
+  that has not ensures at least that `tdm` names the domain it is protecting for
+  the request ({{identifying-target}}).
 7. **Validate the `env` Claim** - Ensure that the Environment claim is set to
   an expected and use case appropriate value (such as `production` or `sandbox`)
 
@@ -1371,9 +1457,10 @@ The following specifications are related to and designed to be used with this sp
 {: numbered="false"}
 
 We would like to thank
-Bhasker Allam
-and
+Bhasker Allam,
 Jean Diaconu
+and
+Carlos Martínez
 for their contributions to the specification.
 
 # Document History
@@ -1426,6 +1513,10 @@ for their contributions to the specification.
   EMV Payment Tokens, and cited PCI SSC FAQ 1326 for their PCI DSS scope.
 * Replaced the example payment credential values with values that cannot be
   mistaken for real ones.
+* Added an Identifying the Target section relating `aud`, `tsi` and `tdm`, made
+  `tsi` REQUIRED and `tdm` REQUIRED where the Target is identified by a domain
+  name, defined the form of `tdm`, and let a recipient that has not onboarded to
+  the issuer validate the audience using `tdm`.
 
 -02
 
