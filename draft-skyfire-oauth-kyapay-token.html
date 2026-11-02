@@ -1435,7 +1435,8 @@ on behalf of their human principals is a related design goal.
 To achieve this, systems can utilize a token exchange workflow <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span>.
 In this process, a Security Token Service (STS), Identity Provider (IdP),
 or OAuth Authorization Server verifies incoming KYA tokens
-and extracts claims associated with the human principal, such as email addresses.
+and extracts claims associated with the human principal, such as <code>hid.id</code>,
+or an email address where it requested one.
 The authorization server then performs a token exchange,
 swapping the KYA token for a standard OAuth Access Token,
 which the agent subsequently uses to interact with the target service.
@@ -1682,18 +1683,24 @@ signature verification, as described in <a href="#key-discovery" class="auto int
 <dt id="section-3.1-2.3">
 <code>sub</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-3.1-2.4">
-            <p id="section-3.1-2.4.1"><span class="bcp14">REQUIRED</span> - Subject Identifier. <span class="bcp14">MUST</span> be unique within a given issuer.
+            <p id="section-3.1-2.4.1"><span class="bcp14">REQUIRED</span> - Subject Identifier. <span class="bcp14">MUST</span> be pairwise unique within a given
+issuer: unique, and different at each Target service (<code>tsi</code>). As for
+<code>hid.id</code>, the value <span class="bcp14">MUST NOT</span> be, or reveal, a directly identifying
+attribute, and values at different Target services <span class="bcp14">MUST NOT</span> be linkable
+to one another without the issuer's cooperation.
 The subject identifies the combination of identities the issuer has verified
 for the initiator: the human principal, the agent platform and the agent.
-An issuer <span class="bcp14">MUST</span> use the same <code>sub</code> value while that combination remains
-unchanged, <span class="bcp14">MUST NOT</span> use that value for a different combination, and <span class="bcp14">MUST</span>
+An issuer <span class="bcp14">MUST</span> use the same <code>sub</code> value at a given Target service while that
+combination remains unchanged, <span class="bcp14">MUST</span> use a different value at each other
+Target service, <span class="bcp14">MUST NOT</span> use that value for a different combination, and <span class="bcp14">MUST</span>
 assign a new <code>sub</code> when any of those identities changes. KYA and KYA-PAY
 tokens carry the human principal and the agent as the <code>hid</code> and <code>aid</code>
 claims, and carry the agent platform as the <code>apd</code> claim where it is
 identified. PAY tokens carry none of them. The subject identifies the same
 combination in either case, since an issuer does not issue a token without
 having verified the initiator. Tokens of different types issued by the same
-issuer for the same initiator therefore carry the same <code>sub</code>. A recipient <span class="bcp14">MAY</span> associate a PAY
+issuer for the same initiator at the same Target service therefore carry the
+same <code>sub</code>. A recipient <span class="bcp14">MAY</span> associate a PAY
 token with a KYA token on that basis, but <span class="bcp14">MUST</span> treat them as referring to
 the same initiator only when both the <code>iss</code> and the <code>sub</code> values are equal.<a href="#section-3.1-2.4.1" class="pilcrow">¶</a></p>
 </dd>
@@ -1947,7 +1954,7 @@ typical origin.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
   "itg": "4f6cbd39-215c-4516-bf33-cab22862ee60", // Initiator Tag (Internal Reference ID)
 
   "hid": {
-    "email": "initiator@initiator.com"
+    "id": "6d2f8a41-0c3e-4b9a-a7d5-1e8f3c6b2a90" // Human principal ID at this Target service
   },
   "apd": {
     "id": "d3306fc0-602b-47e6-9fe2-3d55d028fbd2",
@@ -1983,76 +1990,97 @@ typical origin.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
 principal (individual or organization) as follows.<a href="#section-3.4.1-1" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlNewline" id="section-3.4.1-2">
             <dt id="section-3.4.1-2.1">
-<code>email</code>:</dt>
+<code>id</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.4.1-2.2">
-              <p id="section-3.4.1-2.2.1"><span class="bcp14">REQUIRED</span> - Email address associated with the human individual or organization<a href="#section-3.4.1-2.2.1" class="pilcrow">¶</a></p>
+              <p id="section-3.4.1-2.2.1"><span class="bcp14">REQUIRED</span> - Human principal identifier. An opaque, pseudonymous
+identifier for the human principal, assigned by the issuer. It <span class="bcp14">MUST NOT</span> be, or reveal, an email address, telephone number or other
+directly identifying attribute. An issuer <span class="bcp14">MUST</span> use the same value for
+the same principal acting through the same agent platform at the same
+Target service (<code>tsi</code>), whatever the agent, and <span class="bcp14">MUST</span> use a different
+value for each agent platform and for each Target service. Values for
+different agent platforms or Target services <span class="bcp14">MUST NOT</span> be linkable to one
+another without the issuer's cooperation; an issuer can, for example,
+assign each value at random or derive it using a key known only to
+itself. The value is unique within a given issuer, so a recipient that compares <code>hid.id</code>
+values from two tokens <span class="bcp14">MUST</span> first check that both carry the same <code>iss</code>.<a href="#section-3.4.1-2.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.4.1-2.3">
-<code>given_name</code>:</dt>
+<code>email</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.4.1-2.4">
-              <p id="section-3.4.1-2.4.1"><span class="bcp14">OPTIONAL</span> - Given name(s) or first name(s) of the human principal if they
-are an individual.<a href="#section-3.4.1-2.4.1" class="pilcrow">¶</a></p>
+              <p id="section-3.4.1-2.4.1"><span class="bcp14">OPTIONAL</span> - Email address associated with the human individual or organization.<a href="#section-3.4.1-2.4.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.4.1-2.5">
-<code>middle_name</code>:</dt>
+<code>given_name</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.4.1-2.6">
-              <p id="section-3.4.1-2.6.1"><span class="bcp14">OPTIONAL</span> - Middle name(s) of the human principal if they are an individual.<a href="#section-3.4.1-2.6.1" class="pilcrow">¶</a></p>
+              <p id="section-3.4.1-2.6.1"><span class="bcp14">OPTIONAL</span> - Given name(s) or first name(s) of the human principal if they
+are an individual.<a href="#section-3.4.1-2.6.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.4.1-2.7">
-<code>family_name</code>:</dt>
+<code>middle_name</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.4.1-2.8">
-              <p id="section-3.4.1-2.8.1"><span class="bcp14">OPTIONAL</span> - Surname(s) or last name(s) of the human principal if they are an
-individual.<a href="#section-3.4.1-2.8.1" class="pilcrow">¶</a></p>
+              <p id="section-3.4.1-2.8.1"><span class="bcp14">OPTIONAL</span> - Middle name(s) of the human principal if they are an individual.<a href="#section-3.4.1-2.8.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.4.1-2.9">
-<code>phone_number</code>:</dt>
+<code>family_name</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.4.1-2.10">
-              <p id="section-3.4.1-2.10.1"><span class="bcp14">OPTIONAL</span> - Phone number associated with the human individual or organization.<a href="#section-3.4.1-2.10.1" class="pilcrow">¶</a></p>
+              <p id="section-3.4.1-2.10.1"><span class="bcp14">OPTIONAL</span> - Surname(s) or last name(s) of the human principal if they are an
+individual.<a href="#section-3.4.1-2.10.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.4.1-2.11">
-<code>organization_name</code>:</dt>
+<code>phone_number</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.4.1-2.12">
-              <p id="section-3.4.1-2.12.1"><span class="bcp14">OPTIONAL</span> - Name of the organization.<a href="#section-3.4.1-2.12.1" class="pilcrow">¶</a></p>
+              <p id="section-3.4.1-2.12.1"><span class="bcp14">OPTIONAL</span> - Phone number associated with the human individual or organization.<a href="#section-3.4.1-2.12.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.4.1-2.13">
-<code>verifier</code>:</dt>
+<code>organization_name</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.4.1-2.14">
-              <p id="section-3.4.1-2.14.1"><span class="bcp14">OPTIONAL</span> - URL of the party that performed the identity verification<a href="#section-3.4.1-2.14.1" class="pilcrow">¶</a></p>
+              <p id="section-3.4.1-2.14.1"><span class="bcp14">OPTIONAL</span> - Name of the organization.<a href="#section-3.4.1-2.14.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.4.1-2.15">
-<code>verified</code>:</dt>
+<code>verifier</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.4.1-2.16">
-              <p id="section-3.4.1-2.16.1"><span class="bcp14">OPTIONAL</span> - Boolean verification status. When present, the value <span class="bcp14">MUST</span> be <code>true</code>.
+              <p id="section-3.4.1-2.16.1"><span class="bcp14">OPTIONAL</span> - URL of the party that performed the identity verification<a href="#section-3.4.1-2.16.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-3.4.1-2.17">
+<code>verified</code>:</dt>
+            <dd style="margin-left: 1.5em" id="section-3.4.1-2.18">
+              <p id="section-3.4.1-2.18.1"><span class="bcp14">OPTIONAL</span> - Boolean verification status. When present, the value <span class="bcp14">MUST</span> be <code>true</code>.
 An issuer does not issue a token carrying unverified identity claims, so a token
 never asserts <code>false</code>. The claim gives a recipient an explicit affirmative signal
 rather than requiring it to infer verification from other claims.
 A recipient that receives <code>false</code> <span class="bcp14">MUST</span> treat the claim as not asserting
 verification, and <span class="bcp14">MUST NOT</span> treat the token as carrying a verified identity on
-the strength of the claim's presence.<a href="#section-3.4.1-2.16.1" class="pilcrow">¶</a></p>
+the strength of the claim's presence.<a href="#section-3.4.1-2.18.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-3.4.1-2.17">
+<dt id="section-3.4.1-2.19">
 <code>verification_id</code>:</dt>
-            <dd style="margin-left: 1.5em" id="section-3.4.1-2.18">
-              <p id="section-3.4.1-2.18.1"><span class="bcp14">OPTIONAL</span> - Verification identifier.
+            <dd style="margin-left: 1.5em" id="section-3.4.1-2.20">
+              <p id="section-3.4.1-2.20.1"><span class="bcp14">OPTIONAL</span> - Verification identifier.
 This is the verifier's identifier for the identity verification performed.
-This could be used during auditing and dispute resolution.<a href="#section-3.4.1-2.18.1" class="pilcrow">¶</a></p>
+This could be used during auditing and dispute resolution.<a href="#section-3.4.1-2.20.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 </dl>
-<p id="section-3.4.1-3">Additional sub-claims <span class="bcp14">MAY</span> be defined and used, including further identifiers for
+<p id="section-3.4.1-3">The sub-claims <code>email</code>, <code>given_name</code>, <code>middle_name</code>, <code>family_name</code>,
+<code>phone_number</code> and <code>organization_name</code> directly identify the human
+principal, and <code>verification_id</code> is the same at every Target. An issuer <span class="bcp14">MUST NOT</span> include any of them unless a Target requires it for the action at hand
+and the principal has authorized its disclosure to that Target, whether to
+the issuer or to the agent platform (<a href="#privacy-considerations" class="auto internal xref">Section 6</a>).<a href="#section-3.4.1-3" class="pilcrow">¶</a></p>
+<p id="section-3.4.1-4">Additional sub-claims <span class="bcp14">MAY</span> be defined and used, including further identifiers for
 the human principal where a Target requires them to recognize an account. An
 issuer <span class="bcp14">MUST NOT</span> assert an identifier of the human principal unless it has
 verified that the principal controls it. This document does not prescribe how control is
 verified.
-The recipient <span class="bcp14">MUST</span> ignore any unrecognized sub-claims.<a href="#section-3.4.1-3" class="pilcrow">¶</a></p>
+The recipient <span class="bcp14">MUST</span> ignore any unrecognized sub-claims.<a href="#section-3.4.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="agent-platform-identity-apd-sub-claims">
@@ -2134,7 +2162,11 @@ The recipient <span class="bcp14">MUST</span> ignore any unrecognized sub-claims
             <dt id="section-3.4.3-2.1">
 <code>id</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.4.3-2.2">
-              <p id="section-3.4.3-2.2.1"><span class="bcp14">REQUIRED</span> - Agent identifier.<a href="#section-3.4.3-2.2.1" class="pilcrow">¶</a></p>
+              <p id="section-3.4.3-2.2.1"><span class="bcp14">REQUIRED</span> - Agent identifier. An issuer <span class="bcp14">MUST</span> use the same value for the same
+agent at the same Target service (<code>tsi</code>), and a different value at each
+Target service. The value <span class="bcp14">MUST NOT</span> be, or reveal, a directly identifying
+attribute, and values at different Target services <span class="bcp14">MUST NOT</span> be linkable to
+one another without the issuer's cooperation.<a href="#section-3.4.3-2.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.4.3-2.3">
@@ -2430,6 +2462,8 @@ not attempt to carry them in the claims defined here.<a href="#section-3.5.2-3" 
   "itg": "c52e0ef2-e27d-4e95-862e-475a904ae7b2", // Initiator Tag (Internal Reference ID)
 
   "hid": {
+    "id": "a4c19e07-5b2d-4f86-9e3a-7d0b8c1f5e62", // Human principal ID at this Target service
+    // The following are present because the Target requires them for checkout
     "email": "maryjane@initiator.example.com",
     "given_name": "Mary",
     "middle_name": "Jane",
@@ -2765,8 +2799,8 @@ invalidates its signature. Combining claims taken from two separately signed
 tokens does not invalidate either signature, so a recipient that correlates
 tokens <span class="bcp14">MUST</span> check that both carry the same <code>iss</code> and <code>sub</code> values before
 treating them as referring to the same initiator. Because the subject is
-stable while the bound identities are unchanged,
-a recipient <span class="bcp14">MAY</span> use <code>sub</code> as a stable key for that combination, for example to
+stable at a Target service while the bound identities are unchanged,
+a recipient at that service <span class="bcp14">MAY</span> use <code>sub</code> as a stable key for that combination, for example to
 rate-limit or isolate a particular agent without affecting other agents acting
 for the same principal.<a href="#section-5.6-1" class="pilcrow">¶</a></p>
 </section>
@@ -2778,26 +2812,46 @@ for the same principal.<a href="#section-5.6-1" class="pilcrow">¶</a></p>
       <h2 id="name-privacy-considerations">
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-privacy-considerations" class="section-name selfRef">Privacy Considerations</a>
       </h2>
-<p id="section-6-1">The subject identifier is stable for a given combination of identities across
-audiences, within the namespace of a single issuer. Recipients that compare
-tokens from the same issuer can therefore recognize the same human principal,
-agent platform and agent combination at different targets.<a href="#section-6-1" class="pilcrow">¶</a></p>
-<p id="section-6-2">KYAPay tokens are designed to convey the information that
+<p id="section-6-1">By default, a KYA token identifies the human principal only by
+<code>hid.id</code>. Directly identifying sub-claims such as <code>email</code>,
+<code>phone_number</code> or names are disclosed only when a Target requires
+them for the action at hand, as stated in its decline response or
+discovery document, and the principal has authorized the disclosure.
+The issuer <span class="bcp14">MAY</span> collect the principal's authorization itself or
+delegate its collection to the agent platform. Whichever of them
+collected it <span class="bcp14">MUST</span> be able to demonstrate that it was given. What
+counts as sufficient evidence may depend on applicable law and
+regulation. Targets <span class="bcp14">SHOULD NOT</span> require directly identifying
+sub-claims for actions that do not need them, such as browsing a
+catalog.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<p id="section-6-2">A token carrying only <code>hid.id</code> is pseudonymous, not anonymous.
+<code>hid.id</code>, <code>sub</code> and <code>aid.id</code> are each specific to one Target
+service and different at every other Target service. At a given
+service, <code>hid.id</code> is stable for a principal returning through a given
+agent platform, whatever the agent, while <code>sub</code> and <code>aid.id</code> are
+stable for one agent of that principal and change with the agent.
+Two Targets, or a party that sees the traffic of both, cannot link
+the principal from these values. <code>apd</code> identifies the agent platform
+and is the same at every Target. <code>aid.name</code> is also the same at every
+Target, so where an agent acts for a single principal, its name can
+link that principal's activity across Targets. Directly identifying
+sub-claims link wherever they are disclosed.<a href="#section-6-2" class="pilcrow">¶</a></p>
+<p id="section-6-3">KYAPay tokens are designed to convey the information that
 an agent is acting on behalf of a principal - a person or organization.
 To do this, they will necessarily contain information about that principal
 that can be verified and utilized by participants in the system.
 Participants should therefore only share these tokens with other legitimate
 participants and not make their contents public or disclose them to
-unknown or untrustworthy parties.<a href="#section-6-2" class="pilcrow">¶</a></p>
-<p id="section-6-3">Consent of the principal represented to participate in the interactions is vital.
+unknown or untrustworthy parties.<a href="#section-6-3" class="pilcrow">¶</a></p>
+<p id="section-6-4">Consent of the principal represented to participate in the interactions is vital.
 If I authorize an agent to shop for a widget at given price,
 it's legitimate for the agent to carry enough information about me
 to the merchant to be able to do this for me.
 Whereas, if an agent claims to be shopping for me but does not have my authorization
-to do so, my privacy and possibly also my financial integrity are being violated.<a href="#section-6-3" class="pilcrow">¶</a></p>
-<p id="section-6-4">The principle of minimal disclosure should be employed.
+to do so, my privacy and possibly also my financial integrity are being violated.<a href="#section-6-4" class="pilcrow">¶</a></p>
+<p id="section-6-5">The principle of minimal disclosure should be employed.
 Only the information needed to facilitate the intended interactions
-should be placed in the tokens and conveyed to participants.<a href="#section-6-4" class="pilcrow">¶</a></p>
+should be placed in the tokens and conveyed to participants.<a href="#section-6-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="iana-considerations">
@@ -3584,8 +3638,10 @@ identities are carried as claims in KYA and KYA-PAY tokens and not in PAY
 tokens, but the subject identifies the same combination in all three.<a href="#appendix-C-3.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.2">
-          <p id="appendix-C-3.2.1">Disclosed in the Privacy Considerations that a stable subject is
-correlatable across audiences.<a href="#appendix-C-3.2.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.2.1">Stated in the Privacy Considerations that <code>hid.id</code>, <code>sub</code> and <code>aid.id</code> are
+specific to one Target service, and that directly identifying sub-claims are
+disclosed only when a Target requires them and the principal has authorized
+it.<a href="#appendix-C-3.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.3">
           <p id="appendix-C-3.3.1">Removed the qualifier on <code>hid</code>, which read as though the claim were required
@@ -3607,9 +3663,8 @@ specified alongside each claim.<a href="#appendix-C-3.5.1" class="pilcrow">¶</a
 both carry the same <code>iss</code> and <code>sub</code>.<a href="#appendix-C-3.6.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.7">
-          <p id="appendix-C-3.7.1">Described <code>sub</code> as unique rather than pairwise unique. The subject is stable
-for a given combination across audiences, so the OpenID Connect sense of
-pairwise did not apply.<a href="#appendix-C-3.7.1" class="pilcrow">¶</a></p>
+          <p id="appendix-C-3.7.1">Made <code>sub</code> pairwise: a different value at each Target service, stable at
+that service.<a href="#appendix-C-3.7.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-C-3.8">
           <p id="appendix-C-3.8.1">Stated that an agent name is unique within an agent platform at a given
@@ -3666,6 +3721,17 @@ mistaken for real ones.<a href="#appendix-C-3.21.1" class="pilcrow">¶</a></p>
 <code>tsi</code> <span class="bcp14">REQUIRED</span> and <code>tdm</code> <span class="bcp14">REQUIRED</span> where the Target is identified by a domain
 name, defined the form of <code>tdm</code>, and let a recipient that has not onboarded to
 the issuer validate the audience using <code>tdm</code>.<a href="#appendix-C-3.22.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-3.23">
+          <p id="appendix-C-3.23.1">Added <code>hid.id</code>, a pseudonymous identifier for the human principal, specific
+to one agent platform and one Target service, and made <code>aid.id</code> specific to
+one Target service.<a href="#appendix-C-3.23.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-3.24">
+          <p id="appendix-C-3.24.1">Made <code>email</code> <span class="bcp14">OPTIONAL</span>, and included <code>email</code>, <code>phone_number</code>,
+<code>organization_name</code>, <code>verification_id</code> and the name sub-claims only when a
+Target requires them for the action at hand and the principal has authorized
+their disclosure.<a href="#appendix-C-3.24.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="appendix-C-4">-02<a href="#appendix-C-4" class="pilcrow">¶</a></p>
