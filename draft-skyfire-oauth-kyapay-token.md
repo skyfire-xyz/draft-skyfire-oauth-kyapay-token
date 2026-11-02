@@ -572,7 +572,11 @@ principal (individual or organization) as follows.
   This is the verifier's identifier for the identity verification performed.
   This could be used during auditing and dispute resolution.
 
-Additional sub-claims MAY be defined and used.
+Additional sub-claims MAY be defined and used, including further identifiers for
+the human principal where a Target requires them to recognize an account. An
+issuer MUST NOT assert an identifier of the human principal unless it has
+verified that the principal controls it. This document does not prescribe how control is
+verified.
 The recipient MUST ignore any unrecognized sub-claims.
 
 ### Agent Platform Identity `apd` Sub-Claims
@@ -1388,6 +1392,8 @@ for their contributions to the specification.
   key material, and moved the issuer check ahead of signature verification.
 * Added traces to the logging prohibition, and pointed to the Using document for
   tokens that reach a language model's context.
+* Allowed further identifiers for the human principal in `hid`, only where the
+  issuer has verified that the principal controls them.
 
 -02
 
