@@ -434,6 +434,9 @@ JWK Sets SHOULD be cached and refreshed according to standard JWK Set practice.
 Retrieval per request is neither required nor expected; because KYAPay tokens
 are self-contained, signature verification is intended to be performed locally.
 
+A recipient retrieves this JWK Set only for an issuer it trusts
+({{validating-tokens}}).
+
 A future revision of this specification may additionally define an issuer
 metadata document, giving an issuer somewhere to advertise capabilities beyond
 the location of its keys, such as the identity verification methods it supports.
@@ -897,7 +900,13 @@ The following informative example displays a decoded KYA-PAY type token.
 
 # Token Validation
 
-## Validating KYA and PAY Tokens
+## Validating KYA and PAY Tokens {#validating-tokens}
+
+A recipient MUST confirm that the `iss` claim names an issuer it trusts before
+it performs any step below that retrieves key material or otherwise depends on
+the issuer. A recipient MUST NOT retrieve key material for an issuer that is not
+in its configured set of trusted issuers. The set of trusted issuers is
+configured out of band and is not derived from the token.
 
 ### JWT Header Validation
 
@@ -922,10 +931,10 @@ The following informative example displays a decoded KYA-PAY type token.
 
 ### JWT Payload Validation
 
-1. **Verify JWT Signature** - Valid JWTs MUST be signed with a valid key belonging
-  to the token's issuer (`iss` claim)
-2. **Validate `iss` Claim** - Ensure that the token is signed by the expected
-  valid issuer.
+1. **Validate `iss` Claim** - Ensure that the token's issuer is one the
+  recipient trusts ({{validating-tokens}}).
+2. **Verify JWT Signature** - Valid JWTs MUST be signed with a valid key belonging
+  to the token's issuer (`iss` claim).
 3. **Validate the `exp` Claim** - The recipient MUST validate that the token has
   not expired, within the clock skew tolerance described in {{clock-skew}}.
 4. **Validate the `iat` Claim** - The recipient MUST validate that the token was
@@ -1370,6 +1379,8 @@ for their contributions to the specification.
   is not by itself evidence of replay.
 * Made `creation_ip` OPTIONAL and described its use.
 * Replaced the example IP addresses with documentation addresses.
+* Required a recipient to confirm that it trusts the issuer before retrieving
+  key material, and moved the issuer check ahead of signature verification.
 
 -02
 
