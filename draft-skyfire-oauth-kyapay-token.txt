@@ -468,6 +468,9 @@ Table of Contents
    because KYAPay tokens are self-contained, signature verification is
    intended to be performed locally.
 
+   A recipient retrieves this JWK Set only for an issuer it trusts
+   (Section 4.1).
+
    A future revision of this specification may additionally define an
    issuer metadata document, giving an issuer somewhere to advertise
    capabilities beyond the location of its keys, such as the identity
@@ -915,6 +918,13 @@ Table of Contents
 
 4.1.  Validating KYA and PAY Tokens
 
+   A recipient MUST confirm that the iss claim names an issuer it trusts
+   before it performs any step below that retrieves key material or
+   otherwise depends on the issuer.  A recipient MUST NOT retrieve key
+   material for an issuer that is not in its configured set of trusted
+   issuers.  The set of trusted issuers is configured out of band and is
+   not derived from the token.
+
 4.1.1.  JWT Header Validation
 
    1.  alg - The alg header parameter MUST be present and, to enable
@@ -943,11 +953,11 @@ Table of Contents
 
 4.1.2.  JWT Payload Validation
 
-   1.  *Verify JWT Signature* - Valid JWTs MUST be signed with a valid
-       key belonging to the token's issuer (iss claim)
+   1.  *Validate iss Claim* - Ensure that the token's issuer is one the
+       recipient trusts (Section 4.1).
 
-   2.  *Validate iss Claim* - Ensure that the token is signed by the
-       expected valid issuer.
+   2.  *Verify JWT Signature* - Valid JWTs MUST be signed with a valid
+       key belonging to the token's issuer (iss claim).
 
    3.  *Validate the exp Claim* - The recipient MUST validate that the
        token has not expired, within the clock skew tolerance described
@@ -1702,6 +1712,10 @@ Document History
    *  Made creation_ip OPTIONAL and described its use.
 
    *  Replaced the example IP addresses with documentation addresses.
+
+   *  Required a recipient to confirm that it trusts the issuer before
+      retrieving key material, and moved the issuer check ahead of
+      signature verification.
 
    -02
 
