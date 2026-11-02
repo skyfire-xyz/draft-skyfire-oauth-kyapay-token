@@ -47,6 +47,8 @@ contributor:
 # see https://github.com/cabo/kramdown-rfc/wiki/Syntax2#authors-contributors
 
 normative:
+  RFC3986:
+  RFC6265:
   RFC6454:
   RFC7515:
   RFC7517:
@@ -64,6 +66,12 @@ informative:
   RFC8446:
   RFC9110:
   RFC9421:
+  PSL:
+    title: "Public Suffix List"
+    author:
+    - org: Mozilla Foundation
+    target: https://publicsuffix.org/
+    date: false
   IANA.JWT.Claims:
     author:
     - org: IANA
@@ -87,6 +95,22 @@ informative:
   I-D.skyfire-oauth-amr-values:
   I-D.skyfire-oauth-id-verification:
   I-D.skyfire-oauth-aml-methods:
+  EMVCo-PT:
+    title: "EMV Payment Tokenisation Specification - Technical Framework"
+    author:
+    - org: EMVCo
+    target: https://www.emvco.com/emv-technologies/payment-tokenisation/
+    seriesinfo:
+      Version: "2.4"
+    date: 2026-07-09
+  PCI-FAQ-1326:
+    title: "How does PCI DSS apply to EMVCo Payment Tokens?"
+    author:
+    - org: PCI Security Standards Council
+    target: https://www.pcisecuritystandards.org/faqs/1326
+    seriesinfo:
+      FAQ: "1326"
+    date: 2015-05
 
 ...
 
@@ -151,7 +175,8 @@ on behalf of their human principals is a related design goal.
 To achieve this, systems can utilize a token exchange workflow {{RFC8693}}.
 In this process, a Security Token Service (STS), Identity Provider (IdP),
 or OAuth Authorization Server verifies incoming KYA tokens
-and extracts claims associated with the human principal, such as email addresses.
+and extracts claims associated with the human principal, such as `hid.id`,
+or an email address where it requested one.
 The authorization server then performs a token exchange,
 swapping the KYA token for a standard OAuth Access Token,
 which the agent subsequently uses to interact with the target service.
@@ -342,26 +367,33 @@ PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
 
 {:vspace}
 `sub`:
-: REQUIRED - Subject Identifier. MUST be unique within a given issuer.
+: REQUIRED - Subject Identifier. MUST be pairwise unique within a given
+  issuer: unique, and different at each Target service (`tsi`). As for
+  `hid.id`, the value MUST NOT be, or reveal, a directly identifying
+  attribute, and values at different Target services MUST NOT be linkable
+  to one another without the issuer's cooperation.
   The subject identifies the combination of identities the issuer has verified
   for the initiator: the human principal, the agent platform and the agent.
-  An issuer MUST use the same `sub` value while that combination remains
-  unchanged, MUST NOT use that value for a different combination, and MUST
+  An issuer MUST use the same `sub` value at a given Target service while that
+  combination remains unchanged, MUST use a different value at each other
+  Target service, MUST NOT use that value for a different combination, and MUST
   assign a new `sub` when any of those identities changes. KYA and KYA-PAY
   tokens carry the human principal and the agent as the `hid` and `aid`
   claims, and carry the agent platform as the `apd` claim where it is
   identified. PAY tokens carry none of them. The subject identifies the same
   combination in either case, since an issuer does not issue a token without
   having verified the initiator. Tokens of different types issued by the same
-  issuer for the same initiator therefore carry the same `sub`. A recipient MAY associate a PAY
+  issuer for the same initiator at the same Target service therefore carry the
+  same `sub`. A recipient MAY associate a PAY
   token with a KYA token on that basis, but MUST treat them as referring to
   the same initiator only when both the `iss` and the `sub` values are equal.
 
 {:vspace}
 `aud`:
-: REQUIRED - Audience (used for audience binding and replay attack mitigation),
-  uniquely identifying the target agent.
-  A single string value.
+: REQUIRED - Audience (used for audience binding and replay attack mitigation).
+  The audience identifies the combination of identities the issuer holds for the
+  Target: the human principal, the agent platform and the agent, where "agent" is
+  understood broadly ({{identifying-target}}). A single string value.
 
 {:vspace}
 `iat`:
@@ -372,7 +404,9 @@ PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
 {:vspace}
 `jti`:
 : REQUIRED - Unique ID of this JWT as defined in {{Section 4.1.7 of RFC7519}}.
-  This claim can be used to detect replay attempts.
+  This claim identifies the token, not the request. A token may be presented on
+  more than one request within its lifetime, so a repeated `jti` is not by itself
+  evidence of replay.
 
 {:vspace}
 `exp`:
@@ -381,7 +415,9 @@ PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
 
 {:vspace}
 `tdm`:
-: OPTIONAL - Target domain, associated with the audience claim, the token is intended for.
+: REQUIRED where the Target is identified by a domain name; OPTIONAL otherwise.
+  A host name, optionally followed by a path, identifying the Target the token is
+  intended for. See {{identifying-target}}.
 
 {:vspace}
 `ori`:
@@ -394,7 +430,8 @@ PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
 
 {:vspace}
 `tsi`:
-: OPTIONAL - Target Service ID that this token was created for.
+: REQUIRED - Target Service ID, assigned by the Token Issuer, identifying the
+  service offered under the Target agent named by `aud`. See {{identifying-target}}.
 
 {:vspace}
 `itg`:
@@ -416,6 +453,77 @@ PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
 Additional claims MAY be defined and used in these tokens.
 The recipient MUST ignore any unrecognized claims.
 
+### Identifying the Target {#identifying-target}
+
+Three claims identify the party a token was minted for, and they answer
+different questions.
+
+The `aud` claim is the counterpart, on the Target side, of `sub` on the
+initiating side, and it names the same three things. Where `sub` identifies the
+combination of identities the issuer has verified for the initiator (the human
+principal, the agent platform and the agent), `aud` identifies that combination
+for the Target: the Target's agent, the platform it runs on, and the human
+principal behind it.
+
+"Agent" is used broadly on the Target side. On the initiating side it is a
+program acting for a person. On the Target side it is whatever the initiator is
+dealing with, which may be a website, an API, an MCP server, or another agent.
+The `tsi` claim identifies the particular service offered under that Target
+agent.
+
+The Token Issuer assigns both, and both are present in every token it creates,
+so that it can account for the tokens it has issued. Their values are meaningful
+to the issuer and to a Target that has onboarded to it; onboarding is what allows
+a Target to interpret them, not what causes them to be set.
+
+The two sides differ in what stands behind them. The identities named in `sub`
+are verified by the issuer. Those named in `aud` and `tsi` are verified where the
+Target has onboarded to the issuer; where the issuer has no means of confirming
+the Target, they are its record of the Target that the initiator asserted it was
+minting for, and `tdm` carries the domain the initiator supplied.
+
+A recipient reads these claims accordingly. They bind a token to one Target and
+so limit where it can be presented, which holds in either case because the
+binding narrows the token rather than granting anything. A recipient MUST NOT
+read `tdm` alone as the issuer confirming the Target's identity.
+
+The `tdm` claim identifies a Target reached over a URL-based interface, such as
+a website or an HTTP API: at least its domain, and optionally its host and a
+path. Unlike `aud` and `tsi` it is not issuer-specific, so any recipient can
+interpret it without a relationship with the issuer. It is present in addition
+to `aud` and `tsi` where such a Target is identified by a domain name.
+
+The value of `tdm` is a host name in lower case, optionally followed by a path,
+with no scheme, port, query or fragment; for example `example.com`,
+`shop.example.com` or `shop.example.com/store`. The Target's domain is the
+registrable domain of that host, determined using the Public Suffix List {{PSL}},
+including its private section. A host on a shared hosting platform that the list
+names is therefore a domain of its own, and a token minted for one such host
+does not name the platform's other hosts.
+
+`tdm` and `tsi` are alternates rather than duplicates: they name the same
+Target by different means, one publicly interpretable and one not. A recipient
+validates whichever it is in a position to interpret. A Target that has onboarded
+to the issuer checks `aud` and `tsi`. A recipient that has not, including a
+security intermediary acting for many Targets, checks at least that `tdm` names
+the domain it is protecting for that request.
+The Authenticating the Counterparty section of
+{{I-D.skyfire-oauth-using-kyapay-tokens}} describes that choice.
+
+A recipient that checks more than the domain checks that `tdm` names the Target
+it is protecting for the request: the host in `tdm` is that Target's host, and
+where that Target is identified by a path, the path in `tdm` is that path or one
+below it. Paths are matched as cookie paths are ({{Section 5.1.4 of RFC6265}}),
+after both are normalized as described in {{Section 6.2.2 of RFC3986}}. Ports
+are not compared. For
+example, for a Target at `shop.example.com/store`, a `tdm` of
+`shop.example.com/store` or `shop.example.com/store/cart` passes, but
+`shop.example.com`, `shop.example.com/storefront` and `example.com/store` do
+not. A recipient that
+checks only the domain does not enforce the host or the path. A Target whose
+host serves several tenants, or that protects only some of its paths, therefore
+checks the host and path itself, or `aud` and `tsi` where it has onboarded to
+the issuer.
 
 ## Issuer Key Discovery {#key-discovery}
 
@@ -431,6 +539,9 @@ The `jwks.json` URI suffix is registered in {{well-known-registration}}.
 JWK Sets SHOULD be cached and refreshed according to standard JWK Set practice.
 Retrieval per request is neither required nor expected; because KYAPay tokens
 are self-contained, signature verification is intended to be performed locally.
+
+A recipient retrieves this JWK Set only for an issuer it trusts
+({{validating-tokens}}).
 
 A future revision of this specification may additionally define an issuer
 metadata document, giving an issuer somewhere to advertise capabilities beyond
@@ -492,7 +603,7 @@ The following informative example displays a decoded KYA type token.
   "itg": "4f6cbd39-215c-4516-bf33-cab22862ee60", // Initiator Tag (Internal Reference ID)
 
   "hid": {
-    "email": "initiator@initiator.com"
+    "id": "6d2f8a41-0c3e-4b9a-a7d5-1e8f3c6b2a90" // Human principal ID at this Target service
   },
   "apd": {
     "id": "d3306fc0-602b-47e6-9fe2-3d55d028fbd2",
@@ -507,9 +618,9 @@ The following informative example displays a decoded KYA type token.
   "aid": {
     "id": "7d889702-7b6a-46cb-9bdd-10e83d17b18d", // Identifier of the agent instance
     "name": "Acme Agent Extraordinaire",
-    "creation_ip": "54.86.50.139", // IP Address where token was created
-    "source_ips": ["54.86.50.139-54.86.50.141", "1.1.1.0/24",
-      "2001:db8:abcd:0012::/64", "acme.com"]
+    "creation_ip": "192.0.2.10", // IP address the token was requested from
+    "source_ips": ["192.0.2.10-192.0.2.12", "203.0.113.0/24",
+      "2001:db8:abcd:12::/64", "agents.example.com"]
       // IP addresses from which the initiator agent will make requests to the target
   }
 }
@@ -522,8 +633,23 @@ The Human Identity (`hid`) claim contains sub-claims identifying the human
 principal (individual or organization) as follows.
 
 {:vspace}
+`id`:
+: REQUIRED - Human principal identifier. An opaque, pseudonymous
+  identifier for the human principal, assigned by the issuer. It MUST
+  NOT be, or reveal, an email address, telephone number or other
+  directly identifying attribute. An issuer MUST use the same value for
+  the same principal acting through the same agent platform at the same
+  Target service (`tsi`), whatever the agent, and MUST use a different
+  value for each agent platform and for each Target service. Values for
+  different agent platforms or Target services MUST NOT be linkable to one
+  another without the issuer's cooperation; an issuer can, for example,
+  assign each value at random or derive it using a key known only to
+  itself. The value is unique within a given issuer, so a recipient that compares `hid.id`
+  values from two tokens MUST first check that both carry the same `iss`.
+
+{:vspace}
 `email`:
-: REQUIRED - Email address associated with the human individual or organization
+: OPTIONAL - Email address associated with the human individual or organization.
 
 {:vspace}
 `given_name`:
@@ -567,7 +693,18 @@ principal (individual or organization) as follows.
   This is the verifier's identifier for the identity verification performed.
   This could be used during auditing and dispute resolution.
 
-Additional sub-claims MAY be defined and used.
+The sub-claims `email`, `given_name`, `middle_name`, `family_name`,
+`phone_number` and `organization_name` directly identify the human
+principal, and `verification_id` is the same at every Target. An issuer MUST
+NOT include any of them unless a Target requires it for the action at hand
+and the principal has authorized its disclosure to that Target, whether to
+the issuer or to the agent platform ({{privacy-considerations}}).
+
+Additional sub-claims MAY be defined and used, including further identifiers for
+the human principal where a Target requires them to recognize an account. An
+issuer MUST NOT assert an identifier of the human principal unless it has
+verified that the principal controls it. This document does not prescribe how control is
+verified.
 The recipient MUST ignore any unrecognized sub-claims.
 
 ### Agent Platform Identity `apd` Sub-Claims
@@ -625,7 +762,11 @@ The `aid` claim is REQUIRED. It contains the following sub-claims.
 
 {:vspace}
 `id`:
-: REQUIRED - Agent identifier.
+: REQUIRED - Agent identifier. An issuer MUST use the same value for the same
+  agent at the same Target service (`tsi`), and a different value at each
+  Target service. The value MUST NOT be, or reveal, a directly identifying
+  attribute, and values at different Target services MUST NOT be linkable to
+  one another without the issuer's cooperation.
 
 {:vspace}
 `name`:
@@ -636,9 +777,14 @@ The `aid` claim is REQUIRED. It contains the following sub-claims.
 
 {:vspace}
 `creation_ip`:
-: REQUIRED - The public IP address of the system / agent that requested the token.
+: OPTIONAL - The public IP address of the system / agent that requested the token.
   Its value is a string containing the public IPv4 or IPv6 address from where the
-  token request originated. It MUST be captured directly from the token request.
+  token request originated. When present, it MUST be captured directly from the
+  token request. It is a diagnostic aid, for example when investigating an
+  incident, and is not an access-control signal: a recipient MAY use it as a weak
+  corroborating signal only and MUST NOT treat it as sufficient on its own
+  ({{Section 6.3 of I-D.skyfire-oauth-using-kyapay-tokens}}). It is personal
+  data, subject to the privacy considerations in {{privacy-considerations}}.
 
 {:vspace}
 `source_ips`:
@@ -692,7 +838,7 @@ The following payment related claims are used within PAY and KYA-PAY type tokens
 : REQUIRED - Meta information for payment settlement, depending on the `stp`
   value.
 
-### Settlement Information `sti` Sub-Claims
+### Settlement Information `sti` Sub-Claims {#sti}
 
 The `sti` claim is REQUIRED in Pay Tokens. It contains the following sub-claims,
 with the requirement levels marked below.
@@ -703,10 +849,11 @@ the value of `stp`.
 When the `stp` value is `card`, the settlement instrument is an agentic payment credential
 issued by a payment network under an agentic-commerce programme -- for example
 Visa Intelligent Commerce (`visa_vic`) or Mastercard Agent Pay, using Secure Card
-on File (`mastercard_scof`). Such a credential is provisioned for a single
-transaction and is scoped to one initiator, one target, and one amount. It is not
-a Primary Account Number (PAN), and it cannot be used to derive the underlying
-PAN or the network's agentic token.
+on File (`mastercard_scof`). Such a credential is a payment token issued by the
+payment network ({{card-settlement-scope}}). It is used with a single-use token
+cryptogram (`token_security_code`), and the network restricts its use to one
+initiator, one target, and one amount. It is not a Primary Account Number (PAN),
+and the underlying PAN cannot feasibly be recovered from it.
 
 {:vspace}
 `type`:
@@ -763,14 +910,17 @@ PAN or the network's agentic token.
 Additional sub-claims MAY be defined and used.
 The recipient MUST ignore any unrecognized sub-claims.
 
-### Scope of Card Settlement
+### Scope of Card Settlement {#card-settlement-scope}
 
 This specification supports card settlement only through payment-network
-agentic-commerce programmes that issue transaction-scoped, PCI-exempt
-credentials.
+agentic-commerce programmes whose credentials are Payment Tokens as defined by
+the EMV Payment Tokenisation Specification {{EMVCo-PT}}, used with a single-use
+token cryptogram and restricted by the payment network to the transaction bound
+in the token.
 
-A PAY or KYA-PAY token MUST NOT carry a Primary Account Number, or the static
-verification value associated with one.
+A token defined in this specification, of any type, MUST NOT contain a Primary
+Account Number, full magnetic-stripe or chip track data, a static card
+verification value (CVV, CVC2 or CVV2), or a PIN or PIN block.
 
 Settlement instruments that fall within PCI DSS scope require mechanisms this
 specification does not define -- including confidentiality protection of the
@@ -808,10 +958,10 @@ The following informative example displays a decoded PAY type token.
   "stp": "card",
   "sti": {
     "type": "visa_vic",
-    "payment_token": "1234567890123456",
+    "payment_token": "0000000000000000", // Example only: a network-issued payment token, not a PAN
     "token_expiration_month": "03",
     "token_expiration_year": "2030",
-    "token_security_code": "123",
+    "token_security_code": "000", // Example only: a single-use cryptogram (DTVV or TAVV), not a CVV
     "verifier": "https://verifier.example.info", // URL of payment method verifier
     "verified": true, // Outcome of the verifier's payment method verification
     "verification_id": "3a6e1b76-8f78-4c24-b1bd-dc78a8cc3711" // Verifier's ID for the payment method verification performed
@@ -843,6 +993,8 @@ The following informative example displays a decoded KYA-PAY type token.
   "itg": "c52e0ef2-e27d-4e95-862e-475a904ae7b2", // Initiator Tag (Internal Reference ID)
 
   "hid": {
+    "id": "a4c19e07-5b2d-4f86-9e3a-7d0b8c1f5e62", // Human principal ID at this Target service
+    // The following are present because the Target requires them for checkout
     "email": "maryjane@initiator.example.com",
     "given_name": "Mary",
     "middle_name": "Jane",
@@ -863,9 +1015,9 @@ The following informative example displays a decoded KYA-PAY type token.
   "aid": {
     "id": "4607fa56-368d-4fde-90e9-baad4e9f4439", // Identifier of the agent instance
     "name": "Agentic Excellence Я Us",
-    "creation_ip": "128.2.42.95", // IP Address where token was created
-    "source_ips": ["54.86.50.139-54.86.50.141", "1.1.1.0/24",
-      "2001:db8:abcd:0012::/64", "agentic-excellence.example.com"]
+    "creation_ip": "198.51.100.20", // IP address the token was requested from
+    "source_ips": ["192.0.2.10-192.0.2.12", "203.0.113.0/24",
+      "2001:db8:abcd:12::/64", "agents.example.com"]
       // IP addresses from which the initiator agent will make requests to the target
   },
 
@@ -878,10 +1030,10 @@ The following informative example displays a decoded KYA-PAY type token.
   "stp": "card",
   "sti": {
     "type": "visa_vic",
-    "payment_token": "1234567890123456",
+    "payment_token": "0000000000000000", // Example only: a network-issued payment token, not a PAN
     "token_expiration_month": "03",
     "token_expiration_year": "2030",
-    "token_security_code": "123"
+    "token_security_code": "000" // Example only: a single-use cryptogram (DTVV or TAVV), not a CVV
   }
 }
 
@@ -890,7 +1042,13 @@ The following informative example displays a decoded KYA-PAY type token.
 
 # Token Validation
 
-## Validating KYA and PAY Tokens
+## Validating KYA and PAY Tokens {#validating-tokens}
+
+A recipient MUST confirm that the `iss` claim names an issuer it trusts before
+it performs any step below that retrieves key material or otherwise depends on
+the issuer. A recipient MUST NOT retrieve key material for an issuer that is not
+in its configured set of trusted issuers. The set of trusted issuers is
+configured out of band and is not derived from the token.
 
 ### JWT Header Validation
 
@@ -934,17 +1092,20 @@ The following informative example displays a decoded KYA-PAY type token.
 
 ### JWT Payload Validation
 
-1. **Verify JWT Signature** - Valid JWTs MUST be signed with a valid key belonging
-  to the token's issuer (`iss` claim)
-2. **Validate `iss` Claim** - Ensure that the token is signed by the expected
-  valid issuer.
+1. **Validate `iss` Claim** - Ensure that the token's issuer is one the
+  recipient trusts ({{validating-tokens}}).
+2. **Verify JWT Signature** - Valid JWTs MUST be signed with a valid key belonging
+  to the token's issuer (`iss` claim).
 3. **Validate the `exp` Claim** - The recipient MUST validate that the token has
   not expired, within the clock skew tolerance described in {{clock-skew}}.
 4. **Validate the `iat` Claim** - The recipient MUST validate that the token was
   issued in the past, within the clock skew tolerance described in {{clock-skew}}.
 5. **Validate the `jti` Claim** - Ensure that the `jti` claim is present, and is
   a UUID.
-6. **Validate the `aud` Claim** - Ensure that the `aud` identifies the recipient as the intended audience.
+6. **Validate the Audience** - A recipient that has onboarded to the issuer
+  ensures that `aud` and `tsi` identify it as the intended audience. A recipient
+  that has not ensures at least that `tdm` names the domain it is protecting for
+  the request ({{identifying-target}}).
 7. **Validate the `env` Claim** - Ensure that the Environment claim is set to
   an expected and use case appropriate value (such as `production` or `sandbox`)
 
@@ -1005,8 +1166,13 @@ information. Accordingly:
 
 * Tokens MUST be transmitted over a channel providing confidentiality, integrity
   and server authentication, such as TLS {{RFC8446}}.
-* Tokens MUST NOT be written to logs, analytics pipelines, or other persistent
-  stores that are not required to process the transaction.
+* Tokens MUST NOT be written to logs, traces, analytics pipelines, or other
+  persistent stores that are not required to process the transaction. An agent
+  that obtains a token through a tool whose result is returned to a language
+  model may be unable to keep the token out of that model's context or out of a
+  transcript retained from it; the Token Exposure in the Agent Runtime section
+  of {{I-D.skyfire-oauth-using-kyapay-tokens}} describes how such a deployment
+  treats the token.
 * Tokens MUST NOT be forwarded to parties other than those necessary to complete
   the interaction for which they were issued.
 * Issuers SHOULD include only those claims necessary for the interaction for
@@ -1025,28 +1191,36 @@ provided at the transport layer and by minimising token contents, not at the
 token layer.
 
 The settlement information carried in a PAY or KYA-PAY token is additionally
-protected by its own construction rather than by encryption: the credential is
-transaction-scoped and its accompanying cryptogram is single-use, so a captured
-token yields no reusable payment instrument.
+protected by its own construction rather than by encryption: the network
+restricts the credential to the transaction bound in the token, and its
+accompanying cryptogram is single-use, so a captured token yields no reusable
+payment instrument.
 
 ## Settlement Credential Handling
 
 The `sti` claim of a PAY or KYA-PAY token carries a settlement instrument. When
-`stp` is `card`, that instrument is a network-issued agentic payment credential
-provisioned for a single transaction, accompanied by a single-use dynamic
-cryptogram. Such credentials are issued outside the scope of PCI DSS and cannot
-be used to derive the underlying account number.
+`stp` is `card`, that instrument is a payment token issued by a payment network
+and accompanied by a single-use token cryptogram ({{sti}}).
 
-Implementations MUST NOT place a Primary Account Number, or a static Card
-Verification Value, in the `sti` claim. Doing so would place the token, and
-every system that processes it, within PCI DSS scope, for which this
-specification provides no confidentiality mechanism.
+For entities other than Token Service Providers, a Payment Token that is defined
+and used in accordance with the EMV Payment Tokenisation Specification and that
+exists outside the Token Service Provider's token data environment is not
+Account Data and is not in scope for PCI DSS {{PCI-FAQ-1326}}. Receiving,
+inspecting, or forwarding a token defined in this specification therefore does
+not of itself bring a recipient within that scope. That determination concerns
+the payment token, not the recipient's wider environment: a system that also
+stores, processes, or transmits Account Data, or is connected to one that does,
+remains in scope.
+
+{{card-settlement-scope}} prohibits Account Data in any token. A token that
+carried it would bring every system that processes it within PCI DSS scope, for
+which this specification provides no confidentiality mechanism.
 
 ## Token Lifetime
 
 The `exp` claim of a token carrying a settlement instrument SHOULD NOT extend
-beyond the validity period of that instrument. Agentic payment credentials and
-their associated token cryptograms are single-use and short-lived; their
+beyond the validity period of that instrument. The token cryptograms that
+accompany agentic payment credentials are single-use and short-lived; their
 validity period is determined and enforced by the payment network. Issuing a
 long-lived token around a short-lived credential provides no benefit and widens
 the window in which a captured token can be replayed.
@@ -1087,17 +1261,38 @@ invalidates its signature. Combining claims taken from two separately signed
 tokens does not invalidate either signature, so a recipient that correlates
 tokens MUST check that both carry the same `iss` and `sub` values before
 treating them as referring to the same initiator. Because the subject is
-stable while the bound identities are unchanged,
-a recipient MAY use `sub` as a stable key for that combination, for example to
+stable at a Target service while the bound identities are unchanged,
+a recipient at that service MAY use `sub` as a stable key for that combination, for example to
 rate-limit or isolate a particular agent without affecting other agents acting
 for the same principal.
 
-# Privacy Considerations
+# Privacy Considerations {#privacy-considerations}
 
-The subject identifier is stable for a given combination of identities across
-audiences, within the namespace of a single issuer. Recipients that compare
-tokens from the same issuer can therefore recognize the same human principal,
-agent platform and agent combination at different targets.
+By default, a KYA token identifies the human principal only by
+`hid.id`. Directly identifying sub-claims such as `email`,
+`phone_number` or names are disclosed only when a Target requires
+them for the action at hand, as stated in its decline response or
+discovery document, and the principal has authorized the disclosure.
+The issuer MAY collect the principal's authorization itself or
+delegate its collection to the agent platform. Whichever of them
+collected it MUST be able to demonstrate that it was given. What
+counts as sufficient evidence may depend on applicable law and
+regulation. Targets SHOULD NOT require directly identifying
+sub-claims for actions that do not need them, such as browsing a
+catalog.
+
+A token carrying only `hid.id` is pseudonymous, not anonymous.
+`hid.id`, `sub` and `aid.id` are each specific to one Target
+service and different at every other Target service. At a given
+service, `hid.id` is stable for a principal returning through a given
+agent platform, whatever the agent, while `sub` and `aid.id` are
+stable for one agent of that principal and change with the agent.
+Two Targets, or a party that sees the traffic of both, cannot link
+the principal from these values. `apd` identifies the agent platform
+and is the same at every Target. `aid.name` is also the same at every
+Target, so where an agent acts for a single principal, its name can
+link that principal's activity across Targets. Directly identifying
+sub-claims link wherever they are disclosed.
 
 KYAPay tokens are designed to convey the information that
 an agent is acting on behalf of a principal - a person or organization.
@@ -1337,9 +1532,10 @@ The following specifications are related to and designed to be used with this sp
 {: numbered="false"}
 
 We would like to thank
-Bhasker Allam
-and
+Bhasker Allam,
 Jean Diaconu
+and
+Carlos Martínez
 for their contributions to the specification.
 
 # Document History
@@ -1354,8 +1550,10 @@ for their contributions to the specification.
   unchanged, and that a change to any of them gives a new subject. The
   identities are carried as claims in KYA and KYA-PAY tokens and not in PAY
   tokens, but the subject identifies the same combination in all three.
-* Disclosed in the Privacy Considerations that a stable subject is
-  correlatable across audiences.
+* Stated in the Privacy Considerations that `hid.id`, `sub` and `aid.id` are
+  specific to one Target service, and that directly identifying sub-claims are
+  disclosed only when a Target requires them and the principal has authorized
+  it.
 * Removed the qualifier on `hid`, which read as though the claim were required
   only for some use cases.
 * Stated that a Payment Token Issuer verifies the Initiator, which the role
@@ -1367,9 +1565,8 @@ for their contributions to the specification.
   specified alongside each claim.
 * Required a recipient correlating a PAY token with a KYA token to check that
   both carry the same `iss` and `sub`.
-* Described `sub` as unique rather than pairwise unique. The subject is stable
-  for a given combination across audiences, so the OpenID Connect sense of
-  pairwise did not apply.
+* Made `sub` pairwise: a different value at each Target service, stable at
+  that service.
 * Stated that an agent name is unique within an agent platform at a given
   issuer.
 * Added Identity Binding to the Security Considerations.
@@ -1378,6 +1575,31 @@ for their contributions to the specification.
 * Added "id" as a required sub-claim within "aid".
 * Made the "apd" claim REQUIRED in KYA and KYAPay tokens.
 * Added a Token Size section: no maximum token size, aggregate size guidance for issuers that fits the minimum recipients are required to accept, and a preference for one KYA-PAY token over separate KYA and PAY tokens.
+* Stated that `jti` identifies the token, not the request, so a repeated `jti`
+  is not by itself evidence of replay.
+* Made `creation_ip` OPTIONAL and described its use.
+* Replaced the example IP addresses with documentation addresses.
+* Required a recipient to confirm that it trusts the issuer before retrieving
+  key material, and moved the issuer check ahead of signature verification.
+* Added traces to the logging prohibition, and pointed to the Using document for
+  tokens that reach a language model's context.
+* Allowed further identifiers for the human principal in `hid`, only where the
+  issuer has verified that the principal controls them.
+* Prohibited Account Data in tokens of every type, described card credentials as
+  EMV Payment Tokens, and cited PCI SSC FAQ 1326 for their PCI DSS scope.
+* Replaced the example payment credential values with values that cannot be
+  mistaken for real ones.
+* Added an Identifying the Target section relating `aud`, `tsi` and `tdm`, made
+  `tsi` REQUIRED and `tdm` REQUIRED where the Target is identified by a domain
+  name, defined the form of `tdm`, and let a recipient that has not onboarded to
+  the issuer validate the audience using `tdm`.
+* Added `hid.id`, a pseudonymous identifier for the human principal, specific
+  to one agent platform and one Target service, and made `aid.id` specific to
+  one Target service.
+* Made `email` OPTIONAL, and included `email`, `phone_number`,
+  `organization_name`, `verification_id` and the name sub-claims only when a
+  Target requires them for the action at hand and the principal has authorized
+  their disclosure.
 * Required recipients to support `ES256` and to accept it from trusted issuers
   that publish an `ES256` key, and issuers to use it or an algorithm every
   recipient of the token accepts; limited the accepted algorithms to those the
