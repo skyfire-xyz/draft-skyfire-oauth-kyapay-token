@@ -2569,8 +2569,13 @@ information. Accordingly:<a href="#section-5.2-2" class="pilcrow">¶</a></p>
 and server authentication, such as TLS <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span>.<a href="#section-5.2-3.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.2-3.2">
-            <p id="section-5.2-3.2.1">Tokens <span class="bcp14">MUST NOT</span> be written to logs, analytics pipelines, or other persistent
-stores that are not required to process the transaction.<a href="#section-5.2-3.2.1" class="pilcrow">¶</a></p>
+            <p id="section-5.2-3.2.1">Tokens <span class="bcp14">MUST NOT</span> be written to logs, traces, analytics pipelines, or other
+persistent stores that are not required to process the transaction. An agent
+that obtains a token through a tool whose result is returned to a language
+model may be unable to keep the token out of that model's context or out of a
+transcript retained from it; the Token Exposure in the Agent Runtime section
+of <span>[<a href="#I-D.skyfire-oauth-using-kyapay-tokens" class="cite xref">I-D.skyfire-oauth-using-kyapay-tokens</a>]</span> describes how such a deployment
+treats the token.<a href="#section-5.2-3.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.2-3.3">
             <p id="section-5.2-3.3.1">Tokens <span class="bcp14">MUST NOT</span> be forwarded to parties other than those necessary to complete
@@ -3524,6 +3529,10 @@ is not by itself evidence of replay.<a href="#appendix-C-3.14.1" class="pilcrow"
         <li class="normal" id="appendix-C-3.17">
           <p id="appendix-C-3.17.1">Required a recipient to confirm that it trusts the issuer before retrieving
 key material, and moved the issuer check ahead of signature verification.<a href="#appendix-C-3.17.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-3.18">
+          <p id="appendix-C-3.18.1">Added traces to the logging prohibition, and pointed to the Using document for
+tokens that reach a language model's context.<a href="#appendix-C-3.18.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="appendix-C-4">-02<a href="#appendix-C-4" class="pilcrow">¶</a></p>

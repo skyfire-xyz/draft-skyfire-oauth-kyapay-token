@@ -1042,9 +1042,14 @@ Table of Contents
       confidentiality, integrity and server authentication, such as TLS
       [RFC8446].
 
-   *  Tokens MUST NOT be written to logs, analytics pipelines, or other
-      persistent stores that are not required to process the
-      transaction.
+   *  Tokens MUST NOT be written to logs, traces, analytics pipelines,
+      or other persistent stores that are not required to process the
+      transaction.  An agent that obtains a token through a tool whose
+      result is returned to a language model may be unable to keep the
+      token out of that model's context or out of a transcript retained
+      from it; the Token Exposure in the Agent Runtime section of
+      [I-D.skyfire-oauth-using-kyapay-tokens] describes how such a
+      deployment treats the token.
 
    *  Tokens MUST NOT be forwarded to parties other than those necessary
       to complete the interaction for which they were issued.
@@ -1716,6 +1721,9 @@ Document History
    *  Required a recipient to confirm that it trusts the issuer before
       retrieving key material, and moved the issuer check ahead of
       signature verification.
+
+   *  Added traces to the logging prohibition, and pointed to the Using
+      document for tokens that reach a language model's context.
 
    -02
 
