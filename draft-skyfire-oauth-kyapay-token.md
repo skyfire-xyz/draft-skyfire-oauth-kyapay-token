@@ -487,12 +487,15 @@ the domain it is protecting for that request.
 The Authenticating the Counterparty section of
 {{I-D.skyfire-oauth-using-kyapay-tokens}} describes that choice.
 
-A recipient that checks more than the domain compares the request's host, in
-lower case, with the host in `tdm`. Where `tdm` includes a path, the request
-path, normalized as described in {{Section 6.2.2 of RFC3986}}, matches it as a
-cookie path does ({{Section 5.1.4 of RFC6265}}): it is the same path or one
-below it. For example, `shop.example.com/store` matches `/store` and
-`/store/cart` on `shop.example.com`, but not `/storefront`. A recipient that
+A recipient that checks more than the domain checks that `tdm` names the Target
+it is protecting for the request: the host in `tdm` is that Target's host, and
+where that Target is identified by a path, the path in `tdm` is that path or one
+below it. Paths are matched as cookie paths are ({{Section 5.1.4 of RFC6265}}),
+after both are normalized as described in {{Section 6.2.2 of RFC3986}}. For
+example, for a Target at `shop.example.com/store`, a `tdm` of
+`shop.example.com/store` or `shop.example.com/store/cart` passes, but
+`shop.example.com`, `shop.example.com/storefront` and `example.com/store` do
+not. A recipient that
 checks only the domain does not enforce the host or the path. A Target whose
 host serves several tenants, or that protects only some of its paths, therefore
 checks the host and path itself, or `aud` and `tsi` where it has onboarded to
