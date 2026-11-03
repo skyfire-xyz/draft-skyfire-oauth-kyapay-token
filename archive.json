@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-11-01T00:05:48.845599+00:00",
+  "timestamp": "2026-11-03T00:04:38.977740+00:00",
   "repo": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
   "labels": [
     {
@@ -89,6 +89,22 @@
           "updatedAt": "2026-09-28T18:08:01Z"
         }
       ]
+    },
+    {
+      "number": 66,
+      "id": "I_kwDOQZxkd88AAAABbrGcxQ",
+      "title": "Define how a recipient compares the host and path in `tdm`",
+      "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/issues/66",
+      "state": "CLOSED",
+      "author": "skyfire-ankit",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Raised by @carlosmgv02 on #59 (https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/59#issuecomment-6562045971) and on the OAuth list.\n\n`tdm` can carry a host and a path. Identifying the Target and validation step 6 ask a recipient that hasn't onboarded to the issuer to check at least that `tdm` names its domain, but nothing says how a recipient that checks more compares the host and the path. Where a Target keeps tenants on paths under one host, such as `app.beel.es/api/v1/companies/{id}/...`, a domain-only check accepts a token for any path under the domain.\n\nTo be addressed in #59:\n- a recipient that checks more than the domain compares the host exactly, and matches the path the way cookie paths match (RFC 6265, Section 5.1.4) after RFC 3986 normalization, so `/api` matches `/api/v1` but not `/apidocs`;\n- a domain-only check is stated not to enforce the host or the path, so a Target that needs them checks them itself.",
+      "createdAt": "2026-11-01T21:09:56Z",
+      "updatedAt": "2026-11-02T05:21:33Z",
+      "closedAt": "2026-11-02T05:21:33Z",
+      "comments": []
     }
   ],
   "pulls": [
@@ -2975,24 +2991,26 @@
       "id": "PR_kwDOQZxkd88AAAABCvd-fw",
       "title": "Add a Token Size section bounding what an issuer emits",
       "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/48",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "skyfire-ankit",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
-      "body": "Adds a short Token Size section. This specification sets no maximum token size; the Using draft sets the minimum a recipient must accept (6144 octets, in skyfire-xyz/draft-skyfire-oauth-using-kyapay-tokens#4). Issuers SHOULD keep registered claims within 3072 octets of JSON and other claims within 1024; with ES256 that serializes to about 5670 octets, inside the minimum. Where a request would carry both a KYA token and a PAY token, an issuer SHOULD issue one KYA-PAY token instead.\r\n\r\nCondensed on 31 Oct following review. This also answers C2 in skyfire-xyz/draft-skyfire-oauth-using-kyapay-tokens#8.",
+      "body": "Adds a short Token Size section. This specification sets no maximum token size; the Using draft sets the minimum a recipient must accept (6144 octets, in skyfire-xyz/draft-skyfire-oauth-using-kyapay-tokens#4). Issuers SHOULD keep a token's claims within 4096 octets of JSON in total; with ES256 that serializes to about 5670 octets, inside the minimum. Where a request would carry both a KYA token and a PAY token, an issuer SHOULD issue one KYA-PAY token instead.\r\n\r\nCondensed on 31 Oct following review. This also answers C2 in skyfire-xyz/draft-skyfire-oauth-using-kyapay-tokens#8.",
       "createdAt": "2026-09-08T22:02:03Z",
-      "updatedAt": "2026-10-31T23:54:32Z",
+      "updatedAt": "2026-11-01T00:55:37Z",
       "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
       "baseRefName": "main",
       "baseRefOid": "2bcf1cba12e41a2cb5d443bd5cc967f135fc2108",
       "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
       "headRefName": "token-size-issuer-guidance",
-      "headRefOid": "a98ab4d6e5ade31f090279550f2bdd4dc05e8db9",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "f25c16f893806d93a6fb9a99e78f06a2071394cc",
+      "closedAt": "2026-11-01T00:55:37Z",
+      "mergedAt": "2026-11-01T00:55:37Z",
+      "mergedBy": "skyfire-ankit",
+      "mergeCommit": {
+        "oid": "93146c34567d62c7091519e7854cb8be2a7069bc"
+      },
       "comments": [
         {
           "author": "skyfire-ankit",
@@ -3081,6 +3099,65 @@
               "updatedAt": "2026-10-31T23:54:32Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVUXK6g",
+          "commit": {
+            "abbreviatedOid": "f25c16f"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe2 Approval recommended\n\nNo active review issues are identified for the issuer-side token size guidance change.\n\n**No open issues** \ud83c\udf89\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-01T00:25:17Z",
+          "updatedAt": "2026-11-01T00:25:17Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVUXWlQ",
+          "commit": {
+            "abbreviatedOid": "a98ab4d"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-01T00:26:12Z",
+          "updatedAt": "2026-11-01T00:26:12Z",
+          "comments": [
+            {
+              "originalPosition": 9,
+              "body": "Changed to a single limit: all claims together, 4096 octets of JSON before encoding. The 6144 minimum and the arithmetic are unchanged.",
+              "createdAt": "2026-11-01T00:26:12Z",
+              "updatedAt": "2026-11-01T00:26:13Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVUZSCg",
+          "commit": {
+            "abbreviatedOid": "f25c16f"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe2 Approval recommended\n\nThere are no active review issues for the issuer-side token size guidance update.\n\n**No open issues** \ud83c\udf89\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-01T00:31:08Z",
+          "updatedAt": "2026-11-01T00:31:08Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVUdIKw",
+          "commit": {
+            "abbreviatedOid": "f25c16f"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-11-01T00:44:38Z",
+          "updatedAt": "2026-11-01T00:44:38Z",
+          "comments": []
         }
       ]
     },
@@ -3667,25 +3744,35 @@
       "id": "PR_kwDOQZxkd88AAAABLHCC1w",
       "title": "Add optional ivm, amr and aml sub-claims to hid, and ivm and aml to apd",
       "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/55",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "skyfire-ankit",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
-      "body": "Adds optional `ivm`, `amr` and `aml` sub-claims to `hid`, and optional `ivm` and `aml` sub-claims to `apd`.\n\n- Each sub-claim uses the syntax and values defined in its own draft (id-verification, RFC 8176 plus amr-values, aml-methods).\n- An issuer SHOULD include each one when it knows the methods used. Absence does not mean a method was not used.\n- `amr` is left out of `apd`, because it is not clear which authentication of a platform it would describe.\n- Values for verifying organizations (KYB) do not exist yet. They will be proposed separately in the id-verification draft.\n- Adds RFC 8176 as an informative reference and a -03 Document History entry.\n\nNote: the Document History block may conflict with #54.",
+      "body": "Adds optional `ivm`, `amr` and `aml` sub-claims to `hid`, and optional `ivm` and `aml` sub-claims to `apd`.\r\n\r\n- Each sub-claim uses the syntax and values defined in its own specification: id-verification for `ivm`; OpenID Connect Core, with values from RFC 8176 and amr-values, for `amr`; aml-methods for `aml`.\r\n- In a KYAPay token these claims appear only inside `hid` and `apd`, never at the top level.\r\n- An issuer SHOULD include each one when it knows the methods used. Absence does not mean a method was not used.\r\n- `amr` is left out of `apd`, because it is not clear which authentication of a platform it would describe.\r\n- Values for verifying organizations (KYB) are proposed in skyfire-xyz/draft-skyfire-oauth-id-verification#11.\r\n- Adds RFC 8176, OpenID Connect Core and the three method drafts as normative references, and a -03 Document History entry.",
       "createdAt": "2026-10-27T20:19:48Z",
-      "updatedAt": "2026-10-28T10:40:04Z",
+      "updatedAt": "2026-11-02T05:33:55Z",
       "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
       "baseRefName": "main",
-      "baseRefOid": "494437569328c0c949d616ce6164ec006318b774",
+      "baseRefOid": "4b08cab0a7ef298a382a5bcb7b75c302c828fc36",
       "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
       "headRefName": "aa-method-subclaims-v2",
-      "headRefOid": "436fbc51359a2b237e7a85893bc8b526604c8a8b",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
+      "headRefOid": "27e33f4ca75ff8c6c49599ff65f387594b30d3e0",
+      "closedAt": "2026-11-02T05:32:46Z",
+      "mergedAt": "2026-11-02T05:32:46Z",
+      "mergedBy": "skyfire-ankit",
+      "mergeCommit": {
+        "oid": "87f52e09db7008557a37dbf4cb96506357c913da"
+      },
+      "comments": [
+        {
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Added a paragraph: in a KYAPay token these appear only inside `hid` and `apd`; `amr` is not used in `apd`; issuers don't put them at the top level, and recipients ignore them there.",
+          "createdAt": "2026-11-01T15:41:41Z",
+          "updatedAt": "2026-11-01T15:41:41Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOQZxkd88AAAABUi7M_w",
@@ -3719,6 +3806,65 @@
           "createdAt": "2026-10-28T10:40:04Z",
           "updatedAt": "2026-10-28T10:40:04Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVXbKfg",
+          "commit": {
+            "abbreviatedOid": "96a7134"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe2 Approval recommended\n\nNo active review issues are reported for the KYAPay specification\u2019s optional method sub-claim additions.\n\n**No open issues** \ud83c\udf89\n\n<details>\n<summary><strong>1 resolved since last review</strong></summary>\n\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-light.png\" alt=\"Low severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Classify required sub-claim references as normative](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/55#discussion_r4393709475)\n</details>\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-01T15:27:19Z",
+          "updatedAt": "2026-11-01T15:27:19Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVXeKcg",
+          "commit": {
+            "abbreviatedOid": "436fbc5"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-01T15:41:22Z",
+          "updatedAt": "2026-11-01T15:41:23Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "Moved to normative.",
+              "createdAt": "2026-11-01T15:41:22Z",
+              "updatedAt": "2026-11-01T15:41:23Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVar4BQ",
+          "commit": {
+            "abbreviatedOid": "96a7134"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "This may cause some to question the id-verification and aml-methods specs defining JWT claims, but I suppose we can cross that bridge when we come to it.",
+          "createdAt": "2026-11-02T04:54:57Z",
+          "updatedAt": "2026-11-02T04:54:57Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVa6W_w",
+          "commit": {
+            "abbreviatedOid": "27e33f4"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe2 Approval recommended\n\nNo active review issues are reported for the optional verification-method sub-claims.\n\n**No open issues** \ud83c\udf89\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-02T05:33:55Z",
+          "updatedAt": "2026-11-02T05:33:55Z",
+          "comments": []
         }
       ]
     },
@@ -3727,25 +3873,33 @@
       "id": "PR_kwDOQZxkd88AAAABMCU13Q",
       "title": "Address Bhasker Allam's review (issue #8) in the token draft",
       "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/56",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "skyfire-ankit",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Token-draft changes from Bhasker Allam's review, as proposed in our reply on\nskyfire-xyz/draft-skyfire-oauth-using-kyapay-tokens#8:\n\n- S1: further identifiers in hid only where the issuer has verified control.\n- S3: jti identifies the token, not the request.\n- S4: new Identifying the Target section; tsi REQUIRED; tdm REQUIRED for\n  domain-identified Targets, with its form defined; audience validation for\n  recipients that have not onboarded.\n- S5: issuer trust confirmed before any key retrieval; issuer check moved ahead\n  of signature verification.\n- S6: ES256 as a common floor; accepted algorithms from configuration and the\n  JWK Set; accepted typ values fixed before validation; MUST follow BCP 225.\n- S7: traces added to the logging prohibition.\n- P2: no Account Data in any token; EMV Payment Token wording; PCI SSC FAQ 1326.\n- P3: creation_ip OPTIONAL; documentation values in the examples.\n\nThe Using-draft half is in a companion pull request, and the two should merge\ntogether (S4 spans both). P1 (hid.id by default) follows in its own pull request.",
       "createdAt": "2026-10-31T23:59:50Z",
-      "updatedAt": "2026-11-01T00:04:13Z",
+      "updatedAt": "2026-11-01T01:35:14Z",
       "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
       "baseRefName": "main",
       "baseRefOid": "2bcf1cba12e41a2cb5d443bd5cc967f135fc2108",
       "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
       "headRefName": "bhasker-review-token",
-      "headRefOid": "e080cc8ff08851f29e4b14440df95c8e97cc2f33",
-      "closedAt": null,
+      "headRefOid": "d0c56cf9c89111f383385585b326089107d93bf8",
+      "closedAt": "2026-11-01T01:35:14Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Replaced by one pull request per review item: #57 (S1), #58 (S3), #59 (S4), #60 (S5), #61 (S6), #62 (S7), #63 (P2), #64 (P3).",
+          "createdAt": "2026-11-01T01:35:14Z",
+          "updatedAt": "2026-11-01T01:35:14Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOQZxkd88AAAABVUTT3A",
@@ -3766,6 +3920,1433 @@
               "updatedAt": "2026-11-01T00:04:13Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVUhepw",
+          "commit": {
+            "abbreviatedOid": "d0c56cf"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udd35 Needs a closer look\n\nIssuers are not required to support ES256, so a conforming RS256-only issuer cannot interoperate with an ES256-only recipient, undermining the stated common-algorithm guarantee.\n\n<details open>\n<summary><strong>1 open issue</strong></summary>\n\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Require issuers to support ES256 for interoperability](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/56#discussion_r4433770238)\n</details>\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-01T00:55:52Z",
+          "updatedAt": "2026-11-01T00:55:52Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 57,
+      "id": "PR_kwDOQZxkd88AAAABMC1hqA",
+      "title": "S1: Allow further identifiers in hid only where the issuer verified control",
+      "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/57",
+      "state": "MERGED",
+      "author": "skyfire-ankit",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Addresses S1 in skyfire-xyz/draft-skyfire-oauth-using-kyapay-tokens#8, as proposed in our reply there.",
+      "createdAt": "2026-11-01T01:17:02Z",
+      "updatedAt": "2026-11-02T04:21:48Z",
+      "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "baseRefName": "main",
+      "baseRefOid": "375e4e07a308b351fbf44730ddc35f5ccd6a51e8",
+      "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "headRefName": "bhasker-s1-hid-identifiers",
+      "headRefOid": "3fda42064b735ac694799aa2a3a543144dc86737",
+      "closedAt": "2026-11-02T04:20:33Z",
+      "mergedAt": "2026-11-02T04:20:33Z",
+      "mergedBy": "skyfire-ankit",
+      "mergeCommit": {
+        "oid": "4c64ff6dd6f9560d44c3339eb64dd832c2a0d02f"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVUmx9g",
+          "commit": {
+            "abbreviatedOid": "01305e2"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe1 Changes recommended\n\nThe identifier-control requirement ambiguously covers verification IDs and permits stale verification after an email address or phone number is reassigned.\n\n<details open>\n<summary><strong>2 open issues</strong></summary>\n\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Require verification freshness for reassigned contact identifiers](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/57#discussion_r4433980840) \u00b7 New\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Limit the prohibition to identifiers controlled by the human principal](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/57#discussion_r4433980860) \u00b7 New\n</details>\n\n<details>\n<summary><strong>What changed in this PR</strong></summary>\n\nThis PR updates the KYAPay token specification to support additional human-principal identifiers in `hid` for Target account recognition, addressing the token-format portion of S1.\n\n**Changes:**\n- Requires issuers to verify the principal\u2019s control of asserted identifiers.\n- Gives examples of control-verification methods without mandating one.\n- Updates acknowledgments and document history.\n\n| File | Description |\r\n| ---- | ----------- |\r\n| `draft-skyfire-oauth-kyapay-token.md` | Adds identifier-control requirements and verification examples; updates acknowledgments and history. |\n</details>\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-01T01:20:34Z",
+          "updatedAt": "2026-11-01T01:20:35Z",
+          "comments": [
+            {
+              "originalPosition": 8,
+              "body": "A historical verification is enough to satisfy this requirement, even if the email address or phone number was subsequently reassigned. The issuer could then continue minting tokens that associate the old principal with an identifier they no longer control. Please specify how issuers establish that verification remains valid, or convey its age so recipients can enforce a freshness policy.",
+              "createdAt": "2026-11-01T01:20:34Z",
+              "updatedAt": "2026-11-01T01:20:35Z"
+            },
+            {
+              "originalPosition": 10,
+              "body": "The unqualified prohibition can also be read as covering `hid.verification_id`, which identifies the verifier's verification rather than something the principal controls. This makes the control requirement ambiguous for an explicitly supported sub-claim. Scope the prohibition to identifiers of the human principal.",
+              "createdAt": "2026-11-01T01:20:34Z",
+              "updatedAt": "2026-11-01T01:20:35Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVUq5ag",
+          "commit": {
+            "abbreviatedOid": "01305e2"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-01T01:46:42Z",
+          "updatedAt": "2026-11-01T01:46:42Z",
+          "comments": [
+            {
+              "originalPosition": 10,
+              "body": "```suggestion\nverified.\n```\nTalking about codes and other verification methods here will only draw criticism.",
+              "createdAt": "2026-11-01T01:46:42Z",
+              "updatedAt": "2026-11-01T01:46:42Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVVHIAQ",
+          "commit": {
+            "abbreviatedOid": "6dadedd"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udd35 Needs a closer look\n\nThe identifier-control requirement permits stale verification, risking incorrect account linking, and also unintentionally covers verifier-assigned metadata.\n\n<details open>\n<summary><strong>2 open issues</strong></summary>\n\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Limit the prohibition to identifiers controlled by the human principal](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/57#discussion_r4433980860)\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Require verification freshness for reassigned contact identifiers](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/57#discussion_r4433980840)\n</details>\n\n<details>\n<summary><strong>1 previously missed issue</strong></summary>\n\nIn code that hasn't changed since last review\n\n<details>\n<summary><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> Limit the prohibition to principal identifiers</summary>\n\n`draft-skyfire-oauth-kyapay-token.md:573`\n\nThe unqualified prohibition also covers `hid.verification_id`, defined immediately above as the verifier's identifier for a verification, rather than an identifier controlled by the principal. This makes that optional sub-claim conflict with the new requirement. Restrict the prohibition to the further principal identifiers described in the preceding sentence.\n</details>\n</details>\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-01T04:18:51Z",
+          "updatedAt": "2026-11-01T04:18:51Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVVIWOQ",
+          "commit": {
+            "abbreviatedOid": "ee49eae"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udd35 Needs a closer look\n\nThe draft permits stale identifier verification, which could link a token to the wrong account after an email address or phone number is reassigned.\n\n<details open>\n<summary><strong>1 open issue</strong></summary>\n\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Require verification freshness for reassigned contact identifiers](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/57#discussion_r4433980840)\n</details>\n\n<details>\n<summary><strong>1 resolved since last review</strong></summary>\n\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Limit the prohibition to identifiers controlled by the human principal](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/57#discussion_r4433980860)\n</details>\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-01T04:22:48Z",
+          "updatedAt": "2026-11-01T04:22:48Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVX2hKQ",
+          "commit": {
+            "abbreviatedOid": "01305e2"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-01T17:04:49Z",
+          "updatedAt": "2026-11-01T17:04:49Z",
+          "comments": [
+            {
+              "originalPosition": 8,
+              "body": "This goes with the hid.id changes (P1 in skyfire-xyz/draft-skyfire-oauth-using-kyapay-tokens#8), which change when these identifiers are included in a token.",
+              "createdAt": "2026-11-01T17:04:49Z",
+              "updatedAt": "2026-11-01T17:04:49Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVYjnKA",
+          "commit": {
+            "abbreviatedOid": "ee49eae"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-11-01T20:13:12Z",
+          "updatedAt": "2026-11-01T20:13:12Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVahBvA",
+          "commit": {
+            "abbreviatedOid": "3fda420"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udd35 Needs a closer look\n\nAccount-linking security depends on coordinated changes to the separate Using draft and planned P1/hid.id behavior that are not available in this PR.\n\n**No open issues** \ud83c\udf89\n\n<details>\n<summary><strong>1 resolved since last review</strong></summary>\n\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Require verification freshness for reassigned contact identifiers](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/57#discussion_r4433980840)\n</details>\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-02T04:21:48Z",
+          "updatedAt": "2026-11-02T04:21:48Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 58,
+      "id": "PR_kwDOQZxkd88AAAABMC2fEQ",
+      "title": "S3: State that jti identifies the token, not the request",
+      "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/58",
+      "state": "MERGED",
+      "author": "skyfire-ankit",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Addresses S3 in skyfire-xyz/draft-skyfire-oauth-using-kyapay-tokens#8, as proposed in our reply there.",
+      "createdAt": "2026-11-01T01:19:36Z",
+      "updatedAt": "2026-11-01T15:02:40Z",
+      "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "baseRefName": "main",
+      "baseRefOid": "93146c34567d62c7091519e7854cb8be2a7069bc",
+      "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "headRefName": "bhasker-s3-jti",
+      "headRefOid": "9f66dd8d6ab3e7c16cc2d93c0ec9b541a0b1bd37",
+      "closedAt": "2026-11-01T15:02:40Z",
+      "mergedAt": "2026-11-01T15:02:40Z",
+      "mergedBy": "skyfire-ankit",
+      "mergeCommit": {
+        "oid": "c11104dec47877f41c588f1d6453a0e7c03b450e"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVUm3dw",
+          "commit": {
+            "abbreviatedOid": "9f66dd8"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe2 Approval recommended\n\nNo active review issues are recorded for the change clarifying `jti` token-identifier semantics.\n\n**No open issues** \ud83c\udf89\n\n<details>\n<summary><strong>What changed in this PR</strong></summary>\n\nThis PR clarifies the meaning of `jti` in the KYA-PAY token specification, addressing S3 from issue #8.\n\n**Changes:**\n- Clarifies that `jti` identifies a token, not a request, and that repeated use within the token\u2019s lifetime is not by itself evidence of replay.\n- Adds a contributor acknowledgment and records the clarification in the document history.\n\n| File | Description |\r\n| ---- | ----------- |\r\n| `draft-skyfire-oauth-kyapay-token.md` | Clarifies `jti` semantics and updates acknowledgments and document history. |\n</details>\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-01T01:21:07Z",
+          "updatedAt": "2026-11-01T01:21:08Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVUrI1w",
+          "commit": {
+            "abbreviatedOid": "9f66dd8"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-11-01T01:48:26Z",
+          "updatedAt": "2026-11-01T01:48:26Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 59,
+      "id": "PR_kwDOQZxkd88AAAABMC30QQ",
+      "title": "S4: Add Identifying the Target, and define how recipients check the audience",
+      "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/59",
+      "state": "MERGED",
+      "author": "skyfire-ankit",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Addresses S4 in skyfire-xyz/draft-skyfire-oauth-using-kyapay-tokens#8, as proposed in our reply there.\r\n\r\nThe Using-draft half is skyfire-xyz/draft-skyfire-oauth-using-kyapay-tokens#13.\r\n\r\nCloses #66 (how a recipient compares the host and path in `tdm`, raised by Carlos Mart\u00ednez).",
+      "createdAt": "2026-11-01T01:23:06Z",
+      "updatedAt": "2026-11-02T05:22:59Z",
+      "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "baseRefName": "main",
+      "baseRefOid": "5181fcc07ce9b6c233412e8a494fec8a7ae6594c",
+      "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "headRefName": "bhasker-s4-identifying-target",
+      "headRefOid": "72c141aaca98ab388426609d65bc05ad8adef407",
+      "closedAt": "2026-11-02T05:21:31Z",
+      "mergedAt": "2026-11-02T05:21:31Z",
+      "mergedBy": "skyfire-ankit",
+      "mergeCommit": {
+        "oid": "2df13898dded6e0317cd26057668e025333f612c"
+      },
+      "comments": [
+        {
+          "author": "carlosmgv02",
+          "authorAssociation": "NONE",
+          "body": "I'm one of the founders of BeeL., an invoicing API in Spain, and I've been following this from the side of a Target that might receive agent traffic. One gap on path-based tenants.\r\n\r\nThe PSL rule handles subdomain tenants well. tdm also allows a path, but step 6 only asks a non-onboarded recipient to check that tdm names its domain, and nothing says how the path is compared. Our case: the API is at app.beel.es/api, same host as the web app, with the customer company in the path (app.beel.es/api/v1/companies/{id}/...). As written, a token with tdm app.beel.es/api is fine for any intermediary in front of anything under beel.es. Marketplaces with seller pages under one host are in the same spot.\r\n\r\nCould step 6 say how a recipient that cares about the path compares it? Something like an exact host match plus a path-prefix match on segment boundaries, so /api doesn't match /apidocs. Or, if the path is only informational for intermediaries, say that too, so Targets know they have to check it themselves.",
+          "createdAt": "2026-11-01T18:26:00Z",
+          "updatedAt": "2026-11-01T18:26:00Z"
+        },
+        {
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "@carlosmgv02, tracked in #66 and addressed in this PR: a recipient that checks more than the domain checks that `tdm` names the Target it is protecting, with the same host and, for a Target identified by a path, that path or one below it, matched like cookie paths (RFC 6265, Section 5.1.4) after RFC 3986 normalization of both. For a Target at `app.beel.es/api`, a `tdm` of `app.beel.es/api` or `app.beel.es/api/v1` passes; `app.beel.es`, `app.beel.es/apidocs` and `beel.es/api` don't. A recipient that checks only the domain doesn't enforce the host or path, so a Target with several tenants on one host checks them itself, or `aud` and `tsi` where it has onboarded. You're also in the Acknowledgments now. A review of the change would be welcome.",
+          "createdAt": "2026-11-02T01:02:11Z",
+          "updatedAt": "2026-11-02T01:02:11Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVUn83w",
+          "commit": {
+            "abbreviatedOid": "c5f8774"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe1 Changes recommended\n\nRequiring `tdm` for every URL-based Target leaves IP-literal URLs without a conforming value, so the requirement must be limited to URL interfaces with domain-name hosts.\n\n<details open>\n<summary><strong>1 open issue</strong></summary>\n\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Limit the tdm requirement to domain-name URL hosts](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/59#discussion_r4433996192) \u00b7 New\n</details>\n\n<details>\n<summary><strong>What changed in this PR</strong></summary>\n\nThis PR addresses S4 in the linked review by clarifying how KYAPay tokens identify Targets and how recipients validate audience claims without an issuer onboarding relationship.\n\n**Changes:**\n- Defines the relationship between `aud`, `tsi`, and `tdm`, making `tsi` required and `tdm` required for domain-identified Targets.\n- Specifies the `tdm` format and Public Suffix List\u2013based domain boundaries.\n- Updates audience-validation guidance, acknowledgments, and document history.\n\n| File | Description |\r\n| ---- | ----------- |\r\n| draft-skyfire-oauth-kyapay-token.md | Defines Target identification and audience-validation rules, with supporting reference and history updates. |\n</details>\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-01T01:27:17Z",
+          "updatedAt": "2026-11-01T01:27:17Z",
+          "comments": [
+            {
+              "originalPosition": 92,
+              "body": "This paragraph requires `tdm` for every URL-based Target, but an HTTP API can use an IP-literal URL such as `https://192.0.2.1/`. Such a Target has neither the DNS host name nor the PSL registrable domain required by the next paragraph, so an issuer cannot supply a conforming value. Qualify this requirement to URL interfaces with domain-name hosts, consistent with the claim definition making `tdm` optional for non-domain Targets.",
+              "createdAt": "2026-11-01T01:27:17Z",
+              "updatedAt": "2026-11-01T01:27:17Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVVM34A",
+          "commit": {
+            "abbreviatedOid": "565b942"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udd35 Needs a closer look\n\nThe token validation procedure requires both `aud` and `tsi`, conflicting with the paired draft\u2019s allowance to check any of `aud`, `tsi`, or `tdm`, so both drafts and the Target-identification guidance need a consistent rule.\n\n**No open issues** \ud83c\udf89\n\n<details>\n<summary><strong>1 previously missed issue</strong></summary>\n\nIn code that hasn't changed since last review\n\n<details>\n<summary><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> Align Target validation requirements across both drafts</summary>\n\n`draft-skyfire-oauth-kyapay-token.md:997`\n\nThe paired Using-draft PR #13 permits an onboarded Target to check any of `aud`, `tsi`, or `tdm`, whereas this validation step requires both `aud` and `tsi`. A Target checking only `tdm` would satisfy that draft's counterparty guidance but fail this procedure. Align both drafts on one validation rule, including the same requirement in Identifying the Target at lines 481\u2013482.\n</details>\n</details>\n\n<details>\n<summary><strong>1 resolved since last review</strong></summary>\n\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Limit the tdm requirement to domain-name URL hosts](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/59#discussion_r4433996192)\n</details>\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-01T04:37:22Z",
+          "updatedAt": "2026-11-01T04:37:22Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVYlaLg",
+          "commit": {
+            "abbreviatedOid": "565b942"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-01T20:17:51Z",
+          "updatedAt": "2026-11-01T20:17:51Z",
+          "comments": [
+            {
+              "originalPosition": 70,
+              "body": "```suggestion\n\"Agent\" is used broadly on the Target side. On the initiating side it is a\nprogram acting for a person. On the Target side it is whatever the initiator is\ndealing with, which may be a website, an API, an MCP server, or another agent.\nThe `tsi` claim identifies the particular service offered under that Target\nagent.\n```\nRemove duplication.",
+              "createdAt": "2026-11-01T20:17:51Z",
+              "updatedAt": "2026-11-01T20:18:41Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVYnUDw",
+          "commit": {
+            "abbreviatedOid": "565b942"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-01T20:22:45Z",
+          "updatedAt": "2026-11-01T20:22:45Z",
+          "comments": [
+            {
+              "originalPosition": 95,
+              "body": "It's normal in such interfaces to allow a port, which is often used for debugging API endpoints.",
+              "createdAt": "2026-11-01T20:22:45Z",
+              "updatedAt": "2026-11-01T20:22:45Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVY2jhw",
+          "commit": {
+            "abbreviatedOid": "fa9e85c"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe1 Changes recommended\n\nShared-host scope validation does not enforce tenant isolation, allowing broad or host-only `tdm` claims to pass for requests to another tenant.\n\n<details open>\n<summary><strong>1 open issue</strong></summary>\n\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Normalize the token path before cookie-path matching](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/59#discussion_r4437388209) \u00b7 New\n</details>\n\n<details>\n<summary><strong>1 previously missed issue</strong></summary>\n\nIn code that hasn't changed since last review\n\n<details>\n<summary><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-light.png\" alt=\"High severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> Enforce tenant-specific path scope for shared hosts</summary>\n\n`draft-skyfire-oauth-kyapay-token.md:499`\n\nOn a shared host, `tdm = market.example.com/tenants` matches `/tenants/B/cart` even if the token's opaque `aud`/`tsi` identify tenant A, so checking the request against the token's path does not isolate tenants. A host-only `tdm` also passes without any path restriction. Require tenant-sensitive Targets to reject missing or broader `tdm` scopes and check that the claimed host/path is confined to their configured tenant scope, or require issuer-specific `aud`/`tsi` validation.\n</details>\n</details>\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-01T21:16:44Z",
+          "updatedAt": "2026-11-01T21:16:45Z",
+          "comments": [
+            {
+              "originalPosition": 123,
+              "body": "Only the request path is normalized; the definition of `tdm` does not require its path to be canonical. For example, `shop.example.com/%73tore` is allowed, but comparing its raw path against the normalized request path `/store/cart` fails cookie path matching even though it identifies the same `/store` subtree. Normalize both paths before comparing them, or require issuers to normalize the `tdm` path, so equivalent URL spellings do not cause valid tokens to be rejected.",
+              "createdAt": "2026-11-01T21:16:44Z",
+              "updatedAt": "2026-11-01T21:16:45Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVZhTMQ",
+          "commit": {
+            "abbreviatedOid": "fa9e85c"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-02T00:33:09Z",
+          "updatedAt": "2026-11-02T00:33:09Z",
+          "comments": [
+            {
+              "originalPosition": 123,
+              "body": "Changed: both paths are normalized before they are compared, and `tdm` is now compared with the Target being protected rather than with the request.",
+              "createdAt": "2026-11-02T00:33:09Z",
+              "updatedAt": "2026-11-02T00:33:09Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVZhsWw",
+          "commit": {
+            "abbreviatedOid": "e0551ed"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udd35 Needs a closer look\n\nReplacing issuer-specific audience checks with PSL-based domain checks for non-onboarded recipients requires protocol/security review of replay risks and cross-tenant isolation boundaries.\n\n**No open issues** \ud83c\udf89\n\n<details>\n<summary><strong>1 resolved since last review</strong></summary>\n\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Normalize the token path before cookie-path matching](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/59#discussion_r4437388209)\n</details>\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-02T00:34:50Z",
+          "updatedAt": "2026-11-02T00:34:50Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVaNJgg",
+          "commit": {
+            "abbreviatedOid": "565b942"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-02T03:16:42Z",
+          "updatedAt": "2026-11-02T03:16:43Z",
+          "comments": [
+            {
+              "originalPosition": 95,
+              "body": "Kept without a port: `tdm` names the Target rather than an endpoint, and ports are not compared, so a token for `api.example.com` is accepted at `api.example.com:8443` when debugging. Cookies (RFC 6265, Section 8.5) and WebAuthn RP IDs don't separate by port either. Services on one host that need to be told apart can use a path, or `aud` and `tsi`.",
+              "createdAt": "2026-11-02T03:16:42Z",
+              "updatedAt": "2026-11-02T03:16:43Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVaN8BA",
+          "commit": {
+            "abbreviatedOid": "c34fa9f"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udd35 Needs a closer look\n\nHuman assessment is needed because audience validation relies on the intermediary\u2019s onboarding status rather than knowledge of the protected Target\u2019s identifiers, potentially rejecting correctly addressed tokens.\n\n**No open issues** \ud83c\udf89\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-02T03:19:34Z",
+          "updatedAt": "2026-11-02T03:19:34Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVaRZWQ",
+          "commit": {
+            "abbreviatedOid": "0c5c230"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe2 Approval recommended\n\nNo active review issues are reported for the Target identification and audience-validation changes.\n\n**No open issues** \ud83c\udf89\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-02T03:27:04Z",
+          "updatedAt": "2026-11-02T03:27:04Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVas4qQ",
+          "commit": {
+            "abbreviatedOid": "565b942"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-02T04:57:55Z",
+          "updatedAt": "2026-11-02T04:57:56Z",
+          "comments": [
+            {
+              "originalPosition": 95,
+              "body": "I'll let this go for now, but it's common for OpenID Connect OPs to use ports to differentiate staging and debugging instances from the production instance.",
+              "createdAt": "2026-11-02T04:57:56Z",
+              "updatedAt": "2026-11-02T04:57:56Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVatOKQ",
+          "commit": {
+            "abbreviatedOid": "0c5c230"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-11-02T04:58:45Z",
+          "updatedAt": "2026-11-02T04:58:45Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVa1SJQ",
+          "commit": {
+            "abbreviatedOid": "565b942"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-02T05:20:05Z",
+          "updatedAt": "2026-11-02T05:20:05Z",
+          "comments": [
+            {
+              "originalPosition": 95,
+              "body": "Noted; we can revisit ports in a later revision.",
+              "createdAt": "2026-11-02T05:20:05Z",
+              "updatedAt": "2026-11-02T05:20:05Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVa2cVA",
+          "commit": {
+            "abbreviatedOid": "72c141a"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe2 Approval recommended\n\nNo active review issues are identified for the Target-identification and audience-validation documentation changes.\n\n**No open issues** \ud83c\udf89\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-02T05:22:59Z",
+          "updatedAt": "2026-11-02T05:22:59Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 60,
+      "id": "PR_kwDOQZxkd88AAAABMC4cBw",
+      "title": "S5: Confirm issuer trust before retrieving keys",
+      "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/60",
+      "state": "MERGED",
+      "author": "skyfire-ankit",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Addresses S5 in skyfire-xyz/draft-skyfire-oauth-using-kyapay-tokens#8, as proposed in our reply there.",
+      "createdAt": "2026-11-01T01:24:47Z",
+      "updatedAt": "2026-11-02T04:12:39Z",
+      "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "baseRefName": "main",
+      "baseRefOid": "e32fd059e2eaa8a503c2bb874b2b2f01e9dd82be",
+      "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "headRefName": "bhasker-s5-issuer-trust",
+      "headRefOid": "830c856aa05f281bac8d5cc2774b623b28c10928",
+      "closedAt": "2026-11-02T04:12:38Z",
+      "mergedAt": "2026-11-02T04:12:38Z",
+      "mergedBy": "skyfire-ankit",
+      "mergeCommit": {
+        "oid": "b2c97ceebb0aa6f362dbe032ec9e73441f84121d"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVUnzMg",
+          "commit": {
+            "abbreviatedOid": "64ea2f1"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe2 Approval recommended\n\nNo active review issues were identified for the issuer-trust validation changes.\n\n**No open issues** \ud83c\udf89\n\n<details>\n<summary><strong>What changed in this PR</strong></summary>\n\nThis PR addresses S5 by requiring recipients to establish issuer trust before retrieving keys during KYAPay token validation.\n\n**Changes:**\n- Requires trusted issuers to be configured out of band, not derived from tokens.\n- Moves issuer validation ahead of signature verification and links JWK Set retrieval to the trust requirement.\n- Updates acknowledgments and document history.\n\n| File | Description |\r\n| ---- | ----------- |\r\n| draft-skyfire-oauth-kyapay-token.md | Defines issuer-trust prerequisites, reorders validation steps, and updates acknowledgments and history. |\n</details>\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-01T01:26:19Z",
+          "updatedAt": "2026-11-01T01:26:19Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVYpq6Q",
+          "commit": {
+            "abbreviatedOid": "64ea2f1"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-11-01T20:28:40Z",
+          "updatedAt": "2026-11-01T20:28:40Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVacXTg",
+          "commit": {
+            "abbreviatedOid": "830c856"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe2 Approval recommended\n\nNo active review issues are reported for the issuer-trust and token-validation ordering changes.\n\n**No open issues** \ud83c\udf89\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-02T04:05:48Z",
+          "updatedAt": "2026-11-02T04:05:48Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 61,
+      "id": "PR_kwDOQZxkd88AAAABMC5D0Q",
+      "title": "S6: Require ES256 support, fix the accepted algorithms and typ values, follow BCP 225",
+      "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/61",
+      "state": "MERGED",
+      "author": "skyfire-ankit",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Addresses S6 in skyfire-xyz/draft-skyfire-oauth-using-kyapay-tokens#8, as proposed in our reply there.\r\n\r\nThe Using-draft half is skyfire-xyz/draft-skyfire-oauth-using-kyapay-tokens#15. The Using draft's processing model, which processes only the token types a recipient accepts, is changed in skyfire-xyz/draft-skyfire-oauth-using-kyapay-tokens#20.",
+      "createdAt": "2026-11-01T01:26:29Z",
+      "updatedAt": "2026-11-02T05:33:57Z",
+      "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "baseRefName": "main",
+      "baseRefOid": "0145ece57ae6bd04644744dee94888e40e3160b1",
+      "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "headRefName": "bhasker-s6-algorithms",
+      "headRefOid": "1876c7cafe0d53b6881d86a495f01bfd59482611",
+      "closedAt": "2026-11-02T05:29:59Z",
+      "mergedAt": "2026-11-02T05:29:59Z",
+      "mergedBy": "skyfire-ankit",
+      "mergeCommit": {
+        "oid": "4b08cab0a7ef298a382a5bcb7b75c302c828fc36"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVUpDew",
+          "commit": {
+            "abbreviatedOid": "d6a75b6"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe1 Changes recommended\n\nThe ES256 requirements do not ensure the stated interoperability guarantee, and rejecting non-required token types can discard a valid KYA signal when a PAY token accompanies it.\n\n<details open>\n<summary><strong>2 open issues</strong></summary>\n\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Algorithm requirements do not ensure ES256 interoperability](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/61#discussion_r4434012582) \u00b7 New\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Separate acceptable token types from required types](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/61#discussion_r4434012598) \u00b7 New\n</details>\n\n<details>\n<summary><strong>What changed in this PR</strong></summary>\n\nThis PR addresses S6 by tightening JWT validation requirements in the KYAPay token specification.\n\n**Changes:**\n- Requires recipient support for ES256 and defines issuer-specific algorithm selection, rejecting `none` and symmetric algorithms.\n- Requires request-specific token-type checks and adherence to BCP 225.\n- Updates acknowledgments and document history.\n\n| File | Description |\r\n| ---- | ----------- |\r\n| draft-skyfire-oauth-kyapay-token.md | Strengthens JWT validation requirements and records the specification updates. |\n</details>\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-01T01:34:57Z",
+          "updatedAt": "2026-11-01T01:34:58Z",
+          "comments": [
+            {
+              "originalPosition": 29,
+              "body": "The stated interoperability guarantee does not follow from these requirements: an issuer using only RS256 can conform to `SHOULD use ES256`, while a conforming recipient may support only ES256. Even when both implement ES256, the recipient's per-issuer policy can exclude it. Require an ES256 signing and acceptance fallback if interoperability is intended, or qualify this guarantee to reflect the recipient-only support requirement.",
+              "createdAt": "2026-11-01T01:34:57Z",
+              "updatedAt": "2026-11-01T01:34:58Z"
+            },
+            {
+              "originalPosition": 41,
+              "body": "Restricting validation to required types makes a recipient that needs only KYA reject a valid accompanying PAY token. The companion usage draft permits separate KYA and PAY tokens but requires token-absent policy for the whole request if any token fails validation, so this loses the valid KYA signal. Define acceptable types separately from required types, allowing policy-approved accompanying tokens without letting them replace a required type.",
+              "createdAt": "2026-11-01T01:34:58Z",
+              "updatedAt": "2026-11-01T01:34:58Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVVOYKA",
+          "commit": {
+            "abbreviatedOid": "c60ff24"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe1 Changes recommended\n\nAlgorithm rules overlook recipient acceptance policies, while conflating required and accepted token types can discard valid KYA signals.\n\n<details open>\n<summary><strong>2 open issues</strong></summary>\n\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Require issuers to use an algorithm accepted by all recipients](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/61#discussion_r4434426757) \u00b7 New\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Separate acceptable token types from required types](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/61#discussion_r4434012598)\n</details>\n\n<details>\n<summary><strong>1 previously missed issue</strong></summary>\n\nIn code that hasn't changed since last review\n\n<details>\n<summary><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> Account for recipient policy in the ES256 interoperability guarantee</summary>\n\n`draft-skyfire-oauth-kyapay-token.md:912`\n\nThis interoperability guarantee does not follow from the preceding requirements: a recipient can support ES256 but configure a trusted issuer's accepted set to contain only RS256. An issuer that does not know the recipient must then issue an ES256 token that the recipient rejects, even with a suitable ES256 key in the JWK Set. Either require ES256 to be accepted for trusted issuers with suitable keys, or qualify the guarantee to account for recipient policy.\n</details>\n</details>\n\n<details>\n<summary><strong>1 resolved since last review</strong></summary>\n\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Algorithm requirements do not ensure ES256 interoperability](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/61#discussion_r4434012582)\n</details>\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-01T04:44:19Z",
+          "updatedAt": "2026-11-01T04:44:20Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "The exception does not require the issuer to use the algorithm the recipients accept. For example, knowing that they accept RS256 permits the issuer to choose EdDSA, even if none of them accepts EdDSA, producing a token they must reject. Please require the non-ES256 algorithm actually used to be accepted by all recipients.",
+              "createdAt": "2026-11-01T04:44:19Z",
+              "updatedAt": "2026-11-01T04:44:20Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVVPFYQ",
+          "commit": {
+            "abbreviatedOid": "71117b8"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udd35 Needs a closer look\n\nThe algorithm rules do not ensure recipients accept default ES256 or the alternative actually used, and do not clearly restrict accepted algorithms to the configured per-issuer allowlist.\n\n<details open>\n<summary><strong>1 open issue</strong></summary>\n\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Require issuers to use an algorithm accepted by all recipients](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/61#discussion_r4434426757)\n</details>\n\n<details>\n<summary><strong>1 previously missed issue</strong></summary>\n\nIn code that hasn't changed since last review\n\n<details>\n<summary><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> Restrict accepted algorithms by the configured issuer allowlist</summary>\n\n`draft-skyfire-oauth-kyapay-token.md:903`\n\nThe text does not specify that the configured per-issuer allowlist limits the accepted set. Combining an ES256-only local policy with an RS256 key advertised in the issuer's JWK Set could therefore be interpreted as allowing RS256 despite that policy. Require the accepted set to be restricted by both the configured allowlist and eligible issuer keys, so the JWK Set cannot expand local policy.\n</details>\n</details>\n\n<details>\n<summary><strong>1 resolved since last review</strong></summary>\n\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Separate acceptable token types from required types](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/61#discussion_r4434012598)\n</details>\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-01T04:48:51Z",
+          "updatedAt": "2026-11-01T04:48:51Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVVXkIg",
+          "commit": {
+            "abbreviatedOid": "bb84290"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udd35 Needs a closer look\n\nHuman assessment is needed to determine whether token-type validation depends on an unverified header.\n\n**No open issues** \ud83c\udf89\n\n<details>\n<summary><strong>1 resolved since last review</strong></summary>\n\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Require issuers to use an algorithm accepted by all recipients](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/61#discussion_r4434426757)\n</details>\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-01T05:47:58Z",
+          "updatedAt": "2026-11-01T05:47:58Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVXXOAA",
+          "commit": {
+            "abbreviatedOid": "b5c35e3"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe1 Changes recommended\n\nThe drafts conflict on set-aside token processing, leave missing or unrecognized types ambiguous, and require ES256 acceptance even when issuer policy excludes it.\n\n<details open>\n<summary><strong>2 open issues</strong></summary>\n\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-light.png\" alt=\"High severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Exclude set-aside token types before validation](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/61#discussion_r4436169483) \u00b7 New\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-light.png\" alt=\"High severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Treat missing or unrecognized token types as validation failures](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/61#discussion_r4436169531) \u00b7 New\n</details>\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-01T15:08:11Z",
+          "updatedAt": "2026-11-01T15:08:12Z",
+          "comments": [
+            {
+              "originalPosition": 46,
+              "body": "The companion usage draft's Common Processing Model still requires validating every presented token and applying token-absent policy if any fails, including in its linked PR #15. With a valid KYA token and an expired PAY token on a request accepting only KYA, the two drafts therefore prescribe different outcomes. Update the companion processing rules to exclude set-aside types before validation and the subsequent per-token checks, or specify a consistent alternative.",
+              "createdAt": "2026-11-01T15:08:11Z",
+              "updatedAt": "2026-11-01T15:08:12Z"
+            },
+            {
+              "originalPosition": 46,
+              "body": "The set-aside rule also covers a missing or unrecognized `typ`, although the preceding sentence requires one of the three defined values. This leaves implementations with conflicting instructions about whether an invalid type fails validation or is simply ignored. Explicitly treat missing or unrecognized types as validation failures, reserving set-aside handling for recognized types not accepted for this request.",
+              "createdAt": "2026-11-01T15:08:12Z",
+              "updatedAt": "2026-11-01T15:08:12Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVX2X9g",
+          "commit": {
+            "abbreviatedOid": "b5c35e3"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-01T17:04:16Z",
+          "updatedAt": "2026-11-01T17:04:17Z",
+          "comments": [
+            {
+              "originalPosition": 46,
+              "body": "The Using draft's processing model is changed in skyfire-xyz/draft-skyfire-oauth-using-kyapay-tokens#20: a recipient processes only the token types it accepts and sets aside the others. #20 merges before or with this PR.",
+              "createdAt": "2026-11-01T17:04:16Z",
+              "updatedAt": "2026-11-01T17:04:17Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVX2btA",
+          "commit": {
+            "abbreviatedOid": "b5c35e3"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-01T17:04:29Z",
+          "updatedAt": "2026-11-01T17:04:30Z",
+          "comments": [
+            {
+              "originalPosition": 46,
+              "body": "Changed: a missing or unknown `typ` fails validation, and only a defined type the recipient doesn't accept for the request is set aside. Values are compared as RFC 7515, Section 4.1.9 specifies.",
+              "createdAt": "2026-11-01T17:04:30Z",
+              "updatedAt": "2026-11-01T17:04:30Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVX3leQ",
+          "commit": {
+            "abbreviatedOid": "2451341"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udd35 Needs a closer look\n\nHuman assessment is needed to reconcile potentially conflicting token-validation requirements across the companion drafts.\n\n**No open issues** \ud83c\udf89\n\n<details>\n<summary><strong>2 resolved since last review</strong></summary>\n\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-light.png\" alt=\"High severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Treat missing or unrecognized token types as validation failures](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/61#discussion_r4436169531)\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-light.png\" alt=\"High severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Exclude set-aside token types before validation](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/61#discussion_r4436169483)\n</details>\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-01T17:08:45Z",
+          "updatedAt": "2026-11-01T17:08:45Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVYqpoA",
+          "commit": {
+            "abbreviatedOid": "2451341"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-01T20:31:08Z",
+          "updatedAt": "2026-11-01T20:31:08Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "We will face post-quantum cryptography issues sooner rather than later, but I'm not asking for a change to the specs for that issue at this time.",
+              "createdAt": "2026-11-01T20:31:08Z",
+              "updatedAt": "2026-11-01T20:31:08Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVYraRQ",
+          "commit": {
+            "abbreviatedOid": "2451341"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-01T20:33:04Z",
+          "updatedAt": "2026-11-01T20:33:04Z",
+          "comments": [
+            {
+              "originalPosition": 20,
+              "body": "```suggestion\n   issuer, limited\n```\n\nIt's not clear the deleted phrase adds anything actionable to the description.",
+              "createdAt": "2026-11-01T20:33:04Z",
+              "updatedAt": "2026-11-01T20:33:04Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVYsDYw",
+          "commit": {
+            "abbreviatedOid": "2451341"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-01T20:34:38Z",
+          "updatedAt": "2026-11-01T20:34:38Z",
+          "comments": [
+            {
+              "originalPosition": 22,
+              "body": "```suggestion\n   to those for which the issuer's JWK Set publishes a suitable key.\n   The set\n```\nAgain, deleting apparently redundant language.",
+              "createdAt": "2026-11-01T20:34:38Z",
+              "updatedAt": "2026-11-01T20:34:38Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVYs0Fw",
+          "commit": {
+            "abbreviatedOid": "2451341"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-01T20:36:31Z",
+          "updatedAt": "2026-11-01T20:36:31Z",
+          "comments": [
+            {
+              "originalPosition": 27,
+              "body": "```suggestion\n   token and the key obtained from the issuer's JWK Set, or the token is\n```\n\nUnnecessary",
+              "createdAt": "2026-11-01T20:36:31Z",
+              "updatedAt": "2026-11-01T20:36:31Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVYt5Vg",
+          "commit": {
+            "abbreviatedOid": "2451341"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-01T20:40:52Z",
+          "updatedAt": "2026-11-01T20:40:53Z",
+          "comments": [
+            {
+              "originalPosition": 29,
+              "body": "```suggestion\n   rejected.\n```\n\nThis is already covered by RFC 8725 and need not be repeated here.  Brevity is a virtue.",
+              "createdAt": "2026-11-01T20:40:52Z",
+              "updatedAt": "2026-11-01T20:40:53Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVaSvqw",
+          "commit": {
+            "abbreviatedOid": "4b003ec"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udd35 Needs a closer look\n\nHuman assessment is needed to evaluate the identity interoperability implications of combined-token acceptance and recipient capability discovery.\n\n**No open issues** \ud83c\udf89\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-02T03:32:03Z",
+          "updatedAt": "2026-11-02T03:32:03Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVat0FQ",
+          "commit": {
+            "abbreviatedOid": "4b003ec"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-11-02T05:00:10Z",
+          "updatedAt": "2026-11-02T05:00:10Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVa6XqA",
+          "commit": {
+            "abbreviatedOid": "1876c7c"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udd35 Needs a closer look\n\nCompanion processing-model PR #20 remains unmerged and merge-conflicted, so the final cross-draft behavior and merge sequencing require human verification.\n\n**No open issues** \ud83c\udf89\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-02T05:33:57Z",
+          "updatedAt": "2026-11-02T05:33:57Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 62,
+      "id": "PR_kwDOQZxkd88AAAABMC5rAg",
+      "title": "S7: Add traces to the logging prohibition",
+      "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/62",
+      "state": "MERGED",
+      "author": "skyfire-ankit",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Addresses S7 in skyfire-xyz/draft-skyfire-oauth-using-kyapay-tokens#8, as proposed in our reply there.\r\n\r\nThe Using-draft half is skyfire-xyz/draft-skyfire-oauth-using-kyapay-tokens#16.",
+      "createdAt": "2026-11-01T01:28:05Z",
+      "updatedAt": "2026-11-02T04:15:54Z",
+      "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "baseRefName": "main",
+      "baseRefOid": "b2c97ceebb0aa6f362dbe032ec9e73441f84121d",
+      "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "headRefName": "bhasker-s7-logging",
+      "headRefOid": "469572689ef22e84dbe7afec9bf000937be8a525",
+      "closedAt": "2026-11-02T04:15:09Z",
+      "mergedAt": "2026-11-02T04:15:09Z",
+      "mergedBy": "skyfire-ankit",
+      "mergeCommit": {
+        "oid": "375e4e07a308b351fbf44730ddc35f5ccd6a51e8"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVUoUFA",
+          "commit": {
+            "abbreviatedOid": "8dffb3d"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe2 Approval recommended\n\nThere are no active review issues for the token-handling guidance update.\n\n**No open issues** \ud83c\udf89\n\n<details>\n<summary><strong>What changed in this PR</strong></summary>\n\nUpdates the KyaPay token specification\u2019s handling guidance to address S7 in the companion Using document\u2019s issue #8.\n\n**Changes:**\n- Explicitly adds traces to the prohibition on logging tokens.\n- References the Using document\u2019s guidance for tokens exposed to language-model contexts or retained transcripts.\n- Updates acknowledgments and document history.\n\n| File | Description |\r\n| ---- | ----------- |\r\n| draft-skyfire-oauth-kyapay-token.md | Expands token-exposure guidance and updates acknowledgments and revision notes. |\n</details>\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-01T01:29:55Z",
+          "updatedAt": "2026-11-01T01:29:55Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVYuvLQ",
+          "commit": {
+            "abbreviatedOid": "8dffb3d"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-11-01T20:44:36Z",
+          "updatedAt": "2026-11-01T20:44:36Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVafUaA",
+          "commit": {
+            "abbreviatedOid": "4695726"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe2 Approval recommended\n\nThe token-exposure guidance clarification has no active review issues.\n\n**No open issues** \ud83c\udf89\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-02T04:15:54Z",
+          "updatedAt": "2026-11-02T04:15:54Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 63,
+      "id": "PR_kwDOQZxkd88AAAABMC6lzg",
+      "title": "P2: Keep Account Data out of every token, and cite PCI SSC FAQ 1326",
+      "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/63",
+      "state": "MERGED",
+      "author": "skyfire-ankit",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Addresses P2 in skyfire-xyz/draft-skyfire-oauth-using-kyapay-tokens#8, as proposed in our reply there.",
+      "createdAt": "2026-11-01T01:30:49Z",
+      "updatedAt": "2026-11-02T04:26:57Z",
+      "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "baseRefName": "main",
+      "baseRefOid": "4c64ff6dd6f9560d44c3339eb64dd832c2a0d02f",
+      "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "headRefName": "bhasker-p2-payment-data",
+      "headRefOid": "681139a2d0b6d7ccd4fd7b8123d822632629c2c7",
+      "closedAt": "2026-11-02T04:24:33Z",
+      "mergedAt": "2026-11-02T04:24:33Z",
+      "mergedBy": "skyfire-ankit",
+      "mergeCommit": {
+        "oid": "5181fcc07ce9b6c233412e8a494fec8a7ae6594c"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVUo2Yw",
+          "commit": {
+            "abbreviatedOid": "3b80fdc"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udd35 Needs a closer look\n\nThe PCI DSS scope assurances require specialist validation of EMVCo conformance and payment-network transaction restrictions that cannot be verified from the checkout.\n\n**No open issues** \ud83c\udf89\n\n<details>\n<summary><strong>What changed in this PR</strong></summary>\n\nThis PR addresses P2 in issue #8 by tightening the OAuth KYA-PAY draft\u2019s restrictions on card data and clarifying when network-issued payment tokens are outside PCI DSS scope.\n\n**Changes:**\n- Extends the prohibition on PANs and other sensitive card data to every token type.\n- Defines supported card credentials as EMV Payment Tokens and cites PCI SSC FAQ 1326 with its scope limitations.\n- Updates payment examples, credential-handling and lifetime guidance, acknowledgments, and revision history.\n\n| File | Description |\r\n| ---- | ----------- |\r\n| draft-skyfire-oauth-kyapay-token.md | Tightens card-data restrictions and clarifies payment-token requirements, PCI DSS scope, and examples. |\n</details>\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-01T01:33:29Z",
+          "updatedAt": "2026-11-01T01:33:29Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVZfNmQ",
+          "commit": {
+            "abbreviatedOid": "3b80fdc"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-11-02T00:24:02Z",
+          "updatedAt": "2026-11-02T00:24:02Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVaiffw",
+          "commit": {
+            "abbreviatedOid": "681139a"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe1 Changes recommended\n\nEMVCo-PT is incorrectly classified as informative even though its Payment Token definition is required to determine conformance for supported card credentials.\n\n<details open>\n<summary><strong>1 open issue</strong></summary>\n\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Mark EMVCo-PT as a normative reference](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/63#discussion_r4438904726) \u00b7 New\n</details>\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-02T04:26:56Z",
+          "updatedAt": "2026-11-02T04:26:57Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "`EMVCo-PT` is listed under `informative`, but Scope of Card Settlement makes its definition of a Payment Token a condition for supported card credentials. Implementers therefore need that specification to determine conformance, rather than just for background reading. Move `EMVCo-PT` to `normative`; the PCI FAQ can remain informative.",
+              "createdAt": "2026-11-02T04:26:56Z",
+              "updatedAt": "2026-11-02T04:26:57Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 64,
+      "id": "PR_kwDOQZxkd88AAAABMC7Vww",
+      "title": "P3: Make creation_ip OPTIONAL, and use documentation addresses in the examples",
+      "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/64",
+      "state": "MERGED",
+      "author": "skyfire-ankit",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Addresses P3 in skyfire-xyz/draft-skyfire-oauth-using-kyapay-tokens#8, as proposed in our reply there.",
+      "createdAt": "2026-11-01T01:33:02Z",
+      "updatedAt": "2026-11-02T04:02:10Z",
+      "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "baseRefName": "main",
+      "baseRefOid": "c11104dec47877f41c588f1d6453a0e7c03b450e",
+      "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "headRefName": "bhasker-p3-creation-ip",
+      "headRefOid": "20dcaea31fbc781d490778828537b886bb1bc10d",
+      "closedAt": "2026-11-02T04:01:36Z",
+      "mergedAt": "2026-11-02T04:01:36Z",
+      "mergedBy": "skyfire-ankit",
+      "mergeCommit": {
+        "oid": "e32fd059e2eaa8a503c2bb874b2b2f01e9dd82be"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVUpBjA",
+          "commit": {
+            "abbreviatedOid": "9da3f71"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe2 Approval recommended\n\nThere are no active review issues for the updates to optional `creation_ip` handling and privacy guidance.\n\n**No open issues** \ud83c\udf89\n\n<details>\n<summary><strong>What changed in this PR</strong></summary>\n\nThis PR updates the KYA-PAY token specification to make `creation_ip` optional and clarify its diagnostic and privacy implications.\n\n**Changes:**\n- Makes `creation_ip` optional and limits its use to weak corroboration, not standalone access control.\n- Replaces example IP addresses and hostnames with documentation addresses and domains.\n- Adds a privacy-section anchor and updates acknowledgments and document history.\n\n| File | Description |\r\n| ---- | ----------- |\r\n| `draft-skyfire-oauth-kyapay-token.md` | Updates `creation_ip` requirements, example addresses, privacy references, and supporting documentation. |\n</details>\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-01T01:34:45Z",
+          "updatedAt": "2026-11-01T01:34:45Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVZfiRw",
+          "commit": {
+            "abbreviatedOid": "9da3f71"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-11-02T00:25:26Z",
+          "updatedAt": "2026-11-02T00:25:26Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVabWKA",
+          "commit": {
+            "abbreviatedOid": "20dcaea"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe2 Approval recommended\n\nNo active review issues remain for the `creation_ip` specification and documentation updates.\n\n**No open issues** \ud83c\udf89\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-02T04:02:10Z",
+          "updatedAt": "2026-11-02T04:02:10Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 65,
+      "id": "PR_kwDOQZxkd88AAAABMKDWLA",
+      "title": "P1: Make hid.id the default, with identifying claims only on request",
+      "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/65",
+      "state": "MERGED",
+      "author": "skyfire-ankit",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Addresses P1 in skyfire-xyz/draft-skyfire-oauth-using-kyapay-tokens#8, as proposed in our reply there.\r\n\r\nBuilt on #59, which makes `tsi` REQUIRED. This PR's base is #59's branch; it moves to `main` when #59 merges.\r\n\r\n- Adds `hid.id`, a pseudonymous identifier for the human principal, specific to one agent platform and one Target service (`tsi`).\r\n- Makes `email` OPTIONAL. `email`, the name sub-claims, `phone_number`, `organization_name` and `verification_id` are included only where a Target requires them for the action at hand and the principal has authorized their disclosure, whether to the issuer or to the agent platform.\r\n- Makes `sub` pairwise (a different value at each Target service) and `aid.id` specific to one Target service.\r\n- Replaces the Privacy Considerations paragraph on linkage, updates the examples, and adds -03 Document History entries.\r\n\r\nThe Using-draft half is skyfire-xyz/draft-skyfire-oauth-using-kyapay-tokens#22.",
+      "createdAt": "2026-11-01T19:34:35Z",
+      "updatedAt": "2026-11-02T05:27:33Z",
+      "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "baseRefName": "main",
+      "baseRefOid": "2df13898dded6e0317cd26057668e025333f612c",
+      "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "headRefName": "bhasker-p1-hid-id",
+      "headRefOid": "439a7cf2a676577f30a32619293dfa319643a96d",
+      "closedAt": "2026-11-02T05:26:25Z",
+      "mergedAt": "2026-11-02T05:26:25Z",
+      "mergedBy": "skyfire-ankit",
+      "mergeCommit": {
+        "oid": "0145ece57ae6bd04644744dee94888e40e3160b1"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVYdK9g",
+          "commit": {
+            "abbreviatedOid": "4940bd6"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe1 Changes recommended\n\nThe identifier rules still permit directly identifying attributes without disclosure authorization and cross-Target correlation, leaving a critical privacy issue unresolved.\n\n<details open>\n<summary><strong>3 open issues</strong></summary>\n\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-light.png\" alt=\"High severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Scoped identifiers can expose identity and enable cross-Target correlation](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/65#discussion_r4437068251) \u00b7 New\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-light.png\" alt=\"Low severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Identifier stability rules conflate principal and agent identity](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/65#discussion_r4437068273) \u00b7 New\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-light.png\" alt=\"Low severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Reused agent names enable undisclosed cross-Target correlation](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/65#discussion_r4437068306) \u00b7 New\n</details>\n\n<details>\n<summary><strong>What changed in this PR</strong></summary>\n\nThis PR makes pseudonymous identification the default for human principals in KYAPay tokens, building on the required Target service identifier (`tsi`).\n\n**Changes:**\n- Adds required `hid.id`, scoped to a principal, agent platform, and Target; makes `sub` and `aid.id` Target-specific.\n- Makes email optional and limits identifying claims to Target-required, principal-authorized disclosures.\n- Updates token examples, privacy guidance, and document history.\n\n| File | Description |\r\n| ---- | ----------- |\r\n| `draft-skyfire-oauth-kyapay-token.md` | Defines scoped identifiers and disclosure requirements, with updated examples and privacy considerations. |\n</details>\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-01T19:42:31Z",
+          "updatedAt": "2026-11-01T19:42:33Z",
+          "comments": [
+            {
+              "originalPosition": 139,
+              "body": "Different values at each Target do not establish unlinkability: appending `tsi` to a global identifier satisfies the stability and uniqueness rules while exposing a common identifier. The `sub` and `aid.id` definitions (lines 352\u2013353 and 719\u2013721) also allow directly identifying attributes, such as an email address, to be embedded without disclosure authorization. Require all three identifiers to hide directly identifying attributes and prevent cross-Target correlation from their values, using independent random assignments or an issuer-secret keyed derivation.",
+              "createdAt": "2026-11-01T19:42:31Z",
+              "updatedAt": "2026-11-01T19:42:33Z"
+            },
+            {
+              "originalPosition": 137,
+              "body": "This gives all three identifiers the same stability rule, but `sub` MUST change when the agent changes, even if the principal, platform and Target remain unchanged, and `aid.id` identifies the agent rather than the principal. Only `hid.id` is guaranteed to remain stable across different agents on the same platform. Please distinguish these rules so recipients do not use `sub` as a principal-wide correlation or rate-limiting key.",
+              "createdAt": "2026-11-01T19:42:32Z",
+              "updatedAt": "2026-11-01T19:42:33Z"
+            },
+            {
+              "originalPosition": 141,
+              "body": "This linkage discussion omits the REQUIRED `aid.name`. Its definition makes `iss`, the agent platform, and the name identify an agent unambiguously, and does not require a different name per Target. Targets that receive a reused agent name can therefore correlate that agent despite all three scoped IDs differing; for a dedicated agent, this also links its principal's activity. Please disclose this residual linkage in the privacy considerations, or scope agent names too if that linkage is meant to be prevented.",
+              "createdAt": "2026-11-01T19:42:32Z",
+              "updatedAt": "2026-11-01T19:42:33Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVYh8ew",
+          "commit": {
+            "abbreviatedOid": "4940bd6"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-01T20:05:31Z",
+          "updatedAt": "2026-11-01T20:05:31Z",
+          "comments": [
+            {
+              "originalPosition": 139,
+              "body": "Changed: values at different Target services must not be linkable without the issuer, and none of the three identifiers may be or reveal a directly identifying attribute.",
+              "createdAt": "2026-11-01T20:05:31Z",
+              "updatedAt": "2026-11-01T20:05:31Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVYh9SQ",
+          "commit": {
+            "abbreviatedOid": "4940bd6"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-01T20:05:35Z",
+          "updatedAt": "2026-11-01T20:05:35Z",
+          "comments": [
+            {
+              "originalPosition": 137,
+              "body": "Changed: the Privacy Considerations now say `hid.id` is stable across a principal's agents at a service, while `sub` and `aid.id` change with the agent.",
+              "createdAt": "2026-11-01T20:05:35Z",
+              "updatedAt": "2026-11-01T20:05:35Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVYh-2A",
+          "commit": {
+            "abbreviatedOid": "4940bd6"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-01T20:05:42Z",
+          "updatedAt": "2026-11-01T20:05:43Z",
+          "comments": [
+            {
+              "originalPosition": 141,
+              "body": "Disclosed in the Privacy Considerations: `aid.name` is the same at every Target and can link a single-principal agent's activity.",
+              "createdAt": "2026-11-01T20:05:43Z",
+              "updatedAt": "2026-11-01T20:05:43Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVYix9g",
+          "commit": {
+            "abbreviatedOid": "1a29de9"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udd35 Needs a closer look\n\nAliasing `aid.id` to `sub` can break stable agent-level correlation across principals or platforms and must be restricted to agents permanently bound to one principal and one platform.\n\n**No open issues** \ud83c\udf89\n\n<details>\n<summary><strong>1 previously missed issue</strong></summary>\n\nIn code that hasn't changed since last review\n\n<details>\n<summary><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/medium-v2-light.png\" alt=\"Medium severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> Do not use <code>sub</code> as <code>aid.id</code> for agents spanning principals or platforms</summary>\n\n`draft-skyfire-oauth-kyapay-token.md:730`\n\nUsing `sub` as `aid.id` conflicts with the stability requirement when the same agent acts for different principals or changes platforms at the same Target. In those cases, `sub` must differ while `aid.id` must remain unchanged, so following this shortcut would break agent-level correlation. Restrict this alias to agents permanently bound to one principal and one platform.\n</details>\n</details>\n\n<details>\n<summary><strong>3 resolved since last review</strong></summary>\n\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/high-v2-light.png\" alt=\"High severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Scoped identifiers can expose identity and enable cross-Target correlation](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/65#discussion_r4437068251)\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-light.png\" alt=\"Low severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Reused agent names enable undisclosed cross-Target correlation](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/65#discussion_r4437068306)\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-light.png\" alt=\"Low severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Identifier stability rules conflate principal and agent identity](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/65#discussion_r4437068273)\n</details>\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-01T20:09:37Z",
+          "updatedAt": "2026-11-01T20:09:37Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVY2PeA",
+          "commit": {
+            "abbreviatedOid": "53e9142"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe2 Approval recommended\n\nNo active review issues block approval of the scoped-identifier and privacy updates.\n\n**No open issues** \ud83c\udf89\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-01T21:15:14Z",
+          "updatedAt": "2026-11-01T21:15:14Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVZgiaQ",
+          "commit": {
+            "abbreviatedOid": "53e9142"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-02T00:29:49Z",
+          "updatedAt": "2026-11-02T00:29:49Z",
+          "comments": [
+            {
+              "originalPosition": 129,
+              "body": "```suggestion\nBy default, a KYA token identifies the human principal only by\n```",
+              "createdAt": "2026-11-02T00:29:49Z",
+              "updatedAt": "2026-11-02T00:29:49Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVZgylg",
+          "commit": {
+            "abbreviatedOid": "53e9142"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-02T00:30:55Z",
+          "updatedAt": "2026-11-02T00:30:55Z",
+          "comments": [
+            {
+              "originalPosition": 131,
+              "body": "```suggestion\n`phone_number` or names are disclosed only when a Target requires\n```",
+              "createdAt": "2026-11-02T00:30:55Z",
+              "updatedAt": "2026-11-02T00:30:55Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVZhSzA",
+          "commit": {
+            "abbreviatedOid": "53e9142"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-02T00:33:07Z",
+          "updatedAt": "2026-11-02T00:33:07Z",
+          "comments": [
+            {
+              "originalPosition": 163,
+              "body": "```suggestion\n* It is stated in the Privacy Considerations that `hid.id`, `sub` and `aid.id` are\n```",
+              "createdAt": "2026-11-02T00:33:07Z",
+              "updatedAt": "2026-11-02T00:33:07Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVZhcpg",
+          "commit": {
+            "abbreviatedOid": "53e9142"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-02T00:33:46Z",
+          "updatedAt": "2026-11-02T00:33:46Z",
+          "comments": [
+            {
+              "originalPosition": 165,
+              "body": "```suggestion\n  disclosed only when a Target requires them and the principal has authorized\n```",
+              "createdAt": "2026-11-02T00:33:46Z",
+              "updatedAt": "2026-11-02T00:33:46Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVZhiGw",
+          "commit": {
+            "abbreviatedOid": "53e9142"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-02T00:34:07Z",
+          "updatedAt": "2026-11-02T00:34:08Z",
+          "comments": [
+            {
+              "originalPosition": 190,
+              "body": "```suggestion\n  `organization_name`, `verification_id` and the name sub-claims only when a\n```",
+              "createdAt": "2026-11-02T00:34:08Z",
+              "updatedAt": "2026-11-02T00:34:08Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVZh9ww",
+          "commit": {
+            "abbreviatedOid": "53e9142"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "I will approve after my editorial comments are incorporated.",
+          "createdAt": "2026-11-02T00:35:58Z",
+          "updatedAt": "2026-11-02T00:35:58Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVaR0Hg",
+          "commit": {
+            "abbreviatedOid": "53e9142"
+          },
+          "author": "skyfire-ankit",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-02T03:28:32Z",
+          "updatedAt": "2026-11-02T03:28:33Z",
+          "comments": [
+            {
+              "originalPosition": 163,
+              "body": "Kept 'Stated' so the entry matches the other -03 entries, which each start with a past-tense verb.",
+              "createdAt": "2026-11-02T03:28:32Z",
+              "updatedAt": "2026-11-02T03:28:33Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVaSW3Q",
+          "commit": {
+            "abbreviatedOid": "f22b03c"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe2 Approval recommended\n\nNo active review issues are reported for the pseudonymous identifier and conditional-disclosure specification updates.\n\n**No open issues** \ud83c\udf89\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-02T03:30:35Z",
+          "updatedAt": "2026-11-02T03:30:35Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVauR8w",
+          "commit": {
+            "abbreviatedOid": "861ec6e"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-11-02T05:01:23Z",
+          "updatedAt": "2026-11-02T05:18:30Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVa1e7g",
+          "commit": {
+            "abbreviatedOid": "861ec6e"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe2 Approval recommended\n\nNo active review issues are identified for the scoped pseudonymous identifier and conditional-disclosure changes.\n\n**No open issues** \ud83c\udf89\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-02T05:20:24Z",
+          "updatedAt": "2026-11-02T05:20:24Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABVa3-zA",
+          "commit": {
+            "abbreviatedOid": "439a7cf"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe2 Approval recommended\n\nNo active review issues are reported for the pseudonymous-identifier specification update.\n\n**No open issues** \ud83c\udf89\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-02T05:27:33Z",
+          "updatedAt": "2026-11-02T05:27:33Z",
+          "comments": []
         }
       ]
     }
