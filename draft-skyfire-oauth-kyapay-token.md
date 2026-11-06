@@ -813,7 +813,9 @@ The recipient MUST ignore any unrecognized sub-claims.
 
 ### Agent Identity `aid` Sub-Claims
 
-The `aid` claim is REQUIRED. It contains the following sub-claims.
+The `aid` claim is REQUIRED. It identifies the agent, not the human principal
+on whose behalf the agent acts; claims about the human principal are carried
+in `hid`. It contains the following sub-claims.
 
 {:vspace}
 `id`:
@@ -1588,6 +1590,7 @@ The following specifications are related to and designed to be used with this sp
 
 We would like to thank
 Bhasker Allam,
+Ludovic Dépinoy,
 Jean Diaconu
 and
 Carlos Martínez
@@ -1597,6 +1600,11 @@ for their contributions to the specification.
 {: numbered="false"}
 
 [[ to be removed by the RFC Editor before publication as an RFC ]]
+
+-04
+
+* Stated that the `aid` claim identifies the agent, not the human principal,
+  and that claims about the human principal are carried in `hid`.
 
 -03
 
