@@ -1203,23 +1203,26 @@ In addition, perform the following steps.
 
 # Issuer Records {#issuer-records}
 
-An issuer vouches for the parties named in the tokens it issues. To stand behind
-that after the fact, an issuer MUST keep the following records.
+An issuer vouches for the identities it has verified for the initiator of each
+token it issues. To stand behind that after the fact, an issuer MUST keep the
+following records.
 
 {:vspace}
 Verification records:
 : For each verification whose result a token asserts, of the human principal,
-  the agent platform or a payment method: the methods used, the time of each
-  step and who performed it, and references to the evidence examined. The
-  `verification_id` sub-claim, where present, identifies this record. Where a
+  the agent platform, the agent or a payment method: the methods used, the time
+  of each step and who performed it, and references to the evidence examined.
+  The `verifier` and `verification_id` sub-claims, where present, together
+  identify this record. Where a
   separate verifier performed the verification, the issuer keeps the verifier's
   identity, the `verification_id` and the result, and the verifier keeps the
   rest of the record.
 
 {:vspace}
 Authorization records:
-: For each disclosure of a directly identifying sub-claim: who authorized it,
-  when, and how ({{privacy-considerations}}). Where the agent platform collected
+: For each disclosure that requires the principal's authorization, such as a
+  directly identifying sub-claim or `verification_id`: who authorized it, when,
+  and how ({{privacy-considerations}}). Where the agent platform collected
   the authorization, the record identifies the platform and when it asserted
   that the authorization was given.
 
@@ -1230,7 +1233,8 @@ Issuance records:
   authorization records it relied on.
 
 Together, these records let an issuer resolve a token, given its `iss` and
-`jti` or a `verification_id`, to the verifications and authorizations behind it.
+`jti`, to the verifications and authorizations behind it, and find a
+verification given its verifier and `verification_id`.
 They support audit, dispute resolution, and the issuer's response to reports
 about a token (see the Feedback to the Token Issuer section of
 {{I-D.skyfire-oauth-using-kyapay-tokens}}). This specification does not define an
