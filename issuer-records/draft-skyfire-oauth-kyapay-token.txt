@@ -1242,10 +1242,11 @@ Table of Contents
 
    Authorization records:
       For each disclosure that requires the principal's authorization,
-      such as a directly identifying sub-claim or verification_id: who
-      authorized it, when, and how (Section 7).  Where the agent
-      platform collected the authorization, the record identifies the
-      platform and when it asserted that the authorization was given.
+      such as a directly identifying sub-claim or verification_id: which
+      sub-claims were authorized, for which Target, who authorized them,
+      when, and how (Section 7).  Where the agent platform collected the
+      authorization, the record identifies the platform and when it
+      asserted that the authorization was given.
 
    Issuance records:
       For each token issued: its iss, jti, iat and exp; its sub, aud and
