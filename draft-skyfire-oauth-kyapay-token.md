@@ -1201,6 +1201,57 @@ In addition, perform the following steps.
 5. The `tpr` claim, if present, matches the price that you configured in the
   target's service
 
+# Issuer Records {#issuer-records}
+
+An issuer vouches for the identities it has verified for the initiator of each
+token it issues. To stand behind that after the fact, an issuer MUST keep the
+following records.
+
+{:vspace}
+Verification records:
+: For each verification whose result a token asserts, of the human principal,
+  the agent platform, the agent or a payment method: the methods used, the time
+  of each step and who performed it, and references to the evidence examined.
+  The `verifier` and `verification_id` sub-claims, where present, together
+  identify this record. Where a
+  separate verifier performed the verification, the issuer keeps the verifier's
+  identity, the `verification_id` and the result, and the verifier keeps the
+  rest of the record.
+
+{:vspace}
+Authorization records:
+: For each disclosure that requires the principal's authorization, such as a
+  directly identifying sub-claim or `verification_id`: which sub-claims were
+  authorized, for which Target, who authorized them, when, and how
+  ({{privacy-considerations}}). Where the agent platform collected
+  the authorization, the record identifies the platform and when it asserted
+  that the authorization was given.
+
+{:vspace}
+Issuance records:
+: For each token issued: its `iss`, `jti`, `iat` and `exp`; its `sub`, `aud` and
+  `tsi`; the `hid.id`, `apd.id` and `aid.id` it carries; and the verification and
+  authorization records it relied on.
+
+Together, these records let an issuer resolve a token, given its `iss` and
+`jti`, to the verifications and authorizations behind it, and find a
+verification given its verifier and `verification_id`.
+They support audit, dispute resolution, and the issuer's response to reports
+about a token (see the Feedback to the Token Issuer section of
+{{I-D.skyfire-oauth-using-kyapay-tokens}}). This specification does not define an
+interface for querying them.
+
+The records contain personal data. An issuer MUST protect them against
+unauthorized access.
+
+This specification does not set how long an issuer keeps these records, or when
+it discloses them to third parties such as courts or regulators. Both are set by
+the law and regulation that apply to the issuer, which differ by jurisdiction
+and sector: anti-money-laundering record-keeping rules, for example, set minimum
+retention periods, while data protection law limits retention to what is
+necessary. Neither affects how tokens are issued, presented or validated, so
+recipients need only know that the records exist and how to refer to them.
+
 # Security Considerations
 
 ## General JWT Practices
@@ -1597,6 +1648,12 @@ for their contributions to the specification.
 {: numbered="false"}
 
 [[ to be removed by the RFC Editor before publication as an RFC ]]
+
+-04
+
+* Added an Issuer Records section: the verification, authorization and issuance
+  records an issuer keeps, how a token is resolved to them, and why retention
+  periods and disclosure are left to applicable law.
 
 -03
 
