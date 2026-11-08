@@ -1221,8 +1221,9 @@ Verification records:
 {:vspace}
 Authorization records:
 : For each disclosure that requires the principal's authorization, such as a
-  directly identifying sub-claim or `verification_id`: who authorized it, when,
-  and how ({{privacy-considerations}}). Where the agent platform collected
+  directly identifying sub-claim or `verification_id`: which sub-claims were
+  authorized, for which Target, who authorized them, when, and how
+  ({{privacy-considerations}}). Where the agent platform collected
   the authorization, the record identifies the platform and when it asserted
   that the authorization was given.
 
