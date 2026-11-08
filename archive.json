@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-11-05T00:05:04.719106+00:00",
+  "timestamp": "2026-11-08T00:05:32.274699+00:00",
   "repo": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
   "labels": [
     {
@@ -104,6 +104,22 @@
       "createdAt": "2026-11-01T21:09:56Z",
       "updatedAt": "2026-11-02T05:21:33Z",
       "closedAt": "2026-11-02T05:21:33Z",
+      "comments": []
+    },
+    {
+      "number": 67,
+      "id": "I_kwDOQZxkd88AAAABc5P6mw",
+      "title": "Add `auth_time` to `hid`",
+      "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/issues/67",
+      "state": "OPEN",
+      "author": "skyfire-ankit",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "From Rob Zagarella's (@Schemo512) implementer review on the OAuth list (item 4 on amr-values, 16 Sep):\nhttps://mailarchive.ietf.org/arch/msg/oauth/Px1NpSn3OV3Dr6sJAiUM_Ar1rOs\n\nRob pointed out that for an action-scoped token, a relying party wants to know that the authentication method ran for this action, not at an earlier login, and that without `auth_time` the `amr` values are true but undated.\n\nMike asked (21 Sep) when `auth_time` would matter if it differs from the token's issue time:\nhttps://mailarchive.ietf.org/arch/msg/oauth/TUy8Pd7vMorJdzzU9Q9DWknqnKQ\n\nRob's answer (1 Oct): the human may confirm an action at one time and the token be minted, exchanged or re-issued later. `iat` says when the token was created; only `auth_time` says when the human authenticated, so a recipient with a freshness rule needs it.\nhttps://mailarchive.ietf.org/arch/msg/oauth/eXDS11eJuwTHA8gaLWr-1q-QWKQ\n\n`hid` carries `amr` (how the human principal authenticated) but not when. Using #24 proposes that a recipient can ask, through `Accept-KYAPay-Token`, for a confirmation no older than `max_age` seconds, measured from `hid.auth_time`:\nhttps://github.com/skyfire-xyz/draft-skyfire-oauth-using-kyapay-tokens/issues/24\n\nProposal:\n\n- Add `auth_time` as an OPTIONAL sub-claim of `hid`: the time the human principal last authenticated or confirmed, as a NumericDate, with the same meaning as in OpenID Connect Core.\n- Where a token is issued for a specific action, state that `hid.amr` and `hid.auth_time` describe the authentication that authorized that action.\n",
+      "createdAt": "2026-11-06T00:13:16Z",
+      "updatedAt": "2026-11-06T00:13:16Z",
+      "closedAt": null,
       "comments": []
     }
   ],
@@ -5346,6 +5362,139 @@
           "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe2 Approval recommended\n\nNo active review issues are reported for the pseudonymous-identifier specification update.\n\n**No open issues** \ud83c\udf89\n\n<sub>Review effort: Balanced</sub>",
           "createdAt": "2026-11-02T05:27:33Z",
           "updatedAt": "2026-11-02T05:27:33Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 68,
+      "id": "PR_kwDOQZxkd88AAAABNOwtnw",
+      "title": "State that aid identifies the agent, not the human principal",
+      "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/68",
+      "state": "OPEN",
+      "author": "skyfire-ankit",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Following Ludovic D\u00e9pinoy's comment: the `aid` claim identifies the agent, not the human principal on whose behalf it acts, and anything about the human goes in `hid`. Adds Ludovic D\u00e9pinoy to the Acknowledgments and a -04 Document History entry.",
+      "createdAt": "2026-11-06T04:23:12Z",
+      "updatedAt": "2026-11-06T04:57:50Z",
+      "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "baseRefName": "main",
+      "baseRefOid": "87f52e09db7008557a37dbf4cb96506357c913da",
+      "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "headRefName": "aid-not-human",
+      "headRefOid": "79c36ee0cb8f082e5ad90e80aa9cbf817d7b8cfa",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd88AAAABWXQPXw",
+          "commit": {
+            "abbreviatedOid": "79c36ee"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe2 Approval recommended\n\nNo active review issues are reported for the identity-claim clarification.\n\n**No open issues** \ud83c\udf89\n\n<details>\n<summary><strong>What changed in this PR</strong></summary>\n\nClarifies the identity-claim semantics in the KYA Pay token specification without changing the claim structure.\n\n**Changes:**\n- States that `aid` identifies the agent, while claims about the human principal belong in `hid`.\n- Adds Ludovic D\u00e9pinoy to the acknowledgments and records the clarification in the -04 document history.\n\n| File | Description |\r\n| ---- | ----------- |\r\n| `draft-skyfire-oauth-kyapay-token.md` | Clarifies `aid` and `hid` usage and updates acknowledgments and document history. |\n</details>\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-06T04:29:39Z",
+          "updatedAt": "2026-11-06T04:29:39Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 69,
+      "id": "PR_kwDOQZxkd88AAAABNO41UQ",
+      "title": "Require pairwise identifiers per Target, not per Target service",
+      "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/69",
+      "state": "OPEN",
+      "author": "skyfire-ankit",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "`hid.id`, `sub` and `aid.id` stay stable at a Target service and still differ at every other Target, but the draft no longer requires them to differ between the services of one Target; that is left to the issuer. Prompted by Ludovic D\u00e9pinoy's point that a merchant with several services needs to follow one customer across them. Adds Ludovic D\u00e9pinoy to the Acknowledgments and a -04 Document History entry. Companion Using PR: https://github.com/skyfire-xyz/draft-skyfire-oauth-using-kyapay-tokens/pull/25",
+      "createdAt": "2026-11-06T04:39:50Z",
+      "updatedAt": "2026-11-07T19:23:44Z",
+      "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "baseRefName": "main",
+      "baseRefOid": "87f52e09db7008557a37dbf4cb96506357c913da",
+      "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "headRefName": "pairwise-per-target",
+      "headRefOid": "139bee473cb5b04bb3c1ff2f938ecc46213ccddb",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd88AAAABWXVTGQ",
+          "commit": {
+            "abbreviatedOid": "139bee4"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe2 Approval recommended\n\nThere are no active review issues blocking the pairwise identifier-scope changes.\n\n**No open issues** \ud83c\udf89\n\n<details>\n<summary><strong>What changed in this PR</strong></summary>\n\nThis PR changes pairwise identifier requirements from Target-service scope to Target scope, allowing issuers to support customer recognition across services belonging to the same Target.\n\n**Changes:**\n- Requires `hid.id`, `sub`, and `aid.id` to differ across Targets while preserving stability within a Target service.\n- Leaves identifier sharing across services of one Target to the issuer and updates the privacy guidance accordingly.\n- Adds Ludovic D\u00e9pinoy to the acknowledgments and records the change in the -04 document history.\n\n| File | Description |\r\n| ---- | ----------- |\r\n| draft-skyfire-oauth-kyapay-token.md | Updates identifier scope requirements, privacy guidance, acknowledgments, and document history. |\n</details>\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-06T04:43:05Z",
+          "updatedAt": "2026-11-06T04:43:05Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABWpL7MA",
+          "commit": {
+            "abbreviatedOid": "139bee4"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-11-07T19:23:44Z",
+          "updatedAt": "2026-11-07T19:23:44Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 70,
+      "id": "PR_kwDOQZxkd88AAAABNlyzWA",
+      "title": "Mark apd REQUIRED in the claim list and the sub description",
+      "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/70",
+      "state": "OPEN",
+      "author": "skyfire-ankit",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "PR #54 made the `apd` claim REQUIRED in KYA and KYA-PAY tokens in the `apd` section, but the KYA Token claim list still said OPTIONAL, and the `sub` description said tokens carry `apd` \"where it is identified\". This makes both match the `apd` section, and adds a -04 Document History entry.",
+      "createdAt": "2026-11-07T23:57:16Z",
+      "updatedAt": "2026-11-07T23:59:16Z",
+      "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "baseRefName": "main",
+      "baseRefOid": "87f52e09db7008557a37dbf4cb96506357c913da",
+      "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "headRefName": "apd-required",
+      "headRefOid": "48df840c96af1fa88e1616134023039205613399",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd88AAAABWqPXLg",
+          "commit": {
+            "abbreviatedOid": "48df840"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe2 Approval recommended\n\nNo active review issues are recorded for the update aligning the token documentation with the mandatory `apd` requirement.\n\n**No open issues** \ud83c\udf89\n\n<details>\n<summary><strong>What changed in this PR</strong></summary>\n\nAligns the KYA and KYA-PAY token descriptions with the existing requirement that `apd` is mandatory, completing the documentation consistency update from PR #54.\n\n**Changes:**\n- Marks `apd` as REQUIRED in the KYA Token claim list.\n- Removes conditional wording about `apd` from the `sub` description.\n- Adds a -04 Document History entry recording the clarification.\n\n| File | Description |\r\n| ---- | ----------- |\r\n| `draft-skyfire-oauth-kyapay-token.md` | Makes `apd` requirement wording consistent and records the update in Document History. |\n</details>\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-07T23:59:16Z",
+          "updatedAt": "2026-11-07T23:59:16Z",
           "comments": []
         }
       ]
