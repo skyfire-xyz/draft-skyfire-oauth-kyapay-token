@@ -2737,15 +2737,17 @@ the Validating KYA and PAY Tokens section.<a href="#section-4.2-1" class="pilcro
       <h2 id="name-issuer-records">
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-issuer-records" class="section-name selfRef">Issuer Records</a>
       </h2>
-<p id="section-5-1">An issuer vouches for the parties named in the tokens it issues. To stand behind
-that after the fact, an issuer <span class="bcp14">MUST</span> keep the following records.<a href="#section-5-1" class="pilcrow">¶</a></p>
+<p id="section-5-1">An issuer vouches for the identities it has verified for the initiator of each
+token it issues. To stand behind that after the fact, an issuer <span class="bcp14">MUST</span> keep the
+following records.<a href="#section-5-1" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlNewline" id="section-5-2">
         <dt id="section-5-2.1">Verification records:</dt>
         <dd style="margin-left: 1.5em" id="section-5-2.2">
           <p id="section-5-2.2.1">For each verification whose result a token asserts, of the human principal,
-the agent platform or a payment method: the methods used, the time of each
-step and who performed it, and references to the evidence examined. The
-<code>verification_id</code> sub-claim, where present, identifies this record. Where a
+the agent platform, the agent or a payment method: the methods used, the time
+of each step and who performed it, and references to the evidence examined.
+The <code>verifier</code> and <code>verification_id</code> sub-claims, where present, together
+identify this record. Where a
 separate verifier performed the verification, the issuer keeps the verifier's
 identity, the <code>verification_id</code> and the result, and the verifier keeps the
 rest of the record.<a href="#section-5-2.2.1" class="pilcrow">¶</a></p>
@@ -2753,8 +2755,9 @@ rest of the record.<a href="#section-5-2.2.1" class="pilcrow">¶</a></p>
         <dd class="break"></dd>
 <dt id="section-5-2.3">Authorization records:</dt>
         <dd style="margin-left: 1.5em" id="section-5-2.4">
-          <p id="section-5-2.4.1">For each disclosure of a directly identifying sub-claim: who authorized it,
-when, and how (<a href="#privacy-considerations" class="auto internal xref">Section 7</a>). Where the agent platform collected
+          <p id="section-5-2.4.1">For each disclosure that requires the principal's authorization, such as a
+directly identifying sub-claim or <code>verification_id</code>: who authorized it, when,
+and how (<a href="#privacy-considerations" class="auto internal xref">Section 7</a>). Where the agent platform collected
 the authorization, the record identifies the platform and when it asserted
 that the authorization was given.<a href="#section-5-2.4.1" class="pilcrow">¶</a></p>
 </dd>
@@ -2768,7 +2771,8 @@ authorization records it relied on.<a href="#section-5-2.6.1" class="pilcrow">¶
       <dd class="break"></dd>
 </dl>
 <p id="section-5-3">Together, these records let an issuer resolve a token, given its <code>iss</code> and
-<code>jti</code> or a <code>verification_id</code>, to the verifications and authorizations behind it.
+<code>jti</code>, to the verifications and authorizations behind it, and find a
+verification given its verifier and <code>verification_id</code>.
 They support audit, dispute resolution, and the issuer's response to reports
 about a token (see the Feedback to the Token Issuer section of
 <span>[<a href="#I-D.skyfire-oauth-using-kyapay-tokens" class="cite xref">I-D.skyfire-oauth-using-kyapay-tokens</a>]</span>). This specification does not define an
