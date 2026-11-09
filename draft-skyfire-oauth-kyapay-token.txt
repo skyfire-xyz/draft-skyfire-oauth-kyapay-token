@@ -813,7 +813,9 @@ Table of Contents
 
 3.4.3.  Agent Identity aid Sub-Claims
 
-   The aid claim is REQUIRED.  It contains the following sub-claims.
+   The aid claim is REQUIRED.  It identifies the agent, not the human
+   principal on whose behalf the agent acts; claims about the human
+   principal are carried in hid.  It contains the following sub-claims.
 
    id:
       REQUIRED - Agent identifier.  An issuer MUST use the same value
@@ -1939,6 +1941,10 @@ Document History
 
    *  Allowed retaining tokens where needed for audit, dispute
       resolution, or legal retention obligations.
+
+   *  Stated that the aid claim identifies the agent, not the human
+      principal, and that claims about the human principal are carried
+      in hid.
 
    -03
 

@@ -2208,7 +2208,9 @@ The recipient <span class="bcp14">MUST</span> ignore any unrecognized sub-claims
           <h4 id="name-agent-identity-aid-sub-clai">
 <a href="#section-3.4.3" class="section-number selfRef">3.4.3. </a><a href="#name-agent-identity-aid-sub-clai" class="section-name selfRef">Agent Identity <code>aid</code> Sub-Claims</a>
           </h4>
-<p id="section-3.4.3-1">The <code>aid</code> claim is <span class="bcp14">REQUIRED</span>. It contains the following sub-claims.<a href="#section-3.4.3-1" class="pilcrow">¶</a></p>
+<p id="section-3.4.3-1">The <code>aid</code> claim is <span class="bcp14">REQUIRED</span>. It identifies the agent, not the human principal
+on whose behalf the agent acts; claims about the human principal are carried
+in <code>hid</code>. It contains the following sub-claims.<a href="#section-3.4.3-1" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlNewline" id="section-3.4.3-2">
             <dt id="section-3.4.3-2.1">
 <code>id</code>:</dt>
@@ -3722,6 +3724,10 @@ services of one Target share a value.<a href="#appendix-C-3.1.1" class="pilcrow"
 </li>
         <li class="normal" id="appendix-C-3.3">
           <p id="appendix-C-3.3.1">Allowed retaining tokens where needed for audit, dispute resolution, or legal retention obligations.<a href="#appendix-C-3.3.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-3.4">
+          <p id="appendix-C-3.4.1">Stated that the <code>aid</code> claim identifies the agent, not the human principal,
+and that claims about the human principal are carried in <code>hid</code>.<a href="#appendix-C-3.4.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="appendix-C-4">-03<a href="#appendix-C-4" class="pilcrow">¶</a></p>
