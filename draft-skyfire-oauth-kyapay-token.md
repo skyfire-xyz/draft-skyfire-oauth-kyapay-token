@@ -379,15 +379,15 @@ PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
 {:vspace}
 `sub`:
 : REQUIRED - Subject Identifier. MUST be pairwise unique within a given
-  issuer: unique, and different at each Target service (`tsi`). As for
+  issuer: unique, and different at each Target. As for
   `hid.id`, the value MUST NOT be, or reveal, a directly identifying
-  attribute, and values at different Target services MUST NOT be linkable
+  attribute, and values at different Targets MUST NOT be linkable
   to one another without the issuer's cooperation.
   The subject identifies the combination of identities the issuer has verified
   for the initiator: the human principal, the agent platform and the agent.
   An issuer MUST use the same `sub` value at a given Target service while that
   combination remains unchanged, MUST use a different value at each other
-  Target service, MUST NOT use that value for a different combination, and MUST
+  Target, MUST NOT use that value for a different combination, and MUST
   assign a new `sub` when any of those identities changes. KYA and KYA-PAY
   tokens carry the human principal, the agent platform and the agent as the
   `hid`, `apd` and `aid` claims. PAY tokens carry none of them. The subject identifies the same
@@ -650,8 +650,8 @@ principal (individual or organization) as follows.
   directly identifying attribute. An issuer MUST use the same value for
   the same principal acting through the same agent platform at the same
   Target service (`tsi`), whatever the agent, and MUST use a different
-  value for each agent platform and for each Target service. Values for
-  different agent platforms or Target services MUST NOT be linkable to one
+  value for each agent platform and for each other Target. Values for
+  different agent platforms or Targets MUST NOT be linkable to one
   another without the issuer's cooperation; an issuer can, for example,
   assign each value at random or derive it using a key known only to
   itself. The value is unique within a given issuer, so a recipient that compares `hid.id`
@@ -818,8 +818,8 @@ The `aid` claim is REQUIRED. It contains the following sub-claims.
 `id`:
 : REQUIRED - Agent identifier. An issuer MUST use the same value for the same
   agent at the same Target service (`tsi`), and a different value at each
-  Target service. The value MUST NOT be, or reveal, a directly identifying
-  attribute, and values at different Target services MUST NOT be linkable to
+  other Target. The value MUST NOT be, or reveal, a directly identifying
+  attribute, and values at different Targets MUST NOT be linkable to
   one another without the issuer's cooperation.
 
 {:vspace}
@@ -1336,8 +1336,9 @@ sub-claims for actions that do not need them, such as browsing a
 catalog.
 
 A token carrying only `hid.id` is pseudonymous, not anonymous.
-`hid.id`, `sub` and `aid.id` are each specific to one Target
-service and different at every other Target service. At a given
+`hid.id`, `sub` and `aid.id` are each different at every other
+Target; whether the services of one Target share a value is left to
+the issuer. At a given
 service, `hid.id` is stable for a principal returning through a given
 agent platform, whatever the agent, while `sub` and `aid.id` are
 stable for one agent of that principal and change with the agent.
@@ -1587,6 +1588,7 @@ The following specifications are related to and designed to be used with this sp
 
 We would like to thank
 Bhasker Allam,
+Ludovic Dépinoy,
 Jean Diaconu
 and
 Carlos Martínez
@@ -1599,6 +1601,9 @@ for their contributions to the specification.
 
 -04
 
+* Required `hid.id`, `sub` and `aid.id` to differ at each other Target rather
+  than at each other Target service, leaving to the issuer whether the
+  services of one Target share a value.
 * Marked the `apd` claim REQUIRED in the KYA Token claim list and in the description of `sub`, matching the `apd` section.
 
 -03
