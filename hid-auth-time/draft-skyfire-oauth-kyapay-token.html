@@ -1053,7 +1053,7 @@ svg {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Agarwal &amp; Jones</td>
-<td class="center">Expires 12 May 2027</td>
+<td class="center">Expires 13 May 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1066,12 +1066,12 @@ svg {
 <dd class="internet-draft">draft-skyfire-oauth-kyapay-token-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-11-08" class="published">8 November 2026</time>
+<time datetime="2026-11-09" class="published">9 November 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-05-12">12 May 2027</time></dd>
+<dd class="expires"><time datetime="2027-05-13">13 May 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1123,7 +1123,7 @@ tokens in an interoperable manner.<a href="#section-abstract-1" class="pilcrow">
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 12 May 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 13 May 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1684,19 +1684,18 @@ signature verification, as described in <a href="#key-discovery" class="auto int
 <code>sub</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-3.1-2.4">
             <p id="section-3.1-2.4.1"><span class="bcp14">REQUIRED</span> - Subject Identifier. <span class="bcp14">MUST</span> be pairwise unique within a given
-issuer: unique, and different at each Target service (<code>tsi</code>). As for
+issuer: unique, and different at each Target. As for
 <code>hid.id</code>, the value <span class="bcp14">MUST NOT</span> be, or reveal, a directly identifying
-attribute, and values at different Target services <span class="bcp14">MUST NOT</span> be linkable
+attribute, and values at different Targets <span class="bcp14">MUST NOT</span> be linkable
 to one another without the issuer's cooperation.
 The subject identifies the combination of identities the issuer has verified
 for the initiator: the human principal, the agent platform and the agent.
 An issuer <span class="bcp14">MUST</span> use the same <code>sub</code> value at a given Target service while that
 combination remains unchanged, <span class="bcp14">MUST</span> use a different value at each other
-Target service, <span class="bcp14">MUST NOT</span> use that value for a different combination, and <span class="bcp14">MUST</span>
+Target, <span class="bcp14">MUST NOT</span> use that value for a different combination, and <span class="bcp14">MUST</span>
 assign a new <code>sub</code> when any of those identities changes. KYA and KYA-PAY
-tokens carry the human principal and the agent as the <code>hid</code> and <code>aid</code>
-claims, and carry the agent platform as the <code>apd</code> claim where it is
-identified. PAY tokens carry none of them. The subject identifies the same
+tokens carry the human principal, the agent platform and the agent as the
+<code>hid</code>, <code>apd</code> and <code>aid</code> claims. PAY tokens carry none of them. The subject identifies the same
 combination in either case, since an issuer does not issue a token without
 having verified the initiator. Tokens of different types issued by the same
 issuer for the same initiator at the same Target service therefore carry the
@@ -1917,7 +1916,7 @@ typical origin.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
 <dt id="section-3.4-2.3">
 <code>apd</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-3.4-2.4">
-            <p id="section-3.4-2.4.1"><span class="bcp14">OPTIONAL</span> - Agent Platform identity claims.<a href="#section-3.4-2.4.1" class="pilcrow">¶</a></p>
+            <p id="section-3.4-2.4.1"><span class="bcp14">REQUIRED</span> - Agent Platform identity claims.<a href="#section-3.4-2.4.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-3.4-2.5">
@@ -1997,8 +1996,8 @@ identifier for the human principal, assigned by the issuer. It <span class="bcp1
 directly identifying attribute. An issuer <span class="bcp14">MUST</span> use the same value for
 the same principal acting through the same agent platform at the same
 Target service (<code>tsi</code>), whatever the agent, and <span class="bcp14">MUST</span> use a different
-value for each agent platform and for each Target service. Values for
-different agent platforms or Target services <span class="bcp14">MUST NOT</span> be linkable to one
+value for each agent platform and for each other Target. Values for
+different agent platforms or Targets <span class="bcp14">MUST NOT</span> be linkable to one
 another without the issuer's cooperation; an issuer can, for example,
 assign each value at random or derive it using a key known only to
 itself. The value is unique within a given issuer, so a recipient that compares <code>hid.id</code>
@@ -2223,15 +2222,17 @@ The recipient <span class="bcp14">MUST</span> ignore any unrecognized sub-claims
           <h4 id="name-agent-identity-aid-sub-clai">
 <a href="#section-3.4.3" class="section-number selfRef">3.4.3. </a><a href="#name-agent-identity-aid-sub-clai" class="section-name selfRef">Agent Identity <code>aid</code> Sub-Claims</a>
           </h4>
-<p id="section-3.4.3-1">The <code>aid</code> claim is <span class="bcp14">REQUIRED</span>. It contains the following sub-claims.<a href="#section-3.4.3-1" class="pilcrow">¶</a></p>
+<p id="section-3.4.3-1">The <code>aid</code> claim is <span class="bcp14">REQUIRED</span>. It identifies the agent, not the human principal
+on whose behalf the agent acts; claims about the human principal are carried
+in <code>hid</code>. It contains the following sub-claims.<a href="#section-3.4.3-1" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlNewline" id="section-3.4.3-2">
             <dt id="section-3.4.3-2.1">
 <code>id</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.4.3-2.2">
               <p id="section-3.4.3-2.2.1"><span class="bcp14">REQUIRED</span> - Agent identifier. An issuer <span class="bcp14">MUST</span> use the same value for the same
 agent at the same Target service (<code>tsi</code>), and a different value at each
-Target service. The value <span class="bcp14">MUST NOT</span> be, or reveal, a directly identifying
-attribute, and values at different Target services <span class="bcp14">MUST NOT</span> be linkable to
+other Target. The value <span class="bcp14">MUST NOT</span> be, or reveal, a directly identifying
+attribute, and values at different Targets <span class="bcp14">MUST NOT</span> be linkable to
 one another without the issuer's cooperation.<a href="#section-3.4.3-2.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
@@ -2776,7 +2777,9 @@ and server authentication, such as TLS <span>[<a href="#RFC8446" class="cite xre
 </li>
           <li class="normal" id="section-5.2-3.2">
             <p id="section-5.2-3.2.1">Tokens <span class="bcp14">MUST NOT</span> be written to logs, traces, analytics pipelines, or other
-persistent stores that are not required to process the transaction. An agent
+persistent stores that are not required to process the transaction or to meet
+audit, dispute-resolution, or legal retention obligations. Retained tokens <span class="bcp14">MUST</span>
+be protected against unauthorized access. An agent
 that obtains a token through a tool whose result is returned to a language
 model may be unable to keep the token out of that model's context or out of a
 transcript retained from it; the Token Exposure in the Agent Runtime section
@@ -2910,8 +2913,9 @@ regulation. Targets <span class="bcp14">SHOULD NOT</span> require directly ident
 sub-claims for actions that do not need them, such as browsing a
 catalog.<a href="#section-6-1" class="pilcrow">¶</a></p>
 <p id="section-6-2">A token carrying only <code>hid.id</code> is pseudonymous, not anonymous.
-<code>hid.id</code>, <code>sub</code> and <code>aid.id</code> are each specific to one Target
-service and different at every other Target service. At a given
+<code>hid.id</code>, <code>sub</code> and <code>aid.id</code> are each different at every other
+Target; whether the services of one Target share a value is left to
+the issuer. At a given
 service, <code>hid.id</code> is stable for a principal returning through a given
 agent platform, whatever the agent, while <code>sub</code> and <code>aid.id</code> are
 stable for one agent of that principal and change with the agent.
@@ -3709,6 +3713,7 @@ keys with which the origin signs KYAPay tokens.<a href="#section-7.3-2.5.1" clas
       </h2>
 <p id="appendix-B-1">We would like to thank
 Bhasker Allam,
+Ludovic Dépinoy,
 Jean Diaconu,
 Carlos Martínez
 and
@@ -3725,9 +3730,24 @@ for their contributions to the specification.<a href="#appendix-B-1" class="pilc
 <p id="appendix-C-2">-04<a href="#appendix-C-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-C-3.1">
-          <p id="appendix-C-3.1.1">Added the optional <code>auth_time</code> sub-claim to the <code>hid</code> claim: when the human
+          <p id="appendix-C-3.1.1">Required <code>hid.id</code>, <code>sub</code> and <code>aid.id</code> to differ at each other Target rather
+than at each other Target service, leaving to the issuer whether the
+services of one Target share a value.<a href="#appendix-C-3.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-3.2">
+          <p id="appendix-C-3.2.1">Marked the <code>apd</code> claim <span class="bcp14">REQUIRED</span> in the KYA Token claim list and in the description of <code>sub</code>, matching the <code>apd</code> section.<a href="#appendix-C-3.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-3.3">
+          <p id="appendix-C-3.3.1">Allowed retaining tokens where needed for audit, dispute resolution, or legal retention obligations.<a href="#appendix-C-3.3.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-3.4">
+          <p id="appendix-C-3.4.1">Stated that the <code>aid</code> claim identifies the agent, not the human principal,
+and that claims about the human principal are carried in <code>hid</code>.<a href="#appendix-C-3.4.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-3.5">
+          <p id="appendix-C-3.5.1">Added the optional <code>auth_time</code> sub-claim to the <code>hid</code> claim: when the human
 principal authenticated, kept when a token is issued on the basis of an
-earlier authentication.<a href="#appendix-C-3.1.1" class="pilcrow">¶</a></p>
+earlier authentication.<a href="#appendix-C-3.5.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="appendix-C-4">-03<a href="#appendix-C-4" class="pilcrow">¶</a></p>
