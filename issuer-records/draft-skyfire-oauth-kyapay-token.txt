@@ -5,8 +5,8 @@
 Web Authorization Protocol                                    A. Agarwal
 Internet-Draft                                      Skyfire Systems Inc.
 Intended status: Standards Track                                M. Jones
-Expires: 12 May 2027                              Self-Issued Consulting
-                                                         8 November 2026
+Expires: 13 May 2027                              Self-Issued Consulting
+                                                         9 November 2026
 
 
                               KYAPay Token
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 12 May 2027.
+   This Internet-Draft will expire on 13 May 2027.
 
 Copyright Notice
 
@@ -1230,7 +1230,7 @@ Table of Contents
    initiator of each token it issues.  To stand behind that after the
    fact, an issuer MUST keep the following records.
 
-   Verification records:
+   Verification Records:
       For each verification whose result a token asserts, of the human
       principal, the agent platform, the agent or a payment method: the
       methods used, the time of each step and who performed it, and
@@ -1240,7 +1240,7 @@ Table of Contents
       issuer keeps the verifier's identity, the verification_id and the
       result, and the verifier keeps the rest of the record.
 
-   Authorization records:
+   Authorization Records:
       For each disclosure that requires the principal's authorization,
       such as a directly identifying sub-claim or verification_id: which
       sub-claims were authorized, for which Target, who authorized them,
@@ -1248,7 +1248,7 @@ Table of Contents
       authorization, the record identifies the platform and when it
       asserted that the authorization was given.
 
-   Issuance records:
+   Issuance Records:
       For each token issued: its iss, jti, iat and exp; its sub, aud and
       tsi; the hid.id, apd.id and aid.id it carries; and the
       verification and authorization records it relied on.
