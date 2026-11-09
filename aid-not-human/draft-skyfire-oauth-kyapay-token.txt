@@ -5,8 +5,8 @@
 Web Authorization Protocol                                    A. Agarwal
 Internet-Draft                                      Skyfire Systems Inc.
 Intended status: Standards Track                                M. Jones
-Expires: 10 May 2027                              Self-Issued Consulting
-                                                         6 November 2026
+Expires: 13 May 2027                              Self-Issued Consulting
+                                                         9 November 2026
 
 
                               KYAPay Token
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 10 May 2027.
+   This Internet-Draft will expire on 13 May 2027.
 
 Copyright Notice
 
@@ -381,27 +381,26 @@ Table of Contents
 
    sub:
       REQUIRED - Subject Identifier.  MUST be pairwise unique within a
-      given issuer: unique, and different at each Target service (tsi).
-      As for hid.id, the value MUST NOT be, or reveal, a directly
-      identifying attribute, and values at different Target services
-      MUST NOT be linkable to one another without the issuer's
-      cooperation.  The subject identifies the combination of identities
-      the issuer has verified for the initiator: the human principal,
-      the agent platform and the agent.  An issuer MUST use the same sub
-      value at a given Target service while that combination remains
-      unchanged, MUST use a different value at each other Target
-      service, MUST NOT use that value for a different combination, and
-      MUST assign a new sub when any of those identities changes.  KYA
-      and KYA-PAY tokens carry the human principal and the agent as the
-      hid and aid claims, and carry the agent platform as the apd claim
-      where it is identified.  PAY tokens carry none of them.  The
-      subject identifies the same combination in either case, since an
-      issuer does not issue a token without having verified the
-      initiator.  Tokens of different types issued by the same issuer
-      for the same initiator at the same Target service therefore carry
-      the same sub.  A recipient MAY associate a PAY token with a KYA
-      token on that basis, but MUST treat them as referring to the same
-      initiator only when both the iss and the sub values are equal.
+      given issuer: unique, and different at each Target.  As for
+      hid.id, the value MUST NOT be, or reveal, a directly identifying
+      attribute, and values at different Targets MUST NOT be linkable to
+      one another without the issuer's cooperation.  The subject
+      identifies the combination of identities the issuer has verified
+      for the initiator: the human principal, the agent platform and the
+      agent.  An issuer MUST use the same sub value at a given Target
+      service while that combination remains unchanged, MUST use a
+      different value at each other Target, MUST NOT use that value for
+      a different combination, and MUST assign a new sub when any of
+      those identities changes.  KYA and KYA-PAY tokens carry the human
+      principal, the agent platform and the agent as the hid, apd and
+      aid claims.  PAY tokens carry none of them.  The subject
+      identifies the same combination in either case, since an issuer
+      does not issue a token without having verified the initiator.
+      Tokens of different types issued by the same issuer for the same
+      initiator at the same Target service therefore carry the same sub.
+      A recipient MAY associate a PAY token with a KYA token on that
+      basis, but MUST treat them as referring to the same initiator only
+      when both the iss and the sub values are equal.
 
    aud:
       REQUIRED - Audience (used for audience binding and replay attack
@@ -593,7 +592,7 @@ Table of Contents
       organization).
 
    apd:
-      OPTIONAL - Agent Platform identity claims.
+      REQUIRED - Agent Platform identity claims.
 
    aid:
       REQUIRED - Agent identity claims.
@@ -657,8 +656,8 @@ Table of Contents
       value for the same principal acting through the same agent
       platform at the same Target service (tsi), whatever the agent, and
       MUST use a different value for each agent platform and for each
-      Target service.  Values for different agent platforms or Target
-      services MUST NOT be linkable to one another without the issuer's
+      other Target.  Values for different agent platforms or Targets
+      MUST NOT be linkable to one another without the issuer's
       cooperation; an issuer can, for example, assign each value at
       random or derive it using a key known only to itself.  The value
       is unique within a given issuer, so a recipient that compares
@@ -821,10 +820,10 @@ Table of Contents
    id:
       REQUIRED - Agent identifier.  An issuer MUST use the same value
       for the same agent at the same Target service (tsi), and a
-      different value at each Target service.  The value MUST NOT be, or
+      different value at each other Target.  The value MUST NOT be, or
       reveal, a directly identifying attribute, and values at different
-      Target services MUST NOT be linkable to one another without the
-      issuer's cooperation.
+      Targets MUST NOT be linkable to one another without the issuer's
+      cooperation.
 
    name:
       REQUIRED - Agent name.  The name should reflect the business
@@ -1250,11 +1249,13 @@ Table of Contents
 
    *  Tokens MUST NOT be written to logs, traces, analytics pipelines,
       or other persistent stores that are not required to process the
-      transaction.  An agent that obtains a token through a tool whose
-      result is returned to a language model may be unable to keep the
-      token out of that model's context or out of a transcript retained
-      from it; the Token Exposure in the Agent Runtime section of
-      [I-D.skyfire-oauth-using-kyapay-tokens] describes how such a
+      transaction or to meet audit, dispute-resolution, or legal
+      retention obligations.  Retained tokens MUST be protected against
+      unauthorized access.  An agent that obtains a token through a tool
+      whose result is returned to a language model may be unable to keep
+      the token out of that model's context or out of a transcript
+      retained from it; the Token Exposure in the Agent Runtime section
+      of [I-D.skyfire-oauth-using-kyapay-tokens] describes how such a
       deployment treats the token.
 
    *  Tokens MUST NOT be forwarded to parties other than those necessary
@@ -1376,17 +1377,17 @@ Table of Contents
    actions that do not need them, such as browsing a catalog.
 
    A token carrying only hid.id is pseudonymous, not anonymous. hid.id,
-   sub and aid.id are each specific to one Target service and different
-   at every other Target service.  At a given service, hid.id is stable
-   for a principal returning through a given agent platform, whatever
-   the agent, while sub and aid.id are stable for one agent of that
-   principal and change with the agent.  Two Targets, or a party that
-   sees the traffic of both, cannot link the principal from these
-   values. apd identifies the agent platform and is the same at every
-   Target. aid.name is also the same at every Target, so where an agent
-   acts for a single principal, its name can link that principal's
-   activity across Targets.  Directly identifying sub-claims link
-   wherever they are disclosed.
+   sub and aid.id are each different at every other Target; whether the
+   services of one Target share a value is left to the issuer.  At a
+   given service, hid.id is stable for a principal returning through a
+   given agent platform, whatever the agent, while sub and aid.id are
+   stable for one agent of that principal and change with the agent.
+   Two Targets, or a party that sees the traffic of both, cannot link
+   the principal from these values. apd identifies the agent platform
+   and is the same at every Target. aid.name is also the same at every
+   Target, so where an agent acts for a single principal, its name can
+   link that principal's activity across Targets.  Directly identifying
+   sub-claims link wherever they are disclosed.
 
    KYAPay tokens are designed to convey the information that an agent is
    acting on behalf of a principal - a person or organization.  To do
@@ -1930,6 +1931,16 @@ Document History
    [[ to be removed by the RFC Editor before publication as an RFC ]]
 
    -04
+
+   *  Required hid.id, sub and aid.id to differ at each other Target
+      rather than at each other Target service, leaving to the issuer
+      whether the services of one Target share a value.
+
+   *  Marked the apd claim REQUIRED in the KYA Token claim list and in
+      the description of sub, matching the apd section.
+
+   *  Allowed retaining tokens where needed for audit, dispute
+      resolution, or legal retention obligations.
 
    *  Stated that the aid claim identifies the agent, not the human
       principal, and that claims about the human principal are carried
