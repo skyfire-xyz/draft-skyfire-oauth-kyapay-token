@@ -1694,9 +1694,8 @@ An issuer <span class="bcp14">MUST</span> use the same <code>sub</code> value at
 combination remains unchanged, <span class="bcp14">MUST</span> use a different value at each other
 Target, <span class="bcp14">MUST NOT</span> use that value for a different combination, and <span class="bcp14">MUST</span>
 assign a new <code>sub</code> when any of those identities changes. KYA and KYA-PAY
-tokens carry the human principal and the agent as the <code>hid</code> and <code>aid</code>
-claims, and carry the agent platform as the <code>apd</code> claim where it is
-identified. PAY tokens carry none of them. The subject identifies the same
+tokens carry the human principal, the agent platform and the agent as the
+<code>hid</code>, <code>apd</code> and <code>aid</code> claims. PAY tokens carry none of them. The subject identifies the same
 combination in either case, since an issuer does not issue a token without
 having verified the initiator. Tokens of different types issued by the same
 issuer for the same initiator at the same Target service therefore carry the
@@ -1917,7 +1916,7 @@ typical origin.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
 <dt id="section-3.4-2.3">
 <code>apd</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-3.4-2.4">
-            <p id="section-3.4-2.4.1"><span class="bcp14">OPTIONAL</span> - Agent Platform identity claims.<a href="#section-3.4-2.4.1" class="pilcrow">¶</a></p>
+            <p id="section-3.4-2.4.1"><span class="bcp14">REQUIRED</span> - Agent Platform identity claims.<a href="#section-3.4-2.4.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-3.4-2.5">
@@ -3715,6 +3714,9 @@ for their contributions to the specification.<a href="#appendix-B-1" class="pilc
           <p id="appendix-C-3.1.1">Required <code>hid.id</code>, <code>sub</code> and <code>aid.id</code> to differ at each other Target rather
 than at each other Target service, leaving to the issuer whether the
 services of one Target share a value.<a href="#appendix-C-3.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-3.2">
+          <p id="appendix-C-3.2.1">Marked the <code>apd</code> claim <span class="bcp14">REQUIRED</span> in the KYA Token claim list and in the description of <code>sub</code>, matching the <code>apd</code> section.<a href="#appendix-C-3.2.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="appendix-C-4">-03<a href="#appendix-C-4" class="pilcrow">¶</a></p>
