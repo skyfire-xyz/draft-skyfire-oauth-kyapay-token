@@ -2086,12 +2086,26 @@ An issuer <span class="bcp14">SHOULD</span> include this sub-claim when it knows
 </dd>
             <dd class="break"></dd>
 <dt id="section-3.4.1-2.25">
-<code>aml</code>:</dt>
+<code>auth_time</code>:</dt>
             <dd style="margin-left: 1.5em" id="section-3.4.1-2.26">
-              <p id="section-3.4.1-2.26.1"><span class="bcp14">OPTIONAL</span> - Anti-Money Laundering Methods <span>[<a href="#I-D.skyfire-oauth-aml-methods" class="cite xref">I-D.skyfire-oauth-aml-methods</a>]</span>.
+              <p id="section-3.4.1-2.26.1"><span class="bcp14">OPTIONAL</span> - Authentication time, as defined in Section 2 of <span>[<a href="#OpenID.Core" class="cite xref">OpenID.Core</a>]</span>:
+the time when the human principal authenticated, as a NumericDate <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.
+Where a token is issued for a specific action, <code>amr</code> and <code>auth_time</code> describe
+the authentication by which the human principal confirmed that action.
+<code>iat</code> gives the time the token was issued, which can be later.
+An issuer that issues a token on the basis of an earlier authentication
+carries that authentication's time, not the time of issuance.
+A recipient that requires a recent confirmation compares <code>auth_time</code>,
+not <code>iat</code>, with its limit.<a href="#section-3.4.1-2.26.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-3.4.1-2.27">
+<code>aml</code>:</dt>
+            <dd style="margin-left: 1.5em" id="section-3.4.1-2.28">
+              <p id="section-3.4.1-2.28.1"><span class="bcp14">OPTIONAL</span> - Anti-Money Laundering Methods <span>[<a href="#I-D.skyfire-oauth-aml-methods" class="cite xref">I-D.skyfire-oauth-aml-methods</a>]</span>.
 A JSON array of the anti-money laundering and counter-terrorist financing methods
 applied to the human principal.
-An issuer <span class="bcp14">SHOULD</span> include this sub-claim when it knows the methods used.<a href="#section-3.4.1-2.26.1" class="pilcrow">¶</a></p>
+An issuer <span class="bcp14">SHOULD</span> include this sub-claim when it knows the methods used.<a href="#section-3.4.1-2.28.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 </dl>
@@ -2196,9 +2210,9 @@ An issuer <span class="bcp14">SHOULD</span> include this sub-claim when it knows
 <p id="section-3.4.2-3">The <code>ivm</code> and <code>aml</code> sub-claims use the syntax and values
 of the claims of the same names defined in the cited specifications.
 The absence of either does not indicate that a method was not used.<a href="#section-3.4.2-3" class="pilcrow">¶</a></p>
-<p id="section-3.4.2-4">In a KYAPay token, the <code>ivm</code>, <code>amr</code>, and <code>aml</code> claims appear only as sub-claims of <code>hid</code> and <code>apd</code>, so that each describes the party whose claim contains it: in <code>hid</code>, how the human principal was vetted; in <code>apd</code>, how the agent platform was vetted.
-<code>amr</code> does not apply to the agent platform and is not used in <code>apd</code>.
-Issuers <span class="bcp14">MUST NOT</span> include <code>ivm</code>, <code>amr</code>, or <code>aml</code> as top-level claims in a KYAPay token, and recipients <span class="bcp14">MUST</span> ignore them if they appear there.<a href="#section-3.4.2-4" class="pilcrow">¶</a></p>
+<p id="section-3.4.2-4">In a KYAPay token, the <code>ivm</code>, <code>amr</code>, <code>aml</code>, and <code>auth_time</code> claims appear only as sub-claims of <code>hid</code> and <code>apd</code>, so that each describes the party whose claim contains it: in <code>hid</code>, how the human principal was vetted; in <code>apd</code>, how the agent platform was vetted.
+<code>amr</code> and <code>auth_time</code> do not apply to the agent platform and are not used in <code>apd</code>.
+Issuers <span class="bcp14">MUST NOT</span> include <code>ivm</code>, <code>amr</code>, <code>aml</code>, or <code>auth_time</code> as top-level claims in a KYAPay token, and recipients <span class="bcp14">MUST</span> ignore them if they appear there.<a href="#section-3.4.2-4" class="pilcrow">¶</a></p>
 <p id="section-3.4.2-5">Additional sub-claims <span class="bcp14">MAY</span> be defined and used.
 The recipient <span class="bcp14">MUST</span> ignore any unrecognized sub-claims.<a href="#section-3.4.2-5" class="pilcrow">¶</a></p>
 </section>
@@ -3700,9 +3714,10 @@ keys with which the origin signs KYAPay tokens.<a href="#section-7.3-2.5.1" clas
 <p id="appendix-B-1">We would like to thank
 Bhasker Allam,
 Ludovic Dépinoy,
-Jean Diaconu
-and
+Jean Diaconu,
 Carlos Martínez
+and
+Rob Zagarella
 for their contributions to the specification.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -3728,6 +3743,11 @@ services of one Target share a value.<a href="#appendix-C-3.1.1" class="pilcrow"
         <li class="normal" id="appendix-C-3.4">
           <p id="appendix-C-3.4.1">Stated that the <code>aid</code> claim identifies the agent, not the human principal,
 and that claims about the human principal are carried in <code>hid</code>.<a href="#appendix-C-3.4.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-3.5">
+          <p id="appendix-C-3.5.1">Added the optional <code>auth_time</code> sub-claim to the <code>hid</code> claim: when the human
+principal authenticated, kept when a token is issued on the basis of an
+earlier authentication.<a href="#appendix-C-3.5.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="appendix-C-4">-03<a href="#appendix-C-4" class="pilcrow">¶</a></p>
