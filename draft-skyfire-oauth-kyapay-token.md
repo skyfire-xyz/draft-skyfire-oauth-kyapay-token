@@ -717,6 +717,18 @@ principal (individual or organization) as follows.
   An issuer SHOULD include this sub-claim when it knows the methods used.
 
 {:vspace}
+`auth_time`:
+: OPTIONAL - Authentication time, as defined in Section 2 of {{OpenID.Core}}:
+  the time when the human principal authenticated, as a NumericDate {{RFC7519}}.
+  Where a token is issued for a specific action, `amr` and `auth_time` describe
+  the authentication by which the human principal confirmed that action.
+  `iat` gives the time the token was issued, which can be later.
+  An issuer that issues a token on the basis of an earlier authentication
+  carries that authentication's time, not the time of issuance.
+  A recipient that requires a recent confirmation compares `auth_time`,
+  not `iat`, with its limit.
+
+{:vspace}
 `aml`:
 : OPTIONAL - Anti-Money Laundering Methods {{I-D.skyfire-oauth-aml-methods}}.
   A JSON array of the anti-money laundering and counter-terrorist financing methods
@@ -803,9 +815,9 @@ The `ivm` and `aml` sub-claims use the syntax and values
 of the claims of the same names defined in the cited specifications.
 The absence of either does not indicate that a method was not used.
 
-In a KYAPay token, the `ivm`, `amr`, and `aml` claims appear only as sub-claims of `hid` and `apd`, so that each describes the party whose claim contains it: in `hid`, how the human principal was vetted; in `apd`, how the agent platform was vetted.
-`amr` does not apply to the agent platform and is not used in `apd`.
-Issuers MUST NOT include `ivm`, `amr`, or `aml` as top-level claims in a KYAPay token, and recipients MUST ignore them if they appear there.
+In a KYAPay token, the `ivm`, `amr`, `aml`, and `auth_time` claims appear only as sub-claims of `hid` and `apd`, so that each describes the party whose claim contains it: in `hid`, how the human principal was vetted; in `apd`, how the agent platform was vetted.
+`amr` and `auth_time` do not apply to the agent platform and are not used in `apd`.
+Issuers MUST NOT include `ivm`, `amr`, `aml`, or `auth_time` as top-level claims in a KYAPay token, and recipients MUST ignore them if they appear there.
 
 Additional sub-claims MAY be defined and used.
 The recipient MUST ignore any unrecognized sub-claims.
@@ -1593,9 +1605,10 @@ The following specifications are related to and designed to be used with this sp
 We would like to thank
 Bhasker Allam,
 Ludovic Dépinoy,
-Jean Diaconu
-and
+Jean Diaconu,
 Carlos Martínez
+and
+Rob Zagarella
 for their contributions to the specification.
 
 # Document History
@@ -1612,6 +1625,9 @@ for their contributions to the specification.
 * Allowed retaining tokens where needed for audit, dispute resolution, or legal retention obligations.
 * Stated that the `aid` claim identifies the agent, not the human principal,
   and that claims about the human principal are carried in `hid`.
+* Added the optional `auth_time` sub-claim to the `hid` claim: when the human
+  principal authenticated, kept when a token is issued on the basis of an
+  earlier authentication.
 
 -03
 
