@@ -1247,11 +1247,13 @@ Table of Contents
 
    *  Tokens MUST NOT be written to logs, traces, analytics pipelines,
       or other persistent stores that are not required to process the
-      transaction.  An agent that obtains a token through a tool whose
-      result is returned to a language model may be unable to keep the
-      token out of that model's context or out of a transcript retained
-      from it; the Token Exposure in the Agent Runtime section of
-      [I-D.skyfire-oauth-using-kyapay-tokens] describes how such a
+      transaction or to meet audit, dispute-resolution, or legal
+      retention obligations.  Retained tokens MUST be protected against
+      unauthorized access.  An agent that obtains a token through a tool
+      whose result is returned to a language model may be unable to keep
+      the token out of that model's context or out of a transcript
+      retained from it; the Token Exposure in the Agent Runtime section
+      of [I-D.skyfire-oauth-using-kyapay-tokens] describes how such a
       deployment treats the token.
 
    *  Tokens MUST NOT be forwarded to parties other than those necessary
@@ -1934,6 +1936,9 @@ Document History
 
    *  Marked the apd claim REQUIRED in the KYA Token claim list and in
       the description of sub, matching the apd section.
+
+   *  Allowed retaining tokens where needed for audit, dispute
+      resolution, or legal retention obligations.
 
    -03
 

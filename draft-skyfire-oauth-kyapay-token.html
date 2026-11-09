@@ -2761,7 +2761,9 @@ and server authentication, such as TLS <span>[<a href="#RFC8446" class="cite xre
 </li>
           <li class="normal" id="section-5.2-3.2">
             <p id="section-5.2-3.2.1">Tokens <span class="bcp14">MUST NOT</span> be written to logs, traces, analytics pipelines, or other
-persistent stores that are not required to process the transaction. An agent
+persistent stores that are not required to process the transaction or to meet
+audit, dispute-resolution, or legal retention obligations. Retained tokens <span class="bcp14">MUST</span>
+be protected against unauthorized access. An agent
 that obtains a token through a tool whose result is returned to a language
 model may be unable to keep the token out of that model's context or out of a
 transcript retained from it; the Token Exposure in the Agent Runtime section
@@ -3717,6 +3719,9 @@ services of one Target share a value.<a href="#appendix-C-3.1.1" class="pilcrow"
 </li>
         <li class="normal" id="appendix-C-3.2">
           <p id="appendix-C-3.2.1">Marked the <code>apd</code> claim <span class="bcp14">REQUIRED</span> in the KYA Token claim list and in the description of <code>sub</code>, matching the <code>apd</code> section.<a href="#appendix-C-3.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-C-3.3">
+          <p id="appendix-C-3.3.1">Allowed retaining tokens where needed for audit, dispute resolution, or legal retention obligations.<a href="#appendix-C-3.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="appendix-C-4">-03<a href="#appendix-C-4" class="pilcrow">¶</a></p>
