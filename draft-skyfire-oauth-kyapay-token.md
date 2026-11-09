@@ -1221,7 +1221,9 @@ information. Accordingly:
 * Tokens MUST be transmitted over a channel providing confidentiality, integrity
   and server authentication, such as TLS {{RFC8446}}.
 * Tokens MUST NOT be written to logs, traces, analytics pipelines, or other
-  persistent stores that are not required to process the transaction. An agent
+  persistent stores that are not required to process the transaction or to meet
+  audit, dispute-resolution, or legal retention obligations. Retained tokens MUST
+  be protected against unauthorized access. An agent
   that obtains a token through a tool whose result is returned to a language
   model may be unable to keep the token out of that model's context or out of a
   transcript retained from it; the Token Exposure in the Agent Runtime section
@@ -1605,6 +1607,7 @@ for their contributions to the specification.
   than at each other Target service, leaving to the issuer whether the
   services of one Target share a value.
 * Marked the `apd` claim REQUIRED in the KYA Token claim list and in the description of `sub`, matching the `apd` section.
+* Allowed retaining tokens where needed for audit, dispute resolution, or legal retention obligations.
 
 -03
 
