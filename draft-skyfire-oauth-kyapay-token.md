@@ -812,7 +812,9 @@ The recipient MUST ignore any unrecognized sub-claims.
 
 ### Agent Identity `aid` Sub-Claims
 
-The `aid` claim is REQUIRED. It contains the following sub-claims.
+The `aid` claim is REQUIRED. It identifies the agent, not the human principal
+on whose behalf the agent acts; claims about the human principal are carried
+in `hid`. It contains the following sub-claims.
 
 {:vspace}
 `id`:
@@ -1608,6 +1610,8 @@ for their contributions to the specification.
   services of one Target share a value.
 * Marked the `apd` claim REQUIRED in the KYA Token claim list and in the description of `sub`, matching the `apd` section.
 * Allowed retaining tokens where needed for audit, dispute resolution, or legal retention obligations.
+* Stated that the `aid` claim identifies the agent, not the human principal,
+  and that claims about the human principal are carried in `hid`.
 
 -03
 
