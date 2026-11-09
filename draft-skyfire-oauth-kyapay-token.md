@@ -1208,7 +1208,7 @@ token it issues. To stand behind that after the fact, an issuer MUST keep the
 following records.
 
 {:vspace}
-Verification records:
+Verification Records:
 : For each verification whose result a token asserts, of the human principal,
   the agent platform, the agent or a payment method: the methods used, the time
   of each step and who performed it, and references to the evidence examined.
@@ -1219,7 +1219,7 @@ Verification records:
   rest of the record.
 
 {:vspace}
-Authorization records:
+Authorization Records:
 : For each disclosure that requires the principal's authorization, such as a
   directly identifying sub-claim or `verification_id`: which sub-claims were
   authorized, for which Target, who authorized them, when, and how
@@ -1228,7 +1228,7 @@ Authorization records:
   that the authorization was given.
 
 {:vspace}
-Issuance records:
+Issuance Records:
 : For each token issued: its `iss`, `jti`, `iat` and `exp`; its `sub`, `aud` and
   `tsi`; the `hid.id`, `apd.id` and `aid.id` it carries; and the verification and
   authorization records it relied on.
