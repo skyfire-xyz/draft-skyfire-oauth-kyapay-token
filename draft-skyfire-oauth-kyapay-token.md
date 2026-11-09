@@ -389,9 +389,8 @@ PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
   combination remains unchanged, MUST use a different value at each other
   Target, MUST NOT use that value for a different combination, and MUST
   assign a new `sub` when any of those identities changes. KYA and KYA-PAY
-  tokens carry the human principal and the agent as the `hid` and `aid`
-  claims, and carry the agent platform as the `apd` claim where it is
-  identified. PAY tokens carry none of them. The subject identifies the same
+  tokens carry the human principal, the agent platform and the agent as the
+  `hid`, `apd` and `aid` claims. PAY tokens carry none of them. The subject identifies the same
   combination in either case, since an issuer does not issue a token without
   having verified the initiator. Tokens of different types issued by the same
   issuer for the same initiator at the same Target service therefore carry the
@@ -584,7 +583,7 @@ The following identity related claims are used within KYA and KYA-PAY tokens:
 
 {:vspace}
 `apd`:
-: OPTIONAL - Agent Platform identity claims.
+: REQUIRED - Agent Platform identity claims.
 
 {:vspace}
 `aid`:
@@ -1605,6 +1604,7 @@ for their contributions to the specification.
 * Required `hid.id`, `sub` and `aid.id` to differ at each other Target rather
   than at each other Target service, leaving to the issuer whether the
   services of one Target share a value.
+* Marked the `apd` claim REQUIRED in the KYA Token claim list and in the description of `sub`, matching the `apd` section.
 
 -03
 
