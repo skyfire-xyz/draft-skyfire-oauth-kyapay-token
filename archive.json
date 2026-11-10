@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-11-08T00:05:32.274699+00:00",
+  "timestamp": "2026-11-10T00:04:16.603600+00:00",
   "repo": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
   "labels": [
     {
@@ -111,15 +111,15 @@
       "id": "I_kwDOQZxkd88AAAABc5P6mw",
       "title": "Add `auth_time` to `hid`",
       "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/issues/67",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "skyfire-ankit",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "From Rob Zagarella's (@Schemo512) implementer review on the OAuth list (item 4 on amr-values, 16 Sep):\nhttps://mailarchive.ietf.org/arch/msg/oauth/Px1NpSn3OV3Dr6sJAiUM_Ar1rOs\n\nRob pointed out that for an action-scoped token, a relying party wants to know that the authentication method ran for this action, not at an earlier login, and that without `auth_time` the `amr` values are true but undated.\n\nMike asked (21 Sep) when `auth_time` would matter if it differs from the token's issue time:\nhttps://mailarchive.ietf.org/arch/msg/oauth/TUy8Pd7vMorJdzzU9Q9DWknqnKQ\n\nRob's answer (1 Oct): the human may confirm an action at one time and the token be minted, exchanged or re-issued later. `iat` says when the token was created; only `auth_time` says when the human authenticated, so a recipient with a freshness rule needs it.\nhttps://mailarchive.ietf.org/arch/msg/oauth/eXDS11eJuwTHA8gaLWr-1q-QWKQ\n\n`hid` carries `amr` (how the human principal authenticated) but not when. Using #24 proposes that a recipient can ask, through `Accept-KYAPay-Token`, for a confirmation no older than `max_age` seconds, measured from `hid.auth_time`:\nhttps://github.com/skyfire-xyz/draft-skyfire-oauth-using-kyapay-tokens/issues/24\n\nProposal:\n\n- Add `auth_time` as an OPTIONAL sub-claim of `hid`: the time the human principal last authenticated or confirmed, as a NumericDate, with the same meaning as in OpenID Connect Core.\n- Where a token is issued for a specific action, state that `hid.amr` and `hid.auth_time` describe the authentication that authorized that action.\n",
       "createdAt": "2026-11-06T00:13:16Z",
-      "updatedAt": "2026-11-06T00:13:16Z",
-      "closedAt": null,
+      "updatedAt": "2026-11-09T05:13:04Z",
+      "closedAt": "2026-11-09T05:13:04Z",
       "comments": []
     }
   ],
@@ -5371,24 +5371,26 @@
       "id": "PR_kwDOQZxkd88AAAABNOwtnw",
       "title": "State that aid identifies the agent, not the human principal",
       "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/68",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "skyfire-ankit",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Following Ludovic D\u00e9pinoy's comment: the `aid` claim identifies the agent, not the human principal on whose behalf it acts, and anything about the human goes in `hid`. Adds Ludovic D\u00e9pinoy to the Acknowledgments and a -04 Document History entry.",
       "createdAt": "2026-11-06T04:23:12Z",
-      "updatedAt": "2026-11-06T04:57:50Z",
+      "updatedAt": "2026-11-09T04:56:33Z",
       "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
       "baseRefName": "main",
-      "baseRefOid": "87f52e09db7008557a37dbf4cb96506357c913da",
+      "baseRefOid": "0ad464110416bc16c0b333a6cc3d4e1b1efe6dc8",
       "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
       "headRefName": "aid-not-human",
-      "headRefOid": "79c36ee0cb8f082e5ad90e80aa9cbf817d7b8cfa",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "a74bd084727162d0ccebe0752ee866d434b36ca6",
+      "closedAt": "2026-11-09T04:56:30Z",
+      "mergedAt": "2026-11-09T04:56:30Z",
+      "mergedBy": "skyfire-ankit",
+      "mergeCommit": {
+        "oid": "866caaa315b91bd6e24dd763d8e9fcde3c81fb29"
+      },
       "comments": [],
       "reviews": [
         {
@@ -5403,6 +5405,32 @@
           "createdAt": "2026-11-06T04:29:39Z",
           "updatedAt": "2026-11-06T04:29:39Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABWt7zlg",
+          "commit": {
+            "abbreviatedOid": "79c36ee"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-11-08T20:26:42Z",
+          "updatedAt": "2026-11-08T20:26:42Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABWwBpPQ",
+          "commit": {
+            "abbreviatedOid": "a74bd08"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe2 Approval recommended\n\nNo active review issues are reported for the documentation update clarifying `aid` and `hid` semantics.\n\n**No open issues** \ud83c\udf89\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-09T04:42:22Z",
+          "updatedAt": "2026-11-09T04:42:22Z",
+          "comments": []
         }
       ]
     },
@@ -5411,24 +5439,26 @@
       "id": "PR_kwDOQZxkd88AAAABNO41UQ",
       "title": "Require pairwise identifiers per Target, not per Target service",
       "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/69",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "skyfire-ankit",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "`hid.id`, `sub` and `aid.id` stay stable at a Target service and still differ at every other Target, but the draft no longer requires them to differ between the services of one Target; that is left to the issuer. Prompted by Ludovic D\u00e9pinoy's point that a merchant with several services needs to follow one customer across them. Adds Ludovic D\u00e9pinoy to the Acknowledgments and a -04 Document History entry. Companion Using PR: https://github.com/skyfire-xyz/draft-skyfire-oauth-using-kyapay-tokens/pull/25",
       "createdAt": "2026-11-06T04:39:50Z",
-      "updatedAt": "2026-11-07T19:23:44Z",
+      "updatedAt": "2026-11-09T00:14:49Z",
       "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
       "baseRefName": "main",
       "baseRefOid": "87f52e09db7008557a37dbf4cb96506357c913da",
       "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
       "headRefName": "pairwise-per-target",
       "headRefOid": "139bee473cb5b04bb3c1ff2f938ecc46213ccddb",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-11-09T00:14:46Z",
+      "mergedAt": "2026-11-09T00:14:46Z",
+      "mergedBy": "skyfire-ankit",
+      "mergeCommit": {
+        "oid": "834f6366d3e358fcb1acc68b0b552f8d1795f61d"
+      },
       "comments": [],
       "reviews": [
         {
@@ -5464,24 +5494,26 @@
       "id": "PR_kwDOQZxkd88AAAABNlyzWA",
       "title": "Mark apd REQUIRED in the claim list and the sub description",
       "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/70",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "skyfire-ankit",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "PR #54 made the `apd` claim REQUIRED in KYA and KYA-PAY tokens in the `apd` section, but the KYA Token claim list still said OPTIONAL, and the `sub` description said tokens carry `apd` \"where it is identified\". This makes both match the `apd` section, and adds a -04 Document History entry.",
       "createdAt": "2026-11-07T23:57:16Z",
-      "updatedAt": "2026-11-07T23:59:16Z",
+      "updatedAt": "2026-11-09T03:18:24Z",
       "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
       "baseRefName": "main",
-      "baseRefOid": "87f52e09db7008557a37dbf4cb96506357c913da",
+      "baseRefOid": "834f6366d3e358fcb1acc68b0b552f8d1795f61d",
       "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
       "headRefName": "apd-required",
-      "headRefOid": "48df840c96af1fa88e1616134023039205613399",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "a5f7dbd58d4ecda43fd40394d2e8a6533bbf1ab5",
+      "closedAt": "2026-11-09T03:18:22Z",
+      "mergedAt": "2026-11-09T03:18:22Z",
+      "mergedBy": "skyfire-ankit",
+      "mergeCommit": {
+        "oid": "1fbe1835bdb51cbb91b3aa189adf91db93a0c202"
+      },
       "comments": [],
       "reviews": [
         {
@@ -5495,6 +5527,345 @@
           "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe2 Approval recommended\n\nNo active review issues are recorded for the update aligning the token documentation with the mandatory `apd` requirement.\n\n**No open issues** \ud83c\udf89\n\n<details>\n<summary><strong>What changed in this PR</strong></summary>\n\nAligns the KYA and KYA-PAY token descriptions with the existing requirement that `apd` is mandatory, completing the documentation consistency update from PR #54.\n\n**Changes:**\n- Marks `apd` as REQUIRED in the KYA Token claim list.\n- Removes conditional wording about `apd` from the `sub` description.\n- Adds a -04 Document History entry recording the clarification.\n\n| File | Description |\r\n| ---- | ----------- |\r\n| `draft-skyfire-oauth-kyapay-token.md` | Makes `apd` requirement wording consistent and records the update in Document History. |\n</details>\n\n<sub>Review effort: Balanced</sub>",
           "createdAt": "2026-11-07T23:59:16Z",
           "updatedAt": "2026-11-07T23:59:16Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABWqj8iw",
+          "commit": {
+            "abbreviatedOid": "48df840"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-11-08T01:45:58Z",
+          "updatedAt": "2026-11-08T01:45:58Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABWvbH6Q",
+          "commit": {
+            "abbreviatedOid": "a5f7dbd"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe2 Approval recommended\n\nNo active review issues are recorded for the documentation update aligning the `apd` requirement across the token specification.\n\n**No open issues** \ud83c\udf89\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-09T02:41:49Z",
+          "updatedAt": "2026-11-09T02:41:49Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 71,
+      "id": "PR_kwDOQZxkd88AAAABNl3wwA",
+      "title": "Allow retaining tokens for audit, dispute resolution, or legal obligations",
+      "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/71",
+      "state": "MERGED",
+      "author": "skyfire-ankit",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Using KYAPay Tokens says a recipient that needs a token for audit or dispute resolution can retain it and verify it again later, citing Section 5.2, but Section 5.2 forbids writing tokens to persistent stores that are not required to process the transaction. This allows retention to meet audit, dispute-resolution, or legal retention obligations, requires retained tokens to be protected against unauthorized access, and adds a -04 Document History entry.",
+      "createdAt": "2026-11-08T00:09:50Z",
+      "updatedAt": "2026-11-09T03:26:27Z",
+      "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "baseRefName": "main",
+      "baseRefOid": "1fbe1835bdb51cbb91b3aa189adf91db93a0c202",
+      "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "headRefName": "retention-for-audit",
+      "headRefOid": "cc01daf7b16a2935648913c2295f11d64fd94357",
+      "closedAt": "2026-11-09T03:26:24Z",
+      "mergedAt": "2026-11-09T03:26:24Z",
+      "mergedBy": "skyfire-ankit",
+      "mergeCommit": {
+        "oid": "0ad464110416bc16c0b333a6cc3d4e1b1efe6dc8"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd88AAAABWqSHvg",
+          "commit": {
+            "abbreviatedOid": "2f9ce4b"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe2 Approval recommended\n\nThe token-retention requirements update has no active review issues.\n\n**No open issues** \ud83c\udf89\n\n<details>\n<summary><strong>What changed in this PR</strong></summary>\n\nThis PR aligns the KYAPay token storage requirements with the specification\u2019s guidance on retaining tokens for later verification.\n\n**Changes:**\n- Permits token retention when needed for audit, dispute resolution, or legal retention obligations.\n- Requires retained tokens to be protected against unauthorized access.\n- Adds a `-04` Document History entry describing the retention change.\n\n| File | Description |\r\n| ---- | ----------- |\r\n| draft-skyfire-oauth-kyapay-token.md | Updates token retention requirements and records the change in Document History. |\n</details>\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-08T00:13:00Z",
+          "updatedAt": "2026-11-08T00:13:00Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABWrJFtA",
+          "commit": {
+            "abbreviatedOid": "2f9ce4b"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-11-08T04:26:07Z",
+          "updatedAt": "2026-11-08T04:26:07Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABWvpXlQ",
+          "commit": {
+            "abbreviatedOid": "cc01daf"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe2 Approval recommended\n\nNo active review issues are reported for the token-retention documentation update.\n\n**No open issues** \ud83c\udf89\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-09T03:22:00Z",
+          "updatedAt": "2026-11-09T03:22:01Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 72,
+      "id": "PR_kwDOQZxkd88AAAABNnIwxQ",
+      "title": "Add an Issuer Records section",
+      "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/72",
+      "state": "OPEN",
+      "author": "skyfire-ankit",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Describes the records an issuer keeps so that it can stand behind its tokens after the fact: verification records (methods, the time of each step, who performed it, evidence references; identified by `verification_id`), authorization records for disclosed identifying claims, and an issuance record for every token (identified by `iss` and `jti`). States why retention periods and disclosure to third parties are left to applicable law. Adds a -04 Document History entry.",
+      "createdAt": "2026-11-08T03:51:12Z",
+      "updatedAt": "2026-11-09T19:27:20Z",
+      "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "baseRefName": "main",
+      "baseRefOid": "87f52e09db7008557a37dbf4cb96506357c913da",
+      "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "headRefName": "issuer-records",
+      "headRefOid": "1d1341372f25fbd51d4f99ca8b96ba5788847820",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd88AAAABWrDJXA",
+          "commit": {
+            "abbreviatedOid": "77d33a7"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe1 Changes recommended\n\nUnresolved documentation issues overstate Target verification and leave gaps in agent-verification records, authorization auditing for hid.verification_id, and token-specific lookup using iss and jti.\n\n<details open>\n<summary><strong>4 open issues</strong></summary>\n\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-light.png\" alt=\"Low severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Clarify that the issuer may not verify every named Target](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/72#discussion_r4504932338) \u00b7 New\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-light.png\" alt=\"Low severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Include agent identity verification in record-keeping](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/72#discussion_r4504932349) \u00b7 New\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-light.png\" alt=\"Low severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Include hid.verification_id in authorization records](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/72#discussion_r4504932361) \u00b7 New\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-light.png\" alt=\"Low severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Use issuer and token ID for token-specific resolution](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/72#discussion_r4504932370) \u00b7 New\n</details>\n\n<details>\n<summary><strong>What changed in this PR</strong></summary>\n\nAdds issuer record-keeping requirements to the KYAPay token specification to support audits, disputes, and responses to token reports.\n\n**Changes:**\n- Defines verification, authorization, and per-token issuance records.\n- Requires protection against unauthorized access and leaves retention and third-party disclosure to applicable law.\n- Adds a `-04` Document History entry.\n\n| File | Description |\r\n| ---- | ----------- |\r\n| `draft-skyfire-oauth-kyapay-token.md` | Adds the Issuer Records section and corresponding history entry. |\n</details>\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-08T03:54:29Z",
+          "updatedAt": "2026-11-08T03:54:30Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "This unqualified statement also covers the Target named by `aud`, but Identifying the Target explicitly allows `aud` and `tsi` to represent an initiator-asserted Target whose identity the issuer cannot confirm. Qualify the assertion so this section does not imply that the issuer has verified every named Target.",
+              "createdAt": "2026-11-08T03:54:29Z",
+              "updatedAt": "2026-11-08T03:54:30Z"
+            },
+            {
+              "originalPosition": 12,
+              "body": "The list omits verification of the agent itself. The `sub` definition says the issuer has verified the human principal, agent platform, and agent, and the Verifier role explicitly includes agent identity verification. As written, an issuer can satisfy this record-keeping requirement without retaining the verification behind `aid`. Include the agent so the records cover all identities the token attests to.",
+              "createdAt": "2026-11-08T03:54:29Z",
+              "updatedAt": "2026-11-08T03:54:30Z"
+            },
+            {
+              "originalPosition": 24,
+              "body": "The `hid` disclosure rules also require authorization for `verification_id`, explicitly distinguishing this cross-Target identifier from directly identifying sub-claims. Limiting authorization records to directly identifying sub-claims leaves that disclosure outside the record-keeping requirement. Include `hid.verification_id` so its required authorization is auditable too.",
+              "createdAt": "2026-11-08T03:54:29Z",
+              "updatedAt": "2026-11-08T03:54:30Z"
+            },
+            {
+              "originalPosition": 33,
+              "body": "A `verification_id` identifies a verification, not a token, and is defined as the verifier's own identifier without a global uniqueness requirement. Different verifiers can use the same value, and multiple tokens can share one verification while relying on different disclosure authorizations. Require `iss` and `jti` for token-specific resolution, and describe verification lookup separately using the verifier's identity plus `verification_id`.",
+              "createdAt": "2026-11-08T03:54:30Z",
+              "updatedAt": "2026-11-08T03:54:30Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABWrHtWA",
+          "commit": {
+            "abbreviatedOid": "faa5975"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udd35 Needs a closer look\n\nThe authorization-record fields omit the authorized sub-claims and destination Target, leaving the consent scope required by the `hid` disclosure rules unspecified, including when authorization is collected by the platform.\n\n**No open issues** \ud83c\udf89\n\n<details>\n<summary><strong>1 previously missed issue</strong></summary>\n\nIn code that hasn't changed since last review\n\n<details>\n<summary><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-light.png\" alt=\"Low severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> Record authorized sub-claims and Target in consent</summary>\n\n`draft-skyfire-oauth-kyapay-token.md:1225`\n\nThe listed authorization-record fields do not explicitly capture which sub-claims and destination Target the principal authorized. An implementation retaining only the listed fields would not establish the scope of consent required by the `hid` disclosure rules. Include the authorized sub-claims and Target, including when the platform collected the authorization.\n</details>\n</details>\n\n<details>\n<summary><strong>4 resolved since last review</strong></summary>\n\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-light.png\" alt=\"Low severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Use issuer and token ID for token-specific resolution](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/72#discussion_r4504932370)\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-light.png\" alt=\"Low severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Include hid.verification_id in authorization records](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/72#discussion_r4504932361)\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-light.png\" alt=\"Low severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Include agent identity verification in record-keeping](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/72#discussion_r4504932349)\n- <picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-dark.svg\"><source media=\"(prefers-color-scheme: light)\" srcset=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-light.svg\"><img src=\"https://github.githubassets.com/static/images/icons/copilot-code-review/low-v2-light.png\" alt=\"Low severity\" width=\"62\" height=\"18\" align=\"texttop\"></picture> [Clarify that the issuer may not verify every named Target](https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/72#discussion_r4504932338)\n</details>\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-08T04:16:04Z",
+          "updatedAt": "2026-11-08T04:16:04Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABWrIiZg",
+          "commit": {
+            "abbreviatedOid": "9c741a5"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe2 Approval recommended\n\nNo active review issues are identified for the issuer record-keeping changes.\n\n**No open issues** \ud83c\udf89\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-08T04:22:07Z",
+          "updatedAt": "2026-11-08T04:22:07Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABWt6Evw",
+          "commit": {
+            "abbreviatedOid": "9c741a5"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-08T20:18:15Z",
+          "updatedAt": "2026-11-08T20:18:16Z",
+          "comments": [
+            {
+              "originalPosition": 11,
+              "body": "```suggestion\nVerification Records:\n```\n\nUse title case for titles.",
+              "createdAt": "2026-11-08T20:18:16Z",
+              "updatedAt": "2026-11-08T20:18:16Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABWt6HVw",
+          "commit": {
+            "abbreviatedOid": "9c741a5"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-08T20:18:27Z",
+          "updatedAt": "2026-11-08T20:18:28Z",
+          "comments": [
+            {
+              "originalPosition": 22,
+              "body": "```suggestion\nAuthorization Records:\n```",
+              "createdAt": "2026-11-08T20:18:27Z",
+              "updatedAt": "2026-11-08T20:18:28Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABWt6KkA",
+          "commit": {
+            "abbreviatedOid": "9c741a5"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-08T20:18:42Z",
+          "updatedAt": "2026-11-08T20:18:42Z",
+          "comments": [
+            {
+              "originalPosition": 31,
+              "body": "```suggestion\nIssuance Records:\n```",
+              "createdAt": "2026-11-08T20:18:42Z",
+              "updatedAt": "2026-11-08T20:18:42Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABWvxXlQ",
+          "commit": {
+            "abbreviatedOid": "1d13413"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe2 Approval recommended\n\nNo active review issues are reported for the issuer record-keeping specification update.\n\n**No open issues** \ud83c\udf89\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-09T03:50:00Z",
+          "updatedAt": "2026-11-09T03:50:00Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABW5TDOg",
+          "commit": {
+            "abbreviatedOid": "1d13413"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-11-09T19:27:20Z",
+          "updatedAt": "2026-11-09T19:27:20Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 73,
+      "id": "PR_kwDOQZxkd88AAAABNnbAGg",
+      "title": "Add the optional auth_time sub-claim to hid",
+      "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/73",
+      "state": "MERGED",
+      "author": "skyfire-ankit",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes #67.\r\n\r\nAdds `auth_time` to `hid`: when the human principal authenticated, as a NumericDate with the meaning it has in OpenID Connect Core. For a token issued for a specific action, `amr` and `auth_time` describe the authentication that confirmed it; `iat` stays the issue time; a token issued on the basis of an earlier authentication keeps that authentication's time, as OpenID Connect does for a refreshed ID Token; and a recipient judges freshness from `auth_time`. Adds Rob Zagarella to the Acknowledgments and a -04 Document History entry.\r\n\r\n@Schemo512, from your points on #67; your review is welcome.",
+      "createdAt": "2026-11-08T04:45:36Z",
+      "updatedAt": "2026-11-09T05:13:06Z",
+      "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "baseRefName": "main",
+      "baseRefOid": "866caaa315b91bd6e24dd763d8e9fcde3c81fb29",
+      "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
+      "headRefName": "hid-auth-time",
+      "headRefOid": "10d0665d85c857296fd6479bb337243b07af047e",
+      "closedAt": "2026-11-09T05:13:03Z",
+      "mergedAt": "2026-11-09T05:13:03Z",
+      "mergedBy": "skyfire-ankit",
+      "mergeCommit": {
+        "oid": "8835aa9963915beafb5bfd762d4d3128f68ed5e6"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOQZxkd88AAAABWrMMbg",
+          "commit": {
+            "abbreviatedOid": "5426c95"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe2 Approval recommended\n\nNo active review issues block the optional `hid.auth_time` addition.\n\n**No open issues** \ud83c\udf89\n\n<details>\n<summary><strong>What changed in this PR</strong></summary>\n\nAdds optional `hid.auth_time` to distinguish human authentication time from token issuance time, supporting freshness checks described in issue #67.\n\n**Changes:**\n- Defines `auth_time` using OpenID Connect semantics and the NumericDate format, preserving the original authentication time when tokens are reissued.\n- Clarifies action-specific authentication and restricts `auth_time` to `hid`, excluding it from `apd` and top-level claims.\n- Adds Rob Zagarella to the acknowledgments and records the change in the -04 document history.\n\n| File | Description |\r\n| ---- | ----------- |\r\n| `draft-skyfire-oauth-kyapay-token.md` | Defines authentication-time semantics and claim placement; updates acknowledgments and document history. |\n</details>\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-08T04:47:26Z",
+          "updatedAt": "2026-11-08T04:47:27Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABWt7Efw",
+          "commit": {
+            "abbreviatedOid": "5426c95"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-11-08T20:23:12Z",
+          "updatedAt": "2026-11-08T20:23:12Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABWwMPGw",
+          "commit": {
+            "abbreviatedOid": "10d0665"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe2 Approval recommended\n\nThere are no active review issues for the optional `hid.auth_time` specification update.\n\n**No open issues** \ud83c\udf89\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-09T05:12:16Z",
+          "updatedAt": "2026-11-09T05:12:16Z",
           "comments": []
         }
       ]
