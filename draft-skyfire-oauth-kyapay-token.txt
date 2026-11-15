@@ -5,8 +5,8 @@
 Web Authorization Protocol                                    A. Agarwal
 Internet-Draft                                      Skyfire Systems Inc.
 Intended status: Standards Track                                M. Jones
-Expires: 13 May 2027                              Self-Issued Consulting
-                                                         9 November 2026
+Expires: 19 May 2027                              Self-Issued Consulting
+                                                        15 November 2026
 
 
                               KYAPay Token
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 13 May 2027.
+   This Internet-Draft will expire on 19 May 2027.
 
 Copyright Notice
 
@@ -93,40 +93,41 @@ Table of Contents
        4.1.2.  JWT Payload Validation
        4.1.3.  Clock Skew
      4.2.  Validating PAY Tokens
-   5.  Security Considerations
-     5.1.  General JWT Practices
-     5.2.  Confidentiality of Token Contents
-     5.3.  Settlement Credential Handling
-     5.4.  Token Lifetime
-     5.5.  Bearer Semantics and Proof of Possession
-     5.6.  Identity Binding
-   6.  Privacy Considerations
-   7.  IANA Considerations
-     7.1.  JSON Web Token Claims Registration
-       7.1.1.  "tdm" Claim
-       7.1.2.  "tsi" Claim
-       7.1.3.  "ori" Claim
-       7.1.4.  "env" Claim
-       7.1.5.  "itg" Claim
-       7.1.6.  "hid" Claim
-       7.1.7.  "apd" Claim
-       7.1.8.  "aid" Claim
-       7.1.9.  "tpr" Claim
-       7.1.10. "tps" Claim
-       7.1.11. "amt" Claim
-       7.1.12. "cur" Claim
-       7.1.13. "val" Claim
-       7.1.14. "mnr" Claim
-       7.1.15. "stp" Claim
-       7.1.16. "sti" Claim
-     7.2.  Media Types Registration
-       7.2.1.  application/kya+jwt
-       7.2.2.  application/pay+jwt
-       7.2.3.  application/kya-pay+jwt
-     7.3.  Well-Known URI Registration
-   8.  References
-     8.1.  Normative References
-     8.2.  Informative References
+   5.  Issuer Records
+   6.  Security Considerations
+     6.1.  General JWT Practices
+     6.2.  Confidentiality of Token Contents
+     6.3.  Settlement Credential Handling
+     6.4.  Token Lifetime
+     6.5.  Bearer Semantics and Proof of Possession
+     6.6.  Identity Binding
+   7.  Privacy Considerations
+   8.  IANA Considerations
+     8.1.  JSON Web Token Claims Registration
+       8.1.1.  "tdm" Claim
+       8.1.2.  "tsi" Claim
+       8.1.3.  "ori" Claim
+       8.1.4.  "env" Claim
+       8.1.5.  "itg" Claim
+       8.1.6.  "hid" Claim
+       8.1.7.  "apd" Claim
+       8.1.8.  "aid" Claim
+       8.1.9.  "tpr" Claim
+       8.1.10. "tps" Claim
+       8.1.11. "amt" Claim
+       8.1.12. "cur" Claim
+       8.1.13. "val" Claim
+       8.1.14. "mnr" Claim
+       8.1.15. "stp" Claim
+       8.1.16. "sti" Claim
+     8.2.  Media Types Registration
+       8.2.1.  application/kya+jwt
+       8.2.2.  application/pay+jwt
+       8.2.3.  application/kya-pay+jwt
+     8.3.  Well-Known URI Registration
+   9.  References
+     9.1.  Normative References
+     9.2.  Informative References
    Appendix A.  Related Specifications
    Acknowledgments
    Document History
@@ -550,7 +551,7 @@ Table of Contents
    origin.  For example, an iss value of https://issuer.example.com
    yields https://issuer.example.com/.well-known/jwks.json.
 
-   The jwks.json URI suffix is registered in Section 7.3.
+   The jwks.json URI suffix is registered in Section 8.3.
 
    JWK Sets SHOULD be cached and refreshed according to standard JWK Set
    practice.  Retrieval per request is neither required nor expected;
@@ -748,7 +749,7 @@ Table of Contents
    issuer MUST NOT include any of them unless a Target requires it for
    the action at hand and the principal has authorized its disclosure to
    that Target, whether to the issuer or to the agent platform
-   (Section 6).
+   (Section 7).
 
    Additional sub-claims MAY be defined and used, including further
    identifiers for the human principal where a Target requires them to
@@ -854,7 +855,7 @@ Table of Contents
       it as a weak corroborating signal only and MUST NOT treat it as
       sufficient on its own (Section 6.3 of
       [I-D.skyfire-oauth-using-kyapay-tokens]).  It is personal data,
-      subject to the privacy considerations in Section 6.
+      subject to the privacy considerations in Section 7.
 
    source_ips:
       OPTIONAL - Valid public IP address, or range of public IP
@@ -1236,15 +1237,65 @@ Table of Contents
    5.  The tpr claim, if present, matches the price that you configured
        in the target's service
 
-5.  Security Considerations
+5.  Issuer Records
 
-5.1.  General JWT Practices
+   An issuer vouches for the identities it has verified for the
+   initiator of each token it issues.  To stand behind that after the
+   fact, an issuer MUST keep the following records.
+
+   Verification Records:
+      For each verification whose result a token asserts, of the human
+      principal, the agent platform, the agent or a payment method: the
+      methods used, the time of each step and who performed it, and
+      references to the evidence examined.  The verifier and
+      verification_id sub-claims, where present, together identify this
+      record.  Where a separate verifier performed the verification, the
+      issuer keeps the verifier's identity, the verification_id and the
+      result, and the verifier keeps the rest of the record.
+
+   Authorization Records:
+      For each disclosure that requires the principal's authorization,
+      such as a directly identifying sub-claim or verification_id: which
+      sub-claims were authorized, for which Target, who authorized them,
+      when, and how (Section 7).  Where the agent platform collected the
+      authorization, the record identifies the platform and when it
+      asserted that the authorization was given.
+
+   Issuance Records:
+      For each token issued: its iss, jti, iat and exp; its sub, aud and
+      tsi; the hid.id, apd.id and aid.id it carries; and the
+      verification and authorization records it relied on.
+
+   Together, these records let an issuer resolve a token, given its iss
+   and jti, to the verifications and authorizations behind it, and find
+   a verification given its verifier and verification_id.  They support
+   audit, dispute resolution, and the issuer's response to reports about
+   a token (see the Feedback to the Token Issuer section of
+   [I-D.skyfire-oauth-using-kyapay-tokens]).  This specification does
+   not define an interface for querying them.
+
+   The records contain personal data.  An issuer MUST protect them
+   against unauthorized access.
+
+   This specification does not set how long an issuer keeps these
+   records, or when it discloses them to third parties such as courts or
+   regulators.  Both are set by the law and regulation that apply to the
+   issuer, which differ by jurisdiction and sector: anti-money-
+   laundering record-keeping rules, for example, set minimum retention
+   periods, while data protection law limits retention to what is
+   necessary.  Neither affects how tokens are issued, presented or
+   validated, so recipients need only know that the records exist and
+   how to refer to them.
+
+6.  Security Considerations
+
+6.1.  General JWT Practices
 
    When validating the JWTs described in this specification,
    implementers MUST follow the JSON Web Token Best Current Practices,
    BCP 225 [RFC8725].
 
-5.2.  Confidentiality of Token Contents
+6.2.  Confidentiality of Token Contents
 
    The tokens defined in this specification are signed using JWS Compact
    Serialization.  Signing provides integrity protection, not
@@ -1295,7 +1346,7 @@ Table of Contents
    bound in the token, and its accompanying cryptogram is single-use, so
    a captured token yields no reusable payment instrument.
 
-5.3.  Settlement Credential Handling
+6.3.  Settlement Credential Handling
 
    The sti claim of a PAY or KYA-PAY token carries a settlement
    instrument.  When stp is card, that instrument is a payment token
@@ -1318,7 +1369,7 @@ Table of Contents
    scope, for which this specification provides no confidentiality
    mechanism.
 
-5.4.  Token Lifetime
+6.4.  Token Lifetime
 
    The exp claim of a token carrying a settlement instrument SHOULD NOT
    extend beyond the validity period of that instrument.  The token
@@ -1331,7 +1382,7 @@ Table of Contents
    More generally, issuers SHOULD set exp to the shortest value
    compatible with the intended interaction.
 
-5.5.  Bearer Semantics and Proof of Possession
+6.5.  Bearer Semantics and Proof of Possession
 
    Tokens defined in this specification are bearer tokens unless they
    carry a confirmation method: any party in possession of such a token
@@ -1358,12 +1409,12 @@ Table of Contents
    carrying cnf may still be presented to a recipient that does not
    enforce it.
 
-5.6.  Identity Binding
+6.6.  Identity Binding
 
    The subject binds the human principal, the agent platform and the
    agent together, and the issuer's signature covers all of them.  A
    recipient can therefore verify that the issuer associated the parties
-   named by the token (see Section 5.5).  Modifying any of those claims
+   named by the token (see Section 6.5).  Modifying any of those claims
    within a token invalidates its signature.  Combining claims taken
    from two separately signed tokens does not invalidate either
    signature, so a recipient that correlates tokens MUST check that both
@@ -1374,7 +1425,7 @@ Table of Contents
    to rate-limit or isolate a particular agent without affecting other
    agents acting for the same principal.
 
-6.  Privacy Considerations
+7.  Privacy Considerations
 
    By default, a KYA token identifies the human principal only by
    hid.id.  Directly identifying sub-claims such as email, phone_number
@@ -1421,15 +1472,15 @@ Table of Contents
    information needed to facilitate the intended interactions should be
    placed in the tokens and conveyed to participants.
 
-7.  IANA Considerations
+8.  IANA Considerations
 
-7.1.  JSON Web Token Claims Registration
+8.1.  JSON Web Token Claims Registration
 
    This specification registers the following Claims in the IANA "JSON
    Web Token Claims" registry [IANA.JWT.Claims] established by
    [RFC7519].
 
-7.1.1.  "tdm" Claim
+8.1.1.  "tdm" Claim
 
    *  Claim Name: tdm
 
@@ -1439,7 +1490,7 @@ Table of Contents
 
    *  Reference: Section 3.1 of this specification
 
-7.1.2.  "tsi" Claim
+8.1.2.  "tsi" Claim
 
    *  Claim Name: tsi
 
@@ -1450,7 +1501,7 @@ Table of Contents
 
    *  Reference: Section 3.1 of this specification
 
-7.1.3.  "ori" Claim
+8.1.3.  "ori" Claim
 
    *  Claim Name: ori
 
@@ -1460,7 +1511,7 @@ Table of Contents
 
    *  Reference: Section 3.1 of this specification
 
-7.1.4.  "env" Claim
+8.1.4.  "env" Claim
 
    *  Claim Name: env
 
@@ -1471,7 +1522,7 @@ Table of Contents
 
    *  Reference: Section 3.1 of this specification
 
-7.1.5.  "itg" Claim
+8.1.5.  "itg" Claim
 
    *  Claim Name: itg
 
@@ -1482,7 +1533,7 @@ Table of Contents
 
    *  Reference: Section 3.1 of this specification
 
-7.1.6.  "hid" Claim
+8.1.6.  "hid" Claim
 
    *  Claim Name: hid
 
@@ -1492,7 +1543,7 @@ Table of Contents
 
    *  Reference: Section 3.4 of this specification
 
-7.1.7.  "apd" Claim
+8.1.7.  "apd" Claim
 
    *  Claim Name: apd
 
@@ -1503,7 +1554,7 @@ Table of Contents
 
    *  Reference: Section 3.4 of this specification
 
-7.1.8.  "aid" Claim
+8.1.8.  "aid" Claim
 
    *  Claim Name: aid
 
@@ -1513,7 +1564,7 @@ Table of Contents
 
    *  Reference: Section 3.4 of this specification
 
-7.1.9.  "tpr" Claim
+8.1.9.  "tpr" Claim
 
    *  Claim Name: tpr
 
@@ -1524,7 +1575,7 @@ Table of Contents
 
    *  Reference: Section 3.5 of this specification
 
-7.1.10.  "tps" Claim
+8.1.10.  "tps" Claim
 
    *  Claim Name: tps
 
@@ -1535,7 +1586,7 @@ Table of Contents
 
    *  Reference: Section 3.5 of this specification
 
-7.1.11.  "amt" Claim
+8.1.11.  "amt" Claim
 
    *  Claim Name: amt
 
@@ -1546,7 +1597,7 @@ Table of Contents
 
    *  Reference: Section 3.5 of this specification
 
-7.1.12.  "cur" Claim
+8.1.12.  "cur" Claim
 
    *  Claim Name: cur
 
@@ -1557,7 +1608,7 @@ Table of Contents
 
    *  Reference: Section 3.5 of this specification
 
-7.1.13.  "val" Claim
+8.1.13.  "val" Claim
 
    *  Claim Name: val
 
@@ -1568,7 +1619,7 @@ Table of Contents
 
    *  Reference: Section 3.5 of this specification
 
-7.1.14.  "mnr" Claim
+8.1.14.  "mnr" Claim
 
    *  Claim Name: mnr
 
@@ -1579,7 +1630,7 @@ Table of Contents
 
    *  Reference: Section 3.5 of this specification
 
-7.1.15.  "stp" Claim
+8.1.15.  "stp" Claim
 
    *  Claim Name: stp
 
@@ -1589,7 +1640,7 @@ Table of Contents
 
    *  Reference: Section 3.5 of this specification
 
-7.1.16.  "sti" Claim
+8.1.16.  "sti" Claim
 
    *  Claim Name: sti
 
@@ -1600,13 +1651,13 @@ Table of Contents
 
    *  Reference: Section 3.5 of this specification
 
-7.2.  Media Types Registration
+8.2.  Media Types Registration
 
    This section registers the following media types [RFC2046] in the
    IANA "Media Types" registry [IANA.MediaTypes] in the manner described
    in [RFC6838].
 
-7.2.1.  application/kya+jwt
+8.2.1.  application/kya+jwt
 
    *  Type name: application
 
@@ -1646,7 +1697,7 @@ Table of Contents
 
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
-7.2.2.  application/pay+jwt
+8.2.2.  application/pay+jwt
 
    *  Type name: application
 
@@ -1686,7 +1737,7 @@ Table of Contents
 
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
-7.2.3.  application/kya-pay+jwt
+8.2.3.  application/kya-pay+jwt
 
    *  Type name: application
 
@@ -1726,7 +1777,7 @@ Table of Contents
 
    *  Change Controller: Michael B.  Jones - michael_b_jones@hotmail.com
 
-7.3.  Well-Known URI Registration
+8.3.  Well-Known URI Registration
 
    This specification registers the following URI suffix in the IANA
    "Well-Known URIs" registry [IANA.WellKnownURIs] established by
@@ -1743,9 +1794,9 @@ Table of Contents
    *  Related Information: The resource is a JWK Set [RFC7517]
       containing the keys with which the origin signs KYAPay tokens.
 
-8.  References
+9.  References
 
-8.1.  Normative References
+9.1.  Normative References
 
    [I-D.skyfire-oauth-aml-methods]
               Agarwal, A., Jones, M. B., and N. Ali, "Anti-Money
@@ -1840,7 +1891,7 @@ Table of Contents
               DOI 10.17487/RFC8725, February 2020,
               <https://www.rfc-editor.org/rfc/rfc8725>.
 
-8.2.  Informative References
+9.2.  Informative References
 
    [EMVCo-PT] EMVCo, "EMV Payment Tokenisation Specification - Technical
               Framework", Version 2.4, 9 July 2026,
@@ -1944,6 +1995,11 @@ Document History
    [[ to be removed by the RFC Editor before publication as an RFC ]]
 
    -04
+
+   *  Added an Issuer Records section: the verification, authorization
+      and issuance records an issuer keeps, how a token is resolved to
+      them, and why retention periods and disclosure are left to
+      applicable law.
 
    *  Required hid.id, sub and aid.id to differ at each other Target
       rather than at each other Target service, leaving to the issuer
