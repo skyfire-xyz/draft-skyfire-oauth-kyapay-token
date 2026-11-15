@@ -379,19 +379,18 @@ PAY (Payment), and KYA-PAY (combined Know Your Agent and Payment) Tokens.
 {:vspace}
 `sub`:
 : REQUIRED - Subject Identifier. MUST be pairwise unique within a given
-  issuer: unique, and different at each Target service (`tsi`). As for
+  issuer: unique, and different at each Target. As for
   `hid.id`, the value MUST NOT be, or reveal, a directly identifying
-  attribute, and values at different Target services MUST NOT be linkable
+  attribute, and values at different Targets MUST NOT be linkable
   to one another without the issuer's cooperation.
   The subject identifies the combination of identities the issuer has verified
   for the initiator: the human principal, the agent platform and the agent.
   An issuer MUST use the same `sub` value at a given Target service while that
   combination remains unchanged, MUST use a different value at each other
-  Target service, MUST NOT use that value for a different combination, and MUST
+  Target, MUST NOT use that value for a different combination, and MUST
   assign a new `sub` when any of those identities changes. KYA and KYA-PAY
-  tokens carry the human principal and the agent as the `hid` and `aid`
-  claims, and carry the agent platform as the `apd` claim where it is
-  identified. PAY tokens carry none of them. The subject identifies the same
+  tokens carry the human principal, the agent platform and the agent as the
+  `hid`, `apd` and `aid` claims. PAY tokens carry none of them. The subject identifies the same
   combination in either case, since an issuer does not issue a token without
   having verified the initiator. Tokens of different types issued by the same
   issuer for the same initiator at the same Target service therefore carry the
@@ -584,7 +583,7 @@ The following identity related claims are used within KYA and KYA-PAY tokens:
 
 {:vspace}
 `apd`:
-: OPTIONAL - Agent Platform identity claims.
+: REQUIRED - Agent Platform identity claims.
 
 {:vspace}
 `aid`:
@@ -651,8 +650,8 @@ principal (individual or organization) as follows.
   directly identifying attribute. An issuer MUST use the same value for
   the same principal acting through the same agent platform at the same
   Target service (`tsi`), whatever the agent, and MUST use a different
-  value for each agent platform and for each Target service. Values for
-  different agent platforms or Target services MUST NOT be linkable to one
+  value for each agent platform and for each other Target. Values for
+  different agent platforms or Targets MUST NOT be linkable to one
   another without the issuer's cooperation; an issuer can, for example,
   assign each value at random or derive it using a key known only to
   itself. The value is unique within a given issuer, so a recipient that compares `hid.id`
@@ -716,6 +715,18 @@ principal (individual or organization) as follows.
   with values from {{RFC8176}} and {{I-D.skyfire-oauth-amr-values}}.
   A JSON array of the methods by which the human principal authenticated.
   An issuer SHOULD include this sub-claim when it knows the methods used.
+
+{:vspace}
+`auth_time`:
+: OPTIONAL - Authentication time, as defined in Section 2 of {{OpenID.Core}}:
+  the time when the human principal authenticated, as a NumericDate {{RFC7519}}.
+  Where a token is issued for a specific action, `amr` and `auth_time` describe
+  the authentication by which the human principal confirmed that action.
+  `iat` gives the time the token was issued, which can be later.
+  An issuer that issues a token on the basis of an earlier authentication
+  carries that authentication's time, not the time of issuance.
+  A recipient that requires a recent confirmation compares `auth_time`,
+  not `iat`, with its limit.
 
 {:vspace}
 `aml`:
@@ -804,23 +815,25 @@ The `ivm` and `aml` sub-claims use the syntax and values
 of the claims of the same names defined in the cited specifications.
 The absence of either does not indicate that a method was not used.
 
-In a KYAPay token, the `ivm`, `amr`, and `aml` claims appear only as sub-claims of `hid` and `apd`, so that each describes the party whose claim contains it: in `hid`, how the human principal was vetted; in `apd`, how the agent platform was vetted.
-`amr` does not apply to the agent platform and is not used in `apd`.
-Issuers MUST NOT include `ivm`, `amr`, or `aml` as top-level claims in a KYAPay token, and recipients MUST ignore them if they appear there.
+In a KYAPay token, the `ivm`, `amr`, `aml`, and `auth_time` claims appear only as sub-claims of `hid` and `apd`, so that each describes the party whose claim contains it: in `hid`, how the human principal was vetted; in `apd`, how the agent platform was vetted.
+`amr` and `auth_time` do not apply to the agent platform and are not used in `apd`.
+Issuers MUST NOT include `ivm`, `amr`, `aml`, or `auth_time` as top-level claims in a KYAPay token, and recipients MUST ignore them if they appear there.
 
 Additional sub-claims MAY be defined and used.
 The recipient MUST ignore any unrecognized sub-claims.
 
 ### Agent Identity `aid` Sub-Claims
 
-The `aid` claim is REQUIRED. It contains the following sub-claims.
+The `aid` claim is REQUIRED. It identifies the agent, not the human principal
+on whose behalf the agent acts; claims about the human principal are carried
+in `hid`. It contains the following sub-claims.
 
 {:vspace}
 `id`:
 : REQUIRED - Agent identifier. An issuer MUST use the same value for the same
   agent at the same Target service (`tsi`), and a different value at each
-  Target service. The value MUST NOT be, or reveal, a directly identifying
-  attribute, and values at different Target services MUST NOT be linkable to
+  other Target. The value MUST NOT be, or reveal, a directly identifying
+  attribute, and values at different Targets MUST NOT be linkable to
   one another without the issuer's cooperation.
 
 {:vspace}
@@ -1273,7 +1286,9 @@ information. Accordingly:
 * Tokens MUST be transmitted over a channel providing confidentiality, integrity
   and server authentication, such as TLS {{RFC8446}}.
 * Tokens MUST NOT be written to logs, traces, analytics pipelines, or other
-  persistent stores that are not required to process the transaction. An agent
+  persistent stores that are not required to process the transaction or to meet
+  audit, dispute-resolution, or legal retention obligations. Retained tokens MUST
+  be protected against unauthorized access. An agent
   that obtains a token through a tool whose result is returned to a language
   model may be unable to keep the token out of that model's context or out of a
   transcript retained from it; the Token Exposure in the Agent Runtime section
@@ -1388,8 +1403,9 @@ sub-claims for actions that do not need them, such as browsing a
 catalog.
 
 A token carrying only `hid.id` is pseudonymous, not anonymous.
-`hid.id`, `sub` and `aid.id` are each specific to one Target
-service and different at every other Target service. At a given
+`hid.id`, `sub` and `aid.id` are each different at every other
+Target; whether the services of one Target share a value is left to
+the issuer. At a given
 service, `hid.id` is stable for a principal returning through a given
 agent platform, whatever the agent, while `sub` and `aid.id` are
 stable for one agent of that principal and change with the agent.
@@ -1639,9 +1655,11 @@ The following specifications are related to and designed to be used with this sp
 
 We would like to thank
 Bhasker Allam,
-Jean Diaconu
-and
+Ludovic Dépinoy,
+Jean Diaconu,
 Carlos Martínez
+and
+Rob Zagarella
 for their contributions to the specification.
 
 # Document History
@@ -1654,6 +1672,16 @@ for their contributions to the specification.
 * Added an Issuer Records section: the verification, authorization and issuance
   records an issuer keeps, how a token is resolved to them, and why retention
   periods and disclosure are left to applicable law.
+* Required `hid.id`, `sub` and `aid.id` to differ at each other Target rather
+  than at each other Target service, leaving to the issuer whether the
+  services of one Target share a value.
+* Marked the `apd` claim REQUIRED in the KYA Token claim list and in the description of `sub`, matching the `apd` section.
+* Allowed retaining tokens where needed for audit, dispute resolution, or legal retention obligations.
+* Stated that the `aid` claim identifies the agent, not the human principal,
+  and that claims about the human principal are carried in `hid`.
+* Added the optional `auth_time` sub-claim to the `hid` claim: when the human
+  principal authenticated, kept when a token is issued on the basis of an
+  earlier authentication.
 
 -03
 
