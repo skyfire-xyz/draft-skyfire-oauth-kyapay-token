@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-11-10T00:04:16.603600+00:00",
+  "timestamp": "2026-11-17T00:05:14.521059+00:00",
   "repo": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
   "labels": [
     {
@@ -5630,24 +5630,26 @@
       "id": "PR_kwDOQZxkd88AAAABNnIwxQ",
       "title": "Add an Issuer Records section",
       "url": "https://github.com/skyfire-xyz/draft-skyfire-oauth-kyapay-token/pull/72",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "skyfire-ankit",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Describes the records an issuer keeps so that it can stand behind its tokens after the fact: verification records (methods, the time of each step, who performed it, evidence references; identified by `verification_id`), authorization records for disclosed identifying claims, and an issuance record for every token (identified by `iss` and `jti`). States why retention periods and disclosure to third parties are left to applicable law. Adds a -04 Document History entry.",
       "createdAt": "2026-11-08T03:51:12Z",
-      "updatedAt": "2026-11-09T19:27:20Z",
+      "updatedAt": "2026-11-15T21:28:22Z",
       "baseRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
       "baseRefName": "main",
-      "baseRefOid": "87f52e09db7008557a37dbf4cb96506357c913da",
+      "baseRefOid": "8835aa9963915beafb5bfd762d4d3128f68ed5e6",
       "headRepository": "skyfire-xyz/draft-skyfire-oauth-kyapay-token",
       "headRefName": "issuer-records",
-      "headRefOid": "1d1341372f25fbd51d4f99ca8b96ba5788847820",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "fcc094c409dd258e12169e0407cfbd2bf63b779f",
+      "closedAt": "2026-11-15T21:28:19Z",
+      "mergedAt": "2026-11-15T21:28:19Z",
+      "mergedBy": "selfissued",
+      "mergeCommit": {
+        "oid": "7fc9090ceb6c6e5dca759a598f702ae094ade699"
+      },
       "comments": [],
       "reviews": [
         {
@@ -5794,10 +5796,36 @@
           },
           "author": "selfissued",
           "authorAssociation": "COLLABORATOR",
-          "state": "APPROVED",
+          "state": "DISMISSED",
           "body": "",
           "createdAt": "2026-11-09T19:27:20Z",
-          "updatedAt": "2026-11-09T19:27:20Z",
+          "updatedAt": "2026-11-15T21:26:41Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABYHFi_A",
+          "commit": {
+            "abbreviatedOid": "fcc094c"
+          },
+          "author": "selfissued",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-11-15T21:27:25Z",
+          "updatedAt": "2026-11-15T21:27:25Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOQZxkd88AAAABYHFvsA",
+          "commit": {
+            "abbreviatedOid": "fcc094c"
+          },
+          "author": "copilot-pull-request-reviewer",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "<!-- ccr-overview-v2 -->\n\n### \ud83d\udfe2 Approval recommended\n\nThe issuer record-keeping documentation changes have no active review issues.\n\n**No open issues** \ud83c\udf89\n\n<sub>Review effort: Balanced</sub>",
+          "createdAt": "2026-11-15T21:28:17Z",
+          "updatedAt": "2026-11-15T21:28:17Z",
           "comments": []
         }
       ]
